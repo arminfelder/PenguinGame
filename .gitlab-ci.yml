@@ -1,0 +1,14 @@
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+
+stages:
+    - build
+
+docker:build:SDL:2:
+    stage: build
+    script:
+        - docker create --name ci-$CI_COMMIT_SHA-sdl-docker -v ~/.ccache:/root/.ccache afelder/cmakesdlcidocker /bin/bash -c "mkdir -p /src/build && cd /src/build && cmake .. && make -j9"
+        - docker cp ./ ci-$CI_COMMIT_SHA-sdl-docker:/src/
+        - docker start ci-$CI_COMMIT_SHA-sdl-docker -a
+    after_script:
+        - docker rm ci-$CI_COMMIT_SHA-sdl-docker
