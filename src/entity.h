@@ -2,8 +2,16 @@
 #define GAME_ENTITY_H
 
 
-class entity {
+#include "position.h"
+#include "dimension.h"
 
+class entity {
+public:
+    entity(int health, position* position, dimension* dimension);
+private:
+    int health;
+    class position* position;
+    class dimension* dimension;
 };
 
 

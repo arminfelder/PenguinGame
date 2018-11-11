@@ -2,6 +2,7 @@
 #include "res_path.h"
 #include <SDL2/SDL.h>
 #include <iostream>
+#include "TXTParser.h"
 
 
 SDL_Window* world::createWindow(int x, int y) {
@@ -11,7 +12,7 @@ SDL_Window* world::createWindow(int x, int y) {
         return nullptr;
     }
     return win;
-};
+}
 
 SDL_Renderer *world::createRenderer(SDL_Window* window) {
     SDL_Renderer *ren = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
@@ -72,6 +73,8 @@ void world::create(int x, int y) {
     SDL_DestroyTexture(tex);
     cleanUp(window, renderer);
     SDL_Quit();
+
+    TXTParser::parseMap("map.txt");
 }
 
 void world::cleanUp(SDL_Window *window, SDL_Renderer *renderer) {
