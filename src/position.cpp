@@ -9,5 +9,10 @@ void position::setPosition(int xPosition, int yPosition) {
     this->yPosition = yPosition;
 }
 
-position::position() {
+int position::getYPosition() {
+    return this->yPosition;
+}
+
+int position::getXPosition() {
+    return this->xPosition;
 }

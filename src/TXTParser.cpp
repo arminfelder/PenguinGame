@@ -1,4 +1,5 @@
 #include "TXTParser.h"
+#include "entityController.h"
 //#include "res_path.h"
 #include <string>
 #include <fstream>
@@ -13,12 +14,17 @@ void TXTParser::parseMap(const char *mapName) {
 
     std::ifstream map;
     map.open(location);
-    //get height:
     unsigned long mapHeight = getMapHeight(map);
     unsigned long mapWidth = getMapLength(map);
 
     std::cout << "Height " << mapHeight << std::endl;
     std::cout << "Width " << mapWidth << std::endl;
+
+    auto* entityController = new class entityController();
+
+    readMap(map, entityController);
+    entityController->printEntities();
+
 
 }
 
@@ -47,4 +53,20 @@ unsigned long TXTParser::getMapLength(std::ifstream& map) {
     //Reset Position to counterfeit side effect
     map.seekg(0);
     return mapWidth;
+}
+
+void TXTParser::readMap(std::ifstream &map, entityController *entityController) {
+    int line = 0;
+    while(!map.eof()) {
+        std::string currentLine;
+        getline(map, currentLine);
+        auto* dimension = new class dimension(1, 1);
+        for (int i = 0; i < (int) currentLine.length(); i++) {
+            if (currentLine[i] == '_') {
+                auto* position = new class position(i, line);
+                entityController->createEntity(1000, position, dimension);
+            }
+        }
+        line++;
+    }
 }

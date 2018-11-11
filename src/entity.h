@@ -8,6 +8,7 @@
 class entity {
 public:
     entity(int health, position* position, dimension* dimension);
+    void print();
 private:
     int health;
     class position* position;

@@ -7,8 +7,10 @@
 
 class entityController {
 public:
+    void createEntity(int health, class position* position, class dimension* dimension);
+    void printEntities();
 private:
-    std::list<entity> entities;
+    std::list<entity*> entities;
 };
 
 

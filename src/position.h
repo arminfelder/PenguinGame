@@ -5,8 +5,10 @@
 class position {
 public:
     position(int xPosition, int yPosition);
-    position();
+    position() = default;
     void setPosition(int xPosition, int yPosition);
+    int getXPosition();
+    int getYPosition();
 private:
     int xPosition;
     int yPosition;

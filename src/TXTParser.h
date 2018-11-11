@@ -3,6 +3,7 @@
 
 
 #include <fstream>
+#include "entityController.h"
 
 class TXTParser {
 public:
@@ -11,7 +12,7 @@ public:
 private:
     unsigned long static getMapHeight(std::ifstream& map);
     unsigned long static getMapLength(std::ifstream& map);
-
+    void static readMap(std::ifstream& map, entityController* entityController);
 };
 
 
