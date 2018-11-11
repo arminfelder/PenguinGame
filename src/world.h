@@ -8,7 +8,7 @@ class world {
 private:
     SDL_Window* createWindow(int x, int y);
     SDL_Renderer* createRenderer(SDL_Window* window);
-    void cleanUp(SDL_Window* window, SDL_Renderer* renderer);
+    void cleanUp(SDL_Window* window, SDL_Renderer* renderer, SDL_Texture* texture);
     SDL_Surface* getImage(const char* name);
     void exampleLoop(SDL_Renderer* renderer, SDL_Texture* texture);
 public:

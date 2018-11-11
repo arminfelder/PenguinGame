@@ -4,9 +4,10 @@
 #include <string>
 #include <fstream>
 #include <iostream>
+#include <vector>
 
 
-void TXTParser::parseMap(const char *mapName) {
+class std::vector<int> TXTParser::parseMap(const char *mapName, class entityController* entityController) {
 //    std::string location = getResourcePath() + mapName;
     std::string path = "/home/mario/CLionProjects/game/cmake-build-debug/src/res/";
     std::string location = path + mapName;
@@ -14,18 +15,17 @@ void TXTParser::parseMap(const char *mapName) {
 
     std::ifstream map;
     map.open(location);
-    unsigned long mapHeight = getMapHeight(map);
-    unsigned long mapWidth = getMapLength(map);
+    auto mapHeight = (int) getMapHeight(map);
+    auto mapLength = (int) getMapLength(map);
 
-    std::cout << "Height " << mapHeight << std::endl;
-    std::cout << "Width " << mapWidth << std::endl;
-
-    auto* entityController = new class entityController();
+    std::vector<int> information;
+    information.push_back(mapHeight);
+    information.push_back(mapLength);
 
     readMap(map, entityController);
-    entityController->printEntities();
+    map.close();
 
-
+    return information;
 }
 
 unsigned long TXTParser::getMapHeight(std::ifstream& map) {
@@ -60,13 +60,21 @@ void TXTParser::readMap(std::ifstream &map, entityController *entityController) 
     while(!map.eof()) {
         std::string currentLine;
         getline(map, currentLine);
-        auto* dimension = new class dimension(1, 1);
+        auto* dimension = new class dimension(10, 5);
         for (int i = 0; i < (int) currentLine.length(); i++) {
-            if (currentLine[i] == '_') {
-                auto* position = new class position(i, line);
-                entityController->createEntity(1000, position, dimension);
+            auto *position = new class position(20*i, 10*line);
+
+            //Defines entities given on the input from map file
+            switch (currentLine[i]) {
+                case '_':
+                    entityController->createEntity(1000, position, dimension);
+                    break;
+                case '|':
+                    entityController->createEntity(2000, position, dimension);
+                default:
+                    break;
+                }
             }
-        }
         line++;
     }
 }

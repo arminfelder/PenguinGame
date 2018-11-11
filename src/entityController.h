@@ -3,12 +3,15 @@
 
 
 #include <list>
+#include <SDL_render.h>
 #include "entity.h"
 
 class entityController {
 public:
     void createEntity(int health, class position* position, class dimension* dimension);
     void printEntities();
+    void reset();
+    void draw(SDL_Renderer* renderer);
 private:
     std::list<entity*> entities;
 };

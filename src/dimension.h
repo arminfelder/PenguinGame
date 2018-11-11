@@ -7,6 +7,8 @@ public:
     dimension(int xDimension, int yDimension);
     dimension();
     void setDimension(int xDimension, int yDimension);
+    int getXDimension();
+    int getYDimension();
 
 private:
     int xDimension;

@@ -3,11 +3,12 @@
 
 
 #include <fstream>
+#include <vector>
 #include "entityController.h"
 
 class TXTParser {
 public:
-    void static parseMap(const char* mapName);
+    class std::vector<int> static parseMap(const char* mapName, class entityController* entityController);
 
 private:
     unsigned long static getMapHeight(std::ifstream& map);

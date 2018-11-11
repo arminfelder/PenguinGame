@@ -3,6 +3,7 @@
 #include <SDL2/SDL.h>
 #include <iostream>
 #include "TXTParser.h"
+#include "map.h"
 
 
 SDL_Window* world::createWindow(int x, int y) {
@@ -57,10 +58,38 @@ void world::create(int x, int y) {
         std::cout << "SDL_CreateTextureFromSurface Error: " << SDL_GetError() << std::endl;
         return;
     }
+
+
+
     SDL_Event e;
     auto quit = false;
     while(!quit) {
         exampleLoop(renderer, tex);
+
+        //part for eventHandler
+        while (SDL_PollEvent(&e)){
+            if (e.type == SDL_QUIT){
+                quit = true;
+            }
+            if (e.key.keysym.sym == SDLK_x)
+                quit = true;
+        }
+    }
+    quit = false;
+    while (!quit) {
+        SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+        SDL_RenderClear(renderer);
+        SDL_Rect fillRect = { x / 4, y / 4, y / 2, x / 2 };
+        SDL_SetRenderDrawColor( renderer, 0xFF, 0x00, 0x00, 0xFF );
+        SDL_RenderFillRect( renderer, &fillRect );
+
+        //Draw blue horizontal line
+        SDL_SetRenderDrawColor( renderer, 0x00, 0x00, 0xFF, 0xFF );
+        SDL_RenderDrawLine( renderer, 0, y / 2, x, y / 2 );
+
+        SDL_RenderPresent(renderer);
+        SDL_Delay(1000);
+        //part for eventHandler
         while (SDL_PollEvent(&e)){
             if (e.type == SDL_QUIT){
                 quit = true;
@@ -70,16 +99,24 @@ void world::create(int x, int y) {
         }
     }
 
-    SDL_DestroyTexture(tex);
-    cleanUp(window, renderer);
-    SDL_Quit();
+    auto * map = new class map("map.txt");
 
-    TXTParser::parseMap("map.txt");
+    //render blank
+    SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+    SDL_RenderClear(renderer);
+    SDL_RenderPresent(renderer);
+
+
+    map->draw(renderer);
+    SDL_Delay(5000);
+    cleanUp(window, renderer, tex);
+    SDL_Quit();
 }
 
-void world::cleanUp(SDL_Window *window, SDL_Renderer *renderer) {
+void world::cleanUp(SDL_Window *window, SDL_Renderer *renderer, SDL_Texture *texture) {
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
+    SDL_DestroyTexture(texture);
     SDL_Quit();
 }
 
