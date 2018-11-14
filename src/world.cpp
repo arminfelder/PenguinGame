@@ -106,11 +106,19 @@ void world::create(int x, int y) {
     SDL_RenderPresent(renderer);
 
     auto quit = false;
+    auto counter = 0;
     while(!quit) {
-
-        map->draw(renderer);
-        SDL_Delay(17); //roughly 60 fps
+        SDL_RenderClear(renderer);
+        if (counter== 5) {
+            counter = 0;
+            map->draw(renderer, 1, 0);
+        }
+        else
+            map->draw(renderer, 0, 0);
+        SDL_Delay(1000); //roughly 60 fps
         SDL_Event e;
+        counter++;
+
 
         //part for eventHandler
         while (SDL_PollEvent(&e)){

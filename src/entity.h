@@ -11,6 +11,7 @@ public:
     entity(int health, position* position, dimension* dimension);
     void print();
     void draw(SDL_Renderer* renderer);
+    void addOffset(int xOffset, int yOffset);
 private:
     int health;
     class position* position;

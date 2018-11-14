@@ -19,8 +19,14 @@ void entityController::reset() {
     entities.clear();
 }
 
+
+//legacy, don't use this anymore
 void entityController::draw(SDL_Renderer *renderer) {
     for (class entity* entity : entities)
         entity->draw(renderer);
     SDL_RenderPresent(renderer);
+}
+
+std::list<entity *> entityController::getentities() {
+    return entities;
 }

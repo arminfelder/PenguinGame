@@ -12,6 +12,7 @@ public:
     void printEntities();
     void reset();
     void draw(SDL_Renderer* renderer);
+    std::list<entity*> getentities();
 private:
     std::list<entity*> entities;
 };

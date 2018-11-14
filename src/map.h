@@ -8,7 +8,7 @@ class map {
 public:
     explicit map(const char* mapName);
     class entityController* getEntityController();
-    void draw(SDL_Renderer* renderer);
+    void draw(SDL_Renderer* renderer, int xOffset, int yOffset);
 private:
     int height;
     int length;
