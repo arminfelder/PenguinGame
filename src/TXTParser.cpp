@@ -1,6 +1,6 @@
 #include "TXTParser.h"
 #include "entityController.h"
-//#include "res_path.h"
+#include "res_path.h"
 #include <string>
 #include <fstream>
 #include <iostream>
@@ -8,9 +8,9 @@
 
 
 class std::vector<int> TXTParser::parseMap(const char *mapName, class entityController* entityController) {
-//    std::string location = getResourcePath() + mapName;
-    std::string path = "/home/mario/CLionProjects/game/cmake-build-debug/src/res/";
-    std::string location = path + mapName;
+    std::string location = getResourcePath() + mapName;
+//    std::string path = "/home/mario/CLionProjects/game/cmake-build-debug/src/res/";
+//    std::string location = path + mapName;
     std::cout << location << std::endl;
 
     std::ifstream map;
