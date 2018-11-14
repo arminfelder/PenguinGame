@@ -100,6 +100,7 @@ void world::create(int x, int y) {
 
     auto * map = new class map("map.txt");
 
+
     //render blank
     SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
     SDL_RenderClear(renderer);
@@ -108,14 +109,16 @@ void world::create(int x, int y) {
     auto quit = false;
     auto counter = 0;
     while(!quit) {
+        SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
         SDL_RenderClear(renderer);
-        if (counter== 5) {
+        if (counter== 2) {
             counter = 0;
             map->draw(renderer, 1, 0);
         }
         else
             map->draw(renderer, 0, 0);
-        SDL_Delay(1000); //roughly 60 fps
+        SDL_Delay(10); //roughly 60 fps
+        SDL_RenderPresent(renderer);
         SDL_Event e;
         counter++;
 

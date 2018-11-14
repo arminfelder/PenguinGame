@@ -16,6 +16,7 @@ private:
     int health;
     class position* position;
     class dimension* dimension;
+    SDL_Rect fill;
 };
 
 

@@ -16,7 +16,7 @@ void entity::print() {
 void entity::draw(SDL_Renderer *renderer) {
     int xPosition = this->position->getXPosition();
     int yPosition = this->position->getYPosition();
-    SDL_Rect fill = {xPosition, yPosition, this->dimension->getXDimension(), this->dimension->getYDimension()};
+    this->fill = {xPosition, yPosition, this->dimension->getXDimension(), this->dimension->getYDimension()};
     SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF);
     SDL_RenderFillRect(renderer, &fill);
 }

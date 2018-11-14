@@ -17,14 +17,11 @@ class entityController *map::getEntityController() {
 }
 
 void map::draw(SDL_Renderer *renderer, int xOffset, int yOffset) {
-
-
     std::list<entity *> entities = entityController->getentities();
     for (class entity* entity : entities) {
         if (xOffset != 0 || xOffset != 0)
             entity->addOffset(xOffset, yOffset);
         entity->draw(renderer);
     }
-    SDL_RenderPresent(renderer);
 }
 
