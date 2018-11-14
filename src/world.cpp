@@ -107,20 +107,14 @@ void world::create(int x, int y) {
     SDL_RenderPresent(renderer);
 
     auto quit = false;
-    auto counter = 0;
     while(!quit) {
         SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
         SDL_RenderClear(renderer);
-        if (counter== 2) {
-            counter = 0;
-            map->draw(renderer, 1, 0);
-        }
-        else
-            map->draw(renderer, 0, 0);
-        SDL_Delay(10); //roughly 60 fps
+
+        map->draw(renderer, 0, 0);
+        SDL_Delay(17); //roughly 60 fps
         SDL_RenderPresent(renderer);
         SDL_Event e;
-        counter++;
 
 
         //part for eventHandler
@@ -130,6 +124,10 @@ void world::create(int x, int y) {
             }
             if (e.key.keysym.sym == SDLK_x)
                 quit = true;
+            if (e.key.keysym.sym == SDLK_d && e.key.type == SDL_KEYDOWN)
+                map->draw(renderer, 5, 0);
+            if (e.key.keysym.sym == SDLK_a && e.key.type == SDL_KEYDOWN)
+                map->draw(renderer, -5, 0);
         }
     }
     cleanUp(window, renderer);
