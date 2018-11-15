@@ -111,7 +111,7 @@ void world::create(int x, int y) {
         SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
         SDL_RenderClear(renderer);
 
-        map->draw(renderer, 0, 0);
+        map->draw(renderer);
         SDL_Delay(17); //roughly 60 fps
         SDL_RenderPresent(renderer);
         SDL_Event e;
@@ -146,9 +146,3 @@ void world::cleanUp(SDL_Window *window, SDL_Renderer *renderer, SDL_Texture *tex
     SDL_DestroyTexture(texture);
     SDL_Quit();
 }
-
-
-
-
-
-

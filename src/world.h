@@ -12,6 +12,7 @@ private:
     void cleanUp(SDL_Window* window, SDL_Renderer* renderer);
     SDL_Surface* getImage(const char* name);
     void exampleLoop(SDL_Renderer* renderer, SDL_Texture* texture);
+    ~world() = default;
 public:
     void create(int x, int y);
 

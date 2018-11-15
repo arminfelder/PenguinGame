@@ -16,6 +16,10 @@ class entityController *map::getEntityController() {
     return this->entityController;
 }
 
+void map::draw(SDL_Renderer *renderer) {
+    map::draw(renderer, 0, 0);
+}
+
 void map::draw(SDL_Renderer *renderer, int xOffset, int yOffset) {
     std::list<entity *> entities = entityController->getentities();
     for (class entity* entity : entities) {

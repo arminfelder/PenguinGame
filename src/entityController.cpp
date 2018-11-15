@@ -7,13 +7,14 @@ void entityController::createEntity(int health, class position *position, class 
 }
 
 void entityController::printEntities() {
-    for (class entity* entity : entities) {
+    for (auto &entity : entities) {
         entity->print();
     }
 }
 
+//todo do this right using delete
 void entityController::reset() {
-    for (class entity* entity : entities) {
+    for (auto &entity : entities) {
         delete(entity);
     }
     entities.clear();
