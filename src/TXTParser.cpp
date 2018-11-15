@@ -60,17 +60,16 @@ void TXTParser::readMap(std::ifstream &map, entityController *entityController) 
     while(!map.eof()) {
         std::string currentLine;
         getline(map, currentLine);
-        auto* dimension = new class dimension(10, 5);
         for (int i = 0; i < (int) currentLine.length(); i++) {
-            auto *position = new class position(20*i, 10*line);
+            auto *position = new class position(10*i-5, 10*line-5);
 
             //Defines entities given on the input from map file
             switch (currentLine[i]) {
                 case '_':
-                    entityController->createEntity(1000, position, dimension);
+                    entityController->createEntity(1000, position, new class dimension(10,2));
                     break;
                 case '|':
-                    entityController->createEntity(2000, position, dimension);
+                    entityController->createEntity(2000, position, new class dimension(5, -10));
                 default:
                     break;
                 }
