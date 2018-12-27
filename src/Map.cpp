@@ -1,30 +1,45 @@
-#include "Map.h"
+#include "map.h"
 #include "TXTParser.h"
 
-Map::Map(const std::string &mapName) {
-    entityController = new EntityController();
+map::map(const char* mapName) {
+    entityController = new class entityController();
     std::vector<int> boundaries = TXTParser::parseMap(mapName, entityController);
     this->height= boundaries[0];
     this->length= boundaries[1];
 
     //Demo for actual working of TXTParser
     entityController->printEntities();
-//    EntityController->reset();
+//    entityController->reset();
 }
 
-class EntityController *Map::getEntityController() {
+class entityController *map::getEntityController() {
     return this->entityController;
 }
 
-void Map::draw(SDL_Renderer *renderer) {
-    Map::draw(renderer, 0, 0);
+void map::draw(SDL_Renderer *renderer) {
+    map::draw(renderer, 0, 0);
 }
 
-void Map::draw(SDL_Renderer *renderer, int xOffset, int yOffset) {
-    std::list<Entity *> entities = entityController->getentities();
-    for (class Entity* entity : entities) {
-        if (xOffset != 0 || xOffset != 0)
+void map::draw(SDL_Renderer *renderer, int xOffset, int yOffset) {
+    std::list<entity *> entities = entityController->getentities();
+    for (class entity* entity : entities) {
+        if (xOffset != 0 || yOffset != 0)
             entity->addOffset(xOffset, yOffset);
+        entity->draw(renderer);
+    }
+}
+
+
+map::~map() {
+}
+
+void map::movePlayer(SDL_Renderer *renderer, int xOffset, int yOffset) {
+    std::list<entity *> entities = entityController->getentities();
+    for (class entity* entity : entities) {
+        if ((xOffset != 0 || yOffset != 0) && entity->isPlayer()) {
+            entity->addOffset(xOffset, yOffset);
+
+        }
         entity->draw(renderer);
     }
 }

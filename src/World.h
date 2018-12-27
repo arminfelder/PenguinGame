@@ -3,27 +3,22 @@
 
 #include <SDL2/SDL.h>
 
+extern int mult;
 
-class World {
+class world {
 private:
+    SDL_Window* window;
+    SDL_Renderer* renderer;
+    SDL_Surface* getImage(const char* name);
+
     SDL_Window* createWindow(int x, int y);
     SDL_Renderer* createRenderer(SDL_Window* window);
-    void cleanUp(SDL_Window* window, SDL_Renderer* renderer, SDL_Texture* texture);
-    void cleanUp(SDL_Window* window, SDL_Renderer* renderer);
-    SDL_Surface* getImage(const char* name);
+
+    void cleanUp(SDL_Texture* texture);
     void exampleLoop(SDL_Renderer* renderer, SDL_Texture* texture);
-
-    void init();
 public:
-    World() = default;
-    World(int x, int y);
     void create(int x, int y);
-    ~World();
-
-private:
-    SDL_Window* mWindow = nullptr;
-    SDL_Renderer*  mRenderer = nullptr;
-
+    ~world();
 };
 
 

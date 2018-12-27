@@ -1,20 +1,22 @@
 #ifndef GAME_MAP_H
 #define GAME_MAP_H
 
-#include <string>
-#include "EntityController.h"
 
-class Map {
+#include "entityController.h"
+
+class map {
 public:
-    explicit Map(const std::string &mapName);
-    class EntityController* getEntityController();
+    explicit map(const char* mapName);
+    class entityController* getEntityController();
     void draw(SDL_Renderer *renderer, int xOffset, int yOffset);
     void draw(SDL_Renderer* renderer);
+    void movePlayer(SDL_Renderer* renderer, int xOffset, int yOffset);
 
 private:
     int height;
     int length;
-    class EntityController* entityController;
+    class entityController* entityController;
+    ~map();
 };
 
 

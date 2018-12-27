@@ -4,18 +4,18 @@
 
 #include <list>
 #include <SDL_render.h>
-#include "entities/Entity.h"
+#include "entity.h"
 
-class EntityController {
+class entityController {
 public:
-    void createEntity(int health, class position* position, class Dimension* dimension);
+    void createEntity(int health, class position* position, class dimension* dimension);
     void printEntities();
     void reset();
     void draw(SDL_Renderer* renderer);
-    std::list<Entities::Entity*> getentities();
+    std::list<entity*> getentities();
 private:
-    std::list<Entities::Entity*> entities;
-    int mEntityIdCount = 0;
+    std::list<entity*> entities;
+    ~entityController();
 };
 
 

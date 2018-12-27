@@ -9,10 +9,10 @@ public:
     void setPosition(int xPosition, int yPosition);
     int getXPosition();
     int getYPosition();
+
 private:
     int xPosition;
     int yPosition;
-
 };
 
 

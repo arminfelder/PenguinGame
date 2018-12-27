@@ -1,5 +1,5 @@
 #include "TXTParser.h"
-#include "EntityController.h"
+#include "entityController.h"
 #include "res_path.h"
 #include <string>
 #include <fstream>
@@ -7,7 +7,7 @@
 #include <vector>
 
 
-class std::vector<int> TXTParser::parseMap(const std::string &mapName, EntityController* entityController) {
+class std::vector<int> TXTParser::parseMap(const char *mapName, class entityController* entityController) {
     std::string location = getResourcePath() + mapName;
 //    std::string path = "/home/mario/CLionProjects/game/cmake-build-debug/src/res/";
 //    std::string location = path + mapName;
@@ -55,21 +55,26 @@ unsigned long TXTParser::getMapLength(std::ifstream& map) {
     return mapWidth;
 }
 
-void TXTParser::readMap(std::ifstream &map, EntityController *entityController) {
+void TXTParser::readMap(std::ifstream &map, entityController *entityController) {
     int line = 0;
     while(!map.eof()) {
         std::string currentLine;
         getline(map, currentLine);
         for (int i = 0; i < (int) currentLine.length(); i++) {
-            auto *position = new Position(10*i-5, 10*line-5);
+            auto *position = new class position(mult*i-5, mult*line-5);
 
-            //Defines entities given on the input from Map file
+            //Defines entities given on the input from map file
             switch (currentLine[i]) {
                 case '_':
-                    entityController->createEntity(1000, position, new Dimension(10,2));
+                    entityController->createEntity(1000, position, new class dimension(mult,-1));
                     break;
                 case '|':
-                    entityController->createEntity(2000, position, new Dimension(5, -10));
+                    entityController->createEntity(2000, position, new class dimension(mult, -2*mult));
+                    break;
+                case 'p':
+                    position->setPosition(position->getXPosition(), position->getYPosition()+mult-1);
+                    entityController->createEntity(10, position, new class dimension(mult, -mult/2));
+                    break;
                 default:
                     break;
                 }

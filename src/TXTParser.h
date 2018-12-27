@@ -4,16 +4,17 @@
 
 #include <fstream>
 #include <vector>
-#include "EntityController.h"
+#include "entityController.h"
+extern int mult;
 
 class TXTParser {
 public:
-    static std::vector<int> parseMap(const std::string &mapName, EntityController* entityController);
+    class std::vector<int> static parseMap(const char* mapName, class entityController* entityController);
 
 private:
     unsigned long static getMapHeight(std::ifstream& map);
     unsigned long static getMapLength(std::ifstream& map);
-    void static readMap(std::ifstream& map, EntityController* entityController);
+    void static readMap(std::ifstream& map, entityController* entityController);
 };
 
 

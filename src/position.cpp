@@ -1,3 +1,4 @@
+#include <malloc.h>
 #include "position.h"
 
 position::position(int xPosition, int yPosition) {
