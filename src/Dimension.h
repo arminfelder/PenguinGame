@@ -2,10 +2,10 @@
 #define GAME_DIMENSION_H
 
 //Used to describe the size in space of an object
-class dimension {
+class Dimension {
 public:
-    dimension(int xDimension, int yDimension);
-    dimension();
+    Dimension(int xDimension, int yDimension);
+    Dimension();
     void setDimension(int xDimension, int yDimension);
     int getXDimension();
     int getYDimension();

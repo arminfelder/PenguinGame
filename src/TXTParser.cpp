@@ -1,5 +1,5 @@
 #include "TXTParser.h"
-#include "entityController.h"
+#include "EntityController.h"
 #include "res_path.h"
 #include <string>
 #include <fstream>
@@ -7,7 +7,7 @@
 #include <vector>
 
 
-class std::vector<int> TXTParser::parseMap(const char *mapName, class entityController* entityController) {
+class std::vector<int> TXTParser::parseMap(const std::string &mapName, EntityController* entityController) {
     std::string location = getResourcePath() + mapName;
 //    std::string path = "/home/mario/CLionProjects/game/cmake-build-debug/src/res/";
 //    std::string location = path + mapName;
@@ -55,21 +55,21 @@ unsigned long TXTParser::getMapLength(std::ifstream& map) {
     return mapWidth;
 }
 
-void TXTParser::readMap(std::ifstream &map, entityController *entityController) {
+void TXTParser::readMap(std::ifstream &map, EntityController *entityController) {
     int line = 0;
     while(!map.eof()) {
         std::string currentLine;
         getline(map, currentLine);
         for (int i = 0; i < (int) currentLine.length(); i++) {
-            auto *position = new class position(10*i-5, 10*line-5);
+            auto *position = new Position(10*i-5, 10*line-5);
 
-            //Defines entities given on the input from map file
+            //Defines entities given on the input from Map file
             switch (currentLine[i]) {
                 case '_':
-                    entityController->createEntity(1000, position, new class dimension(10,2));
+                    entityController->createEntity(1000, position, new Dimension(10,2));
                     break;
                 case '|':
-                    entityController->createEntity(2000, position, new class dimension(5, -10));
+                    entityController->createEntity(2000, position, new Dimension(5, -10));
                 default:
                     break;
                 }
