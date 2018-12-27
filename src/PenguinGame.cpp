@@ -62,4 +62,20 @@ void PenguinGame::initGame() {
 
     Managers::ComponentsManager::createVisualComponent(id,texture,50,50);
     Managers::ComponentsManager::createSpatialComponent(id, 30,30);
+
+    id = entityManager->createEntity();
+
+    image = SDL_LoadBMP("./res/hello.bmp");
+    texture = SDL_CreateTextureFromSurface(mRenderer, image);
+
+    Managers::ComponentsManager::createVisualComponent(id,texture,50,50);
+    Managers::ComponentsManager::createSpatialComponent(id, 100,100);
+
+    id = entityManager->createEntity();
+
+    image = SDL_LoadBMP("./res/hello.bmp");
+    texture = SDL_CreateTextureFromSurface(mRenderer, image);
+
+    Managers::ComponentsManager::createVisualComponent(id,texture,50,50);
+    Managers::ComponentsManager::createSpatialComponent(id, 200,100);
 }
