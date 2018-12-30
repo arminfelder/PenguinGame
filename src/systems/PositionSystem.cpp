@@ -20,6 +20,10 @@ Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager)
                     playerSpatial->mPrevPositionX = playerSpatial->mPositionX;
                     playerSpatial->mPrevPositionY = playerSpatial->mPositionY;
                     playerSpatial->mPositionY -= 10;
+                    moveable->canMoveLeft = true;
+                    moveable->canMoveRight = true;
+                    moveable->canMoveUp = false;
+                    moveable->canMoveDown = false;
                     system->mEventsManager->addEvent(std::make_shared<Events::EntityMoved>(1));
                 }
                 break;
@@ -28,6 +32,10 @@ Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager)
                     playerSpatial->mPrevPositionX = playerSpatial->mPositionX;
                     playerSpatial->mPrevPositionY = playerSpatial->mPositionY;
                     playerSpatial->mPositionX += 10;
+                    moveable->canMoveLeft = true;
+                    moveable->canMoveRight = true;
+                    moveable->canMoveUp = false;
+                    moveable->canMoveDown = false;
                     system->mEventsManager->addEvent(std::make_shared<Events::EntityMoved>(1));
                 }
                 break;
@@ -36,6 +44,10 @@ Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager)
                     playerSpatial->mPrevPositionX = playerSpatial->mPositionX;
                     playerSpatial->mPrevPositionY = playerSpatial->mPositionY;
                     playerSpatial->mPositionY += 10;
+                    moveable->canMoveLeft = true;
+                    moveable->canMoveRight = true;
+                    moveable->canMoveUp = false;
+                    moveable->canMoveDown = false;
                     system->mEventsManager->addEvent(std::make_shared<Events::EntityMoved>(1));
                 }
                 break;
@@ -44,6 +56,10 @@ Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager)
                     playerSpatial->mPrevPositionX = playerSpatial->mPositionX;
                     playerSpatial->mPrevPositionY = playerSpatial->mPositionY;
                     playerSpatial->mPositionX -= 10;
+                    moveable->canMoveLeft = true;
+                    moveable->canMoveRight = true;
+                    moveable->canMoveUp = false;
+                    moveable->canMoveDown = false;
                     system->mEventsManager->addEvent(std::make_shared<Events::EntityMoved>(1));
                 }
                 break;

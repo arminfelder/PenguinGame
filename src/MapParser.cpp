@@ -5,6 +5,10 @@
 #include <fstream>
 #include "MapParser.h"
 
+
+using namespace Entities;
+
+
 int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pEngine, SDL_Renderer *pRenderer ) {
 
     auto entityManager = pEngine->getEntityManager();
@@ -33,7 +37,7 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
             //Defines entities given on the input from map file
             switch (currentLine[i]) {
                 case '#': {
-                    int id = entityManager->createEntity();
+                    int id = entityManager->createEntity<Wall>();
                     Managers::ComponentsManager::createVisualComponent(id, textureWall, 50, 50);
                     Managers::ComponentsManager::createSpatialComponent(id, x, y);
                     Managers::ComponentsManager::createCollideAbleComponent(id);
@@ -48,7 +52,7 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
                     break;
                 }
                 case '|': {
-                    int id = entityManager->createEntity();
+                    int id = entityManager->createEntity<Ladder>();
                     Managers::ComponentsManager::createVisualComponent(id, textureLadder, 50, 50);
                     Managers::ComponentsManager::createSpatialComponent(id, x, y);
                     break;

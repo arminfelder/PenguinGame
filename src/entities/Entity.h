@@ -8,14 +8,23 @@
 #include "../Dimension.h"
 #include "../components/Component.h"
 namespace Entities {
+    enum class entityTypes{
+        player,
+        npc,
+        wall,
+        ladder,
+        none
+    };
     class Entity {
     public:
-        Entity(int id);
+        Entity(int id, entityTypes pType = entityTypes::none);
 
         int getId() const;
+        entityTypes getType();
 
-    private:
+    protected:
         int mId;
+        entityTypes mEntityType;
     };
 }
 

@@ -7,6 +7,7 @@
 #include "../events/EntityMoved.h"
 #include "../events/CollisionEvent.h"
 #include "../managers/ComponentsManager.h"
+#include "../managers/EntityManager.h"
 
 Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanager):mEventsManager(pEventsmanager) {
 
@@ -26,10 +27,23 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
         for(const auto &entry: collideAbles){
             auto entrySpatial = Managers::ComponentsManager::getSpatialComponent(entry.first);
             auto entryVisual = Managers::ComponentsManager::getVisualComponent(entry.first);
+            auto entryEntity = Managers::EntityManager::getEntity(entry.first);
             int entryRightLimit = entryVisual->mImageRect.w + entrySpatial->mPositionX;
             int entryLeftLimit = entrySpatial->mPositionX;
             int entryTopLimit = entrySpatial->mPositionY;
             int entryBottomLimit = entrySpatial->mPositionY + entryVisual->mImageRect.h;
+
+            Events::collisionTypes collisionType;
+            switch (entryEntity->getType()){
+                case Entities::entityTypes::wall:{
+                    collisionType = Events::collisionTypes::regular;
+                    break;
+                }
+                case Entities::entityTypes::ladder:{
+                    collisionType = Events::collisionTypes::ladder;
+                    break;
+                }
+            }
 
             if(leftLimit>entryLeftLimit && leftLimit<entryRightLimit){
                 if(topLimit>entryTopLimit && topLimit < entryBottomLimit){

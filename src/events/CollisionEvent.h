@@ -9,7 +9,8 @@
 
 namespace Events {
     enum class collisionTypes{
-        regular
+        regular,
+        ladder
     };
     class CollisionEvent:public Event {
 
