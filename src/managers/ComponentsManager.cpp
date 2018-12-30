@@ -8,22 +8,22 @@ using namespace Managers;
 using namespace Components;
 using namespace Entities;
 
-std::unordered_map<int, std::shared_ptr<Components::Health>> ComponentsManager::mHealthComponents;
-std::unordered_map<int, std::shared_ptr<Components::VisualComponent>> ComponentsManager::mVisualComponents;
-std::unordered_map<int, std::shared_ptr<Components::SpatialComponent>> ComponentsManager::mSpatialComponents;
+std::map<int, std::shared_ptr<Components::Health>> ComponentsManager::mHealthComponents;
+std::map<int, std::shared_ptr<Components::VisualComponent>> ComponentsManager::mVisualComponents;
+std::map<int, std::shared_ptr<Components::SpatialComponent>> ComponentsManager::mSpatialComponents;
 
 
-std::unordered_map<int, std::shared_ptr<Components::Health>> &ComponentsManager::getHealthComponents(){
+std::map<int, std::shared_ptr<Components::Health>> &ComponentsManager::getHealthComponents(){
 
     return mHealthComponents;
 }
 
-std::unordered_map<int, std::shared_ptr<Components::VisualComponent>> &ComponentsManager::getVisualComponents(){
+std::map<int, std::shared_ptr<Components::VisualComponent>> &ComponentsManager::getVisualComponents(){
 
     return mVisualComponents;
 }
 
-std::unordered_map<int, std::shared_ptr<Components::SpatialComponent>> &ComponentsManager::getSpatialComponents(){
+std::map<int, std::shared_ptr<Components::SpatialComponent>> &ComponentsManager::getSpatialComponents(){
 
     return mSpatialComponents;
 }

@@ -23,18 +23,21 @@ void Systems::RenderSystem::update(float pTimeDiff) {
     auto visualComponents = Managers::ComponentsManager::getVisualComponents();
 
     SDL_RenderClear(mRenderer);
-    for(const auto &elem: visualComponents){
-        int entityId = elem.first;
+
+    std::map<int, std::shared_ptr<Components::VisualComponent>>::reverse_iterator revIter;
+
+    for(revIter = visualComponents.rbegin(); revIter!=visualComponents.rend(); revIter++){
+        int entityId = revIter->first;
         auto spatial = Managers::ComponentsManager::getSpatialComponent(entityId);
-        auto visual = elem.second;
+        auto visual = revIter->second;
 
         SDL_Rect dstrect = visual->mImageRect;
         dstrect.x = spatial->mPositionX;
         dstrect.y = spatial->mPositionY;
 
         SDL_RenderCopy(mRenderer, visual->mTexture , nullptr, &dstrect);
-
     }
+
     SDL_RenderPresent(mRenderer);
 
 }

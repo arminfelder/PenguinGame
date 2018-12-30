@@ -20,9 +20,9 @@ namespace Managers {
 
     class ComponentsManager {
     public:
-        static std::unordered_map<int, std::shared_ptr<Components::Health>> &getHealthComponents();
-        static std::unordered_map<int, std::shared_ptr<Components::VisualComponent>> &getVisualComponents();
-        static std::unordered_map<int, std::shared_ptr<Components::SpatialComponent>> &getSpatialComponents();
+        static std::map<int, std::shared_ptr<Components::Health>> &getHealthComponents();
+        static std::map<int, std::shared_ptr<Components::VisualComponent>> &getVisualComponents();
+        static std::map<int, std::shared_ptr<Components::SpatialComponent>> &getSpatialComponents();
 
         static std::shared_ptr<Components::Health> &getHealthComponent(int pEntityId);
         static std::shared_ptr<Components::VisualComponent> &getVisualComponent(int pEntityId);
@@ -36,9 +36,9 @@ namespace Managers {
         bool createComponent();
 
     private:
-        static std::unordered_map<int, std::shared_ptr<Components::Health>> mHealthComponents;
-        static std::unordered_map<int, std::shared_ptr<Components::VisualComponent>> mVisualComponents;
-        static std::unordered_map<int, std::shared_ptr<Components::SpatialComponent>> mSpatialComponents;
+        static std::map<int, std::shared_ptr<Components::Health>> mHealthComponents;
+        static std::map<int, std::shared_ptr<Components::VisualComponent>> mVisualComponents;
+        static std::map<int, std::shared_ptr<Components::SpatialComponent>> mSpatialComponents;
 
     };
 }

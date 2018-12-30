@@ -13,6 +13,7 @@ namespace Managers {
 
     class EntityManager {
     public:
+        EntityManager();
         int createEntity();
 
         bool destroyEntity(int pId);

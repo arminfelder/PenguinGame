@@ -25,3 +25,8 @@ std::shared_ptr<Entity> EntityManager::getEntity(int pId) {
     }
     return nullptr;
 }
+
+EntityManager::EntityManager() {
+    //create Player as id = 1
+    createEntity();
+}

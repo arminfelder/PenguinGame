@@ -2,6 +2,7 @@
 #include <SDL2/SDL.h>
 #include <iostream>
 #include "World.h"
+#include "MapParser.h"
 
 
 int PenguinGame::run() {
@@ -27,7 +28,7 @@ int PenguinGame::run() {
 
 void PenguinGame::initSDL() {
     SDL_Init(SDL_INIT_VIDEO);
-    mWindow = SDL_CreateWindow("PenguinGame", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 640, 480, 0);
+    mWindow = SDL_CreateWindow("PenguinGame", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1024, 768, 0);
     if(!mWindow){
         SDL_Log("failed to create window: %s", SDL_GetError());
     }
@@ -56,27 +57,7 @@ PenguinGame::PenguinGame() {
 
 void PenguinGame::initGame() {
     auto entityManager = mGameEngine->getEntityManager();
-    int id = entityManager->createEntity();
 
-    SDL_Surface *image = SDL_LoadBMP("./res/hello.bmp");
-    SDL_Texture *texture = SDL_CreateTextureFromSurface(mRenderer, image);
+    MapParser::createWorldFormMapTXT("./res/map.txt", mGameEngine, mRenderer);
 
-    Managers::ComponentsManager::createVisualComponent(id,texture,50,50);
-    Managers::ComponentsManager::createSpatialComponent(id, 30,30);
-
-    id = entityManager->createEntity();
-
-    image = SDL_LoadBMP("./res/hello.bmp");
-    texture = SDL_CreateTextureFromSurface(mRenderer, image);
-
-    Managers::ComponentsManager::createVisualComponent(id,texture,50,50);
-    Managers::ComponentsManager::createSpatialComponent(id, 100,100);
-
-    id = entityManager->createEntity();
-
-    image = SDL_LoadBMP("./res/hello.bmp");
-    texture = SDL_CreateTextureFromSurface(mRenderer, image);
-
-    Managers::ComponentsManager::createVisualComponent(id,texture,50,50);
-    Managers::ComponentsManager::createSpatialComponent(id, 210,130);
 }
