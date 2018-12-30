@@ -33,13 +33,15 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
                     int id = entityManager->createEntity();
                     Managers::ComponentsManager::createVisualComponent(id, textureWall, 50, 50);
                     Managers::ComponentsManager::createSpatialComponent(id, x, y);
+                    Managers::ComponentsManager::createCollideAbleComponent(id);
                     break;
                 }
                 case 'p': {
                     int id = 1;
-                    Managers::ComponentsManager::createVisualComponent(id, texturePlayer, 50, 50);
-                    Managers::ComponentsManager::createSpatialComponent(id, x, y);
+                    Managers::ComponentsManager::createVisualComponent(id, texturePlayer, 40, 40);
+                    Managers::ComponentsManager::createSpatialComponent(id, x+10, y+10);
                     Managers::ComponentsManager::createMoveAbleComponent(id,true,false,true,false );
+                    Managers::ComponentsManager::createCollideAbleComponent(id);
                     break;
                 }
                 case '|':

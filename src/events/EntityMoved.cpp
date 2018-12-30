@@ -4,6 +4,7 @@
 
 #include "EntityMoved.h"
 
-Events::EntityMoved::EntityMoved(int pEntityId):mEntityId(pEntityId) {
+using namespace Events;
+EntityMoved::EntityMoved(int pEntityId):Event(EventTypes::EntityMoved),mEntityId(pEntityId) {
 
 }
