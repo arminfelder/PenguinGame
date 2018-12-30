@@ -6,4 +6,4 @@
 int main() {
     PenguinGame game;
     return game.run();
-};
+}

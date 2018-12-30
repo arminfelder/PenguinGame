@@ -8,6 +8,7 @@
 #include "managers/EntityManager.h"
 #include "managers/ComponentsManager.h"
 #include "managers/SystemsManager.h"
+#include "managers/EventsManager.h"
 
 class GameEngine {
 public:
@@ -20,6 +21,7 @@ private:
     Managers::EntityManager* mEntityManager = nullptr;
     Managers::ComponentsManager* mComponentsManager = nullptr;
     Managers::SystemsManager* mSystemsManager = nullptr;
+    Managers::EventsManager* mEventsManager = nullptr;
 };
 
 

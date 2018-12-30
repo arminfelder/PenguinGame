@@ -7,7 +7,8 @@
 #include "RenderSystem.h"
 #include "../managers/ComponentsManager.h"
 
-Systems::RenderSystem::RenderSystem(SDL_Window *pWindow, SDL_Renderer *pPrenderer) {
+Systems::RenderSystem::RenderSystem(SDL_Window *pWindow, SDL_Renderer *pPrenderer, Managers::EventsManager *pEventsManager):
+mWindow(pWindow),mRenderer(pPrenderer),mEventsManager(pEventsManager){
     mWindow = pWindow;
     mRenderer = pPrenderer;
 
@@ -21,6 +22,7 @@ void Systems::RenderSystem::update(float pTimeDiff) {
 
     auto visualComponents = Managers::ComponentsManager::getVisualComponents();
 
+    SDL_RenderClear(mRenderer);
     for(const auto &elem: visualComponents){
         int entityId = elem.first;
         auto spatial = Managers::ComponentsManager::getSpatialComponent(entityId);
@@ -31,9 +33,10 @@ void Systems::RenderSystem::update(float pTimeDiff) {
         dstrect.y = spatial->mPositionY;
 
         SDL_RenderCopy(mRenderer, visual->mTexture , nullptr, &dstrect);
-        SDL_RenderPresent(mRenderer);
 
     }
+    SDL_RenderPresent(mRenderer);
+
 }
 
 

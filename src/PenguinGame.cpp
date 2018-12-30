@@ -17,8 +17,9 @@ int PenguinGame::run() {
                 mRunning = false;
             }
 
-            mGameEngine->update(1);
         }
+        mGameEngine->update(1);
+
     }
 
     return 0;
@@ -77,5 +78,5 @@ void PenguinGame::initGame() {
     texture = SDL_CreateTextureFromSurface(mRenderer, image);
 
     Managers::ComponentsManager::createVisualComponent(id,texture,50,50);
-    Managers::ComponentsManager::createSpatialComponent(id, 200,100);
+    Managers::ComponentsManager::createSpatialComponent(id, 210,130);
 }

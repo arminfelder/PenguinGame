@@ -9,11 +9,12 @@
 #include <SDL_system.h>
 
 #include "System.h"
+#include "../managers/EventsManager.h"
 
 namespace Systems {
     class RenderSystem: public System {
     public:
-        RenderSystem(SDL_Window *pWindow, SDL_Renderer *pPrenderer);
+        RenderSystem(SDL_Window *pWindow, SDL_Renderer *pPrenderer, Managers::EventsManager *pEventsManager);
         void setWindow(SDL_Window *pWindow);
         void setRendered(SDL_Renderer *pRenderer);
         ~RenderSystem();
@@ -24,6 +25,7 @@ namespace Systems {
         SDL_Window *mWindow = nullptr;
         SDL_Renderer *mRenderer = nullptr;
         SDL_Texture *mTestTexture = nullptr;
+        Managers::EventsManager *mEventsManager = nullptr;
 
     };
 }

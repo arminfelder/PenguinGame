@@ -7,13 +7,16 @@
 
 #include "../systems/HealthSystem.h"
 #include "../systems/RenderSystem.h"
+#include "../systems/PositionSystem.h"
+#include "../systems/InputSystem.h"
+#include "../managers/EventsManager.h"
 
 namespace Managers {
 
     class SystemsManager {
     public:
 
-        SystemsManager(SDL_Window *pWindow, SDL_Renderer *pPrenderer);
+        SystemsManager(SDL_Window *pWindow, SDL_Renderer *pPrenderer, EventsManager *pEventsManager);
         void sendEvent();
 
         void update(float pTimeDiff);
@@ -25,7 +28,10 @@ namespace Managers {
     private:
         Systems::RenderSystem* mRenderSystem = nullptr;
         Systems::HealthSystem* mHealthSystem = nullptr;
+        Systems::PositionSystem* mPositionSystem = nullptr;
+        Systems::InputSystem* mInputSystem = nullptr;
 
+        Managers::EventsManager* mEventsManager = nullptr;
 
     };
 }

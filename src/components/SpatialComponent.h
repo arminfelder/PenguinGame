@@ -12,6 +12,9 @@ namespace Components {
         int mPositionX;
         int mPositionY;
 
+        int mPrevPositionX = 0;
+        int mPrevPositionY = 0;
+
     };
 }
 

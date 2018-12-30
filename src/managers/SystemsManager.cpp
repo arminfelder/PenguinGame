@@ -7,9 +7,11 @@
 using namespace Managers;
 using namespace Systems;
 
-SystemsManager::SystemsManager(SDL_Window *pWindow, SDL_Renderer *pPrenderer) {
-    mHealthSystem = new HealthSystem;
-    mRenderSystem = new RenderSystem(pWindow,pPrenderer);
+SystemsManager::SystemsManager(SDL_Window *pWindow, SDL_Renderer *pPrenderer, EventsManager *pEventsManager):mEventsManager(pEventsManager) {
+    mHealthSystem = new HealthSystem(pEventsManager);
+    mPositionSystem = new PositionSystem(pEventsManager);
+    mInputSystem = new InputSystem(pEventsManager);
+    mRenderSystem = new RenderSystem(pWindow,pPrenderer,pEventsManager);
 }
 
 void SystemsManager::sendEvent() {
@@ -25,5 +27,7 @@ RenderSystem *SystemsManager::getMRenderSystem() const {
 }
 
 void SystemsManager::update(float pTimeDiff) {
+    mInputSystem->update();
+    mEventsManager->dispatch();
     mRenderSystem->update(pTimeDiff);
 }
