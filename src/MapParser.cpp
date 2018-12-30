@@ -15,6 +15,9 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
     SDL_Surface *imagePlayer = SDL_LoadBMP("./res/hello.bmp");
     SDL_Texture *texturePlayer = SDL_CreateTextureFromSurface(pRenderer, imagePlayer);
 
+    SDL_Surface *imageLadder = SDL_LoadBMP("./res/ladder.bmp");
+    SDL_Texture *textureLadder = SDL_CreateTextureFromSurface(pRenderer, imageLadder);
+
 
     std::ifstream map;
     map.open(pMapfile);
@@ -41,8 +44,12 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
                     Managers::ComponentsManager::createSpatialComponent(id, x, y);
                     break;
                 }
-                case '|':
+                case '|': {
+                    int id = entityManager->createEntity();
+                    Managers::ComponentsManager::createVisualComponent(id, textureLadder, 50, 50);
+                    Managers::ComponentsManager::createSpatialComponent(id, x, y);
                     break;
+                }
                 default:
                     break;
             }
