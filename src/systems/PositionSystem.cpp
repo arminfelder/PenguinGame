@@ -10,20 +10,38 @@ Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager)
     std::function<void(std::shared_ptr<Events::Event>)> callback = [system = this](std::shared_ptr<Events::Event> pEvent)->void {
         auto event = static_cast<Events::KeyUpEvent*>(pEvent.get());
         auto playerSpatial = Managers::ComponentsManager::getSpatialComponent(1);
-        playerSpatial->mPrevPositionX = playerSpatial->mPositionX;
-        playerSpatial->mPrevPositionY = playerSpatial->mPositionY;
+        auto moveable = Managers::ComponentsManager::getMoveableComponent(1);
+
         switch (event->mKeyCode.sym){
             case SDLK_UP:
-                playerSpatial->mPositionY -= 10;
+                if(moveable->canMoveUp) {
+                    playerSpatial->mPrevPositionX = playerSpatial->mPositionX;
+                    playerSpatial->mPrevPositionY = playerSpatial->mPositionY;
+                    playerSpatial->mPositionY -= 10;
+                }
                 break;
             case SDLK_RIGHT:
-                playerSpatial->mPositionX += 10;
+                if(moveable->canMoveRight) {
+                    playerSpatial->mPrevPositionX = playerSpatial->mPositionX;
+                    playerSpatial->mPrevPositionY = playerSpatial->mPositionY;
+                    playerSpatial->mPositionX += 10;
+                }
                 break;
             case SDLK_DOWN:
-                playerSpatial->mPositionY += 10;
+                if(moveable->canMoveDown) {
+                    playerSpatial->mPrevPositionX = playerSpatial->mPositionX;
+                    playerSpatial->mPrevPositionY = playerSpatial->mPositionY;
+                    playerSpatial->mPositionY += 10;
+                }
                 break;
             case SDLK_LEFT:
-                playerSpatial->mPositionX -= 10;
+                if(moveable->canMoveLeft) {
+                    playerSpatial->mPrevPositionX = playerSpatial->mPositionX;
+                    playerSpatial->mPrevPositionY = playerSpatial->mPositionY;
+                    playerSpatial->mPositionX -= 10;
+                }
+                break;
+            default:
                 break;
         }
 

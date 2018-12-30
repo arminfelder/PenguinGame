@@ -11,6 +11,7 @@ using namespace Entities;
 std::map<int, std::shared_ptr<Components::Health>> ComponentsManager::mHealthComponents;
 std::map<int, std::shared_ptr<Components::VisualComponent>> ComponentsManager::mVisualComponents;
 std::map<int, std::shared_ptr<Components::SpatialComponent>> ComponentsManager::mSpatialComponents;
+std::map<int, std::shared_ptr<Components::MoveAbleComponent>> ComponentsManager::mMoveableComponents;
 
 
 std::map<int, std::shared_ptr<Components::Health>> &ComponentsManager::getHealthComponents(){
@@ -28,10 +29,6 @@ std::map<int, std::shared_ptr<Components::SpatialComponent>> &ComponentsManager:
     return mSpatialComponents;
 }
 
-
-bool ComponentsManager::createComponent() {
-    return false;
-}
 
 void ComponentsManager::createHealthComponent(int pEntityId, int pHp) {
     mHealthComponents.insert({pEntityId, std::make_shared<Health>(pHp)});
@@ -55,4 +52,16 @@ std::shared_ptr<Components::VisualComponent> &ComponentsManager::getVisualCompon
 
 std::shared_ptr<Components::SpatialComponent> &ComponentsManager::getSpatialComponent(int pEntityId) {
     return mSpatialComponents[pEntityId];
+}
+
+std::map<int, std::shared_ptr<Components::MoveAbleComponent>> &ComponentsManager::getMoveableComponents() {
+    return mMoveableComponents;
+}
+
+std::shared_ptr<Components::MoveAbleComponent> &ComponentsManager::getMoveableComponent(int pEntityId) {
+    return mMoveableComponents[pEntityId];
+}
+
+void ComponentsManager::createMoveAbleComponent(int pEntityId, bool pRight, bool pDown, bool pLeft, bool pUp) {
+    mMoveableComponents.insert({pEntityId,std::make_shared<MoveAbleComponent>(pRight,pDown,pLeft,pUp)});
 }

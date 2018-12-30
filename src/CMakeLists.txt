@@ -19,5 +19,5 @@ add_executable(game main.cpp PenguinGame.cpp PenguinGame.h
         events/KeyUpEvent.cpp
         events/KeyDownEvent.cpp
         managers/EventsManager.cpp
-        events/HealthEvent.cpp events/HealthEvent.h systems/PositionSystem.cpp systems/PositionSystem.h events/EntityMoved.cpp events/EntityMoved.h MapParser.cpp MapParser.h)
+        events/HealthEvent.cpp events/HealthEvent.h systems/PositionSystem.cpp systems/PositionSystem.h events/EntityMoved.cpp events/EntityMoved.h MapParser.cpp MapParser.h components/MoveAbleComponent.cpp components/MoveAbleComponent.h)
 target_link_libraries(game ${SDL2_LIBRARIES})
