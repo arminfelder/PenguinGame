@@ -10,6 +10,7 @@
 #include "../systems/PositionSystem.h"
 #include "../systems/InputSystem.h"
 #include "../managers/EventsManager.h"
+#include "../systems/CollisionSystem.h"
 
 namespace Managers {
 
@@ -30,6 +31,7 @@ namespace Managers {
         Systems::HealthSystem* mHealthSystem = nullptr;
         Systems::PositionSystem* mPositionSystem = nullptr;
         Systems::InputSystem* mInputSystem = nullptr;
+        Systems::CollisionSystem* mCollisionSystem = nullptr;
 
         Managers::EventsManager* mEventsManager = nullptr;
 

@@ -12,6 +12,7 @@ std::map<int, std::shared_ptr<Components::Health>> ComponentsManager::mHealthCom
 std::map<int, std::shared_ptr<Components::VisualComponent>> ComponentsManager::mVisualComponents;
 std::map<int, std::shared_ptr<Components::SpatialComponent>> ComponentsManager::mSpatialComponents;
 std::map<int, std::shared_ptr<Components::MoveAbleComponent>> ComponentsManager::mMoveableComponents;
+std::map<int, std::shared_ptr<Components::CollideAble>> ComponentsManager::mCollideables;
 
 
 std::map<int, std::shared_ptr<Components::Health>> &ComponentsManager::getHealthComponents(){
@@ -64,4 +65,16 @@ std::shared_ptr<Components::MoveAbleComponent> &ComponentsManager::getMoveableCo
 
 void ComponentsManager::createMoveAbleComponent(int pEntityId, bool pRight, bool pDown, bool pLeft, bool pUp) {
     mMoveableComponents.insert({pEntityId,std::make_shared<MoveAbleComponent>(pRight,pDown,pLeft,pUp)});
+}
+
+std::map<int, std::shared_ptr<Components::CollideAble>> &ComponentsManager::getCollideAble() {
+    return mCollideables;
+}
+
+std::shared_ptr<Components::CollideAble> &ComponentsManager::getCollideAble(int pEntityId) {
+    return mCollideables[pEntityId];
+}
+
+void ComponentsManager::createCollideAbleComponent(int pEntityId) {
+    mCollideables.insert({pEntityId,std::make_shared<CollideAble>()});
 }
