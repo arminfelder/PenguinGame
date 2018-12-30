@@ -8,9 +8,12 @@ add_executable(game main.cpp PenguinGame.cpp PenguinGame.h
         systems/RenderSystem.cpp
         systems/InputSystem.cpp
         systems/HealthSystem.cpp
+        systems/PositionSystem.cpp
+        systems/CollisionSystem.cpp
         managers/EntityManager.cpp
         managers/SystemsManager.cpp
         managers/ComponentsManager.cpp
+        managers/EventsManager.cpp
         components/VisualComponent.cpp
         components/SpatialComponent.cpp
         components/Health.cpp
@@ -18,6 +21,10 @@ add_executable(game main.cpp PenguinGame.cpp PenguinGame.h
         events/KeyPressedEvent.cpp
         events/KeyUpEvent.cpp
         events/KeyDownEvent.cpp
-        managers/EventsManager.cpp
-        events/HealthEvent.cpp events/HealthEvent.h systems/PositionSystem.cpp systems/PositionSystem.h events/EntityMoved.cpp events/EntityMoved.h MapParser.cpp MapParser.h)
+        events/HealthEvent.cpp
+        events/EntityMoved.cpp
+        MapParser.cpp
+        components/MoveAbleComponent.cpp
+        components/CollideAble.cpp
+        events/CollisionEvent.cpp events/CollisionEvent.h)
 target_link_libraries(game ${SDL2_LIBRARIES})

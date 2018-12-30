@@ -8,7 +8,7 @@
 #include "Event.h"
 
 namespace Events {
-    class EntityMoved {
+    class EntityMoved: public Event {
     public:
         EntityMoved(int pEntityId);
         const Events::EventTypes type = EventTypes::EntityMoved;
