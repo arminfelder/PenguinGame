@@ -30,5 +30,5 @@ add_executable(game main.cpp PenguinGame.cpp PenguinGame.h
         events/EntityMoved.cpp
         events/CollisionEvent.cpp
         MapParser.cpp
-        )
+        entities/MovementReset.cpp entities/MovementReset.h entities/LadderEnd.cpp entities/LadderEnd.h entities/LadderBegin.cpp entities/LadderBegin.h)
 target_link_libraries(game ${SDL2_LIBRARIES})

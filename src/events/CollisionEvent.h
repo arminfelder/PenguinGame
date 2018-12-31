@@ -10,7 +10,10 @@
 namespace Events {
     enum class collisionTypes{
         regular,
-        ladder
+        ladder,
+        ladderEnd,
+        ladderBegin,
+        movementReset
     };
     class CollisionEvent:public Event {
 

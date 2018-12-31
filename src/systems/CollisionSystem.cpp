@@ -43,22 +43,39 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
                     collisionType = Events::collisionTypes::ladder;
                     break;
                 }
+                case Entities::entityTypes::npc:{
+                    break;
+                }
+                case Entities::entityTypes::movementReset:{
+                    collisionType = Events::collisionTypes::movementReset;
+                    break;
+                }
+                case Entities::entityTypes::ladderEnd:{
+                    collisionType = Events::collisionTypes::ladderEnd;
+                    break;
+                }
+                case Entities::entityTypes::ladderBegin:{
+                    collisionType = Events::collisionTypes::ladderBegin;
+                }
+                case Entities::entityTypes::none:{
+
+                }
             }
 
             if(leftLimit>entryLeftLimit && leftLimit<entryRightLimit){
                 if(topLimit>entryTopLimit && topLimit < entryBottomLimit){
-                    system->mEventsManager->addEvent(std::make_shared<Events::CollisionEvent>(entityId, entry.first, Events::collisionTypes::regular));
+                    system->mEventsManager->addEvent(std::make_shared<Events::CollisionEvent>(entityId, entry.first, collisionType));
                     std::cout<<"collision!"<<std::endl;
                 }else if(bottomLimit<entryBottomLimit && bottomLimit>entryTopLimit){
-                    system->mEventsManager->addEvent(std::make_shared<Events::CollisionEvent>(entityId, entry.first, Events::collisionTypes::regular));
+                    system->mEventsManager->addEvent(std::make_shared<Events::CollisionEvent>(entityId, entry.first, collisionType));
                     std::cout<<"collision!"<<std::endl;
                 }
             }else if(rightLimit<entryRightLimit && rightLimit>entryLeftLimit ){
                 if(topLimit>entryTopLimit && topLimit < entryBottomLimit){
-                    system->mEventsManager->addEvent(std::make_shared<Events::CollisionEvent>(entityId, entry.first, Events::collisionTypes::regular));
+                    system->mEventsManager->addEvent(std::make_shared<Events::CollisionEvent>(entityId, entry.first, collisionType));
                     std::cout<<"collision!"<<std::endl;
                 }else if(bottomLimit< entryBottomLimit && bottomLimit>entryTopLimit){
-                    system->mEventsManager->addEvent(std::make_shared<Events::CollisionEvent>(entityId, entry.first, Events::collisionTypes::regular));
+                    system->mEventsManager->addEvent(std::make_shared<Events::CollisionEvent>(entityId, entry.first, collisionType));
                     std::cout<<"collision!"<<std::endl;
                 }
             }

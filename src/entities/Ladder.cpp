@@ -4,6 +4,7 @@
 
 #include "Ladder.h"
 
-Entities::Ladder::Ladder(int pId):Entity(pId, entityTypes::ladder) {
+using namespace Entities;
+Ladder::Ladder(int pId):Entity(pId, entityTypes::ladder) {
 
 }

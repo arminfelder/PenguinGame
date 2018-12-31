@@ -13,6 +13,9 @@ namespace Entities {
         npc,
         wall,
         ladder,
+        movementReset,
+        ladderEnd,
+        ladderBegin,
         none
     };
     class Entity {
