@@ -8,21 +8,30 @@
 #include <memory>
 #include <unordered_map>
 #include "../entities/Entity.h"
+#include "../entities/Player.h"
+#include "../entities/Wall.h"
+#include "../entities/Ladder.h"
 
 namespace Managers {
 
     class EntityManager {
     public:
         EntityManager();
-        int createEntity();
+        template <class T>
+        static int createEntity(){
+            int newIndex = mCurrEntityIndex;
+            mEntities.emplace(mCurrEntityIndex, std::make_shared<T>(mCurrEntityIndex));
+            mCurrEntityIndex++;
+            return newIndex;
+        }
 
-        bool destroyEntity(int pId);
+        static bool destroyEntity(int pId);
 
-        std::shared_ptr<Entities::Entity> getEntity(int pId);
+        static std::shared_ptr<Entities::Entity> getEntity(int pId);
 
     private:
-        int mCurrEntityIndex = 1;
-        std::unordered_map<int, std::shared_ptr<Entities::Entity>> mEntities;
+        static int mCurrEntityIndex;
+        static std::unordered_map<int, std::shared_ptr<Entities::Entity>> mEntities;
     };
 }
 

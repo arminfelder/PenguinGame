@@ -7,6 +7,9 @@
 
 #include <string>
 #include "GameEngine.h"
+#include "entity.h"
+#include "entities/Wall.h"
+#include "entities/Ladder.h"
 
 class MapParser {
 public:

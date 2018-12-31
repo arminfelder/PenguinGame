@@ -4,6 +4,9 @@ project(game)
 
 add_executable(game main.cpp PenguinGame.cpp PenguinGame.h
         entities/Entity.cpp
+        entities/Player.cpp
+        entities/Wall.cpp
+        entities/Ladder.cpp
         GameEngine.cpp
         systems/RenderSystem.cpp
         systems/InputSystem.cpp
@@ -17,14 +20,15 @@ add_executable(game main.cpp PenguinGame.cpp PenguinGame.h
         components/VisualComponent.cpp
         components/SpatialComponent.cpp
         components/Health.cpp
+        components/MoveAbleComponent.cpp
+        components/CollideAble.cpp
         events/Event.cpp
         events/KeyPressedEvent.cpp
         events/KeyUpEvent.cpp
         events/KeyDownEvent.cpp
         events/HealthEvent.cpp
         events/EntityMoved.cpp
+        events/CollisionEvent.cpp
         MapParser.cpp
-        components/MoveAbleComponent.cpp
-        components/CollideAble.cpp
-        events/CollisionEvent.cpp events/CollisionEvent.h)
+        entities/MovementReset.cpp entities/MovementReset.h entities/LadderEnd.cpp entities/LadderEnd.h entities/LadderBegin.cpp entities/LadderBegin.h)
 target_link_libraries(game ${SDL2_LIBRARIES})

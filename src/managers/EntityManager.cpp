@@ -7,12 +7,8 @@
 using namespace Managers;
 using namespace Entities;
 
-int EntityManager::createEntity() {
-    int newIndex = mCurrEntityIndex;
-    mEntities.emplace(mCurrEntityIndex, std::make_shared<Entity>(mCurrEntityIndex));
-    mCurrEntityIndex++;
-    return newIndex;
-}
+int EntityManager::mCurrEntityIndex = 1;
+std::unordered_map<int, std::shared_ptr<Entities::Entity>> EntityManager::mEntities;
 
 bool EntityManager::destroyEntity(int pId) {
     return mEntities.erase(pId) ? true:false;
@@ -28,5 +24,5 @@ std::shared_ptr<Entity> EntityManager::getEntity(int pId) {
 
 EntityManager::EntityManager() {
     //create Player as id = 1
-    createEntity();
+    createEntity<Player>();
 }

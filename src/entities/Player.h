@@ -9,7 +9,8 @@
 
 namespace Entities {
 class Player :public Entity{
-
+public:
+    Player(int pId);
     };
 }
 
