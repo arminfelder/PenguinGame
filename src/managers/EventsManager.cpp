@@ -4,7 +4,8 @@
 
 #include "EventsManager.h"
 
-void Managers::EventsManager::dispatch() {
+void Managers::EventsManager::dispatch(uint64_t pTimediff) {
+    mTimediff = pTimediff;
     while(!mEventsQueue.empty()){
         auto event = mEventsQueue.front();
         mEventsQueue.pop();

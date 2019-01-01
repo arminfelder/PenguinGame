@@ -65,6 +65,9 @@ Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager)
             auto moveable = Managers::ComponentsManager::getMoveableComponent(1);
             moveable->canMoveDown = true;
             moveable->canMoveUp = true;
+            moveable->canMoveLeft = false;
+            moveable->canMoveRight = false;
+
         }else if(event->mType == Events::collisionTypes::movementReset){
             auto moveable = Managers::ComponentsManager::getMoveableComponent(1);
             moveable->canMoveUp = false;
