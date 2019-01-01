@@ -5,9 +5,9 @@
 #include "GameEngine.h"
 
 using namespace Managers;
-void GameEngine::update(int timediff) {
+void GameEngine::update(uint64_t timediff) {
     mSystemsManager->update(timediff);
-    mEventsManager->dispatch();
+    mEventsManager->dispatch(timediff);
 }
 
 GameEngine::GameEngine(SDL_Window *pWindow, SDL_Renderer *pPrenderer) {

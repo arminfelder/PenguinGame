@@ -20,7 +20,7 @@ namespace Managers {
         SystemsManager(SDL_Window *pWindow, SDL_Renderer *pPrenderer, EventsManager *pEventsManager);
         void sendEvent();
 
-        void update(float pTimeDiff);
+        void update(uint64_t pTimeDiff);
 
         Systems::HealthSystem *getMHealthSystem() const;
 

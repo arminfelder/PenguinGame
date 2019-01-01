@@ -18,7 +18,7 @@ Systems::RenderSystem::~RenderSystem() {
 
 }
 
-void Systems::RenderSystem::update(float pTimeDiff) {
+void Systems::RenderSystem::update(uint64_t pTimeDiff) {
 
     auto visualComponents = Managers::ComponentsManager::getVisualComponents();
 

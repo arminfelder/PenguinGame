@@ -13,7 +13,7 @@
 class GameEngine {
 public:
     GameEngine(SDL_Window *pWindow, SDL_Renderer *pPrenderer);
-    void update(int timediff);
+    void update(uint64_t timediff);
 
     Managers::EntityManager* getEntityManager();
 

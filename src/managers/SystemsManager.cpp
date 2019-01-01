@@ -28,8 +28,8 @@ RenderSystem *SystemsManager::getMRenderSystem() const {
     return mRenderSystem;
 }
 
-void SystemsManager::update(float pTimeDiff) {
+void SystemsManager::update(uint64_t pTimeDiff) {
     mInputSystem->update();
-    mEventsManager->dispatch();
+    mEventsManager->dispatch(pTimeDiff);
     mRenderSystem->update(pTimeDiff);
 }
