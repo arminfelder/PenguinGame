@@ -28,7 +28,7 @@ int PenguinGame::run() {
 
         }
         mGameEngine->update(deltaTime);
-        SDL_Delay( 1000/frames );
+        SDL_Delay(static_cast<Uint32> (1000/frames) );
 
     }
 
@@ -38,7 +38,7 @@ int PenguinGame::run() {
 void PenguinGame::initSDL() {
     SDL_Init(SDL_INIT_VIDEO);
     SDL_Init(SDL_INIT_AUDIO);
-    mWindow = SDL_CreateWindow("PenguinGame", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1024, 768, 0);
+    mWindow = SDL_CreateWindow("PenguinGame", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1000, 500, 0);
     if(!mWindow){
         SDL_Log("failed to create window: %s", SDL_GetError());
     }

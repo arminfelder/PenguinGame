@@ -3,6 +3,7 @@
 //
 
 #include "EntityManager.h"
+#include "ComponentsManager.h"
 
 using namespace Managers;
 using namespace Entities;
@@ -25,4 +26,6 @@ std::shared_ptr<Entity> EntityManager::getEntity(int pId) {
 EntityManager::EntityManager() {
     //create Player as id = 1
     createEntity<Player>();
+    auto cameraID = createEntity<Entity>();
+    Managers::ComponentsManager::createCameraComponent(cameraID);
 }

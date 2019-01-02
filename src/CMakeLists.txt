@@ -7,6 +7,9 @@ add_executable(game main.cpp PenguinGame.cpp PenguinGame.h
         entities/Player.cpp
         entities/Wall.cpp
         entities/Ladder.cpp
+        entities/MovementReset.cpp
+        entities/LadderEnd.cpp
+        entities/LadderBegin.cpp
         GameEngine.cpp
         systems/RenderSystem.cpp
         systems/InputSystem.cpp
@@ -30,5 +33,7 @@ add_executable(game main.cpp PenguinGame.cpp PenguinGame.h
         events/EntityMoved.cpp
         events/CollisionEvent.cpp
         MapParser.cpp
-        entities/MovementReset.cpp entities/MovementReset.h entities/LadderEnd.cpp entities/LadderEnd.h entities/LadderBegin.cpp entities/LadderBegin.h)
+
+        events/MapMovement.cpp
+        components/CameraOffset.cpp )
 target_link_libraries(game ${SDL2_LIBRARIES})

@@ -51,8 +51,8 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
                 }
                 case 'p': {
                     int id = 1;
-                    Managers::ComponentsManager::createVisualComponent(id, texturePlayer, 40, 40);
-                    Managers::ComponentsManager::createSpatialComponent(id, x+10, y+10);
+                    Managers::ComponentsManager::createVisualComponent(id, texturePlayer, 48, 48);
+                    Managers::ComponentsManager::createSpatialComponent(id, x+1, y+1);
                     Managers::ComponentsManager::createMoveAbleComponent(id,true,false,true,false );
                     break;
                 }
