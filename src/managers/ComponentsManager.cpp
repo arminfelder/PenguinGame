@@ -13,6 +13,7 @@ std::map<int, std::shared_ptr<Components::VisualComponent>> ComponentsManager::m
 std::map<int, std::shared_ptr<Components::SpatialComponent>> ComponentsManager::mSpatialComponents;
 std::map<int, std::shared_ptr<Components::MoveAbleComponent>> ComponentsManager::mMoveableComponents;
 std::map<int, std::shared_ptr<Components::CollideAble>> ComponentsManager::mCollideables;
+std::map<int, std::shared_ptr<Components::CameraOffset>> ComponentsManager::mCameraOffset;
 
 
 std::map<int, std::shared_ptr<Components::Health>> &ComponentsManager::getHealthComponents(){
@@ -77,4 +78,16 @@ std::shared_ptr<Components::CollideAble> &ComponentsManager::getCollideAble(int 
 
 void ComponentsManager::createCollideAbleComponent(int pEntityId) {
     mCollideables.insert({pEntityId,std::make_shared<CollideAble>()});
+}
+
+std::map<int, std::shared_ptr<Components::CameraOffset>> &ComponentsManager::getCameraOffsets() {
+    return mCameraOffset;
+}
+
+std::shared_ptr<Components::CameraOffset> &ComponentsManager::getCameraOffsetComponent(int pEntityId) {
+    return mCameraOffset[pEntityId];
+}
+
+void ComponentsManager::createCameraComponent(int pEntityId) {
+    mCameraOffset.insert({pEntityId, std::make_shared<CameraOffset>(0, 0)});
 }

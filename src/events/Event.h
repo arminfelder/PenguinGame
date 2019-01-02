@@ -7,10 +7,13 @@
 
 namespace Events {
     enum class EventTypes{
-        Input,
+        KeyDown,
+        KeyUp,
+        KePressed,
         Collision,
         Health,
         None,
+        MapMovement,
         EntityMoved
 
     };
