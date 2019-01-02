@@ -34,28 +34,22 @@ mWindow(pWindow),mRenderer(pPrenderer),mEventsManager(pEventsManager){
         auto sectorX = std::ceil(playerX/ static_cast<double>(width));
         auto sectorY = std::ceil(playerY/ static_cast<double>(height));
 
-        auto maxOffsetX = width * 0.05;
-        auto maxOffsetY = height * 0.05;
+        auto cameraMoveOffset = 0.05;
+        auto maxOffsetX = width * cameraMoveOffset;
+        auto maxOffsetY = height * cameraMoveOffset;
 
-
-
-
-
-        if (((sectorX - 1)*width + maxOffsetX) > playerX) {
-            //move camera left
+        //move camera left
+        if (((sectorX - 1)*width + maxOffsetX) > playerX)
             firstCam->xOffset+=width*0.8;
-        }
-        if ((sectorX * width - maxOffsetX) < playerX) {
-            //move camera right
+        //move camera right
+        else if ((sectorX * width - maxOffsetX) < playerX)
             firstCam->xOffset-=width*0.8;
-        }
-        if (((sectorY - 1)*height + maxOffsetY) > playerY) {
+        //move camera down
+        if (((sectorY - 1)*height + maxOffsetY) > playerY)
             firstCam->yOffset+=height*0.8;
-        }
-        if ((sectorY * height - maxOffsetY) < playerY)
+        //move camera up
+        else if ((sectorY * height - maxOffsetY) < playerY)
             firstCam->yOffset-=height*0.8;
-
-
     };
 
     mEventsManager->regsiterEventHandler(Events::EventTypes::EntityMoved, callback);
