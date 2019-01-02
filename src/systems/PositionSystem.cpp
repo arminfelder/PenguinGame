@@ -62,31 +62,23 @@ Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager)
             auto playerSpatial = Managers::ComponentsManager::getSpatialComponent(entity);
             playerSpatial->mPositionX = playerSpatial->mPrevPositionX;
             playerSpatial->mPositionY = playerSpatial->mPrevPositionY;
-        } else if(event->mType == Events::collisionTypes::ladder){
-            auto moveable = Managers::ComponentsManager::getMoveableComponent(1);
+        }
+        auto moveable = Managers::ComponentsManager::getMoveableComponent(1);
+        moveable->canMoveRight = true;
+        moveable->canMoveLeft = true;
+        if(event->mType == Events::collisionTypes::ladder){
             moveable->canMoveDown = true;
             moveable->canMoveUp = true;
-            moveable->canMoveLeft = false;
-            moveable->canMoveRight = false;
 
         }else if(event->mType == Events::collisionTypes::movementReset){
-            auto moveable = Managers::ComponentsManager::getMoveableComponent(1);
             moveable->canMoveUp = false;
             moveable->canMoveDown = false;
-            moveable->canMoveRight = true;
-            moveable->canMoveLeft = true;
         }else if(event->mType == Events::collisionTypes::ladderEnd){
-            auto moveable = Managers::ComponentsManager::getMoveableComponent(1);
             moveable->canMoveUp = false;
             moveable->canMoveDown = true;
-            moveable->canMoveRight = true;
-            moveable->canMoveLeft = true;
         }else if(event->mType == Events::collisionTypes::ladderBegin){
-            auto moveable = Managers::ComponentsManager::getMoveableComponent(1);
             moveable->canMoveUp = true;
             moveable->canMoveDown = true;
-            moveable->canMoveRight = true;
-            moveable->canMoveLeft = true;
         }
     };
 
