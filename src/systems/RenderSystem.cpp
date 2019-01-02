@@ -35,6 +35,7 @@ mWindow(pWindow),mRenderer(pPrenderer),mEventsManager(pEventsManager){
         auto sectorY = std::ceil(playerY/ static_cast<double>(height));
 
         auto maxOffsetX = width * 0.05;
+        auto maxOffsetY = height * 0.05;
 
 
 
@@ -43,13 +44,17 @@ mWindow(pWindow),mRenderer(pPrenderer),mEventsManager(pEventsManager){
         if (((sectorX - 1)*width + maxOffsetX) > playerX) {
             //move camera left
             firstCam->xOffset+=width*0.8;
-            printf("moved camera left\n");
         }
         if ((sectorX * width - maxOffsetX) < playerX) {
             //move camera right
             firstCam->xOffset-=width*0.8;
-            printf("moved camera right\n");
         }
+        if (((sectorY - 1)*height + maxOffsetY) > playerY) {
+            firstCam->yOffset+=height*0.8;
+        }
+        if ((sectorY * height - maxOffsetY) < playerY)
+            firstCam->yOffset-=height*0.8;
+
 
     };
 
