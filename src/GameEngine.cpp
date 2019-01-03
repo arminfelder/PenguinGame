@@ -20,3 +20,7 @@ GameEngine::GameEngine(SDL_Window *pWindow, SDL_Renderer *pPrenderer) {
 Managers::EntityManager *GameEngine::getEntityManager() {
     return mEntityManager;
 }
+
+Managers::SystemsManager *GameEngine::getSystemsManager() {
+    return mSystemsManager;
+}

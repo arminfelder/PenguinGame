@@ -14,8 +14,10 @@
 using namespace Entities;
 
 
-int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pEngine, SDL_Renderer *pRenderer ) {
+int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pEngine, SDL_Renderer *pRenderer, std::vector<bool> *collisionMask ) {
 
+    auto entityManager = pEngine->getEntityManager();
+    auto mapDimension = getWorldDimension(pMapfile);
 
     std::shared_ptr<SDL_Surface> imageWall(SDL_LoadBMP("./res/brick-wall.bmp"), SDL_FreeSurface) ;
     std::shared_ptr<SDL_Texture> textureWall(SDL_CreateTextureFromSurface(pRenderer, imageWall.get()), SDL_DestroyTexture);
@@ -26,7 +28,7 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
     std::shared_ptr<SDL_Surface> imageLadder(SDL_LoadBMP("./res/ladder.bmp"), SDL_FreeSurface);
     std::shared_ptr<SDL_Texture> textureLadder(SDL_CreateTextureFromSurface(pRenderer, imageLadder.get()), SDL_DestroyTexture);
 
-    std::shared_ptr<SDL_Surface> imageInvisible(SDL_LoadBMP("./res/invisible.bmp"), SDL_FreeSurface);
+    std::shared_ptr<SDL_Surface> imageInvisible(SDL_LoadBMP("./res/invisible.bmp"),SDL_FreeSurface);
     std::shared_ptr<SDL_Texture> textureInvisible(SDL_CreateTextureFromSurface(pRenderer, imageInvisible.get()), SDL_DestroyTexture);
 
 
@@ -49,7 +51,7 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
         std::string currentLine;
         getline(map, currentLine);
         for (int i = 0; i < (int) currentLine.length(); i++) {
-
+            collisionMask->push_back(false);
             int x = i*50;
             int y = line*50;
             //Defines entities given on the input from map file
@@ -58,7 +60,8 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
                     int id = Managers::EntityManager::createEntity<Wall>();
                     Managers::ComponentsManager::createVisualComponent(id, textureWall, 50, 50);
                     Managers::ComponentsManager::createSpatialComponent(id, x, y);
-                    Managers::ComponentsManager::createCollideAbleComponent(id);
+                    collisionMask->pop_back();
+                    collisionMask->push_back(true);
                     break;
                 }
                 case 'p': {
@@ -91,7 +94,7 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
                     break;
                 }
                 case ':':{
-                    int id = Managers::EntityManager::createEntity<LadderBegin>();
+                    int id = entityManager->createEntity<LadderBegin>();
                     Managers::ComponentsManager::createVisualComponent(id, textureLadder, 50, 50);
                     Managers::ComponentsManager::createSpatialComponent(id, x, y);
                     Managers::ComponentsManager::createCollideAbleComponent(id);
@@ -100,13 +103,36 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
                 default:
                     break;
             }
+            //fill up line for negative mask
+            if (i+1 == (int) currentLine.size()) { //reached end of line
+                for (int j = static_cast<int>(currentLine.size()); j < mapDimension.x; j++)
+                    collisionMask->push_back(false);
+            }
         }
         line++;
 
 
 
     }
-
     return 0;
+}
+
+
+MapParser::mapDimension MapParser::getWorldDimension(const std::string &pMapfile) {
+    std::ifstream map;
+    map.open(pMapfile);
+    int line = 0;
+    int maxLineLenght = 0;
+    while (!map.eof()) {
+        line++;
+        std::string currentLine;
+        getline(map, currentLine);
+        if (static_cast<int> (currentLine.length()) > maxLineLenght)
+            maxLineLenght = static_cast<int>(currentLine.length());
+    }
+    MapParser::mapDimension mapDimension{};
+    mapDimension.x = maxLineLenght;
+    mapDimension.y = line;
+    return mapDimension;
 }
 

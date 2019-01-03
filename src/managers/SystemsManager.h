@@ -26,6 +26,8 @@ namespace Managers {
 
         Systems::RenderSystem *getMRenderSystem() const;
 
+        Systems::CollisionSystem *getCollisionSystem() const;
+
     private:
         Systems::RenderSystem* mRenderSystem = nullptr;
         Systems::HealthSystem* mHealthSystem = nullptr;

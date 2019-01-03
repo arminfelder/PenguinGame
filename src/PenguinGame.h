@@ -24,6 +24,7 @@ private:
     SDL_Renderer* mRenderer = nullptr;
     bool mRunning = false;
     GameEngine *mGameEngine = nullptr;
+    std::vector<bool> collisionMask;
 
 
     //audio
