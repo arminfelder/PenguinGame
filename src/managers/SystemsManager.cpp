@@ -8,7 +8,7 @@ using namespace Managers;
 using namespace Systems;
 
 SystemsManager::SystemsManager(SDL_Window *pWindow, SDL_Renderer *pPrenderer, EventsManager *pEventsManager):mEventsManager(pEventsManager) {
-    mHealthSystem = new HealthSystem(pEventsManager);
+    mHealthSystem = new HealthSystem(pPrenderer, pEventsManager);
     mPositionSystem = new PositionSystem(pEventsManager);
     mInputSystem = new InputSystem(pEventsManager);
     mCollisionSystem = new CollisionSystem(pEventsManager);

@@ -4,6 +4,6 @@
 
 #include "HealthEvent.h"
 
-Events::HealthEvent::HealthEvent():Event( EventTypes::Health) {
+Events::HealthEvent::HealthEvent(int pEntityId, int pDiff):Event( EventTypes::Health),healthDiff(pDiff),entityId(pEntityId) {
 
 }

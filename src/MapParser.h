@@ -6,6 +6,8 @@
 #define GAME_MAPPARSER_H
 
 #include <string>
+#include <SDL_render.h>
+#include <SDL_ttf.h>
 #include "GameEngine.h"
 #include "entity.h"
 #include "entities/Wall.h"
@@ -21,4 +23,6 @@ public:
     static mapDimension getWorldDimension(const std::string &pMapfile);
     static void printCollisionMask(std::vector<bool> collisionMask, int xDimension);
 };
+
+
 #endif //GAME_MAPPARSER_H

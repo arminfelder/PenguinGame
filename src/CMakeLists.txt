@@ -10,6 +10,7 @@ add_executable(game main.cpp PenguinGame.cpp PenguinGame.h
         entities/MovementReset.cpp
         entities/LadderEnd.cpp
         entities/LadderBegin.cpp
+        entities/HealthIndicator.cpp
         GameEngine.cpp
         systems/RenderSystem.cpp
         systems/InputSystem.cpp
@@ -25,6 +26,8 @@ add_executable(game main.cpp PenguinGame.cpp PenguinGame.h
         components/Health.cpp
         components/MoveAbleComponent.cpp
         components/CollideAble.cpp
+        components/CameraOffset.cpp
+        components/Momentum.cpp
         events/Event.cpp
         events/KeyPressedEvent.cpp
         events/KeyUpEvent.cpp
@@ -32,8 +35,8 @@ add_executable(game main.cpp PenguinGame.cpp PenguinGame.h
         events/HealthEvent.cpp
         events/EntityMoved.cpp
         events/CollisionEvent.cpp
-        MapParser.cpp
-
         events/MapMovement.cpp
-        components/CameraOffset.cpp components/Momentum.cpp components/Momentum.h events/FallingEvent.cpp events/FallingEvent.h)
-target_link_libraries(game ${SDL2_LIBRARIES})
+        events/FallingEvent.cpp
+        MapParser.cpp)
+
+target_link_libraries(game ${SDL2_LIBRARIES} ${SDL2TTF_LIBRARY})
