@@ -9,6 +9,7 @@
 #include "../managers/ComponentsManager.h"
 #include "../managers/EntityManager.h"
 #include "../MapParser.h"
+#include "../events/FallingEvent.h"
 
 Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanager):mEventsManager(pEventsmanager) {
 
@@ -46,6 +47,21 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
 
         //end maskCollision
 
+        //gravitation
+        if (!maskCollision) {
+            int line = maskBottomLimit;
+            int floorLeftPosition = (maskBottomLimit) * system->mapWidth + maskLeftLimit-1;
+            int floorRightPosition = (maskBottomLimit) * system->mapWidth + maskRightLimit-1;
+            bool floorLeft = system->collisionMask->at(static_cast<unsigned long>(floorLeftPosition));
+            bool floorRight = system->collisionMask->at(static_cast<unsigned long>(floorRightPosition));
+            if (!floorLeft && !floorRight) { //no floor below us -> fall down
+                //TODO: try mask at position below the player. If no collision, then update momentum.
+                system->mEventsManager->addEvent(std::make_shared<Events::FallingEvent>(entityId));
+                std::cout << "added event for falling" << std::endl;
+            }
+        }
+        //end gravitation
+
         if (!maskCollision) {
             for (const auto &entry: collideAbles) {
                 auto entrySpatial = Managers::ComponentsManager::getSpatialComponent(entry.first);
@@ -79,6 +95,7 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
                     }
                     case Entities::entityTypes::ladderBegin: {
                         collisionType = Events::collisionTypes::ladderBegin;
+                        //TODO: add break with its own commit
                     }
                     case Entities::entityTypes::none: {
 

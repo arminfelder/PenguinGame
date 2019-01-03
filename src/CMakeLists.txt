@@ -35,5 +35,5 @@ add_executable(game main.cpp PenguinGame.cpp PenguinGame.h
         MapParser.cpp
 
         events/MapMovement.cpp
-        components/CameraOffset.cpp )
+        components/CameraOffset.cpp components/Momentum.cpp components/Momentum.h events/FallingEvent.cpp events/FallingEvent.h)
 target_link_libraries(game ${SDL2_LIBRARIES})

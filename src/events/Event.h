@@ -14,7 +14,8 @@ namespace Events {
         Health,
         None,
         MapMovement,
-        EntityMoved
+        EntityMoved,
+        Falling
 
     };
 

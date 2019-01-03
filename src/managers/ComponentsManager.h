@@ -18,6 +18,7 @@
 #include "../components/MoveAbleComponent.h"
 #include "../components/CollideAble.h"
 #include "../components/CameraOffset.h"
+#include "../components/Momentum.h"
 
 namespace Managers {
 
@@ -29,6 +30,7 @@ namespace Managers {
         static std::map<int, std::shared_ptr<Components::MoveAbleComponent>> &getMoveableComponents();
         static std::map<int, std::shared_ptr<Components::CollideAble>> &getCollideAble();
         static std::map<int, std::shared_ptr<Components::CameraOffset>> &getCameraOffsets();
+        static std::map<int, std::shared_ptr<Components::Momentum>> &getMomentums();
 
         static std::shared_ptr<Components::Health> &getHealthComponent(int pEntityId);
         static std::shared_ptr<Components::VisualComponent> &getVisualComponent(int pEntityId);
@@ -36,6 +38,8 @@ namespace Managers {
         static std::shared_ptr<Components::MoveAbleComponent> &getMoveableComponent(int pEntityId);
         static std::shared_ptr<Components::CollideAble> &getCollideAble(int pEntityId);
         static std::shared_ptr<Components::CameraOffset> &getCameraOffsetComponent(int pEntityId);
+        static std::shared_ptr<Components::Momentum> &getMomentumComponent(int pEntityId);
+
 
         static void createHealthComponent(int pEntityId, int pHp = 100);
         static void createVisualComponent(int pEntityId, SDL_Texture* pTexture, int pSizeW, int pSizeH);
@@ -43,6 +47,7 @@ namespace Managers {
         static void createMoveAbleComponent(int pEntityId, bool pRight, bool pDown, bool pLeft, bool pUp);
         static void createCollideAbleComponent(int pEntityId);
         static void createCameraComponent(int pEntityId);
+        static void createMomentumComponent(int pEntityId);
 
     private:
         static std::map<int, std::shared_ptr<Components::Health>> mHealthComponents;
@@ -51,6 +56,7 @@ namespace Managers {
         static std::map<int, std::shared_ptr<Components::MoveAbleComponent>> mMoveableComponents;
         static std::map<int, std::shared_ptr<Components::CollideAble>> mCollideables;
         static std::map<int, std::shared_ptr<Components::CameraOffset>> mCameraOffset;
+        static std::map<int, std::shared_ptr<Components::Momentum>> mMomentum;
     };
 }
 

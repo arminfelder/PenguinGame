@@ -14,6 +14,7 @@ std::map<int, std::shared_ptr<Components::SpatialComponent>> ComponentsManager::
 std::map<int, std::shared_ptr<Components::MoveAbleComponent>> ComponentsManager::mMoveableComponents;
 std::map<int, std::shared_ptr<Components::CollideAble>> ComponentsManager::mCollideables;
 std::map<int, std::shared_ptr<Components::CameraOffset>> ComponentsManager::mCameraOffset;
+std::map<int, std::shared_ptr<Components::Momentum>> ComponentsManager::mMomentum;
 
 
 std::map<int, std::shared_ptr<Components::Health>> &ComponentsManager::getHealthComponents(){
@@ -90,4 +91,16 @@ std::shared_ptr<Components::CameraOffset> &ComponentsManager::getCameraOffsetCom
 
 void ComponentsManager::createCameraComponent(int pEntityId) {
     mCameraOffset.insert({pEntityId, std::make_shared<CameraOffset>(0, 0)});
+}
+
+std::shared_ptr<Components::Momentum> &ComponentsManager::getMomentumComponent(int pEntityId) {
+    return mMomentum[pEntityId];
+}
+
+void ComponentsManager::createMomentumComponent(int pEntityId) {
+    mMomentum.insert({pEntityId, std::make_shared<Momentum>()});
+}
+
+std::map<int, std::shared_ptr<Components::Momentum>> &ComponentsManager::getMomentums() {
+    return mMomentum;
 }
