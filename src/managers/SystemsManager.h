@@ -11,6 +11,7 @@
 #include "../systems/InputSystem.h"
 #include "../managers/EventsManager.h"
 #include "../systems/CollisionSystem.h"
+#include "../systems/AudioSystem.h"
 
 namespace Managers {
 
@@ -34,7 +35,7 @@ namespace Managers {
         Systems::PositionSystem* mPositionSystem = nullptr;
         Systems::InputSystem* mInputSystem = nullptr;
         Systems::CollisionSystem* mCollisionSystem = nullptr;
-
+        Systems::AudioSystem* mAudioSystem = nullptr;
         Managers::EventsManager* mEventsManager = nullptr;
 
     };
