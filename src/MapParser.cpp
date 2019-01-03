@@ -51,7 +51,6 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
                     int id = entityManager->createEntity<Wall>();
                     Managers::ComponentsManager::createVisualComponent(id, textureWall, 50, 50);
                     Managers::ComponentsManager::createSpatialComponent(id, x, y);
-                    Managers::ComponentsManager::createCollideAbleComponent(id);
                     collisionMask->pop_back();
                     collisionMask->push_back(true);
                     break;
