@@ -8,6 +8,7 @@
 #include "../events/CollisionEvent.h"
 #include "../managers/ComponentsManager.h"
 #include "../managers/EntityManager.h"
+#include "../MapParser.h"
 
 Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanager):mEventsManager(pEventsmanager) {
 
@@ -84,4 +85,11 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
     };
 
     mEventsManager->regsiterEventHandler(Events::EventTypes::EntityMoved, callback);
+}
+
+void Systems::CollisionSystem::changeCollisionMask(std::vector<bool> *collisionMask) {
+    this->collisionMask = collisionMask;
+
+    auto mask = this->collisionMask;
+    MapParser::printCollisionMask(*mask, 54);
 }

@@ -69,9 +69,10 @@ PenguinGame::PenguinGame() {
 
 void PenguinGame::initGame() {
     auto entityManager = mGameEngine->getEntityManager();
+    auto systemManager = mGameEngine->getSystemsManager();
 
-    MapParser::createWorldFormMapTXT("./res/map.txt", mGameEngine, mRenderer);
-
+    MapParser::createWorldFormMapTXT("./res/map.txt", mGameEngine, mRenderer, &collisionMask);
+    systemManager->getCollisionSystem()->changeCollisionMask(&collisionMask);
 }
 
 void PenguinGame::initAudio() {

@@ -13,8 +13,12 @@
 
 class MapParser {
 public:
-    static int createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pEngine, SDL_Renderer *pRenderer);
+    struct mapDimension {
+        int x, y;
+    };
+public:
+    static int createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pEngine, SDL_Renderer *pRenderer, std::vector<bool> *collisionMask);
+    static mapDimension getWorldDimension(const std::string &pMapfile);
+    static void printCollisionMask(std::vector<bool> collisionMask, int xDimension);
 };
-
-
 #endif //GAME_MAPPARSER_H

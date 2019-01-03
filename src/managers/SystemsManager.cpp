@@ -33,3 +33,7 @@ void SystemsManager::update(uint64_t pTimeDiff) {
     mEventsManager->dispatch(pTimeDiff);
     mRenderSystem->update(pTimeDiff);
 }
+
+Systems::CollisionSystem *SystemsManager::getCollisionSystem() const {
+    return mCollisionSystem;
+}

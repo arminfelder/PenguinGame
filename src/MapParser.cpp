@@ -3,6 +3,7 @@
 //
 
 #include <fstream>
+#include <iostream>
 #include "MapParser.h"
 #include "entities/MovementReset.h"
 #include "entities/LadderEnd.h"
@@ -12,9 +13,13 @@
 using namespace Entities;
 
 
-int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pEngine, SDL_Renderer *pRenderer ) {
+
+
+int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pEngine, SDL_Renderer *pRenderer, std::vector<bool> *collisionMask) {
 
     auto entityManager = pEngine->getEntityManager();
+
+    auto mapDimension = getWorldDimension(pMapfile);
 
     SDL_Surface *imageWall = SDL_LoadBMP("./res/brick-wall.bmp");
     SDL_Texture *textureWall = SDL_CreateTextureFromSurface(pRenderer, imageWall);
@@ -37,7 +42,7 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
         std::string currentLine;
         getline(map, currentLine);
         for (int i = 0; i < (int) currentLine.length(); i++) {
-
+            collisionMask->push_back(false);
             int x = i*50;
             int y = line*50;
             //Defines entities given on the input from map file
@@ -47,6 +52,8 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
                     Managers::ComponentsManager::createVisualComponent(id, textureWall, 50, 50);
                     Managers::ComponentsManager::createSpatialComponent(id, x, y);
                     Managers::ComponentsManager::createCollideAbleComponent(id);
+                    collisionMask->pop_back();
+                    collisionMask->push_back(true);
                     break;
                 }
                 case 'p': {
@@ -87,9 +94,43 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
                 default:
                     break;
             }
+            //fill up line for negative mask
+            if (i+1 == (int) currentLine.size()) { //reached end of line
+                for (int j = (int) currentLine.size(); j < mapDimension.x; j++)
+                    collisionMask->push_back(false);
+            }
         }
         line++;
     }
-
     return 0;
+}
+
+
+MapParser::mapDimension MapParser::getWorldDimension(const std::string &pMapfile) {
+    std::ifstream map;
+    map.open(pMapfile);
+    int line = 0;
+    int maxLineLenght = 0;
+    while (!map.eof()) {
+        line++;
+        std::string currentLine;
+        getline(map, currentLine);
+        if (static_cast<int> (currentLine.length()) > maxLineLenght)
+            maxLineLenght = static_cast<int>(currentLine.length());
+    }
+    MapParser::mapDimension mapDimension{};
+    mapDimension.x = maxLineLenght;
+    mapDimension.y = line;
+    return mapDimension;
+}
+
+void MapParser::printCollisionMask(std::vector<bool> collisionMask, int xDimension) {
+    int count = 0;
+    for (auto stuff : collisionMask) {
+        std::cout << stuff;
+        if (++count == xDimension) {
+            std::cout << std::endl;
+            count = 0;
+        }
+    }
 }
