@@ -25,6 +25,26 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
         int topLimit = spatial->mPositionY;
         int bottomLimit = spatial->mPositionY + visual->mImageRect.h;
 
+        //maskCollision
+
+        int mapWidth = 54;
+        int maskRightLimit = (int) ceil((double)rightLimit/50.0);
+        int maskLeftLimit = (int) ceil((double)leftLimit/50.0);
+        int maskTopLimit = (int) ceil((double)topLimit/50.0);
+        int maskBottomLimit = (int) ceil((double)bottomLimit/50.0);
+
+        for (int horizontal = maskLeftLimit-1; horizontal < maskRightLimit; horizontal++) {
+            for (int vertical = maskTopLimit-1; vertical < maskBottomLimit; vertical++) {
+                if ((system->collisionMask->at(static_cast<unsigned long>(horizontal + vertical * mapWidth))) == true)
+                std::cout << "collision via mask detected" <<std::endl;
+            }
+        }
+
+//        MapParser::printCollisionMask(*system->collisionMask, 54);
+
+        //end maskCollision
+
+
         for(const auto &entry: collideAbles){
             auto entrySpatial = Managers::ComponentsManager::getSpatialComponent(entry.first);
             auto entryVisual = Managers::ComponentsManager::getVisualComponent(entry.first);
