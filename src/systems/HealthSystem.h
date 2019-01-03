@@ -7,6 +7,7 @@
 
 #include <functional>
 #include <memory>
+#include <SDL_render.h>
 #include "System.h"
 #include "../managers/EventsManager.h"
 #include "../events/HealthEvent.h"
@@ -14,10 +15,11 @@
 namespace Systems {
     class HealthSystem {
     public:
-        HealthSystem(Managers::EventsManager *pEventsManager);
+        HealthSystem(SDL_Renderer *pRenderer, Managers::EventsManager *pEventsManager);
 
     private:
         Managers::EventsManager *mEventsManager = nullptr;
+        SDL_Renderer* mRenderer = nullptr;
     };
 }
 

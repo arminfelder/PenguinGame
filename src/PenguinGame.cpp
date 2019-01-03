@@ -1,6 +1,7 @@
 #include "PenguinGame.h"
 #include <SDL2/SDL.h>
 #include <iostream>
+#include <SDL_ttf.h>
 #include "World.h"
 #include "MapParser.h"
 
@@ -38,6 +39,7 @@ int PenguinGame::run() {
 void PenguinGame::initSDL() {
     SDL_Init(SDL_INIT_VIDEO);
     SDL_Init(SDL_INIT_AUDIO);
+    TTF_Init();
     mWindow = SDL_CreateWindow("PenguinGame", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1000, 500, 0);
     if(!mWindow){
         SDL_Log("failed to create window: %s", SDL_GetError());

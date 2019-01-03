@@ -9,7 +9,10 @@
 
 namespace Events {
     class HealthEvent:public Event {
-        HealthEvent();
+    public:
+        HealthEvent(int pEntityId, int pDiff);
+        int healthDiff;
+        int entityId;
     };
 }
 

@@ -16,6 +16,7 @@ namespace Entities {
         movementReset,
         ladderEnd,
         ladderBegin,
+        healthIndicator,
         none
     };
     class Entity {

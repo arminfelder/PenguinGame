@@ -35,5 +35,5 @@ add_executable(game main.cpp PenguinGame.cpp PenguinGame.h
         MapParser.cpp
 
         events/MapMovement.cpp
-        components/CameraOffset.cpp )
-target_link_libraries(game ${SDL2_LIBRARIES})
+        components/CameraOffset.cpp entities/HealthIndicator.cpp entities/HealthIndicator.h)
+target_link_libraries(game ${SDL2_LIBRARIES} ${SDL2TTF_LIBRARY})
