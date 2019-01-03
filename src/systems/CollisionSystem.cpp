@@ -112,9 +112,6 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
 
 void Systems::CollisionSystem::changeCollisionMask(std::vector<bool> *collisionMask) {
     this->collisionMask = collisionMask;
-
-    auto mask = this->collisionMask;
-    MapParser::printCollisionMask(*mask, 54);
 }
 
 void Systems::CollisionSystem::changeMapWidth(int width) {
