@@ -16,6 +16,7 @@ public:
     void update(uint64_t timediff);
 
     Managers::EntityManager* getEntityManager();
+    Managers::SystemsManager* getSystemsManager();
 
 private:
     Managers::EntityManager* mEntityManager = nullptr;
