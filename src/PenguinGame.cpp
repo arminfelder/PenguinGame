@@ -73,6 +73,8 @@ void PenguinGame::initGame() {
 
     MapParser::createWorldFormMapTXT("./res/map.txt", mGameEngine, mRenderer, &collisionMask);
     systemManager->getCollisionSystem()->changeCollisionMask(&collisionMask);
+    auto mapDimension = MapParser::getWorldDimension("./res/map.txt");
+    systemManager->getCollisionSystem()->changeMapWidth(mapDimension.x);
 }
 
 void PenguinGame::initAudio() {

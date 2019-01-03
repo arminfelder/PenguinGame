@@ -27,7 +27,6 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
 
         //maskCollision
 
-        int mapWidth = 54;
         int maskRightLimit = (int) ceil((double)rightLimit/50.0);
         int maskLeftLimit = (int) ceil((double)leftLimit/50.0);
         int maskTopLimit = (int) ceil((double)topLimit/50.0);
@@ -35,12 +34,13 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
 
         for (int horizontal = maskLeftLimit-1; horizontal < maskRightLimit; horizontal++) {
             for (int vertical = maskTopLimit-1; vertical < maskBottomLimit; vertical++) {
-                if ((system->collisionMask->at(static_cast<unsigned long>(horizontal + vertical * mapWidth))) == true)
-                std::cout << "collision via mask detected" <<std::endl;
+                if ((system->collisionMask->at(static_cast<unsigned long>(horizontal + vertical * system->mapWidth))) == true) {
+                    std::cout << "collision via mask detected" << std::endl;
+                    system->mEventsManager->addEvent(
+                            std::make_shared<Events::CollisionEvent>(entityId, 0, Events::collisionTypes::regular));
+                }
             }
         }
-
-//        MapParser::printCollisionMask(*system->collisionMask, 54);
 
         //end maskCollision
 
@@ -112,4 +112,8 @@ void Systems::CollisionSystem::changeCollisionMask(std::vector<bool> *collisionM
 
     auto mask = this->collisionMask;
     MapParser::printCollisionMask(*mask, 54);
+}
+
+void Systems::CollisionSystem::changeMapWidth(int width) {
+    mapWidth = width;
 }
