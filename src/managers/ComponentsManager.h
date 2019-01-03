@@ -38,7 +38,7 @@ namespace Managers {
         static std::shared_ptr<Components::CameraOffset> &getCameraOffsetComponent(int pEntityId);
 
         static void createHealthComponent(int pEntityId, int pHp = 100);
-        static void createVisualComponent(int pEntityId, SDL_Texture* pTexture, int pSizeW, int pSizeH);
+        static void createVisualComponent(int pEntityId, const std::shared_ptr<SDL_Texture> &pTexture, int pSizeW, int pSizeH);
         static void createSpatialComponent(int pEntityId, int pPositionX, int pPositionY);
         static void createMoveAbleComponent(int pEntityId, bool pRight, bool pDown, bool pLeft, bool pUp);
         static void createCollideAbleComponent(int pEntityId);

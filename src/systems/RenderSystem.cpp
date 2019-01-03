@@ -88,7 +88,7 @@ void Systems::RenderSystem::update(uint64_t pTimeDiff) {
         dstrect.x = spatial->mPositionX + firstCam->getXOffset();
         dstrect.y = spatial->mPositionY+ firstCam->getYOffset();
 
-        SDL_RenderCopy(mRenderer, visual->mTexture , nullptr, &dstrect);
+        SDL_RenderCopy(mRenderer, visual->mTexture.get() , nullptr, &dstrect);
     }
 
     SDL_RenderPresent(mRenderer);

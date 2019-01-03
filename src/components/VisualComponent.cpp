@@ -6,7 +6,7 @@
 
 using namespace Components;
 
-VisualComponent::VisualComponent(SDL_Texture *pTexture, int pSizeW, int pSizeH) {
+VisualComponent::VisualComponent(const std::shared_ptr<SDL_Texture> &pTexture, int pSizeW, int pSizeH) {
     mTexture = pTexture;
     mImageRect.h = pSizeH;
     mImageRect.w = pSizeW;

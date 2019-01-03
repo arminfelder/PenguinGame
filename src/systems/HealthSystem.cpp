@@ -24,18 +24,20 @@ Systems::HealthSystem::HealthSystem(SDL_Renderer *pRenderer, Managers::EventsMan
             auto visualComponent = Managers::ComponentsManager::getVisualComponent(3);
 
             //TODO: memory leak, font loading etc...
-            TTF_Font* Sans = TTF_OpenFont("./res/sans.ttf", 24);
             Uint8 gbColor;
             if(newHealth<= 100){
                 gbColor = 255+(newHealth-100)*2.5;
             }
 
-            SDL_Color White = {255, gbColor,gbColor, 255};
-            SDL_Surface* healthMessage = TTF_RenderText_Blended(Sans, std::to_string(newHealth).c_str(), White);
-            SDL_Texture* healthMessageTexture = SDL_CreateTextureFromSurface(system->mRenderer, healthMessage);
+            SDL_Color textColor = {255, gbColor,gbColor, 255};
+            SDL_Surface* healthMessage = TTF_RenderText_Blended(system->Sans.get(), std::to_string(newHealth).c_str(), textColor);
+            auto healthMessageTexture = std::shared_ptr<SDL_Texture>(SDL_CreateTextureFromSurface(system->mRenderer, healthMessage),SDL_DestroyTexture);
+            SDL_FreeSurface(healthMessage);
             visualComponent->mTexture = healthMessageTexture;
         }
 
     };
+    Sans = std::shared_ptr<TTF_Font>(TTF_OpenFont("./res/sans.ttf", 24), TTF_CloseFont);
+
     mEventsManager->regsiterEventHandler(Events::EventTypes::Health, callback );
 }

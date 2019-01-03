@@ -7,13 +7,14 @@
 
 #include <SDL_rect.h>
 #include <SDL_system.h>
+#include <memory>
 #include "Component.h"
 
 namespace Components {
     class VisualComponent: public Component {
     public:
-        VisualComponent(SDL_Texture* pTexture, int pSizeW, int pSizeH);
-        SDL_Texture *mTexture = nullptr;
+        VisualComponent(const std::shared_ptr<SDL_Texture> &pTexture, int pSizeW, int pSizeH);
+        std::shared_ptr<SDL_Texture> mTexture;
         SDL_Rect mImageRect;
     };
 }

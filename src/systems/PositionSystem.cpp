@@ -49,8 +49,6 @@ Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager)
                         playerSpatial->mPrevPositionY = playerSpatial->mPositionY;
                         playerSpatial->mPositionX -= 10;
                         system->mEventsManager->addEvent(std::make_shared<Events::EntityMoved>(1));
-                        system->mEventsManager->addEvent(std::make_shared<Events::HealthEvent>(1,-30));
-
                     }
                     break;
                 default:

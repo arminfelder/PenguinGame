@@ -8,6 +8,7 @@
 #include <functional>
 #include <memory>
 #include <SDL_render.h>
+#include <SDL_ttf.h>
 #include "System.h"
 #include "../managers/EventsManager.h"
 #include "../events/HealthEvent.h"
@@ -20,6 +21,8 @@ namespace Systems {
     private:
         Managers::EventsManager *mEventsManager = nullptr;
         SDL_Renderer* mRenderer = nullptr;
+        std::shared_ptr<TTF_Font> Sans;
+
     };
 }
 

@@ -3,7 +3,6 @@
 //
 
 #include <fstream>
-#include <SDL_ttf.h>
 #include <iostream>
 #include "MapParser.h"
 #include "entities/MovementReset.h"
@@ -11,46 +10,34 @@
 #include "entities/LadderBegin.h"
 #include "entities/HealthIndicator.h"
 
-SDL_Surface *MapParser::imageWall;
-SDL_Texture *MapParser::textureWall;
-
-SDL_Surface *MapParser::imagePlayer;
-SDL_Texture *MapParser::texturePlayer;
-
-SDL_Surface *MapParser::imageLadder;
-SDL_Texture *MapParser::textureLadder;
-
-SDL_Surface *MapParser::imageInvisible;
-SDL_Texture *MapParser::textureInvisible;
 
 using namespace Entities;
 
 
 int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pEngine, SDL_Renderer *pRenderer ) {
 
-    auto entityManager = pEngine->getEntityManager();
 
-    imageWall = SDL_LoadBMP("./res/brick-wall.bmp");
-    textureWall = SDL_CreateTextureFromSurface(pRenderer, imageWall);
+    std::shared_ptr<SDL_Surface> imageWall(SDL_LoadBMP("./res/brick-wall.bmp"), SDL_FreeSurface) ;
+    std::shared_ptr<SDL_Texture> textureWall(SDL_CreateTextureFromSurface(pRenderer, imageWall.get()), SDL_DestroyTexture);
 
-    imagePlayer = SDL_LoadBMP("./res/hello.bmp");
-    texturePlayer = SDL_CreateTextureFromSurface(pRenderer, imagePlayer);
+    std::shared_ptr<SDL_Surface> imagePlayer(SDL_LoadBMP("./res/hello.bmp"), SDL_FreeSurface);
+    std::shared_ptr<SDL_Texture> texturePlayer(SDL_CreateTextureFromSurface(pRenderer, imagePlayer.get()), SDL_DestroyTexture);
 
-    imageLadder = SDL_LoadBMP("./res/ladder.bmp");
-    textureLadder = SDL_CreateTextureFromSurface(pRenderer, imageLadder);
+    std::shared_ptr<SDL_Surface> imageLadder(SDL_LoadBMP("./res/ladder.bmp"), SDL_FreeSurface);
+    std::shared_ptr<SDL_Texture> textureLadder(SDL_CreateTextureFromSurface(pRenderer, imageLadder.get()), SDL_DestroyTexture);
 
-    imageInvisible = SDL_LoadBMP("./res/invisible.bmp");
-    textureInvisible = SDL_CreateTextureFromSurface(pRenderer, imageInvisible);
+    std::shared_ptr<SDL_Surface> imageInvisible(SDL_LoadBMP("./res/invisible.bmp"), SDL_FreeSurface);
+    std::shared_ptr<SDL_Texture> textureInvisible(SDL_CreateTextureFromSurface(pRenderer, imageInvisible.get()), SDL_DestroyTexture);
+
 
     //initial health text
-    TTF_Font* Sans = TTF_OpenFont("./res/sans.ttf", 24);
-    std::cout<< std::string(TTF_GetError())<<std::endl;
+    std::shared_ptr<TTF_Font> Sans(TTF_OpenFont("./res/sans.ttf", 24),TTF_CloseFont);
     SDL_Color White = {255, 255, 255, 255};
-    SDL_Surface* healthMessage = TTF_RenderText_Blended(Sans, "100", White);
-    SDL_Texture* healthMessageTexture = SDL_CreateTextureFromSurface(pRenderer, healthMessage);
+    std::shared_ptr<SDL_Surface> healthMessage(TTF_RenderText_Blended(Sans.get(), "100", White), SDL_FreeSurface);
+    auto healthMessageTexture = std::shared_ptr<SDL_Texture>(SDL_CreateTextureFromSurface(pRenderer, healthMessage.get()), SDL_DestroyTexture);
 
     //health indicator
-    int id = entityManager->createEntity<HealthIndicator>();
+    int id = Managers::EntityManager::createEntity<HealthIndicator>();
     Managers::ComponentsManager::createSpatialComponent(id, 20, 20);
     Managers::ComponentsManager::createVisualComponent(id,healthMessageTexture, 100,50);
 
@@ -68,7 +55,7 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
             //Defines entities given on the input from map file
             switch (currentLine[i]) {
                 case '#': {
-                    int id = entityManager->createEntity<Wall>();
+                    int id = Managers::EntityManager::createEntity<Wall>();
                     Managers::ComponentsManager::createVisualComponent(id, textureWall, 50, 50);
                     Managers::ComponentsManager::createSpatialComponent(id, x, y);
                     Managers::ComponentsManager::createCollideAbleComponent(id);
@@ -83,28 +70,28 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
                     break;
                 }
                 case '|': {
-                    int id = entityManager->createEntity<Ladder>();
+                    int id = Managers::EntityManager::createEntity<Ladder>();
                     Managers::ComponentsManager::createVisualComponent(id, textureLadder, 50, 50);
                     Managers::ComponentsManager::createSpatialComponent(id, x, y);
                     Managers::ComponentsManager::createCollideAbleComponent(id);
                     break;
                 }
                 case '=':{
-                    int id = entityManager->createEntity<MovementReset>();
+                    int id = Managers::EntityManager::createEntity<MovementReset>();
                     Managers::ComponentsManager::createVisualComponent(id, textureInvisible, 50, 50);
                     Managers::ComponentsManager::createSpatialComponent(id, x, y);
                     Managers::ComponentsManager::createCollideAbleComponent(id);
                     break;
                 }
                 case '-':{
-                    int id = entityManager->createEntity<LadderEnd>();
+                    int id = Managers::EntityManager::createEntity<LadderEnd>();
                     Managers::ComponentsManager::createVisualComponent(id, textureInvisible, 50, 50);
                     Managers::ComponentsManager::createSpatialComponent(id, x, y);
                     Managers::ComponentsManager::createCollideAbleComponent(id);
                     break;
                 }
                 case ':':{
-                    int id = entityManager->createEntity<LadderBegin>();
+                    int id = Managers::EntityManager::createEntity<LadderBegin>();
                     Managers::ComponentsManager::createVisualComponent(id, textureLadder, 50, 50);
                     Managers::ComponentsManager::createSpatialComponent(id, x, y);
                     Managers::ComponentsManager::createCollideAbleComponent(id);
@@ -123,13 +110,3 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
     return 0;
 }
 
-void MapParser::cleanUp() {
-    SDL_free(imageWall);
-    SDL_free(textureWall);
-    SDL_free(imagePlayer);
-    SDL_free(texturePlayer);
-    SDL_free(imageLadder);
-    SDL_free(textureLadder);
-    SDL_free(imageInvisible);
-    SDL_free(textureInvisible);
-}
