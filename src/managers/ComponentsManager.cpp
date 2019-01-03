@@ -36,7 +36,7 @@ void ComponentsManager::createHealthComponent(int pEntityId, int pHp) {
     mHealthComponents.insert({pEntityId, std::make_shared<Health>(pHp)});
 }
 
-void ComponentsManager::createVisualComponent(int pEntityId, SDL_Texture* pTexture, int pSizeW, int pSizeH) {
+void ComponentsManager::createVisualComponent(int pEntityId, const std::shared_ptr<SDL_Texture> &pTexture, int pSizeW, int pSizeH) {
     mVisualComponents.insert({pEntityId, std::make_shared<VisualComponent>(pTexture, pSizeW, pSizeH)});
 }
 

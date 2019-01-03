@@ -7,6 +7,7 @@
 #include "../events/EntityMoved.h"
 #include "../managers/ComponentsManager.h"
 #include "../events/CollisionEvent.h"
+#include "../events/HealthEvent.h"
 
 Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager):mEventsManager(pEventsManager) {
     std::function<void(const std::shared_ptr<Events::Event>&)> callback = [system = this](const std::shared_ptr<Events::Event> &pEvent)->void {
@@ -31,6 +32,7 @@ Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager)
                         playerSpatial->mPrevPositionY = playerSpatial->mPositionY;
                         playerSpatial->mPositionX += 10;
                         system->mEventsManager->addEvent(std::make_shared<Events::EntityMoved>(1));
+
                     }
                     break;
                 case SDLK_DOWN:

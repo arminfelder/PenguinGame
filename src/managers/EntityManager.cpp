@@ -4,6 +4,7 @@
 
 #include "EntityManager.h"
 #include "ComponentsManager.h"
+#include "../entities/HealthIndicator.h"
 
 using namespace Managers;
 using namespace Entities;
