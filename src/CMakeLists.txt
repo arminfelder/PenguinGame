@@ -37,5 +37,5 @@ add_executable(game main.cpp PenguinGame.cpp PenguinGame.h
         events/CollisionEvent.cpp
         events/MapMovement.cpp
         MapParser.cpp
-)
-target_link_libraries(game ${SDL2_LIBRARIES} ${SDL2TTF_LIBRARY})
+        systems/AudioSystem.cpp systems/AudioSystem.h)
+target_link_libraries(game ${SDL2_LIBRARIES} ${SDL2TTF_LIBRARY} ${SDL2_MIXER_LIBRARY})
