@@ -8,7 +8,8 @@ project(game)
 
 find_package(SDL2 REQUIRED)
 find_package(SDL2TTF REQUIRED)
-include_directories(${SDL2_INCLUDE_DIRS} ${SDL2TTF_INCLUDE_DIR})
+find_package(SDL2_mixer REQUIRED)
+include_directories(${SDL2_INCLUDE_DIRS} ${SDL2TTF_INCLUDE_DIR} )
 
 add_subdirectory(src)
 add_subdirectory(src/res)

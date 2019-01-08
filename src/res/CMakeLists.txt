@@ -4,6 +4,7 @@ configure_file(brick-wall.bmp   brick-wall.bmp COPYONLY)
 configure_file(ladder.bmp ladder.bmp COPYONLY)
 configure_file(04\ All\ of\ Us.wav 04\ All\ of\ Us.wav COPYONLY)
 configure_file(sans.ttf sans.ttf COPYONLY)
+configure_file(163442__under7dude__man-dying.wav 163442__under7dude__man-dying.wav COPYONLY)
 configure_file(stone-wall-2477715_640.bmp stone-wall-2477715_640.bmp COPYONLY)
 
 configure_file(map.txt map.txt COPYONLY)

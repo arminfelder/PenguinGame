@@ -80,8 +80,9 @@ void PenguinGame::initGame() {
 }
 
 void PenguinGame::initAudio() {
-    SDL_LoadWAV("./res/04 All of Us.wav",&mWavSpec,&mWavBuffer,&mWavLength);
-    mAudiDdeviceId = SDL_OpenAudioDevice(NULL, 0, &mWavSpec, NULL, 0);
-    int success = SDL_QueueAudio(mAudiDdeviceId, mWavBuffer, mWavLength);
-    SDL_PauseAudioDevice(mAudiDdeviceId, 0);
+    Mix_OpenAudio( 22050, MIX_DEFAULT_FORMAT, 2, 4096 );
+    //SDL_LoadWAV("./res/04 All of Us.wav",&mWavSpec,&mWavBuffer,&mWavLength);
+    //mAudiDdeviceId = SDL_OpenAudioDevice(NULL, 0, &mWavSpec, NULL, 0);
+    //int success = SDL_QueueAudio(mAudiDdeviceId, mWavBuffer, mWavLength);
+    //SDL_PauseAudioDevice(mAudiDdeviceId, 0);
 }
