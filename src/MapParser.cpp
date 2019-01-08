@@ -22,6 +22,9 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
     std::shared_ptr<SDL_Surface> imageWall(SDL_LoadBMP("./res/brick-wall.bmp"), SDL_FreeSurface) ;
     std::shared_ptr<SDL_Texture> textureWall(SDL_CreateTextureFromSurface(pRenderer, imageWall.get()), SDL_DestroyTexture);
 
+    std::shared_ptr<SDL_Surface> imageStoneWall(SDL_LoadBMP("./res/stone-wall-2477715_640.bmp"), SDL_FreeSurface) ;
+    std::shared_ptr<SDL_Texture> textureStoneWall(SDL_CreateTextureFromSurface(pRenderer, imageStoneWall.get()), SDL_DestroyTexture);
+
     std::shared_ptr<SDL_Surface> imagePlayer(SDL_LoadBMP("./res/hello.bmp"), SDL_FreeSurface);
     std::shared_ptr<SDL_Texture> texturePlayer(SDL_CreateTextureFromSurface(pRenderer, imagePlayer.get()), SDL_DestroyTexture);
 
@@ -59,6 +62,22 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
                 case '#': {
                     int id = Managers::EntityManager::createEntity<Wall>();
                     Managers::ComponentsManager::createVisualComponent(id, textureWall, 50, 50);
+                    Managers::ComponentsManager::createSpatialComponent(id, x, y);
+                    collisionMask->pop_back();
+                    collisionMask->push_back(true);
+                    break;
+                }
+                case '+':{
+                    int id = Managers::EntityManager::createEntity<Wall>();
+                    Managers::ComponentsManager::createVisualComponent(id, textureStoneWall, 50, 50);
+                    Managers::ComponentsManager::createSpatialComponent(id, x, y);
+                    collisionMask->pop_back();
+                    collisionMask->push_back(true);
+                    break;
+                }
+                case 'i':{
+                    int id = Managers::EntityManager::createEntity<Wall>();
+                    Managers::ComponentsManager::createVisualComponent(id, textureInvisible, 50, 50);
                     Managers::ComponentsManager::createSpatialComponent(id, x, y);
                     collisionMask->pop_back();
                     collisionMask->push_back(true);
