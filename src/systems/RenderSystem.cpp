@@ -79,9 +79,13 @@ void Systems::RenderSystem::update(uint64_t pTimeDiff) {
         auto visual = revIter->second;
 
         SDL_Rect dstrect = visual->mImageRect;
-        dstrect.x = spatial->mPositionX + firstCam->getXOffset();
-        dstrect.y = spatial->mPositionY+ firstCam->getYOffset();
-
+        if(spatial->moveWithMap) {
+            dstrect.x = spatial->mPositionX + firstCam->getXOffset();
+            dstrect.y = spatial->mPositionY + firstCam->getYOffset();
+        }else{
+            dstrect.x = spatial->mPositionX;
+            dstrect.y = spatial->mPositionY;
+        }
         SDL_Point center;
         center.x= 0;
         center.y = 0;

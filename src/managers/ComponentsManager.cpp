@@ -44,8 +44,8 @@ void ComponentsManager::createVisualComponent(int pEntityId, const std::shared_p
 }
 
 
-void ComponentsManager::createSpatialComponent(int pEntityId, int pPositionX, int pPositionY) {
-    mSpatialComponents.insert({pEntityId, std::make_shared<SpatialComponent>(pPositionX, pPositionY)});
+void ComponentsManager::createSpatialComponent(int pEntityId, int pPositionX, int pPositionY,bool pMoveWithMap) {
+    mSpatialComponents.insert({pEntityId, std::make_shared<SpatialComponent>(pPositionX, pPositionY, pMoveWithMap)});
 }
 
 std::shared_ptr<Components::Health> &ComponentsManager::getHealthComponent(int pEntityId) {
