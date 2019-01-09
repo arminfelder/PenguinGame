@@ -29,6 +29,7 @@ TextureSystem::TextureSystem(Managers::EventsManager *pEventsManager):mEventsMan
                     if(!pos->second.empty()){
                         visual->curImgPos = visual->curImgPos >0? visual->curImgPos-1:pos->second.size()-1;
                         visual->mTexture = pos->second[visual->curImgPos];
+                        visual->mFlip =SDL_FLIP_HORIZONTAL;
                     }
                 }
                 break;
@@ -39,6 +40,8 @@ TextureSystem::TextureSystem(Managers::EventsManager *pEventsManager):mEventsMan
                     if(!pos->second.empty()){
                         visual->curImgPos = (visual->curImgPos+1)%static_cast<int>(pos->second.size());
                         visual->mTexture = pos->second[visual->curImgPos];
+                        visual->mFlip =SDL_FLIP_NONE;
+
                     }
                 }
                 break;
