@@ -23,7 +23,7 @@ Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager)
                         playerSpatial->mPrevPositionY = playerSpatial->mPositionY;
                         playerSpatial->mPositionY -= 10;
 
-                        system->mEventsManager->addEvent(std::make_shared<Events::EntityMoved>(1));
+                        system->mEventsManager->addEvent(std::make_shared<Events::EntityMoved>(1,Events::EntityMoved::Direction::up));
                     }
                     break;
                 case SDLK_RIGHT:
@@ -31,7 +31,7 @@ Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager)
                         playerSpatial->mPrevPositionX = playerSpatial->mPositionX;
                         playerSpatial->mPrevPositionY = playerSpatial->mPositionY;
                         playerSpatial->mPositionX += 10;
-                        system->mEventsManager->addEvent(std::make_shared<Events::EntityMoved>(1));
+                        system->mEventsManager->addEvent(std::make_shared<Events::EntityMoved>(1,Events::EntityMoved::Direction::right));
 
                     }
                     break;
@@ -40,7 +40,7 @@ Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager)
                         playerSpatial->mPrevPositionX = playerSpatial->mPositionX;
                         playerSpatial->mPrevPositionY = playerSpatial->mPositionY;
                         playerSpatial->mPositionY += 10;
-                        system->mEventsManager->addEvent(std::make_shared<Events::EntityMoved>(1));
+                        system->mEventsManager->addEvent(std::make_shared<Events::EntityMoved>(1,Events::EntityMoved::Direction::down));
                     }
                     break;
                 case SDLK_LEFT:
@@ -48,7 +48,7 @@ Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager)
                         playerSpatial->mPrevPositionX = playerSpatial->mPositionX;
                         playerSpatial->mPrevPositionY = playerSpatial->mPositionY;
                         playerSpatial->mPositionX -= 10;
-                        system->mEventsManager->addEvent(std::make_shared<Events::EntityMoved>(1));
+                        system->mEventsManager->addEvent(std::make_shared<Events::EntityMoved>(1,Events::EntityMoved::Direction::left));
                     }
                     break;
                 default:
