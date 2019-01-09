@@ -21,6 +21,8 @@ namespace Components {
         std::shared_ptr<std::map<std::string, std::vector<std::shared_ptr<SDL_Texture>>>> mTextureMap;
         SDL_Rect mImageRect;
         int curImgPos = 0;
+        SDL_RendererFlip mFlip = SDL_FLIP_NONE;
+        int mRotateAngle = 0;
     };
 }
 
