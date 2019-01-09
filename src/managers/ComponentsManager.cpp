@@ -39,6 +39,10 @@ void ComponentsManager::createHealthComponent(int pEntityId, int pHp) {
 void ComponentsManager::createVisualComponent(int pEntityId, const std::shared_ptr<SDL_Texture> &pTexture, int pSizeW, int pSizeH) {
     mVisualComponents.insert({pEntityId, std::make_shared<VisualComponent>(pTexture, pSizeW, pSizeH)});
 }
+void ComponentsManager::createVisualComponent(int pEntityId, const std::shared_ptr<std::map<std::string, std::vector<std::shared_ptr<SDL_Texture>>>> &pTextureMap, int pSizeW, int pSizeH) {
+    mVisualComponents.insert({pEntityId, std::make_shared<VisualComponent>(pTextureMap, pSizeW, pSizeH)});
+}
+
 
 void ComponentsManager::createSpatialComponent(int pEntityId, int pPositionX, int pPositionY) {
     mSpatialComponents.insert({pEntityId, std::make_shared<SpatialComponent>(pPositionX, pPositionY)});
