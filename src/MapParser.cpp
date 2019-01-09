@@ -48,7 +48,7 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
 
     //health indicator
     int id = Managers::EntityManager::createEntity<HealthIndicator>();
-    Managers::ComponentsManager::createSpatialComponent(id, 20, 20);
+    Managers::ComponentsManager::createSpatialComponent(id, 20, 20, false);
     Managers::ComponentsManager::createVisualComponent(id,healthMessageTexture, 100,50);
 
     std::ifstream map;

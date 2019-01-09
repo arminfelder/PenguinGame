@@ -41,7 +41,7 @@ namespace Managers {
         static void createVisualComponent(int pEntityId, const std::shared_ptr<SDL_Texture> &pTexture, int pSizeW, int pSizeH);
         static void createVisualComponent(int pEntityId, const std::shared_ptr<std::map<std::string, std::vector<std::shared_ptr<SDL_Texture>>>> &pTextureMap, int pSizeW, int pSizeH);
 
-        static void createSpatialComponent(int pEntityId, int pPositionX, int pPositionY);
+        static void createSpatialComponent(int pEntityId, int pPositionX, int pPositionY,bool pMoveWithMap = true);
         static void createMoveAbleComponent(int pEntityId, bool pRight, bool pDown, bool pLeft, bool pUp);
         static void createCollideAbleComponent(int pEntityId);
         static void createCameraComponent(int pEntityId);
