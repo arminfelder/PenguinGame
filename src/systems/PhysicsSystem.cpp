@@ -15,7 +15,7 @@ Systems::PhysicsSystem::PhysicsSystem(Managers::EventsManager *pEventsManager):m
 //    mEventsManager->regsiterEventHandler(Events::EventTypes::EntityMoved)
 }
 
-void Systems::PhysicsSystem::update(uint64) {
+void Systems::PhysicsSystem::update(uint64_t) {
     auto gravities = Managers::ComponentsManager::getGravities();
     for(const auto &entry:gravities){
 
