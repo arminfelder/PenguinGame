@@ -27,7 +27,7 @@ TextureSystem::TextureSystem(Managers::EventsManager *pEventsManager):mEventsMan
                 auto pos = visual->mTextureMap->find("walk");
                 if(pos != visual->mTextureMap->end()){
                     if(!pos->second.empty()){
-                        visual->curImgPos = visual->curImgPos >0? visual->curImgPos-1:pos->second.size()-1;
+                        visual->curImgPos = (visual->curImgPos+1)%static_cast<int>(pos->second.size());
                         visual->mTexture = pos->second[visual->curImgPos];
                         visual->mFlip =SDL_FLIP_HORIZONTAL;
                     }
