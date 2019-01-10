@@ -4,6 +4,18 @@ configure_file(brick-wall.bmp   brick-wall.bmp COPYONLY)
 configure_file(ladder.bmp ladder.bmp COPYONLY)
 configure_file(04\ All\ of\ Us.wav 04\ All\ of\ Us.wav COPYONLY)
 configure_file(sans.ttf sans.ttf COPYONLY)
+configure_file(163442__under7dude__man-dying.wav 163442__under7dude__man-dying.wav COPYONLY)
+configure_file(stone-wall-2477715_640.bmp stone-wall-2477715_640.bmp COPYONLY)
+configure_file(tux/big/idle-0.bmp tux/big/idle-0.bmp COPYONLY)
+
+configure_file(tux/big/walk-0.bmp tux/big/walk-0.bmp COPYONLY)
+configure_file(tux/big/walk-1.bmp tux/big/walk-1.bmp COPYONLY)
+configure_file(tux/big/walk-2.bmp tux/big/walk-2.bmp COPYONLY)
+configure_file(tux/big/walk-3.bmp tux/big/walk-3.bmp COPYONLY)
+configure_file(tux/big/walk-4.bmp tux/big/walk-4.bmp COPYONLY)
+configure_file(tux/big/walk-5.bmp tux/big/walk-5.bmp COPYONLY)
+configure_file(tux/big/walk-6.bmp tux/big/walk-6.bmp COPYONLY)
+configure_file(tux/big/walk-7.bmp tux/big/walk-7.bmp COPYONLY)
 
 
 configure_file(map.txt map.txt COPYONLY)

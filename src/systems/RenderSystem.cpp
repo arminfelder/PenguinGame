@@ -79,10 +79,17 @@ void Systems::RenderSystem::update(uint64_t pTimeDiff) {
         auto visual = revIter->second;
 
         SDL_Rect dstrect = visual->mImageRect;
-        dstrect.x = spatial->mPositionX + firstCam->getXOffset();
-        dstrect.y = spatial->mPositionY+ firstCam->getYOffset();
-
-        SDL_RenderCopy(mRenderer, visual->mTexture.get() , nullptr, &dstrect);
+        if(spatial->moveWithMap) {
+            dstrect.x = spatial->mPositionX + firstCam->getXOffset();
+            dstrect.y = spatial->mPositionY + firstCam->getYOffset();
+        }else{
+            dstrect.x = spatial->mPositionX;
+            dstrect.y = spatial->mPositionY;
+        }
+        SDL_Point center;
+        center.x= 0;
+        center.y = 0;
+        SDL_RenderCopyEx(mRenderer, visual->mTexture.get() , nullptr, &dstrect,visual->mRotateAngle, &center, visual->mFlip);
     }
 
     SDL_RenderPresent(mRenderer);
