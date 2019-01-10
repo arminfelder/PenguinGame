@@ -14,6 +14,7 @@ std::map<int, std::shared_ptr<Components::SpatialComponent>> ComponentsManager::
 std::map<int, std::shared_ptr<Components::MoveAbleComponent>> ComponentsManager::mMoveableComponents;
 std::map<int, std::shared_ptr<Components::CollideAble>> ComponentsManager::mCollideables;
 std::map<int, std::shared_ptr<Components::CameraOffset>> ComponentsManager::mCameraOffset;
+std::map<int, std::shared_ptr<Components::Gravity>> ComponentsManager::mGravities;
 std::map<int, std::shared_ptr<Components::Momentum>> ComponentsManager::mMomentum;
 
 
@@ -40,9 +41,13 @@ void ComponentsManager::createHealthComponent(int pEntityId, int pHp) {
 void ComponentsManager::createVisualComponent(int pEntityId, const std::shared_ptr<SDL_Texture> &pTexture, int pSizeW, int pSizeH) {
     mVisualComponents.insert({pEntityId, std::make_shared<VisualComponent>(pTexture, pSizeW, pSizeH)});
 }
+void ComponentsManager::createVisualComponent(int pEntityId, const std::shared_ptr<std::map<std::string, std::vector<std::shared_ptr<SDL_Texture>>>> &pTextureMap, int pSizeW, int pSizeH) {
+    mVisualComponents.insert({pEntityId, std::make_shared<VisualComponent>(pTextureMap, pSizeW, pSizeH)});
+}
 
-void ComponentsManager::createSpatialComponent(int pEntityId, int pPositionX, int pPositionY) {
-    mSpatialComponents.insert({pEntityId, std::make_shared<SpatialComponent>(pPositionX, pPositionY)});
+
+void ComponentsManager::createSpatialComponent(int pEntityId, int pPositionX, int pPositionY,bool pMoveWithMap) {
+    mSpatialComponents.insert({pEntityId, std::make_shared<SpatialComponent>(pPositionX, pPositionY, pMoveWithMap)});
 }
 
 std::shared_ptr<Components::Health> &ComponentsManager::getHealthComponent(int pEntityId) {
@@ -103,4 +108,17 @@ void ComponentsManager::createMomentumComponent(int pEntityId) {
 
 std::map<int, std::shared_ptr<Components::Momentum>> &ComponentsManager::getMomentums() {
     return mMomentum;
+}
+
+std::map<int, std::shared_ptr<Components::Gravity>> &ComponentsManager::getGravities() {
+    return mGravities;
+}
+
+std::shared_ptr<Components::Gravity> &ComponentsManager::getGravity(int pEntityId) {
+    return mGravities[pEntityId];
+}
+
+void ComponentsManager::createGravityComponent(int pEntityId) {
+    mGravities.insert({pEntityId,std::make_shared<Components::Gravity>()});
+
 }

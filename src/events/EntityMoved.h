@@ -10,10 +10,17 @@
 namespace Events {
     class EntityMoved: public Event {
     public:
-        EntityMoved(int pEntityId);
+        enum class Direction{
+            up,
+            down,
+            left,
+            right
+        };
+        EntityMoved(int pEntityId, Direction pDirection);
         const Events::EventTypes type = EventTypes::EntityMoved;
 
         int mEntityId;
+        Direction mDirection;
     };
 }
 

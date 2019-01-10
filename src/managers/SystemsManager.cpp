@@ -12,7 +12,8 @@ SystemsManager::SystemsManager(SDL_Window *pWindow, SDL_Renderer *pPrenderer, Ev
     mPositionSystem = new PositionSystem(pEventsManager);
     mInputSystem = new InputSystem(pEventsManager);
     mCollisionSystem = new CollisionSystem(pEventsManager);
-
+    mAudioSystem = new AudioSystem(pEventsManager);
+    mTextureSystem = new TextureSystem(pEventsManager);
     mRenderSystem = new RenderSystem(pWindow,pPrenderer,pEventsManager);
 }
 
