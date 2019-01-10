@@ -94,6 +94,7 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
                     Managers::ComponentsManager::createSpatialComponent(id, x+1, y+1);
                     Managers::ComponentsManager::createMoveAbleComponent(id,true,false,true,false );
                     Managers::ComponentsManager::createHealthComponent(id,100);
+                    Managers::ComponentsManager::createGravityComponent(id);
                     break;
                 }
                 case '|': {

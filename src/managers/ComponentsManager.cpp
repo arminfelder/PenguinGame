@@ -14,6 +14,7 @@ std::map<int, std::shared_ptr<Components::SpatialComponent>> ComponentsManager::
 std::map<int, std::shared_ptr<Components::MoveAbleComponent>> ComponentsManager::mMoveableComponents;
 std::map<int, std::shared_ptr<Components::CollideAble>> ComponentsManager::mCollideables;
 std::map<int, std::shared_ptr<Components::CameraOffset>> ComponentsManager::mCameraOffset;
+std::map<int, std::shared_ptr<Components::Gravity>> ComponentsManager::mGravities;
 
 
 std::map<int, std::shared_ptr<Components::Health>> &ComponentsManager::getHealthComponents(){
@@ -94,4 +95,17 @@ std::shared_ptr<Components::CameraOffset> &ComponentsManager::getCameraOffsetCom
 
 void ComponentsManager::createCameraComponent(int pEntityId) {
     mCameraOffset.insert({pEntityId, std::make_shared<CameraOffset>(0, 0)});
+}
+
+std::map<int, std::shared_ptr<Components::Gravity>> &ComponentsManager::getGravities() {
+    return mGravities;
+}
+
+std::shared_ptr<Components::Gravity> &ComponentsManager::getGravity(int pEntityId) {
+    return mGravities[pEntityId];
+}
+
+void ComponentsManager::createGravityComponent(int pEntityId) {
+    mGravities.insert({pEntityId,std::make_shared<Components::Gravity>()});
+
 }
