@@ -2,7 +2,6 @@
 #include <SDL2/SDL.h>
 #include <iostream>
 #include <SDL_ttf.h>
-#include "World.h"
 #include "MapParser.h"
 
 

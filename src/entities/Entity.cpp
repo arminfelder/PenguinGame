@@ -1,7 +1,5 @@
 #include <iostream>
 #include "Entity.h"
-#include "../position.h"
-#include "../Dimension.h"
 
 using namespace Entities;
 

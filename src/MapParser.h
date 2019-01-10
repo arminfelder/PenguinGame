@@ -9,7 +9,6 @@
 #include <SDL_render.h>
 #include <SDL_ttf.h>
 #include "GameEngine.h"
-#include "entity.h"
 #include "entities/Wall.h"
 #include "entities/Ladder.h"
 

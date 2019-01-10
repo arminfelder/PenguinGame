@@ -1,8 +1,6 @@
 project(game)
-#add_executable(game PenguinGame.cpp PenguinGame.h entities/Entity.cpp entities/Entity.h eventHandler.cpp eventHandler.h World.cpp World.h res_path.h position.cpp position.h Dimension.cpp Dimension.h EntityController.cpp EntityController.h TXTParser.cpp TXTParser.h Map.cpp Map.h components/Component.cpp components/Component.h main.cpp components/Position.cpp components/Position.h components/Health.cpp components/Health.h managers/ComponentsManager.cpp EventsManager.cpp
-#        managers/SystemsManager.h   managers/EntityManager.cpp entities/Player.cpp entities/Player.h systems/System.cpp systems/System.h systems/HealthSystem.cpp systems/HealthSystem.h)
 
-add_executable(game main.cpp PenguinGame.cpp PenguinGame.h
+add_executable(game PenguinGame.cpp PenguinGame.h
         entities/Entity.cpp
         entities/Player.cpp
         entities/Wall.cpp
@@ -41,6 +39,7 @@ add_executable(game main.cpp PenguinGame.cpp PenguinGame.h
         systems/AudioSystem.cpp
         systems/TextureSystem.cpp
         components/Gravity.cpp
-        systems/PhysicsSystem.cpp)
+        systems/PhysicsSystem.cpp
+        main.cpp)
 
 target_link_libraries(game ${SDL2_LIBRARIES} ${SDL2TTF_LIBRARY} ${SDL2_MIXER_LIBRARY})

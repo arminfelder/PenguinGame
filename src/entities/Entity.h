@@ -4,8 +4,6 @@
 
 #include <SDL_render.h>
 #include <vector>
-#include "../position.h"
-#include "../Dimension.h"
 #include "../components/Component.h"
 namespace Entities {
     enum class entityTypes{
