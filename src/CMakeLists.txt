@@ -38,6 +38,9 @@ add_executable(game main.cpp PenguinGame.cpp PenguinGame.h
         events/MapMovement.cpp
         events/FallingEvent.cpp
         MapParser.cpp
-        systems/AudioSystem.cpp systems/AudioSystem.h systems/TextureSystem.cpp systems/TextureSystem.h components/Gravity.cpp components/Gravity.h systems/PhysicsSystem.cpp systems/PhysicsSystem.h)
+        systems/AudioSystem.cpp
+        systems/TextureSystem.cpp
+        components/Gravity.cpp
+        systems/PhysicsSystem.cpp)
 
-target_link_libraries(game ${SDL2_LIBRARIES} ${SDL2TTF_LIBRARY})
+target_link_libraries(game ${SDL2_LIBRARIES} ${SDL2TTF_LIBRARY} ${SDL2_MIXER_LIBRARY})
