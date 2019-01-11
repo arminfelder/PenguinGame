@@ -1,7 +1,3 @@
-//
-// Created by armin on 30.12.18.
-//
-
 #include "MoveAbleComponent.h"
 
 Components::MoveAbleComponent::MoveAbleComponent() {

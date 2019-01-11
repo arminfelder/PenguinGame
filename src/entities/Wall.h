@@ -1,7 +1,3 @@
-//
-// Created by armin on 30.12.18.
-//
-
 #ifndef GAME_WALL_H
 #define GAME_WALL_H
 

@@ -1,6 +1,4 @@
-//
-// Created by armin on 27.12.18.
-//
+
 
 #ifndef GAME_EVENT_H
 #define GAME_EVENT_H

@@ -1,7 +1,3 @@
-//
-// Created by armin on 30.12.18.
-//
-
 #ifndef GAME_LADDER_H
 #define GAME_LADDER_H
 

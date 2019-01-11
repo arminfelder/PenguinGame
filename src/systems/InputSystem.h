@@ -1,6 +1,4 @@
-//
-// Created by armin on 27.12.18.
-//
+
 
 #ifndef GAME_INPUTSYSTEM_H
 #define GAME_INPUTSYSTEM_H
