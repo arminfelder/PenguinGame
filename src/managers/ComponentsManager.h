@@ -33,7 +33,7 @@ namespace Managers {
         static std::map<int, std::shared_ptr<Components::CameraOffset>> &getCameraOffsets();
         static std::map<int, std::shared_ptr<Components::Gravity>> &getGravities();
 
-        static std::map<int, std::shared_ptr<Components::Momentum>> &getMomentums();
+        static std::map<int, std::shared_ptr<Components::Momentum>> &getMomenta();
 
         static std::shared_ptr<Components::Health> &getHealthComponent(int pEntityId);
         static std::shared_ptr<Components::VisualComponent> &getVisualComponent(int pEntityId);

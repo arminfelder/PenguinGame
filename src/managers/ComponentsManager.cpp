@@ -106,7 +106,7 @@ void ComponentsManager::createMomentumComponent(int pEntityId) {
     mMomentum.insert({pEntityId, std::make_shared<Momentum>()});
 }
 
-std::map<int, std::shared_ptr<Components::Momentum>> &ComponentsManager::getMomentums() {
+std::map<int, std::shared_ptr<Components::Momentum>> &ComponentsManager::getMomenta() {
     return mMomentum;
 }
 

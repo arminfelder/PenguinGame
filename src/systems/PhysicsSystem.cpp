@@ -22,7 +22,7 @@ Systems::PhysicsSystem::PhysicsSystem(Managers::EventsManager *pEventsManager):m
 
 void Systems::PhysicsSystem::update(uint64_t) {
     //todo rename that silly stuff
-    auto momenta = Managers::ComponentsManager::getMomentums();
+    auto momenta = Managers::ComponentsManager::getMomenta();
     for(const auto &entry:momenta){
         auto moveEvent = std::make_shared<Events::MoveEntity>(entry.first,entry.second->speedX,entry.second->speedY);
         mEventsManager->addEvent(moveEvent);
