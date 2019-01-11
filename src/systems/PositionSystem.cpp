@@ -8,9 +8,10 @@
 #include "../managers/ComponentsManager.h"
 #include "../events/CollisionEvent.h"
 #include "../events/HealthEvent.h"
+#include "../events/MoveEntity.h"
 
 Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager):mEventsManager(pEventsManager) {
-    std::function<void(const std::shared_ptr<Events::Event>&)> callback = [system = this](const std::shared_ptr<Events::Event> &pEvent)->void {
+    auto callback = [system = this](const std::shared_ptr<Events::Event> &pEvent)->void {
         auto event = static_cast<Events::KeyUpEvent*>(pEvent.get());
         auto playerSpatial = Managers::ComponentsManager::getSpatialComponent(1);
         auto moveable = Managers::ComponentsManager::getMoveableComponent(1);
@@ -57,7 +58,7 @@ Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager)
         }
     };
 
-    std::function<void(const std::shared_ptr<Events::Event>&)> callbackCollision = [system = this](const std::shared_ptr<Events::Event> &pEvent)->void {
+    auto callbackCollision = [system = this](const std::shared_ptr<Events::Event> &pEvent)->void {
         auto event = static_cast<Events::CollisionEvent*>(pEvent.get());
         if(event->mType == Events::collisionTypes::regular){
             int entity = event->mMovingEntity;
@@ -84,8 +85,20 @@ Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager)
         }
     };
 
+    auto moveEventCallback = [system = this](const std::shared_ptr<Events::Event> &pEvent)->void {
+        auto event = static_cast<Events::MoveEntity*>(pEvent.get());
+
+        auto spatial = Managers::ComponentsManager::getSpatialComponent(event->mEntityId);
+        spatial->mPositionX += event->mX;
+        spatial->mPositionY += event->mY;
+        system->mEventsManager->addEvent(std::make_shared<Events::EntityMoved>(1,Events::EntityMoved::Direction::down));
+        
+
+    };
+
     mEventsManager->regsiterEventHandler(Events::EventTypes::KeyUp, callback );
     mEventsManager->regsiterEventHandler(Events::EventTypes::KeyDown, callback );
     mEventsManager->regsiterEventHandler(Events::EventTypes::KePressed, callback );
     mEventsManager->regsiterEventHandler(Events::EventTypes::Collision, callbackCollision);
+    mEventsManager->regsiterEventHandler(Events::EventTypes::MoveEntity, moveEventCallback);
 }

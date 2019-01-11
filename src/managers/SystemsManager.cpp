@@ -3,6 +3,7 @@
 //
 
 #include "SystemsManager.h"
+#include "../systems/PhysicsSystem.h"
 
 using namespace Managers;
 using namespace Systems;
@@ -14,6 +15,7 @@ SystemsManager::SystemsManager(SDL_Window *pWindow, SDL_Renderer *pPrenderer, Ev
     mCollisionSystem = new CollisionSystem(pEventsManager);
     mAudioSystem = new AudioSystem(pEventsManager);
     mTextureSystem = new TextureSystem(pEventsManager);
+    mPhysicsSystem = new PhysicsSystem(pEventsManager);
     mRenderSystem = new RenderSystem(pWindow,pPrenderer,pEventsManager);
 }
 
@@ -30,6 +32,7 @@ RenderSystem *SystemsManager::getMRenderSystem() const {
 }
 
 void SystemsManager::update(uint64_t pTimeDiff) {
+    mPhysicsSystem->update(pTimeDiff);
     mInputSystem->update();
     mEventsManager->dispatch(pTimeDiff);
     mRenderSystem->update(pTimeDiff);

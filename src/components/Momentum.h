@@ -7,7 +7,7 @@ namespace Components {
     class Momentum: public Component {
     public:
         Momentum();
-    private:
+    public:
         double gravitation = 10;
         double speedX = 0;
         double speedY = 0;

@@ -13,6 +13,7 @@
 #include "../systems/CollisionSystem.h"
 #include "../systems/AudioSystem.h"
 #include "../systems/TextureSystem.h"
+#include "../systems/PhysicsSystem.h"
 
 namespace Managers {
 
@@ -38,7 +39,9 @@ namespace Managers {
         Systems::CollisionSystem* mCollisionSystem = nullptr;
         Systems::AudioSystem* mAudioSystem = nullptr;
         Systems::TextureSystem* mTextureSystem = nullptr;
+        Systems::PhysicsSystem* mPhysicsSystem = nullptr;
         Managers::EventsManager* mEventsManager = nullptr;
+
 
 
     };
