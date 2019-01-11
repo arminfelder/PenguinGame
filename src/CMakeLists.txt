@@ -15,6 +15,9 @@ add_executable(game PenguinGame.cpp PenguinGame.h
         systems/HealthSystem.cpp
         systems/PositionSystem.cpp
         systems/CollisionSystem.cpp
+        systems/PhysicsSystem.cpp
+        systems/AudioSystem.cpp
+        systems/TextureSystem.cpp
         managers/EntityManager.cpp
         managers/SystemsManager.cpp
         managers/ComponentsManager.cpp
@@ -26,6 +29,7 @@ add_executable(game PenguinGame.cpp PenguinGame.h
         components/CollideAble.cpp
         components/CameraOffset.cpp
         components/Momentum.cpp
+        components/Gravity.cpp
         events/Event.cpp
         events/KeyPressedEvent.cpp
         events/KeyUpEvent.cpp
@@ -37,10 +41,6 @@ add_executable(game PenguinGame.cpp PenguinGame.h
         events/FallingEvent.cpp
         events/MoveEntity.cpp
         MapParser.cpp
-        systems/AudioSystem.cpp
-        systems/TextureSystem.cpp
-        components/Gravity.cpp
-        systems/PhysicsSystem.cpp
         main.cpp)
 
 target_link_libraries(game ${SDL2_LIBRARIES} ${SDL2TTF_LIBRARY} ${SDL2_MIXER_LIBRARY})
