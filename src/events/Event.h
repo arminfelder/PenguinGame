@@ -13,7 +13,8 @@ namespace Events {
         None,
         MapMovement,
         EntityMoved,
-        Falling
+        Falling,
+        MoveEntity
 
     };
 

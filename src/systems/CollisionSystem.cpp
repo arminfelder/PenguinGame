@@ -9,7 +9,7 @@
 
 Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanager):mEventsManager(pEventsmanager) {
 
-    std::function<void(const std::shared_ptr<Events::Event>&)> callback = [system = this](const std::shared_ptr<Events::Event> &pEvent)->void{
+    auto callback = [system = this](const std::shared_ptr<Events::Event> &pEvent)->void{
         auto event = static_cast<Events::EntityMoved*>(pEvent.get());
         auto entityId = event->mEntityId;
         auto collideAbles = Managers::ComponentsManager::getCollideAble();

@@ -35,6 +35,7 @@ add_executable(game PenguinGame.cpp PenguinGame.h
         events/CollisionEvent.cpp
         events/MapMovement.cpp
         events/FallingEvent.cpp
+        events/MoveEntity.cpp
         MapParser.cpp
         systems/AudioSystem.cpp
         systems/TextureSystem.cpp
