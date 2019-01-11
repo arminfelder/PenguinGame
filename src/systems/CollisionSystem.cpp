@@ -9,7 +9,7 @@
 
 Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanager):mEventsManager(pEventsmanager) {
 
-    std::function<void(const std::shared_ptr<Events::Event>&)> callback = [system = this](const std::shared_ptr<Events::Event> &pEvent)->void{
+    auto callback = [system = this](const std::shared_ptr<Events::Event> &pEvent)->void{
         auto event = static_cast<Events::EntityMoved*>(pEvent.get());
         auto entityId = event->mEntityId;
         auto collideAbles = Managers::ComponentsManager::getCollideAble();
@@ -43,21 +43,7 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
 
         //end maskCollision
 
-        //gravitation
-        if (!maskCollision) {
-            int line = maskBottomLimit;
-            int floorLeftPosition = (maskBottomLimit) * system->mapWidth + maskLeftLimit-1;
-            int floorRightPosition = (maskBottomLimit) * system->mapWidth + maskRightLimit-1;
-            bool floorLeft = system->collisionMask->at(static_cast<unsigned long>(floorLeftPosition));
-            bool floorRight = system->collisionMask->at(static_cast<unsigned long>(floorRightPosition));
-            if (!floorLeft && !floorRight) { //no floor below us -> fall down
-                //TODO: try mask at position below the player. If no collision, then update momentum.
-                system->mEventsManager->addEvent(std::make_shared<Events::FallingEvent>(entityId));
-                std::cout << "added event for falling" << std::endl;
-            }
-        }
-        //end gravitation
-
+        bool entityCollision = false;
         if (!maskCollision) {
             for (const auto &entry: collideAbles) {
                 auto entrySpatial = Managers::ComponentsManager::getSpatialComponent(entry.first);
@@ -97,25 +83,47 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
 
                     }
                 }
-
                 if (leftLimit > entryLeftLimit && leftLimit < entryRightLimit) {
                     if (topLimit > entryTopLimit && topLimit < entryBottomLimit) {
                         system->mEventsManager->addEvent(std::make_shared<Events::CollisionEvent>(entityId, entry.first, collisionType));
                         std::cout << "collision!" << std::endl;
+                        entityCollision = true;
                     } else if (bottomLimit < entryBottomLimit && bottomLimit > entryTopLimit) {
                         system->mEventsManager->addEvent(std::make_shared<Events::CollisionEvent>(entityId, entry.first, collisionType));
+                        entityCollision = true;
                         std::cout << "collision!" << std::endl;
                     }
                 } else if (rightLimit < entryRightLimit && rightLimit > entryLeftLimit) {
                     if (topLimit > entryTopLimit && topLimit < entryBottomLimit) {
                         system->mEventsManager->addEvent(std::make_shared<Events::CollisionEvent>(entityId, entry.first, collisionType));
                         std::cout << "collision!" << std::endl;
+                        entityCollision = true;
+
                     } else if (bottomLimit < entryBottomLimit && bottomLimit > entryTopLimit) {
                         system->mEventsManager->addEvent(std::make_shared<Events::CollisionEvent>(entityId, entry.first, collisionType));
                         std::cout << "collision!" << std::endl;
+                        entityCollision = true;
+
                     }
                 }
             }
+        }
+
+        if (!maskCollision && !entityCollision) {
+            //gravitation
+                int floorLeftPosition = (maskBottomLimit) * system->mapWidth + maskLeftLimit - 1;
+                int floorRightPosition = (maskBottomLimit) * system->mapWidth + maskRightLimit - 1;
+                bool floorLeft = system->collisionMask->at(static_cast<unsigned long>(floorLeftPosition));
+                bool floorRight = system->collisionMask->at(static_cast<unsigned long>(floorRightPosition));
+                if (!floorLeft && !floorRight) { //no floor below us -> fall down
+                    system->mEventsManager->addEvent(std::make_shared<Events::FallingEvent>(entityId));
+                    std::cout << "added event for falling" << std::endl;
+                } else if (maskTopLimit == maskBottomLimit) { //else: player lands somewhere, if: stop if player occupies only one cube
+                    //todo make this hack nice using the event queue
+                    auto momenta = Managers::ComponentsManager::getMomenta();
+                    momenta[entityId]->speedY = 0;
+                }
+            //end gravitation
         }
 
     };

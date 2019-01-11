@@ -6,7 +6,6 @@ namespace Events {
     class FallingEvent: public Event {
     public:
         FallingEvent(int pEntityId);
-        const Events::EventTypes type = EventTypes::Falling;
 
         int mEntityId;
     };

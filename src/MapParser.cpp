@@ -90,7 +90,7 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
                     Managers::ComponentsManager::createSpatialComponent(id, x+1, y+1);
                     Managers::ComponentsManager::createMoveAbleComponent(id,true,false,true,false );
                     Managers::ComponentsManager::createHealthComponent(id,100);
-                    Managers::ComponentsManager::createGravityComponent(id);
+                    Managers::ComponentsManager::createMomentumComponent(id);
                     break;
                 }
                 case '|': {
@@ -125,7 +125,7 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
                     break;
             }
             //fill up line for negative mask
-            if (i+1 == (int) currentLine.size()) { //reached end of line
+            if (i+1 == static_cast<int>( currentLine.size())) { //reached end of line
                 for (int j = static_cast<int>(currentLine.size()); j < mapDimension.x; j++)
                     collisionMask->push_back(false);
             }
