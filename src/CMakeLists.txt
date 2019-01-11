@@ -1,8 +1,6 @@
 project(game)
-#add_executable(game PenguinGame.cpp PenguinGame.h entities/Entity.cpp entities/Entity.h eventHandler.cpp eventHandler.h World.cpp World.h res_path.h position.cpp position.h Dimension.cpp Dimension.h EntityController.cpp EntityController.h TXTParser.cpp TXTParser.h Map.cpp Map.h components/Component.cpp components/Component.h main.cpp components/Position.cpp components/Position.h components/Health.cpp components/Health.h managers/ComponentsManager.cpp EventsManager.cpp
-#        managers/SystemsManager.h   managers/EntityManager.cpp entities/Player.cpp entities/Player.h systems/System.cpp systems/System.h systems/HealthSystem.cpp systems/HealthSystem.h)
 
-add_executable(game main.cpp PenguinGame.cpp PenguinGame.h
+add_executable(game PenguinGame.cpp PenguinGame.h
         entities/Entity.cpp
         entities/Player.cpp
         entities/Wall.cpp
@@ -11,7 +9,6 @@ add_executable(game main.cpp PenguinGame.cpp PenguinGame.h
         entities/LadderEnd.cpp
         entities/LadderBegin.cpp
         entities/HealthIndicator.cpp
-        entities/HealthIndicator.h
         GameEngine.cpp
         systems/RenderSystem.cpp
         systems/InputSystem.cpp
@@ -28,6 +25,7 @@ add_executable(game main.cpp PenguinGame.cpp PenguinGame.h
         components/MoveAbleComponent.cpp
         components/CollideAble.cpp
         components/CameraOffset.cpp
+        components/Momentum.cpp
         events/Event.cpp
         events/KeyPressedEvent.cpp
         events/KeyUpEvent.cpp
@@ -36,6 +34,12 @@ add_executable(game main.cpp PenguinGame.cpp PenguinGame.h
         events/EntityMoved.cpp
         events/CollisionEvent.cpp
         events/MapMovement.cpp
+        events/FallingEvent.cpp
         MapParser.cpp
-        systems/AudioSystem.cpp systems/AudioSystem.h systems/TextureSystem.cpp systems/TextureSystem.h components/Gravity.cpp components/Gravity.h systems/PhysicsSystem.cpp systems/PhysicsSystem.h)
+        systems/AudioSystem.cpp
+        systems/TextureSystem.cpp
+        components/Gravity.cpp
+        systems/PhysicsSystem.cpp
+        main.cpp)
+
 target_link_libraries(game ${SDL2_LIBRARIES} ${SDL2TTF_LIBRARY} ${SDL2_MIXER_LIBRARY})

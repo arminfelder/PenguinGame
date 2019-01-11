@@ -27,6 +27,7 @@ std::shared_ptr<Entity> EntityManager::getEntity(int pId) {
 EntityManager::EntityManager() {
     //create Player as id = 1
     createEntity<Player>();
+    //create camera
     auto cameraID = createEntity<Entity>();
     Managers::ComponentsManager::createCameraComponent(cameraID);
 }

@@ -1,7 +1,3 @@
-//
-// Created by armin on 30.12.18.
-//
-
 #ifndef GAME_MAPPARSER_H
 #define GAME_MAPPARSER_H
 
@@ -9,7 +5,6 @@
 #include <SDL_render.h>
 #include <SDL_ttf.h>
 #include "GameEngine.h"
-#include "entity.h"
 #include "entities/Wall.h"
 #include "entities/Ladder.h"
 

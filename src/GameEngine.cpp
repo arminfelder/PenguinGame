@@ -1,7 +1,3 @@
-//
-// Created by armin on 23.12.18.
-//
-
 #include "GameEngine.h"
 
 using namespace Managers;

@@ -1,6 +1,4 @@
-//
-// Created by armin on 27.12.18.
-//
+
 
 #ifndef GAME_SPATIALCOMPONENT_H
 #define GAME_SPATIALCOMPONENT_H
