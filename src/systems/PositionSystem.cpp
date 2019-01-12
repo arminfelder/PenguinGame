@@ -31,13 +31,17 @@ Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager)
         auto playerSpatial = Managers::ComponentsManager::getSpatialComponent(1);
         auto moveable = Managers::ComponentsManager::getMoveableComponent(1);
 
+        int timeFactor = system->mEventsManager->mTimediff/18;
+        if(!timeFactor){
+            timeFactor = 1;
+        }
         if (event->getType() != Events::EventTypes::KeyUp) {
             switch (event->mKeyCode.sym) {
                 case SDLK_UP:
                     if (moveable->canMoveUp) {
                         playerSpatial->mPrevPositionX = playerSpatial->mPositionX;
                         playerSpatial->mPrevPositionY = playerSpatial->mPositionY;
-                        playerSpatial->mPositionY -= 10;
+                        playerSpatial->mPositionY -= 10*timeFactor;
 
                         system->mEventsManager->addEvent(std::make_shared<Events::EntityMoved>(1,Events::EntityMoved::Direction::up));
                     }
@@ -46,7 +50,7 @@ Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager)
                     if (moveable->canMoveRight) {
                         playerSpatial->mPrevPositionX = playerSpatial->mPositionX;
                         playerSpatial->mPrevPositionY = playerSpatial->mPositionY;
-                        playerSpatial->mPositionX += 10;
+                        playerSpatial->mPositionX += 10*timeFactor;
                         system->mEventsManager->addEvent(std::make_shared<Events::EntityMoved>(1,Events::EntityMoved::Direction::right));
 
                     }
@@ -55,7 +59,7 @@ Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager)
                     if (moveable->canMoveDown) {
                         playerSpatial->mPrevPositionX = playerSpatial->mPositionX;
                         playerSpatial->mPrevPositionY = playerSpatial->mPositionY;
-                        playerSpatial->mPositionY += 10;
+                        playerSpatial->mPositionY += 10*timeFactor;
                         system->mEventsManager->addEvent(std::make_shared<Events::EntityMoved>(1,Events::EntityMoved::Direction::down));
                     }
                     break;
@@ -63,7 +67,7 @@ Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager)
                     if (moveable->canMoveLeft) {
                         playerSpatial->mPrevPositionX = playerSpatial->mPositionX;
                         playerSpatial->mPrevPositionY = playerSpatial->mPositionY;
-                        playerSpatial->mPositionX -= 10;
+                        playerSpatial->mPositionX -= 10*timeFactor;
                         system->mEventsManager->addEvent(std::make_shared<Events::EntityMoved>(1,Events::EntityMoved::Direction::left));
                     }
                     break;
