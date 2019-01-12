@@ -23,7 +23,7 @@
 #include "entities/LadderEnd.h"
 #include "entities/LadderBegin.h"
 #include "entities/HealthIndicator.h"
-
+#include "entities/HealthItem.h"
 
 using namespace Entities;
 using namespace std;
@@ -44,6 +44,9 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
 
     auto playerMap = generateTexturesMap(playerBmps,"./res/tux/big/idle-0.bmp",pRenderer);
 
+
+    std::shared_ptr<SDL_Surface> imageHeart(SDL_LoadBMP("./res/heart_4.bmp"), SDL_FreeSurface);
+    std::shared_ptr<SDL_Texture> textureHeart(SDL_CreateTextureFromSurface(pRenderer, imageHeart.get()), SDL_DestroyTexture);
 
 
 
@@ -109,6 +112,13 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
                     Managers::ComponentsManager::createMoveAbleComponent(id,true,false,true,false );
                     Managers::ComponentsManager::createHealthComponent(id,100);
                     Managers::ComponentsManager::createMomentumComponent(id);
+                    break;
+                }
+                case 'h': {
+                    int id = Managers::EntityManager::createEntity<HealthItem>();
+                    Managers::ComponentsManager::createVisualComponent(id, textureHeart, 50, 50);
+                    Managers::ComponentsManager::createSpatialComponent(id, x, y);
+                    Managers::ComponentsManager::createCollideAbleComponent(id);
                     break;
                 }
                 case '|': {

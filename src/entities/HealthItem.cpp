@@ -14,36 +14,11 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with PenguinGame. If not, see <http://www.gnu.org/licenses/>.
-******************************************************************************/
+*****/
 
+#include "HealthItem.h"
 
-#include "EntityManager.h"
-#include "ComponentsManager.h"
-#include "../entities/HealthIndicator.h"
-
-using namespace Managers;
 using namespace Entities;
+HealthItem::HealthItem(int pId):Entity(pId,entityTypes::healthUp) {
 
-int EntityManager::mCurrEntityIndex = 1;
-std::unordered_map<int, std::shared_ptr<Entities::Entity>> EntityManager::mEntities;
-
-bool EntityManager::destroyEntity(int pId) {
-    return mEntities.erase(pId) ? true:false;
-
-}
-
-std::shared_ptr<Entity> EntityManager::getEntity(int pId) {
-    auto it = mEntities.find(pId);
-    if(it != mEntities.end()){
-        return it->second;
-    }
-    return nullptr;
-}
-
-EntityManager::EntityManager() {
-    //create Player as id = 1
-    createEntity<Player>();
-    //create camera
-    auto cameraID = createEntity<Entity>();
-    Managers::ComponentsManager::createCameraComponent(cameraID);
 }

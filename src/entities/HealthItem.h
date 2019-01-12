@@ -14,32 +14,18 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with PenguinGame. If not, see <http://www.gnu.org/licenses/>.
-******************************************************************************/
+*****/
 
-#ifndef GAME_COLLISIONEVENT_H
-#define GAME_COLLISIONEVENT_H
+#ifndef GAME_HEALTHITEM_H
+#define GAME_HEALTHITEM_H
 
-#include "Event.h"
+#include "Entity.h"
 
-namespace Events {
-    enum class collisionTypes{
-        regular,
-        ladder,
-        ladderEnd,
-        ladderBegin,
-        movementReset,
-        healthUp
-    };
-    class CollisionEvent:public Event {
-
+namespace Entities {
+    class HealthItem: public Entity {
     public:
-        CollisionEvent(int pMovingEntity, int pCollidingEntity, collisionTypes pType);
-        collisionTypes mType;
-        int mMovingEntity;
-        int mCollidingEntity;
+        HealthItem(int pId);
     };
-
 }
 
-
-#endif //GAME_COLLISIONEVENT_H
+#endif //GAME_HEALTHITEM_H

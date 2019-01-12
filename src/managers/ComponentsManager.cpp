@@ -137,3 +137,14 @@ void ComponentsManager::createGravityComponent(int pEntityId) {
     mGravities.insert({pEntityId,std::make_shared<Components::Gravity>()});
 
 }
+
+void ComponentsManager::removeComponentsOfEntity(int pEntityId) {
+    mHealthComponents.erase(pEntityId);
+    mVisualComponents.erase(pEntityId);
+    mSpatialComponents.erase(pEntityId);
+    mMoveableComponents.erase(pEntityId);
+    mCollideables.erase(pEntityId);
+    mCameraOffset.erase(pEntityId);
+    mGravities.erase(pEntityId);
+    mMomentum.erase(pEntityId);
+}

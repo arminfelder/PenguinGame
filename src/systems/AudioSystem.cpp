@@ -28,11 +28,15 @@ Systems::AudioSystem::AudioSystem(Managers::EventsManager *pEventsManager):mEven
     auto callback = [system = this] (const std::shared_ptr<Events::Event> &pEvent){
         switch (pEvent->getType()){
             case Events::EventTypes::Health:{
-
+                Mix_VolumeChunk(system->mCollectItem.get(), MIX_MAX_VOLUME);
+                Mix_PlayChannel( -1, system->mCollectItem.get(), 0 );
             }
         }
     };
     mArea1Music = std::shared_ptr<Mix_Music>(Mix_LoadMUS( "./res/04 All of Us.wav" ),Mix_FreeMusic);
-    mTestSound = std::shared_ptr<Mix_Chunk>(Mix_LoadWAV("./res/163442__under7dude__man-dying.wav"),Mix_FreeChunk);
+    mCollectItem = std::shared_ptr<Mix_Chunk>(Mix_LoadWAV("./res/387133__rdaly95__collecting-health.wav"),Mix_FreeChunk);
+
     Mix_PlayMusic( mArea1Music.get(), -1 );
+    Mix_VolumeMusic(50);
+    mEventsManager->regsiterEventHandler(Events::EventTypes::Health, callback);
 }
