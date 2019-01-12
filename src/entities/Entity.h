@@ -33,6 +33,7 @@ namespace Entities {
         ladderEnd,
         ladderBegin,
         healthIndicator,
+        healthUp,
         none
     };
     class Entity {

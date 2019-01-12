@@ -43,10 +43,10 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
         //maskCollision
 
         bool maskCollision = false;
-        int maskRightLimit = (int) ceil((double)rightLimit/50.0);
-        int maskLeftLimit = (int) ceil((double)leftLimit/50.0);
-        int maskTopLimit = (int) ceil((double)topLimit/50.0);
-        int maskBottomLimit = (int) ceil((double)bottomLimit/50.0);
+        int maskRightLimit = static_cast<int>(ceil(static_cast<double>(rightLimit)/50.0));
+        int maskLeftLimit =  static_cast<int>(ceil(static_cast<double>(leftLimit)/50.0));
+        int maskTopLimit =   static_cast<int>(ceil(static_cast<double>(topLimit)/50.0));
+        int maskBottomLimit =static_cast<int>(ceil(static_cast<double>(bottomLimit)/50.0));
 
         for (int horizontal = maskLeftLimit-1; horizontal < maskRightLimit; horizontal++) {
             for (int vertical = maskTopLimit-1; vertical < maskBottomLimit; vertical++) {
@@ -95,7 +95,12 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
                     }
                     case Entities::entityTypes::ladderBegin: {
                         collisionType = Events::collisionTypes::ladderBegin;
+                        break;
                         //TODO: add break with its own commit
+                    }
+                    case Entities::entityTypes::healthUp: {
+                        collisionType = Events::collisionTypes::healthUp;
+                        break;
                     }
                     case Entities::entityTypes::none: {
 

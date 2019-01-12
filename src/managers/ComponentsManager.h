@@ -73,6 +73,8 @@ namespace Managers {
 
         static void createMomentumComponent(int pEntityId);
 
+        static void removeComponentsOfEntity(int pEntityId);
+
     private:
         static std::map<int, std::shared_ptr<Components::Health>> mHealthComponents;
         static std::map<int, std::shared_ptr<Components::VisualComponent>> mVisualComponents;

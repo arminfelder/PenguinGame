@@ -20,9 +20,10 @@
 #include <SDL_ttf.h>
 #include "HealthSystem.h"
 #include "../managers/ComponentsManager.h"
+#include "../events/CollisionEvent.h"
 
 Systems::HealthSystem::HealthSystem(SDL_Renderer *pRenderer, Managers::EventsManager *pEventsManager):mEventsManager(pEventsManager),mRenderer(pRenderer) {
-    std::function<void(std::shared_ptr<Events::Event>)> callback = [system = this](std::shared_ptr<Events::Event> pEvent)->void {
+    auto callback = [system = this](const std::shared_ptr<Events::Event> &pEvent)->void {
         auto event = static_cast<Events::HealthEvent*>(pEvent.get());
         auto healthComponent = Managers::ComponentsManager::getHealthComponent(event->entityId);
         int newHealth;
@@ -41,7 +42,7 @@ Systems::HealthSystem::HealthSystem(SDL_Renderer *pRenderer, Managers::EventsMan
             //TODO: memory leak, font loading etc...
             Uint8 gbColor;
             if(newHealth<= 100){
-                gbColor = 255+(newHealth-100)*2.5;
+                gbColor = 255+ static_cast<Uint8>((newHealth-100)*2.5);
             }
 
             SDL_Color textColor = {255, gbColor,gbColor, 255};
@@ -54,5 +55,16 @@ Systems::HealthSystem::HealthSystem(SDL_Renderer *pRenderer, Managers::EventsMan
     };
     Sans = std::shared_ptr<TTF_Font>(TTF_OpenFont("./res/sans.ttf", 24), TTF_CloseFont);
 
+    auto collisionCallback = [system = this] (const std::shared_ptr<Events::Event> &pEvent)->void{
+        auto event = static_cast<Events::CollisionEvent*>(pEvent.get());
+        if(event->mType == Events::collisionTypes::healthUp){
+            system->mEventsManager->addEvent(std::make_shared<Events::HealthEvent>(event->mMovingEntity,20));
+            Managers::ComponentsManager::removeComponentsOfEntity(event->mCollidingEntity);
+            //TODO: remove Entity
+        }
+    };
+
+
     mEventsManager->regsiterEventHandler(Events::EventTypes::Health, callback );
+    mEventsManager->regsiterEventHandler(Events::EventTypes::Collision, collisionCallback);
 }
