@@ -46,10 +46,15 @@ Systems::PhysicsSystem::PhysicsSystem(Managers::EventsManager *pEventsManager):m
 }
 
 void Systems::PhysicsSystem::update(uint64_t pTimeDiff) {
-    //todo rename that silly stuff
     auto momenta = Managers::ComponentsManager::getMomenta();
     for(const auto &entry:momenta){
-        auto moveEvent = std::make_shared<Events::MoveEntity>(entry.first,entry.second->speedX,entry.second->speedY);
+        int timeFactor = pTimeDiff/18;
+        if(!timeFactor){
+            timeFactor = 1;
+        }
+        int x = entry.second->speedX? static_cast<int>(entry.second->speedX*(timeFactor)):0;
+        int y = entry.second->speedY? static_cast<int>(entry.second->speedY*(timeFactor)):0;
+        auto moveEvent = std::make_shared<Events::MoveEntity>(entry.first,x,y);
         mEventsManager->addEvent(moveEvent);
     }
 }
