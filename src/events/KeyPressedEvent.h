@@ -26,8 +26,9 @@
 namespace Events {
     class KeyPressedEvent:public Event {
     public:
-        KeyPressedEvent(SDL_Keysym pCode);
+        KeyPressedEvent(SDL_Keysym pCode, const Uint8* pKeys);
         SDL_Keysym mKeyCode;
+        const Uint8* mKeys;
     };
 }
 
