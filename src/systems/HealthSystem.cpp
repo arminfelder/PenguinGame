@@ -40,12 +40,20 @@ Systems::HealthSystem::HealthSystem(SDL_Renderer *pRenderer, Managers::EventsMan
             auto visualComponent = Managers::ComponentsManager::getVisualComponent(3);
 
             //TODO: memory leak, font loading etc...
-            Uint8 gbColor;
+            Uint8 rColor;
+            Uint8 gColor;
+            Uint8 bColor;
             if(newHealth<= 100){
-                gbColor = 255+ static_cast<Uint8>((newHealth-100)*2.5);
+                rColor = 255;
+                gColor = 255+ static_cast<Uint8>((newHealth-100)*2.5);
+                bColor = gColor;
+            }else{
+                rColor = 0;
+                gColor = 125;
+                bColor = 0;
             }
 
-            SDL_Color textColor = {255, gbColor,gbColor, 255};
+            SDL_Color textColor = {rColor, gColor,bColor, 255};
             SDL_Surface* healthMessage = TTF_RenderText_Blended(system->Sans.get(), std::to_string(newHealth).c_str(), textColor);
             auto healthMessageTexture = std::shared_ptr<SDL_Texture>(SDL_CreateTextureFromSurface(system->mRenderer, healthMessage),SDL_DestroyTexture);
             SDL_FreeSurface(healthMessage);
