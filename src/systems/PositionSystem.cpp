@@ -104,10 +104,18 @@ Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager)
         auto event = static_cast<Events::MoveEntity*>(pEvent.get());
 
         auto spatial = Managers::ComponentsManager::getSpatialComponent(event->mEntityId);
-        spatial->mPositionX += event->mX;
-        spatial->mPositionY += event->mY;
-        system->mEventsManager->addEvent(std::make_shared<Events::EntityMoved>(1,Events::EntityMoved::Direction::down));
-        
+        if(event->mX || event->mY) {
+            spatial->mPositionX += event->mX;
+            spatial->mPositionY += event->mY;
+            Events::EntityMoved::Direction direction;
+            if(event->mY >0){
+                direction = Events::EntityMoved::Direction::down;
+            }else{
+                direction = Events::EntityMoved::Direction::up;
+            }
+            system->mEventsManager->addEvent(
+                    std::make_shared<Events::EntityMoved>(1, direction));
+        }
 
     };
 

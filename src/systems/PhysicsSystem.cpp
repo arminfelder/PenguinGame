@@ -22,6 +22,7 @@
 #include "../events/EntityMoved.h"
 #include "../events/FallingEvent.h"
 #include "../events/MoveEntity.h"
+#include "../events/KeyUpEvent.h"
 
 Systems::PhysicsSystem::PhysicsSystem(Managers::EventsManager *pEventsManager):mEventsManager(pEventsManager) {
     auto callback = [system = this](const std::shared_ptr<Events::Event> &pEvent)->void {
@@ -32,10 +33,19 @@ Systems::PhysicsSystem::PhysicsSystem(Managers::EventsManager *pEventsManager):m
         momentum->speedY = 10;
     };
 
+    auto callbackKeyUp = [system = this](const std::shared_ptr<Events::Event> &pEvent)->void {
+        auto event = static_cast<Events::KeyUpEvent*>(pEvent.get());
+        if(event->mKeyCode.sym == SDLK_SPACE){
+            auto momentum = Managers::ComponentsManager::getMomentumComponent(1);
+            momentum->speedY -= 15;
+        }
+    };
+
     mEventsManager->regsiterEventHandler(Events::EventTypes::Falling,callback);
+    mEventsManager->regsiterEventHandler(Events::EventTypes::KeyUp, callbackKeyUp);
 }
 
-void Systems::PhysicsSystem::update(uint64_t) {
+void Systems::PhysicsSystem::update(uint64_t pTimeDiff) {
     //todo rename that silly stuff
     auto momenta = Managers::ComponentsManager::getMomenta();
     for(const auto &entry:momenta){

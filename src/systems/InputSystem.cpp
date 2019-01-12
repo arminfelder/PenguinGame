@@ -17,6 +17,7 @@
 ******************************************************************************/
 
 #include <SDL_events.h>
+#include <iostream>
 #include "InputSystem.h"
 #include "../events/KeyPressedEvent.h"
 #include "../events/KeyUpEvent.h"
@@ -25,15 +26,18 @@ using namespace Systems;
 void InputSystem::update() {
     SDL_Event event;
 
+    auto keys = SDL_GetKeyboardState(nullptr);
+
     while(SDL_PeepEvents(&event, 1, SDL_GETEVENT, SDL_KEYDOWN, SDL_MOUSEWHEEL)){
+
         switch (event.type){
 
             case SDL_KEYDOWN: {
-                mEventsManager->addEvent(std::make_shared<Events::KeyPressedEvent>(event.key.keysym));
+                mEventsManager->addEvent(std::make_shared<Events::KeyPressedEvent>(event.key.keysym,keys));
                 break;
             }
             case SDL_KEYUP: {
-                mEventsManager->addEvent(std::make_shared<Events::KeyUpEvent>(event.key.keysym));
+                mEventsManager->addEvent(std::make_shared<Events::KeyUpEvent>(event.key.keysym,keys));
                 break;
             }
         }
