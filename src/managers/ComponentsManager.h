@@ -36,6 +36,8 @@
 #include "../components/Momentum.h"
 #include "../components/Gravity.h"
 #include "../components/Path.h"
+#include "../components/CollisionDamage.h"
+#include "../components/TimeToLive.h"
 
 namespace Managers {
 
@@ -50,6 +52,8 @@ namespace Managers {
         static std::map<int, std::shared_ptr<Components::Gravity>> &getGravities();
         static std::map<int, std::shared_ptr<Components::Momentum>> &getMomenta();
         static std::map<int, std::shared_ptr<Components::Path>> &getPaths();
+        static std::map<int, std::shared_ptr<Components::CollisionDamage>> &getDamages();
+        static std::map<int, std::shared_ptr<Components::TimeToLive>> &getTimeToLives();
 
         static std::shared_ptr<Components::Health> &getHealthComponent(int pEntityId);
         static std::shared_ptr<Components::VisualComponent> &getVisualComponent(int pEntityId);
@@ -60,6 +64,8 @@ namespace Managers {
         static std::shared_ptr<Components::Gravity> &getGravity(int pEntityId);
         static std::shared_ptr<Components::Momentum> &getMomentumComponent(int pEntityId);
         static std::shared_ptr<Components::Path> &getPaths(int pEntityId);
+        static std::shared_ptr<Components::CollisionDamage> &getDamage(int pEntityId);
+        static std::shared_ptr<Components::TimeToLive> &getTimeToLive(int pEntityId);
 
         static void createHealthComponent(int pEntityId, int pHp = 100);
         static void createVisualComponent(int pEntityId, const std::shared_ptr<SDL_Texture> &pTexture, int pSizeW, int pSizeH);
@@ -74,6 +80,8 @@ namespace Managers {
         static void createMomentumComponent(int pEntityId);
 
         static void createPathComponent(int pEntityId, const std::vector<SDL_Point> &pPath, int pStepsPerSecond, bool pRepeat = true, bool pRunning = true);
+        static void createDamageComponent(int pEntityId, int pDamage);
+        static void createTimeToLive(int pEntityId, uint64_t pTime);
 
         static void removeComponentsOfEntity(int pEntityId);
 
@@ -87,6 +95,10 @@ namespace Managers {
         static std::map<int, std::shared_ptr<Components::Gravity>> mGravities;
         static std::map<int, std::shared_ptr<Components::Momentum>> mMomentum;
         static std::map<int, std::shared_ptr<Components::Path>> mPaths;
+        static std::map<int, std::shared_ptr<Components::TimeToLive>> mTimeToLives;
+        static std::map<int, std::shared_ptr<Components::CollisionDamage>> mDamages;
+
+
 
     };
 }

@@ -29,6 +29,7 @@ namespace Events {
         ladderBegin,
         movementReset,
         healthUp,
+        bullet,
         npc
     };
     class CollisionEvent:public Event {

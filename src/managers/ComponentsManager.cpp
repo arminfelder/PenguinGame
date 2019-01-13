@@ -32,6 +32,8 @@ std::map<int, std::shared_ptr<Components::CameraOffset>> ComponentsManager::mCam
 std::map<int, std::shared_ptr<Components::Gravity>> ComponentsManager::mGravities;
 std::map<int, std::shared_ptr<Components::Momentum>> ComponentsManager::mMomentum;
 std::map<int, std::shared_ptr<Components::Path>> ComponentsManager::mPaths;
+std::map<int, std::shared_ptr<Components::TimeToLive>> ComponentsManager::mTimeToLives;
+std::map<int, std::shared_ptr<Components::CollisionDamage>> ComponentsManager::mDamages;
 
 
 std::map<int, std::shared_ptr<Components::Health>> &ComponentsManager::getHealthComponents(){
@@ -149,6 +151,8 @@ void ComponentsManager::removeComponentsOfEntity(int pEntityId) {
     mGravities.erase(pEntityId);
     mMomentum.erase(pEntityId);
     mPaths.erase(pEntityId);
+    mTimeToLives.erase(pEntityId);
+    mDamages.erase(pEntityId);
 }
 
 void ComponentsManager::createPathComponent(int pEntityId, const std::vector<SDL_Point> &pPath, int pStepsPerSecond, bool pRepeat,
@@ -162,4 +166,28 @@ std::map<int, std::shared_ptr<Components::Path>> &ComponentsManager::getPaths() 
 
 std::shared_ptr<Components::Path> &ComponentsManager::getPaths(int pEntityId) {
     return mPaths[pEntityId];
+}
+
+std::map<int, std::shared_ptr<Components::CollisionDamage>> &ComponentsManager::getDamages() {
+    return mDamages;
+}
+
+std::map<int, std::shared_ptr<Components::TimeToLive>> &ComponentsManager::getTimeToLives() {
+    return mTimeToLives;
+}
+
+std::shared_ptr<Components::CollisionDamage> &ComponentsManager::getDamage(int pEntityId) {
+    return mDamages[pEntityId];
+}
+
+std::shared_ptr<Components::TimeToLive> &ComponentsManager::getTimeToLive(int pEntityId) {
+    return mTimeToLives[pEntityId];
+}
+
+void ComponentsManager::createDamageComponent(int pEntityId, int pDamage) {
+    mDamages.insert({pEntityId, std::make_shared<Components::CollisionDamage>(pDamage)});
+}
+
+void ComponentsManager::createTimeToLive(int pEntityId, uint64_t pTime) {
+    mTimeToLives.insert({pEntityId, std::make_shared<Components::TimeToLive>(pTime)});
 }

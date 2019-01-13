@@ -16,38 +16,24 @@
 * along with PenguinGame. If not, see <http://www.gnu.org/licenses/>.
 ******************************************************************************/
 
-#ifndef GAME_ENTITY_H
-#define GAME_ENTITY_H
 
+#ifndef GAME_COMBATSYSTEM_H
+#define GAME_COMBATSYSTEM_H
 
 #include <SDL_render.h>
-#include <vector>
-#include "../components/Component.h"
-namespace Entities {
-    enum class entityTypes{
-        player,
-        npc,
-        wall,
-        ladder,
-        movementReset,
-        ladderEnd,
-        ladderBegin,
-        healthIndicator,
-        healthUp,
-        projectile,
-        none
-    };
-    class Entity {
+#include "System.h"
+#include "../managers/EventsManager.h"
+
+namespace Systems {
+    class CombatSystem:public System {
     public:
-        Entity(int id, entityTypes pType = entityTypes::none);
+        CombatSystem(SDL_Renderer *pRenderer,Managers::EventsManager *pEventsManager);
 
-        int getId() const;
-        entityTypes getType();
-
-    protected:
-        int mId;
-        entityTypes mEntityType;
+    private:
+        Managers::EventsManager *mEventsManager;
+        std::shared_ptr<SDL_Texture> mBlueBullet;
     };
 }
 
-#endif //GAME_ENTITY_H
+
+#endif //GAME_COMBATSYSTEM_H

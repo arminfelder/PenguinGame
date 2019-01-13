@@ -32,7 +32,7 @@ namespace Systems {
     class HealthSystem {
     public:
         HealthSystem(SDL_Renderer *pRenderer, Managers::EventsManager *pEventsManager);
-
+        void update(uint64_t pTimeDiff);
     private:
         Managers::EventsManager *mEventsManager = nullptr;
         SDL_Renderer* mRenderer = nullptr;
