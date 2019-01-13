@@ -30,6 +30,7 @@
 #include "../systems/TextureSystem.h"
 #include "../systems/PhysicsSystem.h"
 #include "../systems/AiSystem.h"
+#include "../systems/CombatSystem.h"
 
 namespace Managers {
 
@@ -57,6 +58,7 @@ namespace Managers {
         Systems::TextureSystem* mTextureSystem = nullptr;
         Systems::PhysicsSystem* mPhysicsSystem = nullptr;
         Systems::AiSystem* mAiSystem = nullptr;
+        Systems::CombatSystem* mCombatSystem = nullptr;
         Managers::EventsManager* mEventsManager = nullptr;
 
 

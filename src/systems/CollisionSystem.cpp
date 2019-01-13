@@ -30,6 +30,8 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
     auto callback = [system = this](const std::shared_ptr<Events::Event> &pEvent)->void{
         auto event = static_cast<Events::EntityMoved*>(pEvent.get());
         auto entityId = event->mEntityId;
+        auto movingEntity = Managers::EntityManager::getEntity(event->mEntityId);
+
         auto collideAbles = Managers::ComponentsManager::getCollideAble();
 
         auto spatial = Managers::ComponentsManager::getSpatialComponent(entityId);
@@ -50,7 +52,8 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
 
         for (int horizontal = maskLeftLimit-1; horizontal < maskRightLimit; horizontal++) {
             for (int vertical = maskTopLimit-1; vertical < maskBottomLimit; vertical++) {
-                if ((system->collisionMask->at(static_cast<unsigned long>(horizontal + vertical * system->mapWidth))) == true) {
+                unsigned long index = static_cast<unsigned long>(horizontal + vertical * system->mapWidth);
+                if (system->collisionMask->size()<index && (system->collisionMask->at(index)) == true) {
                     std::cout << "collision via mask detected" << std::endl;
                     maskCollision = true;
                     system->mEventsManager->addEvent(
@@ -84,6 +87,7 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
                     }
                     case Entities::entityTypes::npc: {
                         collisionType = Events::collisionTypes::npc;
+
                         break;
                     }
                     case Entities::entityTypes::movementReset: {
@@ -103,9 +107,14 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
                         collisionType = Events::collisionTypes::healthUp;
                         break;
                     }
+                    case Entities::entityTypes::projectile:{
+                        collisionType = Events::collisionTypes::bullet;
+                        break;
+                    }
                     case Entities::entityTypes::none: {
                         break;
                     }
+
                 }
                 if (leftLimit > entryLeftLimit && leftLimit < entryRightLimit) {
                     if (topLimit > entryTopLimit && topLimit < entryBottomLimit) {
@@ -133,7 +142,7 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
             }
         }
 
-        if (!maskCollision && !entityCollision) {
+        if (!maskCollision && !entityCollision && movingEntity->getType() == Entities::entityTypes::player) {
             //gravitation
                 int floorLeftPosition = (maskBottomLimit) * system->mapWidth + maskLeftLimit - 1;
                 int floorRightPosition = (maskBottomLimit) * system->mapWidth + maskRightLimit - 1;
