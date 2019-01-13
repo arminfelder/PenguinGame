@@ -83,6 +83,7 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
                         break;
                     }
                     case Entities::entityTypes::npc: {
+                        collisionType = Events::collisionTypes::npc;
                         break;
                     }
                     case Entities::entityTypes::movementReset: {
@@ -103,7 +104,7 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
                         break;
                     }
                     case Entities::entityTypes::none: {
-
+                        break;
                     }
                 }
                 if (leftLimit > entryLeftLimit && leftLimit < entryRightLimit) {

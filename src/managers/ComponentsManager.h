@@ -35,6 +35,7 @@
 #include "../components/CameraOffset.h"
 #include "../components/Momentum.h"
 #include "../components/Gravity.h"
+#include "../components/Path.h"
 
 namespace Managers {
 
@@ -47,8 +48,8 @@ namespace Managers {
         static std::map<int, std::shared_ptr<Components::CollideAble>> &getCollideAble();
         static std::map<int, std::shared_ptr<Components::CameraOffset>> &getCameraOffsets();
         static std::map<int, std::shared_ptr<Components::Gravity>> &getGravities();
-
         static std::map<int, std::shared_ptr<Components::Momentum>> &getMomenta();
+        static std::map<int, std::shared_ptr<Components::Path>> &getPaths();
 
         static std::shared_ptr<Components::Health> &getHealthComponent(int pEntityId);
         static std::shared_ptr<Components::VisualComponent> &getVisualComponent(int pEntityId);
@@ -57,9 +58,8 @@ namespace Managers {
         static std::shared_ptr<Components::CollideAble> &getCollideAble(int pEntityId);
         static std::shared_ptr<Components::CameraOffset> &getCameraOffsetComponent(int pEntityId);
         static std::shared_ptr<Components::Gravity> &getGravity(int pEntityId);
-
         static std::shared_ptr<Components::Momentum> &getMomentumComponent(int pEntityId);
-
+        static std::shared_ptr<Components::Path> &getPaths(int pEntityId);
 
         static void createHealthComponent(int pEntityId, int pHp = 100);
         static void createVisualComponent(int pEntityId, const std::shared_ptr<SDL_Texture> &pTexture, int pSizeW, int pSizeH);
@@ -73,6 +73,8 @@ namespace Managers {
 
         static void createMomentumComponent(int pEntityId);
 
+        static void createPathComponent(int pEntityId, const std::vector<SDL_Point> &pPath, int pStepsPerSecond, bool pRepeat = true, bool pRunning = true);
+
         static void removeComponentsOfEntity(int pEntityId);
 
     private:
@@ -84,6 +86,8 @@ namespace Managers {
         static std::map<int, std::shared_ptr<Components::CameraOffset>> mCameraOffset;
         static std::map<int, std::shared_ptr<Components::Gravity>> mGravities;
         static std::map<int, std::shared_ptr<Components::Momentum>> mMomentum;
+        static std::map<int, std::shared_ptr<Components::Path>> mPaths;
+
     };
 }
 

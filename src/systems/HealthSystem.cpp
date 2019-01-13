@@ -22,6 +22,7 @@
 #include "../managers/ComponentsManager.h"
 #include "../events/CollisionEvent.h"
 
+
 Systems::HealthSystem::HealthSystem(SDL_Renderer *pRenderer, Managers::EventsManager *pEventsManager):mEventsManager(pEventsManager),mRenderer(pRenderer) {
     auto callback = [system = this](const std::shared_ptr<Events::Event> &pEvent)->void {
         auto event = static_cast<Events::HealthEvent*>(pEvent.get());
@@ -31,6 +32,9 @@ Systems::HealthSystem::HealthSystem(SDL_Renderer *pRenderer, Managers::EventsMan
         if(updatedHealth <=0){
             //TODO: emit killed
             newHealth = 0;
+            if(event->entityId != 1){
+                Managers::ComponentsManager::removeComponentsOfEntity(event->entityId);
+            }
         }else{
             newHealth = updatedHealth;
         }
@@ -69,6 +73,8 @@ Systems::HealthSystem::HealthSystem(SDL_Renderer *pRenderer, Managers::EventsMan
             system->mEventsManager->addEvent(std::make_shared<Events::HealthEvent>(event->mMovingEntity,20));
             Managers::ComponentsManager::removeComponentsOfEntity(event->mCollidingEntity);
             //TODO: remove Entity
+        }else if(event->mType == Events::collisionTypes::npc){
+            system->mEventsManager->addEvent(std::make_shared<Events::HealthEvent>(event->mMovingEntity,-30));
         }
     };
 

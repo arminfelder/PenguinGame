@@ -29,6 +29,7 @@
 #include "../systems/AudioSystem.h"
 #include "../systems/TextureSystem.h"
 #include "../systems/PhysicsSystem.h"
+#include "../systems/AiSystem.h"
 
 namespace Managers {
 
@@ -55,6 +56,7 @@ namespace Managers {
         Systems::AudioSystem* mAudioSystem = nullptr;
         Systems::TextureSystem* mTextureSystem = nullptr;
         Systems::PhysicsSystem* mPhysicsSystem = nullptr;
+        Systems::AiSystem* mAiSystem = nullptr;
         Managers::EventsManager* mEventsManager = nullptr;
 
 
