@@ -31,6 +31,7 @@ std::map<int, std::shared_ptr<Components::CollideAble>> ComponentsManager::mColl
 std::map<int, std::shared_ptr<Components::CameraOffset>> ComponentsManager::mCameraOffset;
 std::map<int, std::shared_ptr<Components::Gravity>> ComponentsManager::mGravities;
 std::map<int, std::shared_ptr<Components::Momentum>> ComponentsManager::mMomentum;
+std::map<int, std::shared_ptr<Components::Path>> ComponentsManager::mPaths;
 
 
 std::map<int, std::shared_ptr<Components::Health>> &ComponentsManager::getHealthComponents(){
@@ -147,4 +148,18 @@ void ComponentsManager::removeComponentsOfEntity(int pEntityId) {
     mCameraOffset.erase(pEntityId);
     mGravities.erase(pEntityId);
     mMomentum.erase(pEntityId);
+    mPaths.erase(pEntityId);
+}
+
+void ComponentsManager::createPathComponent(int pEntityId, const std::vector<SDL_Point> &pPath, int pStepsPerSecond, bool pRepeat,
+                                            bool pRunning) {
+    mPaths.insert({pEntityId,std::make_shared<Components::Path>(pPath, pStepsPerSecond,pRepeat,pRunning)});
+}
+
+std::map<int, std::shared_ptr<Components::Path>> &ComponentsManager::getPaths() {
+    return mPaths;
+}
+
+std::shared_ptr<Components::Path> &ComponentsManager::getPaths(int pEntityId) {
+    return mPaths[pEntityId];
 }
