@@ -16,33 +16,20 @@
 * along with PenguinGame. If not, see <http://www.gnu.org/licenses/>.
 ******************************************************************************/
 
-#ifndef GAME_COLLISIONEVENT_H
-#define GAME_COLLISIONEVENT_H
 
-#include "Event.h"
+#ifndef GAME_VIEWRANGE_H
+#define GAME_VIEWRANGE_H
 
-namespace Events {
-    enum class collisionTypes{
-        regular,
-        ladder,
-        ladderEnd,
-        ladderBegin,
-        movementReset,
-        healthUp,
-        bullet,
-        npc,
-        player
-    };
-    class CollisionEvent:public Event {
+#include "Component.h"
 
+namespace Components {
+    class ViewRange: public Component {
     public:
-        CollisionEvent(int pMovingEntity, int pCollidingEntity, collisionTypes pType);
-        collisionTypes mType;
-        int mMovingEntity;
-        int mCollidingEntity;
+        ViewRange(int x, int y);
+        int mX;
+        int mY;
     };
-
 }
 
 
-#endif //GAME_COLLISIONEVENT_H
+#endif //GAME_VIEWRANGE_H

@@ -5,6 +5,7 @@
 #include "AiSystem.h"
 #include "../managers/ComponentsManager.h"
 #include "../events/MoveEntity.h"
+#include "../events/EntityCanSee.h"
 
 Systems::AiSystem::AiSystem(Managers::EventsManager *pEventsManager):mEventsManager(pEventsManager) {
     auto callback = [system = this](const std::shared_ptr<Events::Event> &pEvent){
@@ -13,16 +14,15 @@ Systems::AiSystem::AiSystem(Managers::EventsManager *pEventsManager):mEventsMana
 }
 
 void Systems::AiSystem::update(uint8_t pTimeDiff) {
-    auto paths = Managers::ComponentsManager::getPaths();
 
-    for(const auto &path: paths){
+    for(const auto &path: Managers::ComponentsManager::getPaths()){
 
         int diffX = path.second->mPath[path.second->mCurrPos].x - path.second->mXmovedCurStep;
         int diffY = path.second->mPath[path.second->mCurrPos].y - path.second->mYmovedCurStep;
 
         path.second->mTimeSinceLastStep += pTimeDiff;
 
-        if(path.second->mRunning ){
+        if(path.second->mRunning && !path.second->mPaused){
             int moveX = 0;
             int moveY = 0;
             if(!diffX &&!diffY){
@@ -63,5 +63,49 @@ void Systems::AiSystem::update(uint8_t pTimeDiff) {
 
         }
     }
+
+    auto playerSpatial = Managers::ComponentsManager::getSpatialComponent(1);
+    auto playerVisual = Managers::ComponentsManager::getVisualComponent(1);
+    int leftLimit = playerSpatial->mPositionX;
+    int rightLimit = leftLimit+playerVisual->mImageRect.w;
+    int topLimit = playerSpatial->mPositionY;
+    int bottomLimit = topLimit+playerVisual->mImageRect.h;
+
+    static int time = 0;
+    time+=pTimeDiff;
+
+if(time>=1000) {
+    time = 0;
+    for (const auto &viewRange: Managers::ComponentsManager::getViewRanges()) {
+        auto spatialEntry = Managers::ComponentsManager::getSpatialComponent(viewRange.first);
+        if(spatialEntry) {
+            int leftLimitEntry = spatialEntry->mPositionX - viewRange.second->mX;
+            int rightLimitEntry = spatialEntry->mPositionX + viewRange.second->mX;
+            int topLimitEntry = spatialEntry->mPositionY;
+            int bottomLimitEntry = spatialEntry->mPositionY + 50;
+
+            bool collision = false;
+            if (leftLimit > leftLimitEntry && leftLimit < rightLimitEntry) {
+                if (topLimit > topLimitEntry && topLimit < bottomLimitEntry) {
+                    collision = true;
+                } else if (bottomLimit < topLimitEntry && bottomLimit > bottomLimitEntry) {
+                    collision = true;
+                }
+            } else if (rightLimit < leftLimitEntry && rightLimit > rightLimitEntry) {
+                if (topLimit > topLimitEntry && topLimit < bottomLimitEntry) {
+                    collision = true;
+                } else if (bottomLimit < topLimitEntry && bottomLimit > bottomLimitEntry) {
+                    collision = true;
+                }
+            }
+            if (collision) {
+                mEventsManager->addEvent(std::make_shared<Events::EntityCanSee>(viewRange.first, 1));
+            } else {
+                auto path = Managers::ComponentsManager::getPaths(viewRange.first);
+                path->mPaused = false;
+            }
+        }
+    }
+}
 }
 

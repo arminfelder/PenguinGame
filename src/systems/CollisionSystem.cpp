@@ -111,6 +111,10 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
                         collisionType = Events::collisionTypes::bullet;
                         break;
                     }
+                    case Entities::entityTypes::player:{
+                        collisionType = Events::collisionTypes::player;
+                        break;
+                    }
                     case Entities::entityTypes::none: {
                         break;
                     }
@@ -146,15 +150,18 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
             //gravitation
                 int floorLeftPosition = (maskBottomLimit) * system->mapWidth + maskLeftLimit - 1;
                 int floorRightPosition = (maskBottomLimit) * system->mapWidth + maskRightLimit - 1;
-                bool floorLeft = system->collisionMask->at(static_cast<unsigned long>(floorLeftPosition));
-                bool floorRight = system->collisionMask->at(static_cast<unsigned long>(floorRightPosition));
-                if (!floorLeft && !floorRight) { //no floor below us -> fall down
-                    system->mEventsManager->addEvent(std::make_shared<Events::FallingEvent>(entityId));
-                    std::cout << "added event for falling" << std::endl;
-                } else if (maskTopLimit == maskBottomLimit) { //else: player lands somewhere, if: stop if player occupies only one cube
-                    //todo make this hack nice using the event queue
-                    auto momenta = Managers::ComponentsManager::getMomenta();
-                    momenta[entityId]->speedY = 0;
+                if(floorLeftPosition <system->collisionMask->size() && floorRightPosition<system->collisionMask->size()) {
+                    bool floorLeft = system->collisionMask->at(static_cast<unsigned long>(floorLeftPosition));
+                    bool floorRight = system->collisionMask->at(static_cast<unsigned long>(floorRightPosition));
+                    if (!floorLeft && !floorRight) { //no floor below us -> fall down
+                        system->mEventsManager->addEvent(std::make_shared<Events::FallingEvent>(entityId));
+                        std::cout << "added event for falling" << std::endl;
+                    } else if (maskTopLimit ==
+                               maskBottomLimit) { //else: player lands somewhere, if: stop if player occupies only one cube
+                        //todo make this hack nice using the event queue
+                        auto momenta = Managers::ComponentsManager::getMomenta();
+                        momenta[entityId]->speedY = 0;
+                    }
                 }
             //end gravitation
         }

@@ -34,6 +34,7 @@ std::map<int, std::shared_ptr<Components::Momentum>> ComponentsManager::mMomentu
 std::map<int, std::shared_ptr<Components::Path>> ComponentsManager::mPaths;
 std::map<int, std::shared_ptr<Components::TimeToLive>> ComponentsManager::mTimeToLives;
 std::map<int, std::shared_ptr<Components::CollisionDamage>> ComponentsManager::mDamages;
+std::map<int, std::shared_ptr<Components::ViewRange>> ComponentsManager::mViewRanges;
 
 
 std::map<int, std::shared_ptr<Components::Health>> &ComponentsManager::getHealthComponents(){
@@ -190,4 +191,16 @@ void ComponentsManager::createDamageComponent(int pEntityId, int pDamage) {
 
 void ComponentsManager::createTimeToLive(int pEntityId, uint64_t pTime) {
     mTimeToLives.insert({pEntityId, std::make_shared<Components::TimeToLive>(pTime)});
+}
+
+std::map<int, std::shared_ptr<Components::ViewRange>> &ComponentsManager::getViewRanges() {
+    return mViewRanges;
+}
+
+std::shared_ptr<Components::ViewRange> &ComponentsManager::getViewRange(int pEntityId) {
+    return mViewRanges[pEntityId];
+}
+
+void ComponentsManager::createViewRange(int pEntityId, int pX, int pY) {
+    mViewRanges.insert({pEntityId,std::make_shared<Components::ViewRange>(pX,pY)});
 }

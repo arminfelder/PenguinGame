@@ -18,6 +18,7 @@ namespace Components {
         bool mRepeat;
         bool mRunning;
         int mStepsPerFrame;
+        bool mPaused = false;
         int mTimeSinceLastStep = 0;
         int mXmovedCurStep = 0;
         int mYmovedCurStep = 0;
