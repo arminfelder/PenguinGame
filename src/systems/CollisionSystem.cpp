@@ -115,6 +115,10 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
                         collisionType = Events::collisionTypes::player;
                         break;
                     }
+                    case Entities::entityTypes::door:{
+                        collisionType = Events::collisionTypes::regular;
+                        break;
+                    }
                     case Entities::entityTypes::none: {
                         break;
                     }

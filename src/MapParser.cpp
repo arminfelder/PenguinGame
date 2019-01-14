@@ -25,6 +25,8 @@
 #include "entities/HealthIndicator.h"
 #include "entities/HealthItem.h"
 #include "entities/Npc.h"
+#include "entities/Key.h"
+#include "entities/Door.h"
 
 using namespace Entities;
 using namespace std;
@@ -51,6 +53,13 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
 
     std::shared_ptr<SDL_Surface> imageHeart(SDL_LoadBMP("./res/heart_4.bmp"), SDL_FreeSurface);
     std::shared_ptr<SDL_Texture> textureHeart(SDL_CreateTextureFromSurface(pRenderer, imageHeart.get()), SDL_DestroyTexture);
+
+    std::shared_ptr<SDL_Surface> imageKey(SDL_LoadBMP("./res/secret_key.bmp"), SDL_FreeSurface);
+    std::shared_ptr<SDL_Texture> textureKey(SDL_CreateTextureFromSurface(pRenderer, imageKey.get()), SDL_DestroyTexture);
+
+    std::shared_ptr<SDL_Surface> imageDoorClosed(SDL_LoadBMP("./res/door_closed.bmp"), SDL_FreeSurface);
+    std::shared_ptr<SDL_Texture> textureDoorClosed(SDL_CreateTextureFromSurface(pRenderer, imageDoorClosed.get()), SDL_DestroyTexture);
+
 
     std::shared_ptr<SDL_Surface> imageMonster1(SDL_LoadBMP("./res/monster/MonsterPack_008/depixelizer_1453475703255.bmp"), SDL_FreeSurface);
     std::shared_ptr<SDL_Texture> textureMonster1(SDL_CreateTextureFromSurface(pRenderer, imageMonster1.get()), SDL_DestroyTexture);
@@ -118,6 +127,20 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
                     Managers::ComponentsManager::createSpatialComponent(id, x, y);
                     collisionMask->pop_back();
                     collisionMask->push_back(true);
+                    break;
+                }
+                case 'k':{
+                    int id = Managers::EntityManager::createEntity<Key>();
+                    Managers::ComponentsManager::createVisualComponent(id, textureKey, 50, 50);
+                    Managers::ComponentsManager::createSpatialComponent(id, x, y);
+                    Managers::ComponentsManager::createCollideAbleComponent(id);
+                    break;
+                }
+                case 'd':{
+                    int id = Managers::EntityManager::createEntity<Door>();
+                    Managers::ComponentsManager::createVisualComponent(id, textureDoorClosed, 50, 50);
+                    Managers::ComponentsManager::createSpatialComponent(id, x, y);
+                    Managers::ComponentsManager::createCollideAbleComponent(id);
                     break;
                 }
                 case 'p': {
