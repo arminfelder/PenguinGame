@@ -40,6 +40,9 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
     std::shared_ptr<SDL_Surface> imageStoneWall(SDL_LoadBMP("./res/stone-wall-2477715_640.bmp"), SDL_FreeSurface) ;
     std::shared_ptr<SDL_Texture> textureStoneWall(SDL_CreateTextureFromSurface(pRenderer, imageStoneWall.get()), SDL_DestroyTexture);
 
+    std::shared_ptr<SDL_Surface> imageStoneWall2(SDL_LoadBMP("./res/00.bmp"), SDL_FreeSurface) ;
+    std::shared_ptr<SDL_Texture> textureStoneWall2(SDL_CreateTextureFromSurface(pRenderer, imageStoneWall2.get()), SDL_DestroyTexture);
+
     map<string, list<string>> playerBmps;
     playerBmps.insert({"walk",{"./res/tux/big/walk-0.bmp","./res/tux/big/walk-1.bmp","./res/tux/big/walk-2.bmp","./res/tux/big/walk-3.bmp","./res/tux/big/walk-4.bmp","./res/tux/big/walk-5.bmp","./res/tux/big/walk-6.bmp","./res/tux/big/walk-7.bmp"}});
 
@@ -96,6 +99,14 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
                 case '+':{
                     int id = Managers::EntityManager::createEntity<Wall>();
                     Managers::ComponentsManager::createVisualComponent(id, textureStoneWall, 50, 50);
+                    Managers::ComponentsManager::createSpatialComponent(id, x, y);
+                    collisionMask->pop_back();
+                    collisionMask->push_back(true);
+                    break;
+                }
+                case '&':{
+                    int id = Managers::EntityManager::createEntity<Wall>();
+                    Managers::ComponentsManager::createVisualComponent(id, textureStoneWall2, 50, 50);
                     Managers::ComponentsManager::createSpatialComponent(id, x, y);
                     collisionMask->pop_back();
                     collisionMask->push_back(true);
