@@ -60,6 +60,6 @@ add_executable(game PenguinGame.cpp PenguinGame.h
         events/FallingEvent.cpp
         events/MoveEntity.cpp
         MapParser.cpp
-        main.cpp systems/TriggerSystem.cpp systems/TriggerSystem.h entities/HealthItem.cpp entities/HealthItem.h components/Path.cpp components/Path.h entities/Npc.cpp entities/Npc.h systems/AiSystem.cpp systems/AiSystem.h systems/CombatSystem.cpp systems/CombatSystem.h entities/Projectile.cpp entities/Projectile.h components/CollisionDamage.cpp components/CollisionDamage.h components/TimeToLive.cpp components/TimeToLive.h)
+        main.cpp systems/TriggerSystem.cpp systems/TriggerSystem.h entities/HealthItem.cpp entities/HealthItem.h components/Path.cpp components/Path.h entities/Npc.cpp entities/Npc.h systems/AiSystem.cpp systems/AiSystem.h systems/CombatSystem.cpp systems/CombatSystem.h entities/Projectile.cpp entities/Projectile.h components/CollisionDamage.cpp components/CollisionDamage.h components/TimeToLive.cpp components/TimeToLive.h components/ViewRange.cpp components/ViewRange.h events/EntityCanSee.cpp events/EntityCanSee.h)
 
 target_link_libraries(game ${SDL2_LIBRARIES} ${SDL2TTF_LIBRARY} ${SDL2_MIXER_LIBRARY})

@@ -30,7 +30,8 @@ namespace Events {
         MapMovement,
         EntityMoved,
         Falling,
-        MoveEntity
+        MoveEntity,
+        EntityCanSee
 
     };
 

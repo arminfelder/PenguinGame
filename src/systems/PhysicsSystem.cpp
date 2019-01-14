@@ -37,7 +37,7 @@ Systems::PhysicsSystem::PhysicsSystem(Managers::EventsManager *pEventsManager):m
         auto event = static_cast<Events::KeyUpEvent*>(pEvent.get());
         if(event->mKeyCode.sym == SDLK_SPACE){
             auto momentum = Managers::ComponentsManager::getMomentumComponent(1);
-            momentum->speedY -= 15;
+            momentum->speedY -= 20;
         }
     };
 
