@@ -17,6 +17,7 @@
 ******************************************************************************/
 
 
+#include <SDL_events.h>
 #include "PositionSystem.h"
 #include "../events/KeyPressedEvent.h"
 #include "../events/EntityMoved.h"
@@ -36,6 +37,7 @@ Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager)
             timeFactor = 1;
         }
         if (event->getType() != Events::EventTypes::KeyUp) {
+            SDL_Event sdl_event;
             switch (event->mKeyCode.sym) {
                 case SDLK_UP:
                     if (moveable->canMoveUp) {
@@ -71,6 +73,18 @@ Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager)
                         system->mEventsManager->addEvent(std::make_shared<Events::EntityMoved>(1,Events::EntityMoved::Direction::left));
                     }
                     break;
+
+                case SDLK_m:
+                    sdl_event.type = 32769;
+                    SDL_PushEvent(&sdl_event);
+                    break;
+
+                    //quit game
+                case SDLK_ESCAPE:
+                    sdl_event.type = SDL_QUIT;
+                    SDL_PushEvent(&sdl_event);
+                    break;
+
                 default:
                     break;
             }

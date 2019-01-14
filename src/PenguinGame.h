@@ -50,6 +50,9 @@ private:
     Uint32 mWavLength;
     Uint8 *mWavBuffer = nullptr;
     SDL_AudioDeviceID mAudiDdeviceId;
+
+    //menu
+    bool mMenu = false;
 };
 
 

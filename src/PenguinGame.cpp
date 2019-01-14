@@ -33,21 +33,36 @@ int PenguinGame::run() {
     uint64_t last = now;
     uint64_t deltaTime = 0;
     int frames = 60;
-    while (mRunning){
-        last = now;
-        now = SDL_GetPerformanceCounter();
-        deltaTime = ((now - last)*1000 / SDL_GetPerformanceFrequency() );
-        SDL_Event event;
-        SDL_PumpEvents();
-        while(SDL_PeepEvents(&event, 1, SDL_GETEVENT, SDL_FIRSTEVENT, SDL_SYSWMEVENT)){
-            if(event.window.event == SDL_WINDOWEVENT_CLOSE){
-                mRunning = false;
+    SDL_RegisterEvents(32769); //register menu event
+    while (mRunning) {
+        if (mMenu) {
+            SDL_Surface *surface = SDL_GetWindowSurface(mWindow);
+            //Fill the surface white
+            SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, 0xFF, 0xFF, 0xFF));
+            SDL_UpdateWindowSurface(mWindow);
+            SDL_Delay(2000);
+            mMenu = false;
+        } else {
+            last = now;
+            now = SDL_GetPerformanceCounter();
+            deltaTime = ((now - last) * 1000 / SDL_GetPerformanceFrequency());
+            SDL_Event event;
+            SDL_PumpEvents();
+            while (SDL_PeepEvents(&event, 1, SDL_GETEVENT, SDL_FIRSTEVENT, SDL_SYSWMEVENT)) {
+                if (event.type == SDL_QUIT) {
+                    mRunning = false;
+                    break;
+                }
             }
+            while (SDL_PeepEvents(&event, 1, SDL_GETEVENT, 32769, 32769)) {
+                if (event.type == 32769) { //open menu
+                    mMenu = true;
+                }
+            }
+            mGameEngine->update(deltaTime);
+            SDL_Delay(static_cast<Uint32> (1000 / frames));
 
         }
-        mGameEngine->update(deltaTime);
-        SDL_Delay(static_cast<Uint32> (1000/frames) );
-
     }
 
     return 0;
@@ -57,7 +72,7 @@ void PenguinGame::initSDL() {
     SDL_Init(SDL_INIT_VIDEO);
     SDL_Init(SDL_INIT_AUDIO);
     TTF_Init();
-    mWindow = SDL_CreateWindow("PenguinGame", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1000, 500, 0);
+    mWindow = SDL_CreateWindow("PenguinGame", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1000, 600, 0);
     if(!mWindow){
         SDL_Log("failed to create window: %s", SDL_GetError());
     }
