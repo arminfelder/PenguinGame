@@ -32,7 +32,7 @@ public:
     void initSDL();
     void initEngine();
     void initAudio();
-
+    void SDLEventLoop(bool* mMenu, bool* mRunning);
     void initGame();
 
     void end();

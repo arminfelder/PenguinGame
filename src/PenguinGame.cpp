@@ -33,32 +33,22 @@ int PenguinGame::run() {
     uint64_t last = now;
     uint64_t deltaTime = 0;
     int frames = 60;
+
     SDL_RegisterEvents(32769); //register menu event
+    SDL_Surface *surface = SDL_GetWindowSurface(mWindow);
+    SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, 0xFF, 0xFF, 0xFF));
     while (mRunning) {
         if (mMenu) {
-            SDL_Surface *surface = SDL_GetWindowSurface(mWindow);
             //Fill the surface white
-            SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, 0xFF, 0xFF, 0xFF));
+            SDLEventLoop(&mMenu, &mRunning);
             SDL_UpdateWindowSurface(mWindow);
-            SDL_Delay(2000);
-            mMenu = false;
+            SDL_Delay(static_cast<Uint32> (1000 / frames));
+            //mMenu = false;
         } else {
             last = now;
             now = SDL_GetPerformanceCounter();
             deltaTime = ((now - last) * 1000 / SDL_GetPerformanceFrequency());
-            SDL_Event event;
-            SDL_PumpEvents();
-            while (SDL_PeepEvents(&event, 1, SDL_GETEVENT, SDL_FIRSTEVENT, SDL_SYSWMEVENT)) {
-                if (event.type == SDL_QUIT) {
-                    mRunning = false;
-                    break;
-                }
-            }
-            while (SDL_PeepEvents(&event, 1, SDL_GETEVENT, 32769, 32769)) {
-                if (event.type == 32769) { //open menu
-                    mMenu = true;
-                }
-            }
+            SDLEventLoop(&mMenu, &mRunning);
             mGameEngine->update(deltaTime);
             SDL_Delay(static_cast<Uint32> (1000 / frames));
 
@@ -77,6 +67,32 @@ void PenguinGame::initSDL() {
         SDL_Log("failed to create window: %s", SDL_GetError());
     }
     mRunning = true;
+}
+
+void PenguinGame::SDLEventLoop(bool* mMenu, bool* mRunning) {
+    SDL_Event event;
+    SDL_PumpEvents();
+    if (*mMenu) {
+        while (SDL_PeepEvents(&event, 1, SDL_GETEVENT, SDL_FIRSTEVENT, SDL_KEYDOWN)) {
+            if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_m) {
+                *mMenu = !*mMenu;
+                break;
+            }
+        }
+    }
+
+    while (SDL_PeepEvents(&event, 1, SDL_GETEVENT, SDL_FIRSTEVENT, SDL_SYSWMEVENT)) {
+        if (event.type == SDL_QUIT) {
+            *mRunning = false;
+            break;
+        }
+    }
+    while (SDL_PeepEvents(&event, 1, SDL_GETEVENT, 32769, 32769)) {
+        if (event.type == 32769) { //open menu
+            *mMenu = !*mMenu;
+        }
+    }
+
 }
 
 void PenguinGame::initEngine() {
