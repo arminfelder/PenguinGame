@@ -9,7 +9,7 @@
 
 
 void Menu::create() {
-    int position = 0;
+    int position = getMenuSize();
     addMenuComponent(std::make_shared<MenuComponent> ("Sans", "erster Eintrag", "red", position++, MenuEvents::NONE));
     addMenuComponent(std::make_shared<MenuComponent> ("Sans", "New Game", "green", position++,MenuEvents::NEW_GAME));
     addMenuComponent(std::make_shared<MenuComponent> ("Sans", "Exit Menu", "green", position++, MenuEvents::QUIT_MENU));
@@ -19,9 +19,6 @@ void Menu::create() {
 void Menu::render(SDL_Renderer* pRenderer) {
     mRunning = true;
     while (mRunning) {
-        if (menuComponents.size() == 0)
-            create();
-
         for (const auto &component : menuComponents) {
             SDL_Rect rect;
             rect.x = 400;
@@ -110,8 +107,12 @@ void Menu::triggerMenuEvent() {
         case MenuEvents::NEW_GAME:
             this->close();
             SDL_Event sdl_event;
-            sdl_event.type = 32770;
+            sdl_event.type = 33333;
             SDL_PushEvent(&sdl_event);
+            break;
+        case MenuEvents::MAIN_MENU:
+        case MenuEvents::PAUSE_MENU:
+            switchMenu(event);
             break;
         default:
             std::cout << "function not implemented" << std::endl;
@@ -125,3 +126,19 @@ void Menu::quitGame() {
     sdl_event.type = SDL_QUIT;
     SDL_PushEvent(&sdl_event);
 }
+
+void Menu::switchMenu(MenuEvents::MenuEventType event) {
+    SDL_Event sdl_event;
+    switch (event) {
+        case MenuEvents::MAIN_MENU:
+            sdl_event.type = 32769;
+            break;
+        case MenuEvents::PAUSE_MENU:
+            sdl_event.type = 32770;
+            break;
+    }
+    this->close();
+    SDL_PushEvent(&sdl_event);
+}
+
+Menu::Menu() = default;

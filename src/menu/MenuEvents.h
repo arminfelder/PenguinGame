@@ -10,6 +10,8 @@ public:
     NEW_GAME,
     LOAD_GAME,
     SAVE_GAME,
+    PAUSE_MENU,
+    MAIN_MENU,
     NONE
 } MenuEventType;
 

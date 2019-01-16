@@ -17,7 +17,7 @@ public:
     void create();
     void render(SDL_Renderer* pRenderer);
     void close();
-
+    Menu();
     std::map<int, std::shared_ptr<MenuComponent>> getMenuComponents();
     int getMenuSize();
     void addMenuComponent(std::shared_ptr<MenuComponent> component);
@@ -29,6 +29,7 @@ private:
     void triggerMenuEvent();
     void updateSelection(short direction);
     void quitGame();
+    void switchMenu(MenuEvents::MenuEventType eventType);
 
     bool mRunning = true;
 

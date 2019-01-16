@@ -35,7 +35,7 @@ public:
     void initAudio();
     void SDLEventLoop(bool* mRunning);
     void initGame();
-    SDL_Renderer* getRenderer();
+    void initMenus();
 
     void newGame();
     void end();
@@ -47,7 +47,6 @@ private:
     GameEngine *mGameEngine = nullptr;
     std::vector<bool> collisionMask;
 
-
     //audio
     SDL_AudioSpec mWavSpec;
     Uint32 mWavLength;
@@ -56,7 +55,10 @@ private:
 
     //Menu
     bool mOpenMenu = false;
-    Menu menu;
+    bool mOpenPause = false;
+    std::shared_ptr<Menu> mainMenu;
+    std::shared_ptr<Menu> pauseMenu;
+
 
 };
 
