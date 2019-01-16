@@ -34,7 +34,7 @@ namespace Systems {
         Managers::EventsManager *mEventsManager = nullptr;
         SDL_AudioDeviceID mDeviceId;
         std::shared_ptr<Mix_Music> mArea1Music;
-        std::shared_ptr<Mix_Chunk> mTestSound;
+        std::shared_ptr<Mix_Chunk> mCollectItem;
 
     };
 }

@@ -4,3 +4,6 @@ rock-textures-brickwork-brick-wall-13958.jpg,torange.biz,CC-BY
 stone-wall-2477715_640.jpg,terimakasih0(pixabay),CC0
 163442__under7dude__man-dying.wav,Under7dude(freesound.org),CC0
 tux/*,SuperTux,GPL3
+heart_4.png,mart(OpenGameArt.org),CC0
+387133__rdaly95__collecting-health.wav,rdaly95(freesound.org),CC-BY
+monster/MonsterPack_008/*,Kjell_Granlund(OpenGameArt.org),CC-BY

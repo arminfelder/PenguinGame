@@ -30,6 +30,8 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
     auto callback = [system = this](const std::shared_ptr<Events::Event> &pEvent)->void{
         auto event = static_cast<Events::EntityMoved*>(pEvent.get());
         auto entityId = event->mEntityId;
+        auto movingEntity = Managers::EntityManager::getEntity(event->mEntityId);
+
         auto collideAbles = Managers::ComponentsManager::getCollideAble();
 
         auto spatial = Managers::ComponentsManager::getSpatialComponent(entityId);
@@ -43,14 +45,15 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
         //maskCollision
 
         bool maskCollision = false;
-        int maskRightLimit = (int) ceil((double)rightLimit/50.0);
-        int maskLeftLimit = (int) ceil((double)leftLimit/50.0);
-        int maskTopLimit = (int) ceil((double)topLimit/50.0);
-        int maskBottomLimit = (int) ceil((double)bottomLimit/50.0);
+        int maskRightLimit = static_cast<int>(ceil(static_cast<double>(rightLimit)/50.0));
+        int maskLeftLimit =  static_cast<int>(ceil(static_cast<double>(leftLimit)/50.0));
+        int maskTopLimit =   static_cast<int>(ceil(static_cast<double>(topLimit)/50.0));
+        int maskBottomLimit =static_cast<int>(ceil(static_cast<double>(bottomLimit)/50.0));
 
         for (int horizontal = maskLeftLimit-1; horizontal < maskRightLimit; horizontal++) {
             for (int vertical = maskTopLimit-1; vertical < maskBottomLimit; vertical++) {
-                if ((system->collisionMask->at(static_cast<unsigned long>(horizontal + vertical * system->mapWidth))) == true) {
+                unsigned long index = static_cast<unsigned long>(horizontal + vertical * system->mapWidth);
+                if (system->collisionMask->size()<index && (system->collisionMask->at(index)) == true) {
                     std::cout << "collision via mask detected" << std::endl;
                     maskCollision = true;
                     system->mEventsManager->addEvent(
@@ -83,6 +86,8 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
                         break;
                     }
                     case Entities::entityTypes::npc: {
+                        collisionType = Events::collisionTypes::npc;
+
                         break;
                     }
                     case Entities::entityTypes::movementReset: {
@@ -95,11 +100,25 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
                     }
                     case Entities::entityTypes::ladderBegin: {
                         collisionType = Events::collisionTypes::ladderBegin;
+                        break;
                         //TODO: add break with its own commit
                     }
-                    case Entities::entityTypes::none: {
-
+                    case Entities::entityTypes::healthUp: {
+                        collisionType = Events::collisionTypes::healthUp;
+                        break;
                     }
+                    case Entities::entityTypes::projectile:{
+                        collisionType = Events::collisionTypes::bullet;
+                        break;
+                    }
+                    case Entities::entityTypes::player:{
+                        collisionType = Events::collisionTypes::player;
+                        break;
+                    }
+                    case Entities::entityTypes::none: {
+                        break;
+                    }
+
                 }
                 if (leftLimit > entryLeftLimit && leftLimit < entryRightLimit) {
                     if (topLimit > entryTopLimit && topLimit < entryBottomLimit) {
@@ -127,19 +146,22 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
             }
         }
 
-        if (!maskCollision && !entityCollision) {
+        if (!maskCollision && !entityCollision && movingEntity->getType() == Entities::entityTypes::player) {
             //gravitation
                 int floorLeftPosition = (maskBottomLimit) * system->mapWidth + maskLeftLimit - 1;
                 int floorRightPosition = (maskBottomLimit) * system->mapWidth + maskRightLimit - 1;
-                bool floorLeft = system->collisionMask->at(static_cast<unsigned long>(floorLeftPosition));
-                bool floorRight = system->collisionMask->at(static_cast<unsigned long>(floorRightPosition));
-                if (!floorLeft && !floorRight) { //no floor below us -> fall down
-                    system->mEventsManager->addEvent(std::make_shared<Events::FallingEvent>(entityId));
-                    std::cout << "added event for falling" << std::endl;
-                } else if (maskTopLimit == maskBottomLimit) { //else: player lands somewhere, if: stop if player occupies only one cube
-                    //todo make this hack nice using the event queue
-                    auto momenta = Managers::ComponentsManager::getMomenta();
-                    momenta[entityId]->speedY = 0;
+                if(floorLeftPosition <system->collisionMask->size() && floorRightPosition<system->collisionMask->size()) {
+                    bool floorLeft = system->collisionMask->at(static_cast<unsigned long>(floorLeftPosition));
+                    bool floorRight = system->collisionMask->at(static_cast<unsigned long>(floorRightPosition));
+                    if (!floorLeft && !floorRight) { //no floor below us -> fall down
+                        system->mEventsManager->addEvent(std::make_shared<Events::FallingEvent>(entityId));
+                        std::cout << "added event for falling" << std::endl;
+                    } else if (maskTopLimit ==
+                               maskBottomLimit) { //else: player lands somewhere, if: stop if player occupies only one cube
+                        //todo make this hack nice using the event queue
+                        auto momenta = Managers::ComponentsManager::getMomenta();
+                        momenta[entityId]->speedY = 0;
+                    }
                 }
             //end gravitation
         }

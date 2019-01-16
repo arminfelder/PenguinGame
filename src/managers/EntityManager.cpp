@@ -29,6 +29,7 @@ std::unordered_map<int, std::shared_ptr<Entities::Entity>> EntityManager::mEntit
 
 bool EntityManager::destroyEntity(int pId) {
     return mEntities.erase(pId) ? true:false;
+
 }
 
 std::shared_ptr<Entity> EntityManager::getEntity(int pId) {

@@ -35,5 +35,10 @@ configure_file(tux/big/walk-5.bmp tux/big/walk-5.bmp COPYONLY)
 configure_file(tux/big/walk-6.bmp tux/big/walk-6.bmp COPYONLY)
 configure_file(tux/big/walk-7.bmp tux/big/walk-7.bmp COPYONLY)
 
+configure_file(heart_4.bmp heart_4.bmp COPYONLY)
+configure_file(387133__rdaly95__collecting-health.wav 387133__rdaly95__collecting-health.wav COPYONLY)
+configure_file(monster/MonsterPack_008/depixelizer_1453475703255.bmp monster/MonsterPack_008/depixelizer_1453475703255.bmp COPYONLY)
+configure_file(new_bullet.bmp new_bullet.bmp COPYONLY)
+
 
 configure_file(map.txt map.txt COPYONLY)

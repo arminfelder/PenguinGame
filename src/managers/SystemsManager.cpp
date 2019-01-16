@@ -30,6 +30,9 @@ SystemsManager::SystemsManager(SDL_Window *pWindow, SDL_Renderer *pPrenderer, Ev
     mAudioSystem = new AudioSystem(pEventsManager);
     mTextureSystem = new TextureSystem(pEventsManager);
     mPhysicsSystem = new PhysicsSystem(pEventsManager);
+    mAiSystem = new AiSystem(pEventsManager);
+    mCombatSystem = new CombatSystem(pPrenderer, pEventsManager);
+
     mRenderSystem = new RenderSystem(pWindow,pPrenderer,pEventsManager);
 }
 
@@ -46,6 +49,8 @@ RenderSystem *SystemsManager::getMRenderSystem() const {
 }
 
 void SystemsManager::update(uint64_t pTimeDiff) {
+    mHealthSystem->update(pTimeDiff);
+    mAiSystem->update(pTimeDiff);
     mPhysicsSystem->update(pTimeDiff);
     mInputSystem->update();
     mEventsManager->dispatch(pTimeDiff);

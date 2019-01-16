@@ -132,7 +132,7 @@ Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager)
                 direction = Events::EntityMoved::Direction::up;
             }
             system->mEventsManager->addEvent(
-                    std::make_shared<Events::EntityMoved>(1, direction));
+                    std::make_shared<Events::EntityMoved>(event->mEntityId, direction));
         }
 
     };

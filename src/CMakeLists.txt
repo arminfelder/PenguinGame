@@ -28,6 +28,9 @@ add_executable(game PenguinGame.cpp PenguinGame.h
         entities/LadderEnd.cpp
         entities/LadderBegin.cpp
         entities/HealthIndicator.cpp
+        entities/HealthItem.cpp
+        entities/Npc.cpp
+        entities/Projectile.cpp
         GameEngine.cpp
         systems/RenderSystem.cpp
         systems/InputSystem.cpp
@@ -37,10 +40,16 @@ add_executable(game PenguinGame.cpp PenguinGame.h
         systems/PhysicsSystem.cpp
         systems/AudioSystem.cpp
         systems/TextureSystem.cpp
+        systems/TriggerSystem.cpp
+        systems/AiSystem.cpp
+        systems/CombatSystem.cpp
         managers/EntityManager.cpp
         managers/SystemsManager.cpp
         managers/ComponentsManager.cpp
         managers/EventsManager.cpp
+        menu/MenuComponent.cpp
+        menu/Menu.cpp
+        menu/MenuEvents.cpp
         components/VisualComponent.cpp
         components/SpatialComponent.cpp
         components/Health.cpp
@@ -49,6 +58,10 @@ add_executable(game PenguinGame.cpp PenguinGame.h
         components/CameraOffset.cpp
         components/Momentum.cpp
         components/Gravity.cpp
+        components/Path.cpp
+        components/CollisionDamage.cpp
+        components/TimeToLive.cpp
+        components/ViewRange.cpp
         events/Event.cpp
         events/KeyPressedEvent.cpp
         events/KeyUpEvent.cpp
@@ -59,7 +72,8 @@ add_executable(game PenguinGame.cpp PenguinGame.h
         events/MapMovement.cpp
         events/FallingEvent.cpp
         events/MoveEntity.cpp
+        events/EntityCanSee.cpp
         MapParser.cpp
-        main.cpp menu/MenuComponent.cpp menu/MenuComponent.h menu/Menu.cpp menu/Menu.h menu/MenuEvents.cpp menu/MenuEvents.h)
+        main.cpp)
 
 target_link_libraries(game ${SDL2_LIBRARIES} ${SDL2TTF_LIBRARY} ${SDL2_MIXER_LIBRARY})
