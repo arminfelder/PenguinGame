@@ -7,6 +7,7 @@
 #include <SDL_surface.h>
 #include "MenuComponent.h"
 #include <SDL2/SDL.h>
+#include "MenuEvents.h"
 
 
 class Menu {
@@ -21,11 +22,13 @@ public:
     int getMenuSize();
     void addMenuComponent(std::shared_ptr<MenuComponent> component);
 private:
-    long active = 0;
+    int active = 0;
     std::map<int, std::shared_ptr<MenuComponent>> menuComponents;
     int height = 30, width = 200;
     void handleKeyEvent();
+    void triggerMenuEvent();
     void updateSelection(short direction);
+    void quitGame();
 
     bool mRunning = true;
 

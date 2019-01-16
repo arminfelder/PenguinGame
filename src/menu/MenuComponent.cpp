@@ -1,6 +1,7 @@
 #include <utility>
 
 #include <memory>
+#include <iostream>
 #include "MenuComponent.h"
 
 
@@ -19,11 +20,12 @@ const SDL_Color MenuComponent::matchColor(std::string color) {
     return sdl_color;
 }
 
-MenuComponent::MenuComponent(std::string font, std::string text, std::string color, int position) {
+MenuComponent::MenuComponent(std::string font, std::string text, std::string color, int position, MenuEvents::MenuEventType menuType) {
     this->position = position;
     this->color = std::move(color);
     this->text = std::move(text);
     this->font = std::move(font);
+    this->menuEvent = menuType;
 }
 
 std::shared_ptr<SDL_Surface> MenuComponent::getSurface() {
@@ -39,4 +41,8 @@ int MenuComponent::getPosition() {
 
 void MenuComponent::updateColor(std::string color) {
     this->color = std::move(color);
+}
+
+MenuEvents::MenuEventType MenuComponent::getMenuEventType() {
+    return this->menuEvent;
 }

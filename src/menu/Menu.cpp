@@ -3,16 +3,17 @@
 #include <algorithm>
 #include "Menu.h"
 #include <SDL2/SDL.h>
+#include <iostream>
 #include "MenuComponent.h"
-
+#include "MenuEvents.h"
 
 
 void Menu::create() {
     int position = 0;
-    addMenuComponent(std::make_shared<MenuComponent> ("Sans", "erster Eintrag", "red", position++));
-    addMenuComponent(std::make_shared<MenuComponent> ("Sans", "zweiter Eintrag", "green", position++));
-    addMenuComponent(std::make_shared<MenuComponent> ("Sans", "dritter Eintrag", "green", position++));
-    addMenuComponent(std::make_shared<MenuComponent> ("Sans", "vierter Eintrag", "green", position++));
+    addMenuComponent(std::make_shared<MenuComponent> ("Sans", "erster Eintrag", "red", position++, MenuEvents::NONE));
+    addMenuComponent(std::make_shared<MenuComponent> ("Sans", "New Game", "green", position++,MenuEvents::NEW_GAME));
+    addMenuComponent(std::make_shared<MenuComponent> ("Sans", "Exit Menu", "green", position++, MenuEvents::QUIT_MENU));
+    addMenuComponent(std::make_shared<MenuComponent> ("Sans", "Quit Game", "green", position++, MenuEvents::QUIT_GAME));
 }
 
 void Menu::render(SDL_Renderer* pRenderer) {
@@ -72,10 +73,10 @@ void Menu::handleKeyEvent() {
                     this->close();
                     break;
                 case SDLK_ESCAPE:
-                    this->close();
-                    SDL_Event sdl_event;
-                    sdl_event.type = SDL_QUIT;
-                    SDL_PushEvent(&sdl_event);
+                    quitGame();
+                case SDLK_RETURN:
+                    triggerMenuEvent();
+                    break;
                 default: break;
             }
         }
@@ -95,4 +96,32 @@ void Menu::updateSelection(short direction) {
         active = 0;
     component = menuComponents.at(active);
     component.get()->updateColor("red");
+}
+
+void Menu::triggerMenuEvent() {
+    auto event = (menuComponents.at(active)).get()->getMenuEventType();
+    switch (event) {
+        case MenuEvents::QUIT_GAME:
+            quitGame();
+            break;
+        case MenuEvents::QUIT_MENU:
+            this->close();
+            break;
+        case MenuEvents::NEW_GAME:
+            this->close();
+            SDL_Event sdl_event;
+            sdl_event.type = 32770;
+            SDL_PushEvent(&sdl_event);
+            break;
+        default:
+            std::cout << "function not implemented" << std::endl;
+            break;
+    }
+}
+
+void Menu::quitGame() {
+    this->close();
+    SDL_Event sdl_event;
+    sdl_event.type = SDL_QUIT;
+    SDL_PushEvent(&sdl_event);
 }

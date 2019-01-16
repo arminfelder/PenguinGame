@@ -36,6 +36,7 @@ int PenguinGame::run() {
     int frames = 60;
 
     SDL_RegisterEvents(32769); //register Menu event
+    SDL_RegisterEvents(32770); //register New Game event
     SDL_Surface *surface = SDL_GetWindowSurface(mWindow);
 
     while (mRunning) {
@@ -44,12 +45,13 @@ int PenguinGame::run() {
             SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, 0xFF, 0xFF, 0xFF));
             SDL_UpdateWindowSurface(mWindow);
             menu.render(mRenderer);
+            SDLEventLoop(&mRunning);
             mOpenMenu = false;
         } else {
             last = now;
             now = SDL_GetPerformanceCounter();
             deltaTime = ((now - last) * 1000 / SDL_GetPerformanceFrequency());
-            SDLEventLoop(&mOpenMenu, &mRunning);
+            SDLEventLoop(&mRunning);
             mGameEngine->update(deltaTime);
             SDL_Delay(static_cast<Uint32> (1000 / frames));
 
@@ -70,9 +72,18 @@ void PenguinGame::initSDL() {
     mRunning = true;
 }
 
-void PenguinGame::SDLEventLoop(bool* mMenu, bool* mRunning) {
+void PenguinGame::SDLEventLoop(bool* mRunning) {
     SDL_Event event;
     SDL_PumpEvents();
+    if (mOpenMenu) { //check for events after (automatic) menu close
+        while (SDL_PeepEvents(&event, 1, SDL_GETEVENT, 32770, 32770)) {
+            if (event.type == 32770) {
+                newGame();
+                break;
+            }
+        }
+    }
+    else {
         while (SDL_PeepEvents(&event, 1, SDL_GETEVENT, SDL_FIRSTEVENT, SDL_SYSWMEVENT)) {
             if (event.type == SDL_QUIT) {
                 *mRunning = false;
@@ -81,9 +92,10 @@ void PenguinGame::SDLEventLoop(bool* mMenu, bool* mRunning) {
         }
         while (SDL_PeepEvents(&event, 1, SDL_GETEVENT, 32769, 32769)) {
             if (event.type == 32769) { //open Menu
-                *mMenu = !*mMenu;
+                mOpenMenu = true;
             }
         }
+    }
 }
 
 void PenguinGame::initEngine() {
@@ -124,4 +136,22 @@ void PenguinGame::initAudio() {
     //mAudiDdeviceId = SDL_OpenAudioDevice(NULL, 0, &mWavSpec, NULL, 0);
     //int success = SDL_QueueAudio(mAudiDdeviceId, mWavBuffer, mWavLength);
     //SDL_PauseAudioDevice(mAudiDdeviceId, 0);
+}
+
+void PenguinGame::newGame() {
+    SDL_CloseAudioDevice(mAudiDdeviceId);
+    SDL_FreeWAV(mWavBuffer);
+    delete mGameEngine;
+    delete mRenderer;
+    collisionMask.clear();
+    mGameEngine = nullptr;
+    mRenderer = nullptr;
+
+    //initAudio();
+    initEngine();
+    initGame();
+}
+
+SDL_Renderer* PenguinGame::getRenderer() {
+    return mRenderer;
 }

@@ -33,9 +33,11 @@ public:
     void initSDL();
     void initEngine();
     void initAudio();
-    void SDLEventLoop(bool* mMenu, bool* mRunning);
+    void SDLEventLoop(bool* mRunning);
     void initGame();
+    SDL_Renderer* getRenderer();
 
+    void newGame();
     void end();
     ~PenguinGame();
 private:

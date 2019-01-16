@@ -60,6 +60,6 @@ add_executable(game PenguinGame.cpp PenguinGame.h
         events/FallingEvent.cpp
         events/MoveEntity.cpp
         MapParser.cpp
-        main.cpp menu/MenuComponent.cpp menu/MenuComponent.h menu/Menu.cpp menu/Menu.h)
+        main.cpp menu/MenuComponent.cpp menu/MenuComponent.h menu/Menu.cpp menu/Menu.h menu/MenuEvents.cpp menu/MenuEvents.h)
 
 target_link_libraries(game ${SDL2_LIBRARIES} ${SDL2TTF_LIBRARY} ${SDL2_MIXER_LIBRARY})
