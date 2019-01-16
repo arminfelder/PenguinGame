@@ -119,6 +119,10 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
                         collisionType = Events::collisionTypes::regular;
                         break;
                     }
+                    case Entities::entityTypes::key:{
+                        collisionType = Events::collisionTypes::keyArea2;
+                        break;
+                    }
                     case Entities::entityTypes::none: {
                         break;
                     }

@@ -31,7 +31,8 @@ namespace Events {
         healthUp,
         bullet,
         npc,
-        player
+        player,
+        keyArea2
     };
     class CollisionEvent:public Event {
 

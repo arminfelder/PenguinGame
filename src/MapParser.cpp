@@ -141,6 +141,7 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
                     Managers::ComponentsManager::createVisualComponent(id, textureDoorClosed, 50, 50);
                     Managers::ComponentsManager::createSpatialComponent(id, x, y);
                     Managers::ComponentsManager::createCollideAbleComponent(id);
+                    Managers::ComponentsManager::createUseable(id, {Components::Inventory::ItemTypes::keyArea2});
                     break;
                 }
                 case 'p': {
@@ -151,6 +152,8 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
                     Managers::ComponentsManager::createHealthComponent(id,100);
                     Managers::ComponentsManager::createMomentumComponent(id);
                     Managers::ComponentsManager::createCollideAbleComponent(id);
+                    Managers::ComponentsManager::createInventory(id);
+                    Managers::ComponentsManager::createCanCollect(id, {Components::Inventory::ItemTypes::keyArea2});
                     break;
                 }
                 case 'h': {
