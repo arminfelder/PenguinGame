@@ -168,7 +168,7 @@ void PenguinGame::initMenus() {
     pauseMenu = std::make_shared<Menu>();
 
     int position = mainMenu.get()->getMenuSize();
-    mainMenu.get()->addMenuComponent(std::make_shared<MenuComponent>("Sans", "erster Eintrag", "red", position++, MenuEvents::NONE));
+    mainMenu.get()->addMenuComponent(std::make_shared<MenuComponent>("Sans", "First entry", "red", position++, MenuEvents::NONE));
     mainMenu.get()->addMenuComponent(std::make_shared<MenuComponent>("Sans", "New Game", "green", position++, MenuEvents::NEW_GAME));
     mainMenu.get()->addMenuComponent(std::make_shared<MenuComponent>("Sans", "Pause Menu", "green", position++, MenuEvents::PAUSE_MENU));
     mainMenu.get()->addMenuComponent(std::make_shared<MenuComponent>("Sans", "Exit Menu", "green", position++, MenuEvents::QUIT_MENU));
