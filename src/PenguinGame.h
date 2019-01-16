@@ -23,6 +23,7 @@
 #include <SDL_video.h>
 #include <SDL_audio.h>
 #include "GameEngine.h"
+#include "menu/Menu.h"
 
 class PenguinGame {
 
@@ -51,8 +52,10 @@ private:
     Uint8 *mWavBuffer = nullptr;
     SDL_AudioDeviceID mAudiDdeviceId;
 
-    //menu
-    bool mMenu = false;
+    //Menu
+    bool mOpenMenu = false;
+    Menu menu;
+
 };
 
 

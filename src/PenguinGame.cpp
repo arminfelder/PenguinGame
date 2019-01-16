@@ -21,6 +21,7 @@
 #include <iostream>
 #include <SDL_ttf.h>
 #include "MapParser.h"
+#include "menu/Menu.h"
 
 
 int PenguinGame::run() {
@@ -34,21 +35,21 @@ int PenguinGame::run() {
     uint64_t deltaTime = 0;
     int frames = 60;
 
-    SDL_RegisterEvents(32769); //register menu event
+    SDL_RegisterEvents(32769); //register Menu event
     SDL_Surface *surface = SDL_GetWindowSurface(mWindow);
-    SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, 0xFF, 0xFF, 0xFF));
+
     while (mRunning) {
-        if (mMenu) {
-            //Fill the surface white
-            SDLEventLoop(&mMenu, &mRunning);
+        if (mOpenMenu) {
+            //Fill the surface white; todo does not work
+            SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, 0xFF, 0xFF, 0xFF));
             SDL_UpdateWindowSurface(mWindow);
-            SDL_Delay(static_cast<Uint32> (1000 / frames));
-            //mMenu = false;
+            menu.render(mRenderer);
+            mOpenMenu = false;
         } else {
             last = now;
             now = SDL_GetPerformanceCounter();
             deltaTime = ((now - last) * 1000 / SDL_GetPerformanceFrequency());
-            SDLEventLoop(&mMenu, &mRunning);
+            SDLEventLoop(&mOpenMenu, &mRunning);
             mGameEngine->update(deltaTime);
             SDL_Delay(static_cast<Uint32> (1000 / frames));
 
@@ -72,27 +73,17 @@ void PenguinGame::initSDL() {
 void PenguinGame::SDLEventLoop(bool* mMenu, bool* mRunning) {
     SDL_Event event;
     SDL_PumpEvents();
-    if (*mMenu) {
-        while (SDL_PeepEvents(&event, 1, SDL_GETEVENT, SDL_FIRSTEVENT, SDL_KEYDOWN)) {
-            if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_m) {
-                *mMenu = !*mMenu;
+        while (SDL_PeepEvents(&event, 1, SDL_GETEVENT, SDL_FIRSTEVENT, SDL_SYSWMEVENT)) {
+            if (event.type == SDL_QUIT) {
+                *mRunning = false;
                 break;
             }
         }
-    }
-
-    while (SDL_PeepEvents(&event, 1, SDL_GETEVENT, SDL_FIRSTEVENT, SDL_SYSWMEVENT)) {
-        if (event.type == SDL_QUIT) {
-            *mRunning = false;
-            break;
+        while (SDL_PeepEvents(&event, 1, SDL_GETEVENT, 32769, 32769)) {
+            if (event.type == 32769) { //open Menu
+                *mMenu = !*mMenu;
+            }
         }
-    }
-    while (SDL_PeepEvents(&event, 1, SDL_GETEVENT, 32769, 32769)) {
-        if (event.type == 32769) { //open menu
-            *mMenu = !*mMenu;
-        }
-    }
-
 }
 
 void PenguinGame::initEngine() {
