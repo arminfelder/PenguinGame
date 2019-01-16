@@ -16,51 +16,42 @@
 * along with PenguinGame. If not, see <http://www.gnu.org/licenses/>.
 ******************************************************************************/
 
-#ifndef GAME_PENGUINGAME_H
-#define GAME_PENGUINGAME_H
+#ifndef GAME_MENU_H
+#define GAME_MENU_H
 
 
-#include <SDL_video.h>
-#include <SDL_audio.h>
-#include "GameEngine.h"
-#include "menu/Menu.h"
+#include <map>
+#include <memory>
+#include <SDL_surface.h>
+#include "MenuComponent.h"
+#include <SDL2/SDL.h>
+#include "MenuEvents.h"
 
-class PenguinGame {
+
+class Menu {
+
 
 public:
-    PenguinGame();
-    int run();
-    void initSDL();
-    void initEngine();
-    void initAudio();
-    void SDLEventLoop(bool* mRunning);
-    void initGame();
-    void initMenus();
-
-    void newGame();
-    void end();
-    ~PenguinGame();
+    void create();
+    void render(SDL_Renderer* pRenderer);
+    void close();
+    Menu();
+    std::map<int, std::shared_ptr<MenuComponent>> getMenuComponents();
+    int getMenuSize();
+    void addMenuComponent(std::shared_ptr<MenuComponent> component);
 private:
-    SDL_Window* mWindow = nullptr;
-    SDL_Renderer* mRenderer = nullptr;
-    bool mRunning = false;
-    GameEngine *mGameEngine = nullptr;
-    std::vector<bool> collisionMask;
+    int active = 0;
+    std::map<int, std::shared_ptr<MenuComponent>> menuComponents;
+    int height = 30, width = 200;
+    void handleKeyEvent();
+    void triggerMenuEvent();
+    void updateSelection(short direction);
+    void quitGame();
+    void switchMenu(MenuEvents::MenuEventType eventType);
 
-    //audio
-    SDL_AudioSpec mWavSpec;
-    Uint32 mWavLength;
-    Uint8 *mWavBuffer = nullptr;
-    SDL_AudioDeviceID mAudiDdeviceId;
-
-    //Menu
-    bool mOpenMenu = false;
-    bool mOpenPause = false;
-    std::shared_ptr<Menu> mainMenu;
-    std::shared_ptr<Menu> pauseMenu;
-
+    bool mRunning = true;
 
 };
 
 
-#endif //GAME_PENGUINGAME_H
+#endif //GAME_MENU_H
