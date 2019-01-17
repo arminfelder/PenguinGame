@@ -130,6 +130,10 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
                         collisionType = Events::collisionTypes::keyArea2;
                         break;
                     }
+                    case Entities::entityTypes::teleporterEntrance:{
+                        collisionType = Events::collisionTypes::teleporterEntry;
+                        break;
+                    }
                     case Entities::entityTypes::none: {
                         break;
                     }

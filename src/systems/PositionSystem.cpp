@@ -123,7 +123,7 @@ Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager)
         }else if(event->mType == Events::collisionTypes::teleporterEntry){
             auto targets = Managers::ComponentsManager::getTeleportTargets();
             if(!targets.empty()) {
-                auto target = targets.at(0)->mTargetEntity;
+                auto target = targets.begin()->first;
                 auto targetPos = Managers::ComponentsManager::getSpatialComponent(target);
                 if (targetPos) {
                     system->mEventsManager->addEvent(std::make_shared<Events::MoveEntity>(event->mMovingEntity,targetPos->mPositionX, targetPos->mPositionY));

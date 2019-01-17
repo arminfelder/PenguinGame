@@ -139,6 +139,7 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
                     Managers::ComponentsManager::createVisualComponent(id, textureTeleporterEntry, 50, 50);
                     Managers::ComponentsManager::createSpatialComponent(id, x, y);
                     Managers::ComponentsManager::createCollideAbleComponent(id);
+                    //useless
                     teleporterTarget = id;
                     break;
                 }
