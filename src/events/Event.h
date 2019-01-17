@@ -31,7 +31,8 @@ namespace Events {
         EntityMoved,
         Falling,
         MoveEntity,
-        EntityCanSee
+        EntityCanSee,
+        TriggerActivated
 
     };
 

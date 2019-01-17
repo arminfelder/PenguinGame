@@ -32,6 +32,7 @@
 #include "../systems/AiSystem.h"
 #include "../systems/CombatSystem.h"
 #include "../systems/InventorySystem.h"
+#include "../systems/TriggerSystem.h"
 
 namespace Managers {
 
@@ -61,6 +62,7 @@ namespace Managers {
         Systems::AiSystem* mAiSystem = nullptr;
         Systems::CombatSystem* mCombatSystem = nullptr;
         Systems::InventorySystem* mInvetorySystem = nullptr;
+        Systems::TriggerSystem* mTriggerSystem = nullptr;
         Managers::EventsManager* mEventsManager = nullptr;
 
 

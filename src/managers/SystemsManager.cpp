@@ -33,6 +33,7 @@ SystemsManager::SystemsManager(SDL_Window *pWindow, SDL_Renderer *pPrenderer, Ev
     mAiSystem = new AiSystem(pEventsManager);
     mCombatSystem = new CombatSystem(pPrenderer, pEventsManager);
     mInvetorySystem = new InventorySystem(pEventsManager);
+    mTriggerSystem = new TriggerSystem(pEventsManager);
 
     mRenderSystem = new RenderSystem(pWindow,pPrenderer,pEventsManager);
 }

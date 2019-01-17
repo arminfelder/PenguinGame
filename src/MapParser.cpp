@@ -54,6 +54,11 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
     std::shared_ptr<SDL_Surface> imageHeart(SDL_LoadBMP("./res/heart_4.bmp"), SDL_FreeSurface);
     std::shared_ptr<SDL_Texture> textureHeart(SDL_CreateTextureFromSurface(pRenderer, imageHeart.get()), SDL_DestroyTexture);
 
+    map<string, list<string>> doorBmps;
+    doorBmps.insert({"open",{"./res/door_open.bmp"}});
+    doorBmps.insert({"closed",{"./res/door_closed.bmp"}});
+    auto doorMap = generateTexturesMap(doorBmps,"./res/door_closed.bmp", pRenderer);
+
     std::shared_ptr<SDL_Surface> imageKey(SDL_LoadBMP("./res/secret_key.bmp"), SDL_FreeSurface);
     std::shared_ptr<SDL_Texture> textureKey(SDL_CreateTextureFromSurface(pRenderer, imageKey.get()), SDL_DestroyTexture);
 
@@ -138,7 +143,7 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
                 }
                 case 'd':{
                     int id = Managers::EntityManager::createEntity<Door>();
-                    Managers::ComponentsManager::createVisualComponent(id, textureDoorClosed, 50, 50);
+                    Managers::ComponentsManager::createVisualComponent(id, doorMap, 50, 50);
                     Managers::ComponentsManager::createSpatialComponent(id, x, y);
                     Managers::ComponentsManager::createCollideAbleComponent(id);
                     Managers::ComponentsManager::createUseable(id, {Components::Inventory::ItemTypes::keyArea2});

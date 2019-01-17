@@ -4,6 +4,7 @@
 
 #include "UseAbel.h"
 
-Components::UseAbel::UseAbel() {
+using namespace Components;
+UseAbel::UseAbel(const std::vector<Inventory::ItemTypes> &pItems):mRequiresItems(pItems) {
 
 }

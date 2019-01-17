@@ -11,7 +11,7 @@
 namespace Components {
     class UseAbel: public Component {
     public:
-        UseAbel();
+        UseAbel(const std::vector<Inventory::ItemTypes> &pItems );
         std::vector<Inventory::ItemTypes> mRequiresItems;
     };
 }
