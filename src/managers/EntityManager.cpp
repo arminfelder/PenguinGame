@@ -61,4 +61,5 @@ EntityManager::EntityManager() {
 
 EntityManager::~EntityManager() {
     mEntities.clear();
+    mCurrEntityIndex = 1;
 }

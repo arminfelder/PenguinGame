@@ -50,5 +50,6 @@ Managers::EventsManager::~EventsManager() {
     //clear queue
     std::queue<std::shared_ptr<Events::Event> > empty;
     std::swap(mEventsQueue, empty);
+
     mEventHandlers.clear();
 }

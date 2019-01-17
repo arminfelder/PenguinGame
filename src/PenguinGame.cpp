@@ -157,7 +157,7 @@ void PenguinGame::newGame() {
     SDL_DestroyRenderer(mRenderer);
     collisionMask.clear();
 
-    //initAudio();
+    initAudio();
     initEngine();
     initGame();
 }
