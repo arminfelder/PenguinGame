@@ -139,6 +139,7 @@ void Menu::triggerMenuEvent() {
             saveGame();
             break;
         case MenuEvents::LOAD_GAME:
+            this->close();
             loadGame();
             break;
         default:

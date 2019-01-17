@@ -50,5 +50,5 @@ std::string Health::serialize() {
 
 void Health::load(std::vector<std::string> splittedStrings) {
     if (splittedStrings[0] == "Health")
-        mHealth = std::stoi(splittedStrings[1]);
+        setHealth(std::stoi(splittedStrings[1]));
 }
