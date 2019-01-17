@@ -19,6 +19,7 @@
 #ifndef GAME_MOVEABLECOMPONENT_H
 #define GAME_MOVEABLECOMPONENT_H
 
+#include <string>
 #include "Component.h"
 
 namespace Components {
@@ -30,6 +31,8 @@ namespace Components {
         bool canMoveRight = false;
         bool canMoveDown = false;
         bool canMoveUp = false;
+
+        std::string serialize();
 
     };
 }

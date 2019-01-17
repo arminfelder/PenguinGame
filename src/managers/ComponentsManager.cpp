@@ -17,6 +17,7 @@
 ******************************************************************************/
 
 
+#include <iostream>
 #include "ComponentsManager.h"
 
 using namespace Managers;
@@ -205,6 +206,8 @@ void ComponentsManager::createViewRange(int pEntityId, int pX, int pY) {
     mViewRanges.insert({pEntityId,std::make_shared<Components::ViewRange>(pX,pY)});
 }
 
+
+
 ComponentsManager::~ComponentsManager() {
     mHealthComponents.clear();
     mVisualComponents.clear();
@@ -218,4 +221,19 @@ ComponentsManager::~ComponentsManager() {
     mTimeToLives.clear();
     mDamages.clear();
     mViewRanges.clear();
+}
+
+void ComponentsManager::saveUserComponents(std::ostream &out) {
+    auto playerHealth = getHealthComponent(1);
+    auto playerPosition = getSpatialComponent(1);
+    auto playerCamera = getCameraOffsetComponent(2);
+    auto playerMoveAble = getMoveableComponent(1);
+    auto playerMomentum = getMomentumComponent(1);
+
+
+    out << playerHealth.get()->serialize() << std::endl;
+    out << playerPosition.get()->serialize() << std::endl;
+    out << playerCamera.get()->serialize() << std::endl;
+    out << playerMoveAble.get()->serialize() << std::endl;
+    out << playerMomentum.get()->serialize() << std::endl;
 }

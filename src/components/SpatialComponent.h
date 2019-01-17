@@ -19,6 +19,8 @@
 #ifndef GAME_SPATIALCOMPONENT_H
 #define GAME_SPATIALCOMPONENT_H
 
+#include <iosfwd>
+
 namespace Components {
     class SpatialComponent {
     public:
@@ -30,6 +32,7 @@ namespace Components {
         int mPrevPositionY = 0;
 
         bool moveWithMap = true;
+        std::string serialize();
 
     };
 }

@@ -39,3 +39,8 @@ void Health::setHealth(int health) {
 Health::Health(int pHealth):mHealth(pHealth) {
 
 }
+
+std::string Health::serialize() {
+    std::string serialized = "Health;" + std::to_string(this->mHealth);
+        return serialized;
+}

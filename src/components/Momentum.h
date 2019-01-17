@@ -19,6 +19,7 @@
 #ifndef GAME_MOMENTUM_H
 #define GAME_MOMENTUM_H
 
+#include <string>
 #include "Component.h"
 
 namespace Components {
@@ -29,6 +30,7 @@ namespace Components {
         double gravitation = 10;
         double speedX = 0;
         double speedY = 0;
+        std::string serialize();
     };
 }
 

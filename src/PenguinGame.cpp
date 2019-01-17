@@ -130,6 +130,7 @@ void PenguinGame::SDLEventLoop(bool *mRunning) {
                 break;
 
             case 33333:
+                Managers::ComponentsManager::saveUserComponents(std::cout);
                 newGame();
                 break;
         }

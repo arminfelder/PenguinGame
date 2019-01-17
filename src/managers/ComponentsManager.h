@@ -85,6 +85,7 @@ namespace Managers {
         static void createViewRange(int pEntityId, int pX, int pY);
 
         static void removeComponentsOfEntity(int pEntityId);
+        static void saveUserComponents(std::ostream &out);
         ~ComponentsManager();
 
     private:

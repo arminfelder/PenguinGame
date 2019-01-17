@@ -21,6 +21,7 @@
 #define GAME_HEALTH_H
 
 
+#include <string>
 #include "Component.h"
 namespace Components{
     class Health : Component {
@@ -33,6 +34,7 @@ namespace Components{
         void operator++();
 
         void operator--();
+        std::string serialize();
 
     private:
         int mHealth;

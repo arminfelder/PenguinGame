@@ -19,6 +19,7 @@
 #ifndef GAME_CAMERAOFFSET_H
 #define GAME_CAMERAOFFSET_H
 
+#include <string>
 #include "Component.h"
 
 namespace Components {
@@ -36,6 +37,8 @@ namespace Components {
         void setYOffset(int yOffset);
 
         int yOffset = 0;
+
+        std::string serialize();
     };
 }
 

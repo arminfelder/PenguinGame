@@ -21,3 +21,8 @@
 Components::Momentum::Momentum() {
 
 }
+
+std::string Components::Momentum::serialize() {
+    std::string serialize = "Momentum;" + std::to_string(this->speedX) + ";" + std::to_string(this->speedY);
+    return serialize;
+}

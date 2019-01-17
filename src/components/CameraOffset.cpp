@@ -36,3 +36,8 @@ int CameraOffset::getYOffset() const {
 void CameraOffset::setYOffset(int yOffset) {
     CameraOffset::yOffset = yOffset;
 }
+
+std::string CameraOffset::serialize() {
+    std::string serialize = "CameraOffset;" + std::to_string(xOffset) + ";" + std::to_string(yOffset);
+    return serialize;
+}
