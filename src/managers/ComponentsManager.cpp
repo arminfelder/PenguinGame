@@ -38,6 +38,8 @@ std::map<int, std::shared_ptr<Components::ViewRange>> ComponentsManager::mViewRa
 std::map<int, std::shared_ptr<Components::Inventory>> ComponentsManager::mInventories;
 std::map<int, std::shared_ptr<Components::CanCollect>> ComponentsManager::mCanCollects;
 std::map<int, std::shared_ptr<Components::UseAbel>> ComponentsManager::mUseables;
+std::map<int, std::shared_ptr<Components::TeleportTarget>> ComponentsManager::mTeleportTargets;
+
 
 std::map<int, std::shared_ptr<Components::Health>> &ComponentsManager::getHealthComponents(){
 
@@ -259,4 +261,20 @@ ComponentsManager::~ComponentsManager() {
     mTimeToLives.clear();
     mDamages.clear();
     mViewRanges.clear();
+    mUseables.clear();
+    mCanCollects.clear();
+    mInventories.clear();
+    mTeleportTargets.clear();
+}
+
+std::map<int, std::shared_ptr<Components::TeleportTarget>> &ComponentsManager::getTeleportTargets() {
+    return mTeleportTargets;
+}
+
+std::shared_ptr<Components::TeleportTarget> &ComponentsManager::getTeleportTarget(int pEntityId) {
+    return mTeleportTargets[pEntityId];
+}
+
+void ComponentsManager::createTeleportTarget(int pEntityId, int pTarget) {
+    mTeleportTargets.emplace(std::make_pair(pEntityId,std::make_shared<Components::TeleportTarget>(pTarget)));
 }

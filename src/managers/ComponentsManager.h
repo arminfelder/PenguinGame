@@ -42,6 +42,7 @@
 #include "../components/Inventory.h"
 #include "../components/CanCollect.h"
 #include "../components/UseAbel.h"
+#include "../components/TeleportTarget.h"
 
 namespace Managers {
 
@@ -63,6 +64,7 @@ namespace Managers {
         static std::map<int, std::shared_ptr<Components::Inventory>> &getInventories();
         static std::map<int, std::shared_ptr<Components::CanCollect>> &getCanCollects();
         static std::map<int, std::shared_ptr<Components::UseAbel>> &getUseables();
+        static std::map<int, std::shared_ptr<Components::TeleportTarget>> &getTeleportTargets();
 
         static std::shared_ptr<Components::Health> &getHealthComponent(int pEntityId);
         static std::shared_ptr<Components::VisualComponent> &getVisualComponent(int pEntityId);
@@ -79,6 +81,7 @@ namespace Managers {
         static std::shared_ptr<Components::Inventory> &getInventory(int pEntityId);
         static std::shared_ptr<Components::CanCollect> &getCanCollect(int pEntityId);
         static std::shared_ptr<Components::UseAbel> &getUseable(int pEntityId);
+        static std::shared_ptr<Components::TeleportTarget> &getTeleportTarget(int pEntityId);
 
         static void createHealthComponent(int pEntityId, int pHp = 100);
         static void createVisualComponent(int pEntityId, const std::shared_ptr<SDL_Texture> &pTexture, int pSizeW, int pSizeH);
@@ -96,6 +99,7 @@ namespace Managers {
         static void createInventory(int pEntityId);
         static void createCanCollect(int pEntityId, const std::set<Components::Inventory::ItemTypes> &pTypes);
         static void createUseable(int pEntityId, const std::vector<Components::Inventory::ItemTypes> &pTypes);
+        static void createTeleportTarget(int pEntityId, int pTarget);
 
         static void removeComponentsOfEntity(int pEntityId);
         ~ComponentsManager();
@@ -117,6 +121,7 @@ namespace Managers {
         static std::map<int, std::shared_ptr<Components::Inventory>> mInventories;
         static std::map<int, std::shared_ptr<Components::CanCollect>> mCanCollects;
         static std::map<int, std::shared_ptr<Components::UseAbel>> mUseables;
+        static std::map<int, std::shared_ptr<Components::TeleportTarget>> mTeleportTargets;
 
 
     };

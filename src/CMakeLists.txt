@@ -86,6 +86,6 @@ add_executable(game main.cpp
 	events/PlayerDies.cpp
 	events/TriggerActivated.cpp
         MapParser.cpp
-         )
+        entities/TeleporterEntrance.cpp entities/TeleporterEntrance.h entities/TeleporterTarget.cpp entities/TeleporterTarget.h components/TeleportTarget.cpp components/TeleportTarget.h)
 
 target_link_libraries(game ${SDL2_LIBRARIES} ${SDL2TTF_LIBRARY} ${SDL2_MIXER_LIBRARY})

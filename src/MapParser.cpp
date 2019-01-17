@@ -27,6 +27,8 @@
 #include "entities/Npc.h"
 #include "entities/Key.h"
 #include "entities/Door.h"
+#include "entities/TeleporterEntrance.h"
+#include "entities/TeleporterTarget.h"
 
 using namespace Entities;
 using namespace std;
@@ -69,6 +71,11 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
     std::shared_ptr<SDL_Surface> imageMonster1(SDL_LoadBMP("./res/monster/MonsterPack_008/depixelizer_1453475703255.bmp"), SDL_FreeSurface);
     std::shared_ptr<SDL_Texture> textureMonster1(SDL_CreateTextureFromSurface(pRenderer, imageMonster1.get()), SDL_DestroyTexture);
 
+    std::shared_ptr<SDL_Surface> imageTeleporterEntry(SDL_LoadBMP("./res/teleporter_entry.bmp"),SDL_FreeSurface);
+    std::shared_ptr<SDL_Texture> textureTeleporterEntry(SDL_CreateTextureFromSurface(pRenderer, imageTeleporterEntry.get()), SDL_DestroyTexture);
+
+    std::shared_ptr<SDL_Surface> imageTeleporterTarget(SDL_LoadBMP("./res/teleporter_target.bmp"),SDL_FreeSurface);
+    std::shared_ptr<SDL_Texture> textureTeleporterTarget(SDL_CreateTextureFromSurface(pRenderer, imageTeleporterTarget.get()), SDL_DestroyTexture);
 
 
     std::shared_ptr<SDL_Surface> imageLadder(SDL_LoadBMP("./res/ladder.bmp"), SDL_FreeSurface);
@@ -96,6 +103,7 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
     while(!map.eof()) {
         std::string currentLine;
         getline(map, currentLine);
+        int teleporterTarget;
         for (int i = 0; i < (int) currentLine.length(); i++) {
             collisionMask->push_back(false);
             int x = i*50;
@@ -124,6 +132,21 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
                     Managers::ComponentsManager::createSpatialComponent(id, x, y);
                     collisionMask->pop_back();
                     collisionMask->push_back(true);
+                    break;
+                }
+                case 'T':{
+                    int id = Managers::EntityManager::createEntity<TeleporterEntrance>();
+                    Managers::ComponentsManager::createVisualComponent(id, textureTeleporterEntry, 50, 50);
+                    Managers::ComponentsManager::createSpatialComponent(id, x, y);
+                    Managers::ComponentsManager::createCollideAbleComponent(id);
+                    teleporterTarget = id;
+                    break;
+                }
+                case 't':{
+                    int id = Managers::EntityManager::createEntity<TeleporterTarget>();
+                    Managers::ComponentsManager::createVisualComponent(id, textureTeleporterTarget, 50, 50);
+                    Managers::ComponentsManager::createSpatialComponent(id, x, y);
+                    Managers::ComponentsManager::createTeleportTarget(id, teleporterTarget);
                     break;
                 }
                 case 'i':{
