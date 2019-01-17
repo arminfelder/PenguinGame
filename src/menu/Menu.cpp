@@ -85,6 +85,7 @@ void Menu::handleKeyEvent() {
                     updateSelection(-1);
                     break;
                 case SDLK_m:
+                case SDLK_p:
                     this->close();
                     break;
                 case SDLK_ESCAPE:

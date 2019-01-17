@@ -1,0 +1,12 @@
+Control:
+  PenguinControl:
+ - Arrow Right: Move right
+ - Arrow Left:  Move left
+ - Arrrow Up:   Move up a ladder
+ - Arrow Down:  Move down a ladder
+ - Space:       Jump
+ - Ctrl left:   Shoot
+
+ - M:           Open/Close Main Menu
+ - P:           Open/Close Pause Menu
+ - ESC:         Quit Game (no questions asked)

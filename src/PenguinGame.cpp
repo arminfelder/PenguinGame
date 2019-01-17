@@ -153,10 +153,9 @@ void PenguinGame::newGame() {
     SDL_CloseAudioDevice(mAudiDdeviceId);
     SDL_FreeWAV(mWavBuffer);
     delete mGameEngine;
-    delete mRenderer;
+    SDL_DestroyRenderer(mRenderer);
     collisionMask.clear();
     mGameEngine = nullptr;
-    mRenderer = nullptr;
 
     //initAudio();
     initEngine();
@@ -175,6 +174,6 @@ void PenguinGame::initMenus() {
     mainMenu.get()->addMenuComponent(std::make_shared<MenuComponent>("Sans", "Quit Game", "green", position++, MenuEvents::QUIT_GAME));
 
     position = pauseMenu.get()->getMenuSize();
-    pauseMenu.get()->addMenuComponent(std::make_shared<MenuComponent>("Sans", "Continue", "green", position++, MenuEvents::QUIT_MENU));
+    pauseMenu.get()->addMenuComponent(std::make_shared<MenuComponent>("Sans", "Continue", "red", position++, MenuEvents::QUIT_MENU));
     pauseMenu.get()->addMenuComponent(std::make_shared<MenuComponent>("Sans", "Main Menu", "green", position++, MenuEvents::MAIN_MENU));
 }
