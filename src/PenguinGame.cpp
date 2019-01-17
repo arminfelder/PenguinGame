@@ -38,10 +38,12 @@ int PenguinGame::run() {
 
     SDL_RegisterEvents(32769); //register Menu event
     SDL_RegisterEvents(32770); //register PauseMenu event
+    SDL_RegisterEvents(33332); //register Gameover event
     SDL_RegisterEvents(33333); //register New Game event
     SDL_Surface *surface = SDL_GetWindowSurface(mWindow);
 
     while (mRunning) {
+        SDLEventLoop(&mRunning);
         if (mOpenMenu) {
             //todo find better solution to get rid of the already drawn ttfs without redrawing one frame after a menu change
             //Fill the surface white; todo work with other background.
@@ -58,14 +60,17 @@ int PenguinGame::run() {
             //SDLEventLoop(&mRunning);
             continue;
 
+        } else if (mOpenGameOver) {
+            mOpenGameOver = false;
+            gameOver.get()->render(mRenderer);
+            continue;
+
         } else {
             last = now;
             now = SDL_GetPerformanceCounter();
             deltaTime = ((now - last) * 1000 / SDL_GetPerformanceFrequency());
-            SDLEventLoop(&mRunning);
             mGameEngine->update(deltaTime);
             SDL_Delay(static_cast<Uint32> (1000 / frames));
-
         }
     }
 
@@ -88,7 +93,7 @@ void PenguinGame::SDLEventLoop(bool *mRunning) {
     SDL_PumpEvents();
     while (SDL_PeepEvents(&event, 1, SDL_GETEVENT, SDL_FIRSTEVENT, SDL_SYSWMEVENT)) {
         if (event.type == SDL_QUIT) {
-            *mRunning = false;
+            end();
             break;
         }
     }
@@ -99,12 +104,18 @@ void PenguinGame::SDLEventLoop(bool *mRunning) {
                 break;
             case 32770:
                 mOpenPause = true;
+                break;
         }
     }
-    while (SDL_PeepEvents(&event, 1, SDL_GETEVENT, 33333, 33333)) {
-        if (event.type == 33333) {
-            newGame();
-            break;
+    while (SDL_PeepEvents(&event, 1, SDL_GETEVENT, 33332, 33333)) {
+        switch (event.type) {
+            case 33332:
+                mOpenGameOver = true;
+                break;
+
+            case 33333:
+                newGame();
+                break;
         }
     }
 }
@@ -152,13 +163,12 @@ void PenguinGame::initAudio() {
 void PenguinGame::newGame() {
     SDL_CloseAudioDevice(mAudiDdeviceId);
     SDL_FreeWAV(mWavBuffer);
-    delete mGameEngine;
-    delete mRenderer;
-    collisionMask.clear();
+    mGameEngine->~GameEngine();
     mGameEngine = nullptr;
-    mRenderer = nullptr;
+    SDL_DestroyRenderer(mRenderer);
+    collisionMask.clear();
 
-    //initAudio();
+    initAudio();
     initEngine();
     initGame();
 }
@@ -166,6 +176,7 @@ void PenguinGame::newGame() {
 void PenguinGame::initMenus() {
     mainMenu = std::make_shared<Menu>();
     pauseMenu = std::make_shared<Menu>();
+    gameOver = std::make_shared<Menu>();
 
     int position = mainMenu.get()->getMenuSize();
     mainMenu.get()->addMenuComponent(std::make_shared<MenuComponent>("Sans", "First entry", "red", position++, MenuEvents::NONE));
@@ -175,6 +186,11 @@ void PenguinGame::initMenus() {
     mainMenu.get()->addMenuComponent(std::make_shared<MenuComponent>("Sans", "Quit Game", "green", position++, MenuEvents::QUIT_GAME));
 
     position = pauseMenu.get()->getMenuSize();
-    pauseMenu.get()->addMenuComponent(std::make_shared<MenuComponent>("Sans", "Continue", "green", position++, MenuEvents::QUIT_MENU));
+    pauseMenu.get()->addMenuComponent(std::make_shared<MenuComponent>("Sans", "Continue", "red", position++, MenuEvents::QUIT_MENU));
     pauseMenu.get()->addMenuComponent(std::make_shared<MenuComponent>("Sans", "Main Menu", "green", position++, MenuEvents::MAIN_MENU));
+
+    position = gameOver.get()->getMenuSize();
+    gameOver.get()->addMenuComponent(std::make_shared<MenuComponent>("Sans", "Game Over", "red", position++, MenuEvents::NONE));
+    gameOver.get()->addMenuComponent(std::make_shared<MenuComponent>("Sans", "New Game", "green", position++, MenuEvents::NEW_GAME));
+    gameOver.get()->addMenuComponent(std::make_shared<MenuComponent>("Sans", "Quit Game", "green", position++, MenuEvents::QUIT_GAME));
 }

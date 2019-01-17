@@ -45,3 +45,11 @@ void Managers::EventsManager::regsiterEventHandler(Events::EventTypes pType, con
         mEventHandlers[pType].push_back(pCallback);
     }
 }
+
+Managers::EventsManager::~EventsManager() {
+    //clear queue
+    std::queue<std::shared_ptr<Events::Event> > empty;
+    std::swap(mEventsQueue, empty);
+
+    mEventHandlers.clear();
+}

@@ -38,3 +38,14 @@ Managers::EntityManager *GameEngine::getEntityManager() {
 Managers::SystemsManager *GameEngine::getSystemsManager() {
     return mSystemsManager;
 }
+
+GameEngine::~GameEngine() {
+    mEventsManager->~EventsManager();
+    mEventsManager = nullptr;
+    mEntityManager->~EntityManager();
+    mEntityManager = nullptr;
+    mComponentsManager->~ComponentsManager();
+    mComponentsManager = nullptr;
+    mSystemsManager->~SystemsManager();
+    mSystemsManager = nullptr;
+}
