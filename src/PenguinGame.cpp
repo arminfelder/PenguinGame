@@ -43,6 +43,7 @@ int PenguinGame::run() {
     SDL_Surface *surface = SDL_GetWindowSurface(mWindow);
 
     while (mRunning) {
+        SDLEventLoop(&mRunning);
         if (mOpenMenu) {
             //todo find better solution to get rid of the already drawn ttfs without redrawing one frame after a menu change
             //Fill the surface white; todo work with other background.
@@ -71,7 +72,6 @@ int PenguinGame::run() {
             mGameEngine->update(deltaTime);
             SDL_Delay(static_cast<Uint32> (1000 / frames));
         }
-        SDLEventLoop(&mRunning);
     }
 
     return 0;
