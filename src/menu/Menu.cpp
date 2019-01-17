@@ -158,6 +158,9 @@ void Menu::switchMenu(MenuEvents::MenuEventType event) {
     }
     this->close();
     SDL_PushEvent(&sdl_event);
+    SDL_Event sdl_event1;
+    sdl_event1.type = 32780;
+    SDL_PushEvent(&sdl_event1);
 }
 
 Menu::Menu() = default;

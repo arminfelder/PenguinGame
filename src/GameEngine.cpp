@@ -41,11 +41,11 @@ Managers::SystemsManager *GameEngine::getSystemsManager() {
 
 GameEngine::~GameEngine() {
     mEventsManager->~EventsManager();
-    mEventsManager = nullptr;
+    //mEventsManager = nullptr;
     mEntityManager->~EntityManager();
-    mEntityManager = nullptr;
+    //mEntityManager = nullptr;
     mComponentsManager->~ComponentsManager();
-    mComponentsManager = nullptr;
+    //mComponentsManager = nullptr;
     mSystemsManager->~SystemsManager();
-    mSystemsManager = nullptr;
+    //mSystemsManager = nullptr;
 }

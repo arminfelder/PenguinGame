@@ -46,6 +46,7 @@ private:
     bool mRunning = false;
     GameEngine *mGameEngine = nullptr;
     std::vector<bool> collisionMask;
+    void drawFrame(uint64_t &last, uint64_t &now, int frames);
 
     //audio
     SDL_AudioSpec mWavSpec;
@@ -57,6 +58,7 @@ private:
     bool mOpenMenu = false;
     bool mOpenPause = false;
     bool mOpenGameOver = false;
+    bool mRenderOnce = false;
     std::shared_ptr<Menu> mainMenu;
     std::shared_ptr<Menu> pauseMenu;
     std::shared_ptr<Menu> gameOver;

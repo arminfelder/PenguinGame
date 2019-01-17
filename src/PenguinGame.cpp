@@ -38,12 +38,18 @@ int PenguinGame::run() {
 
     SDL_RegisterEvents(32769); //register Menu event
     SDL_RegisterEvents(32770); //register PauseMenu event
+    SDL_RegisterEvents(32780); //register MenuSwitch event
     SDL_RegisterEvents(33332); //register Gameover event
     SDL_RegisterEvents(33333); //register New Game event
     SDL_Surface *surface = SDL_GetWindowSurface(mWindow);
 
     while (mRunning) {
         SDLEventLoop(&mRunning);
+        //render one frame to get rid of the old menu. //todo make this better, like using a normal background image
+        if (mRenderOnce) {
+            mRenderOnce = false;
+            drawFrame(last, now, frames);
+        }
         if (mOpenMenu) {
             //todo find better solution to get rid of the already drawn ttfs without redrawing one frame after a menu change
             //Fill the surface white; todo work with other background.
@@ -62,15 +68,14 @@ int PenguinGame::run() {
 
         } else if (mOpenGameOver) {
             mOpenGameOver = false;
+            mOpenPause = false;
+            mOpenMenu = false;
+            mRenderOnce = false;
             gameOver.get()->render(mRenderer);
             continue;
 
         } else {
-            last = now;
-            now = SDL_GetPerformanceCounter();
-            deltaTime = ((now - last) * 1000 / SDL_GetPerformanceFrequency());
-            mGameEngine->update(deltaTime);
-            SDL_Delay(static_cast<Uint32> (1000 / frames));
+           drawFrame(last, now, frames);
         }
     }
 
@@ -88,6 +93,14 @@ void PenguinGame::initSDL() {
     mRunning = true;
 }
 
+void PenguinGame::drawFrame(uint64_t &last, uint64_t &now, int frames) {
+    last = now;
+    now = SDL_GetPerformanceCounter();
+    uint64_t deltaTime = ((now - last) * 1000 / SDL_GetPerformanceFrequency());
+    mGameEngine->update(deltaTime);
+    SDL_Delay(static_cast<Uint32> (1000 / frames));
+}
+
 void PenguinGame::SDLEventLoop(bool *mRunning) {
     SDL_Event event;
     SDL_PumpEvents();
@@ -97,13 +110,16 @@ void PenguinGame::SDLEventLoop(bool *mRunning) {
             break;
         }
     }
-    while (SDL_PeepEvents(&event, 1, SDL_GETEVENT, 32769, 32770)) {
+    while (SDL_PeepEvents(&event, 1, SDL_GETEVENT, 32769, 32780)) {
         switch (event.type) {
             case 32769:
                 mOpenMenu = true;
                 break;
             case 32770:
                 mOpenPause = true;
+                break;
+            case 32780:
+                mRenderOnce = true;
                 break;
         }
     }
@@ -164,7 +180,7 @@ void PenguinGame::newGame() {
     SDL_CloseAudioDevice(mAudiDdeviceId);
     SDL_FreeWAV(mWavBuffer);
     mGameEngine->~GameEngine();
-    mGameEngine = nullptr;
+    //mGameEngine = nullptr;
     SDL_DestroyRenderer(mRenderer);
     collisionMask.clear();
 
