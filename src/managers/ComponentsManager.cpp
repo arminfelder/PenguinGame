@@ -252,10 +252,9 @@ void ComponentsManager::loadUserComponents(std::ifstream &inputFile) {
     while (std::getline(inputFile, line)) {
         std::vector<std::string> splittedStrings = splitString(line, ';');
 
-        if (splittedStrings[0] == "Health") {
-            std::cout << line << std::endl;
+        if (splittedStrings[0] == "Health")
             playerHealth.get()->load(splittedStrings);
-        } else if (splittedStrings[0] == "SpatialComponent")
+        else if (splittedStrings[0] == "SpatialComponent")
             playerPosition.get()->load(splittedStrings);
         else if (splittedStrings[0] == "CameraOffset")
             playerCamera.get()->load(splittedStrings);

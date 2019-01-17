@@ -91,7 +91,7 @@ void Menu::handleKeyEvent() {
                     this->close();
                     break;
                 case SDLK_ESCAPE:
-                    quitGame();
+                    this->close();
                 case SDLK_RETURN:
                     triggerMenuEvent();
                     break;
