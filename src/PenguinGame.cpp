@@ -38,6 +38,7 @@ int PenguinGame::run() {
 
     SDL_RegisterEvents(32769); //register Menu event
     SDL_RegisterEvents(32770); //register PauseMenu event
+    SDL_RegisterEvents(33332); //register Gameover event
     SDL_RegisterEvents(33333); //register New Game event
     SDL_Surface *surface = SDL_GetWindowSurface(mWindow);
 
@@ -88,7 +89,7 @@ void PenguinGame::SDLEventLoop(bool *mRunning) {
     SDL_PumpEvents();
     while (SDL_PeepEvents(&event, 1, SDL_GETEVENT, SDL_FIRSTEVENT, SDL_SYSWMEVENT)) {
         if (event.type == SDL_QUIT) {
-            *mRunning = false;
+            end();
             break;
         }
     }
@@ -99,12 +100,18 @@ void PenguinGame::SDLEventLoop(bool *mRunning) {
                 break;
             case 32770:
                 mOpenPause = true;
+                break;
         }
     }
-    while (SDL_PeepEvents(&event, 1, SDL_GETEVENT, 33333, 33333)) {
-        if (event.type == 33333) {
-            newGame();
-            break;
+    while (SDL_PeepEvents(&event, 1, SDL_GETEVENT, 33332, 33333)) {
+        switch (event.type) {
+            case 33332:
+                gameOver.get()->render(mRenderer);
+                break;
+
+            case 33333:
+                newGame();
+                break;
         }
     }
 }
@@ -165,6 +172,7 @@ void PenguinGame::newGame() {
 void PenguinGame::initMenus() {
     mainMenu = std::make_shared<Menu>();
     pauseMenu = std::make_shared<Menu>();
+    gameOver = std::make_shared<Menu>();
 
     int position = mainMenu.get()->getMenuSize();
     mainMenu.get()->addMenuComponent(std::make_shared<MenuComponent>("Sans", "First entry", "red", position++, MenuEvents::NONE));
@@ -176,4 +184,10 @@ void PenguinGame::initMenus() {
     position = pauseMenu.get()->getMenuSize();
     pauseMenu.get()->addMenuComponent(std::make_shared<MenuComponent>("Sans", "Continue", "red", position++, MenuEvents::QUIT_MENU));
     pauseMenu.get()->addMenuComponent(std::make_shared<MenuComponent>("Sans", "Main Menu", "green", position++, MenuEvents::MAIN_MENU));
+
+    position = gameOver.get()->getMenuSize();
+    gameOver.get()->addMenuComponent(std::make_shared<MenuComponent>("Sans", "Game Over", "red", position++, MenuEvents::NONE));
+    gameOver.get()->addMenuComponent(std::make_shared<MenuComponent>("Sans", "New Game", "green", position++, MenuEvents::NEW_GAME));
+    gameOver.get()->addMenuComponent(std::make_shared<MenuComponent>("Sans", "Quit Game", "green", position++, MenuEvents::QUIT_GAME));
+    gameOver.get()->render(mRenderer);
 }

@@ -53,11 +53,18 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
         for (int horizontal = maskLeftLimit-1; horizontal < maskRightLimit; horizontal++) {
             for (int vertical = maskTopLimit-1; vertical < maskBottomLimit; vertical++) {
                 unsigned long index = static_cast<unsigned long>(horizontal + vertical * system->mapWidth);
-                if (system->collisionMask->size()<index && (system->collisionMask->at(index)) == true) {
-                    std::cout << "collision via mask detected" << std::endl;
-                    maskCollision = true;
-                    system->mEventsManager->addEvent(
-                            std::make_shared<Events::CollisionEvent>(entityId, 0, Events::collisionTypes::regular));
+                try {
+                    if (system->collisionMask->size() < index && (system->collisionMask->at(index)) == true) {
+                        std::cout << "collision via mask detected" << std::endl;
+                        maskCollision = true;
+                        system->mEventsManager->addEvent(
+                                std::make_shared<Events::CollisionEvent>(entityId, 0, Events::collisionTypes::regular));
+                    }
+                }
+                catch (const std::out_of_range& e) {//player dies -> game over //todo use our own event system
+                    SDL_Event sdlEvent;
+                    sdlEvent.type = 33332;
+                    SDL_PushEvent(&sdlEvent);
                 }
             }
         }

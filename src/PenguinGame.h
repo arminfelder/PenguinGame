@@ -58,7 +58,7 @@ private:
     bool mOpenPause = false;
     std::shared_ptr<Menu> mainMenu;
     std::shared_ptr<Menu> pauseMenu;
-
+    std::shared_ptr<Menu> gameOver;
 
 };
 
