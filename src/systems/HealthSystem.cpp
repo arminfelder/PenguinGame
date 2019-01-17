@@ -36,6 +36,11 @@ Systems::HealthSystem::HealthSystem(SDL_Renderer *pRenderer, Managers::EventsMan
                 if (event->entityId != 1) {
                     Managers::ComponentsManager::removeComponentsOfEntity(event->entityId);
                 }
+                else {//player dies -> game over //todo use our own event system
+                    SDL_Event sdlEvent;
+                    sdlEvent.type = 33332;
+                    SDL_PushEvent(&sdlEvent);
+                }
             } else {
                 newHealth = updatedHealth;
             }

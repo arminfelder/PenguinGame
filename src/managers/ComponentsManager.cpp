@@ -245,3 +245,18 @@ std::shared_ptr<Components::UseAbel> &ComponentsManager::getUseable(int pEntityI
 void ComponentsManager::createUseable(int pEntityId, const std::vector<Components::Inventory::ItemTypes> &pTypes) {
     mUseables.emplace(std::make_pair(pEntityId,std::make_shared<Components::UseAbel>(pTypes)));
 }
+
+ComponentsManager::~ComponentsManager() {
+    mHealthComponents.clear();
+    mVisualComponents.clear();
+    mSpatialComponents.clear();
+    mMoveableComponents.clear();
+    mCollideables.clear();
+    mCameraOffset.clear();
+    mGravities.clear();
+    mMomentum.clear();
+    mPaths.clear();
+    mTimeToLives.clear();
+    mDamages.clear();
+    mViewRanges.clear();
+}

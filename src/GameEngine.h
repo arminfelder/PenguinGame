@@ -31,6 +31,7 @@ public:
 
     Managers::EntityManager* getEntityManager();
     Managers::SystemsManager* getSystemsManager();
+    ~GameEngine();
 
 private:
     Managers::EntityManager* mEntityManager = nullptr;

@@ -23,6 +23,7 @@
 #include <SDL_video.h>
 #include <SDL_audio.h>
 #include "GameEngine.h"
+#include "menu/Menu.h"
 
 class PenguinGame {
 
@@ -32,9 +33,11 @@ public:
     void initSDL();
     void initEngine();
     void initAudio();
-
+    void SDLEventLoop(bool* mRunning);
     void initGame();
+    void initMenus();
 
+    void newGame();
     void end();
     ~PenguinGame();
 private:
@@ -43,13 +46,23 @@ private:
     bool mRunning = false;
     GameEngine *mGameEngine = nullptr;
     std::vector<bool> collisionMask;
-
+    void drawFrame(uint64_t &last, uint64_t &now, int frames);
 
     //audio
     SDL_AudioSpec mWavSpec;
     Uint32 mWavLength;
     Uint8 *mWavBuffer = nullptr;
     SDL_AudioDeviceID mAudiDdeviceId;
+
+    //Menu
+    bool mOpenMenu = false;
+    bool mOpenPause = false;
+    bool mOpenGameOver = false;
+    bool mRenderOnce = false;
+    std::shared_ptr<Menu> mainMenu;
+    std::shared_ptr<Menu> pauseMenu;
+    std::shared_ptr<Menu> gameOver;
+
 };
 
 

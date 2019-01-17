@@ -50,6 +50,8 @@ namespace Managers {
 
         Systems::CollisionSystem *getCollisionSystem() const;
 
+        ~SystemsManager();
+
     private:
         Systems::RenderSystem* mRenderSystem = nullptr;
         Systems::HealthSystem* mHealthSystem = nullptr;

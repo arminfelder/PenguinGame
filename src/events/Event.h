@@ -32,6 +32,7 @@ namespace Events {
         Falling,
         MoveEntity,
         EntityCanSee,
+        PlayerDies,
         TriggerActivated
 
     };

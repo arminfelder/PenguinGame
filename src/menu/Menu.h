@@ -16,34 +16,42 @@
 * along with PenguinGame. If not, see <http://www.gnu.org/licenses/>.
 ******************************************************************************/
 
+#ifndef GAME_MENU_H
+#define GAME_MENU_H
 
-#ifndef GAME_EVENTSMAMAGER_H
-#define GAME_EVENTSMAMAGER_H
 
-#include <queue>
 #include <map>
-#include <unordered_map>
-#include <list>
-#include <functional>
 #include <memory>
-#include "../events/Event.h"
-
-namespace Managers {
-
-    class EventsManager {
-
-    public:
-        void dispatch(uint64_t pTimediff);
-        void addEvent(const std::shared_ptr<Events::Event> &pEvent);
-        void regsiterEventHandler(Events::EventTypes,const std::function<void(const std::shared_ptr<Events::Event>& )> &pEvent);
-        uint64_t mTimediff;
-        ~EventsManager();
-    private:
-        std::queue<std::shared_ptr<Events::Event> > mEventsQueue;
-        std::unordered_map<Events::EventTypes , std::list<std::function<void(const std::shared_ptr<Events::Event> &pEvent )> > > mEventHandlers;
-    };
-
-}
+#include <SDL_surface.h>
+#include "MenuComponent.h"
+#include <SDL2/SDL.h>
+#include "MenuEvents.h"
 
 
-#endif //GAME_EVENTSMAMAGER_H
+class Menu {
+
+
+public:
+    void create();
+    void render(SDL_Renderer* pRenderer);
+    void close();
+    Menu();
+    std::map<int, std::shared_ptr<MenuComponent>> getMenuComponents();
+    int getMenuSize();
+    void addMenuComponent(std::shared_ptr<MenuComponent> component);
+private:
+    int active = 0;
+    std::map<int, std::shared_ptr<MenuComponent>> menuComponents;
+    int height = 30, width = 200;
+    void handleKeyEvent();
+    void triggerMenuEvent();
+    void updateSelection(short direction);
+    void quitGame();
+    void switchMenu(MenuEvents::MenuEventType eventType);
+
+    bool mRunning = true;
+
+};
+
+
+#endif //GAME_MENU_H

@@ -62,3 +62,17 @@ void SystemsManager::update(uint64_t pTimeDiff) {
 Systems::CollisionSystem *SystemsManager::getCollisionSystem() const {
     return mCollisionSystem;
 }
+
+SystemsManager::~SystemsManager() {
+    mHealthSystem->~HealthSystem();
+    mPositionSystem->~PositionSystem();
+    mInputSystem->~InputSystem();
+    mCollisionSystem->~CollisionSystem();
+    mAudioSystem->~AudioSystem();
+    mTextureSystem->~TextureSystem();
+    mPhysicsSystem->~PhysicsSystem();
+    mAiSystem->~AiSystem();
+    mCombatSystem->~CombatSystem();
+    mRenderSystem->~RenderSystem();
+
+}

@@ -98,6 +98,7 @@ namespace Managers {
         static void createUseable(int pEntityId, const std::vector<Components::Inventory::ItemTypes> &pTypes);
 
         static void removeComponentsOfEntity(int pEntityId);
+        ~ComponentsManager();
 
     private:
         //TODO: use a container for the maps
