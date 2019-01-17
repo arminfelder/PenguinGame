@@ -20,6 +20,7 @@
 #define GAME_SPATIALCOMPONENT_H
 
 #include <iosfwd>
+#include <vector>
 
 namespace Components {
     class SpatialComponent {
@@ -33,6 +34,7 @@ namespace Components {
 
         bool moveWithMap = true;
         std::string serialize();
+        void load(std::vector<std::string> splittedStrings);
 
     };
 }

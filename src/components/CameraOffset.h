@@ -20,6 +20,7 @@
 #define GAME_CAMERAOFFSET_H
 
 #include <string>
+#include <vector>
 #include "Component.h"
 
 namespace Components {
@@ -39,6 +40,7 @@ namespace Components {
         int yOffset = 0;
 
         std::string serialize();
+        void load(std::vector<std::string> splittedStrings);
     };
 }
 

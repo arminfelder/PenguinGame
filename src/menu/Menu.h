@@ -49,6 +49,7 @@ private:
     void quitGame();
     void switchMenu(MenuEvents::MenuEventType eventType);
     void saveGame();
+    void loadGame();
 
     bool mRunning = true;
 

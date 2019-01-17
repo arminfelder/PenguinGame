@@ -138,6 +138,9 @@ void Menu::triggerMenuEvent() {
         case MenuEvents::SAVE_GAME:
             saveGame();
             break;
+        case MenuEvents::LOAD_GAME:
+            loadGame();
+            break;
         default:
             std::cout << "function not implemented" << std::endl;
             break;
@@ -172,6 +175,11 @@ void Menu::saveGame() {
     std::ofstream out("save.txt");
     Managers::ComponentsManager::saveUserComponents(out);
     Managers::ComponentsManager::saveUserComponents(std::cout);
+}
+
+void Menu::loadGame() {
+    std::ifstream in("save.txt");
+    Managers::ComponentsManager::loadUserComponents(in);
 }
 
 Menu::Menu() = default;

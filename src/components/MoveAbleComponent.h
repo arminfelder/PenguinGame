@@ -20,6 +20,7 @@
 #define GAME_MOVEABLECOMPONENT_H
 
 #include <string>
+#include <vector>
 #include "Component.h"
 
 namespace Components {
@@ -33,6 +34,7 @@ namespace Components {
         bool canMoveUp = false;
 
         std::string serialize();
+        void load(std::vector<std::string> splittedStrings);
 
     };
 }

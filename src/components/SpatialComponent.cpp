@@ -29,3 +29,12 @@ std::string Components::SpatialComponent::serialize() {
     std::string serialized = "SpatialComponent;" + std::to_string(this->mPositionX) + ";" + std::to_string(this->mPositionY) + ";" + std::to_string(this->mPrevPositionX) + ";" + std::to_string(this->mPrevPositionY);
     return serialized;
 }
+
+void Components::SpatialComponent::load(std::vector<std::string> splittedStrings) {
+    if (splittedStrings[0] == "SpatialComponent") {
+        mPositionX = std::stoi(splittedStrings[1]);
+        mPositionY = std::stoi(splittedStrings[2]);
+        mPrevPositionX = std::stoi(splittedStrings[3]);
+        mPrevPositionY = std::stoi(splittedStrings[4]);
+    }
+}

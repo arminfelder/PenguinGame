@@ -26,3 +26,11 @@ std::string Components::Momentum::serialize() {
     std::string serialize = "Momentum;" + std::to_string(this->speedX) + ";" + std::to_string(this->speedY);
     return serialize;
 }
+
+void Components::Momentum::load(std::vector<std::string> splittedStrings) {
+    if (splittedStrings[0] == "Momentum") {
+        speedX = std::stoi(splittedStrings[1]);
+        speedY = std::stoi(splittedStrings[2]);
+    }
+
+}
