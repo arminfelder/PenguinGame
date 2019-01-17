@@ -145,6 +145,10 @@ Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager)
             }else{
                 direction = Events::EntityMoved::Direction::up;
             }
+            if(event->mEntityId == 1) {
+              //  spatial->mPositionX = spatial->mPrevPositionX;
+              //  spatial->mPositionY = spatial->mPrevPositionY;
+            }
             system->mEventsManager->addEvent(
                     std::make_shared<Events::EntityMoved>(event->mEntityId, direction));
         }
