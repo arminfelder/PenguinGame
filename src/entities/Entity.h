@@ -35,6 +35,10 @@ namespace Entities {
         healthIndicator,
         healthUp,
         projectile,
+        key,
+        door,
+        teleporterEntrance,
+        teleporterTarget,
         none
     };
     class Entity {

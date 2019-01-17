@@ -40,6 +40,7 @@ void InputSystem::update() {
                 mEventsManager->addEvent(std::make_shared<Events::KeyUpEvent>(event.key.keysym,keys));
                 break;
             }
+
         }
     }
 }

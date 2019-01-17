@@ -20,6 +20,8 @@
 #include "TextureSystem.h"
 #include "../managers/ComponentsManager.h"
 #include "../events/EntityMoved.h"
+#include "../events/TriggerActivated.h"
+#include "../managers/EntityManager.h"
 
 using namespace Systems;
 
@@ -65,6 +67,18 @@ TextureSystem::TextureSystem(Managers::EventsManager *pEventsManager):mEventsMan
 
     };
 
-    mEventsManager->regsiterEventHandler(Events::EventTypes::EntityMoved, walkCallBack);
+    auto entityTriggeredCallback = [system = this](const std::shared_ptr<Events::Event> &pEvent){
+        auto event = static_cast<Events::TriggerActivated*>(pEvent.get());
+        auto trigger = Managers::EntityManager::getEntity(event->mTriggeredEntity);
+        switch (trigger->getType()){
+            case Entities::entityTypes::door:{
+                auto visual = Managers::ComponentsManager::getVisualComponent(event->mTriggeredEntity);
+                visual->mTexture = visual->mTextureMap->find("open")->second.at(0);
+            }
+        }
 
+    };
+
+    mEventsManager->regsiterEventHandler(Events::EventTypes::EntityMoved, walkCallBack);
+    mEventsManager->regsiterEventHandler(Events::EventTypes::TriggerActivated, entityTriggeredCallback);
 }

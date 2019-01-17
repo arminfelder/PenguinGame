@@ -39,11 +39,15 @@
 #include "../components/CollisionDamage.h"
 #include "../components/TimeToLive.h"
 #include "../components/ViewRange.h"
+#include "../components/Inventory.h"
+#include "../components/CanCollect.h"
+#include "../components/UseAbel.h"
 
 namespace Managers {
 
     class ComponentsManager {
     public:
+        //TODO: use template functions
         static std::map<int, std::shared_ptr<Components::Health>> &getHealthComponents();
         static std::map<int, std::shared_ptr<Components::VisualComponent>> &getVisualComponents();
         static std::map<int, std::shared_ptr<Components::SpatialComponent>> &getSpatialComponents();
@@ -56,6 +60,9 @@ namespace Managers {
         static std::map<int, std::shared_ptr<Components::CollisionDamage>> &getDamages();
         static std::map<int, std::shared_ptr<Components::TimeToLive>> &getTimeToLives();
         static std::map<int, std::shared_ptr<Components::ViewRange>> &getViewRanges();
+        static std::map<int, std::shared_ptr<Components::Inventory>> &getInventories();
+        static std::map<int, std::shared_ptr<Components::CanCollect>> &getCanCollects();
+        static std::map<int, std::shared_ptr<Components::UseAbel>> &getUseables();
 
         static std::shared_ptr<Components::Health> &getHealthComponent(int pEntityId);
         static std::shared_ptr<Components::VisualComponent> &getVisualComponent(int pEntityId);
@@ -69,6 +76,9 @@ namespace Managers {
         static std::shared_ptr<Components::CollisionDamage> &getDamage(int pEntityId);
         static std::shared_ptr<Components::TimeToLive> &getTimeToLive(int pEntityId);
         static std::shared_ptr<Components::ViewRange> &getViewRange(int pEntityId);
+        static std::shared_ptr<Components::Inventory> &getInventory(int pEntityId);
+        static std::shared_ptr<Components::CanCollect> &getCanCollect(int pEntityId);
+        static std::shared_ptr<Components::UseAbel> &getUseable(int pEntityId);
 
         static void createHealthComponent(int pEntityId, int pHp = 100);
         static void createVisualComponent(int pEntityId, const std::shared_ptr<SDL_Texture> &pTexture, int pSizeW, int pSizeH);
@@ -83,11 +93,15 @@ namespace Managers {
         static void createDamageComponent(int pEntityId, int pDamage);
         static void createTimeToLive(int pEntityId, uint64_t pTime);
         static void createViewRange(int pEntityId, int pX, int pY);
+        static void createInventory(int pEntityId);
+        static void createCanCollect(int pEntityId, const std::set<Components::Inventory::ItemTypes> &pTypes);
+        static void createUseable(int pEntityId, const std::vector<Components::Inventory::ItemTypes> &pTypes);
 
         static void removeComponentsOfEntity(int pEntityId);
         ~ComponentsManager();
 
     private:
+        //TODO: use a container for the maps
         static std::map<int, std::shared_ptr<Components::Health>> mHealthComponents;
         static std::map<int, std::shared_ptr<Components::VisualComponent>> mVisualComponents;
         static std::map<int, std::shared_ptr<Components::SpatialComponent>> mSpatialComponents;
@@ -100,7 +114,9 @@ namespace Managers {
         static std::map<int, std::shared_ptr<Components::TimeToLive>> mTimeToLives;
         static std::map<int, std::shared_ptr<Components::CollisionDamage>> mDamages;
         static std::map<int, std::shared_ptr<Components::ViewRange>> mViewRanges;
-
+        static std::map<int, std::shared_ptr<Components::Inventory>> mInventories;
+        static std::map<int, std::shared_ptr<Components::CanCollect>> mCanCollects;
+        static std::map<int, std::shared_ptr<Components::UseAbel>> mUseables;
 
 
     };

@@ -19,7 +19,8 @@
 
 project(game)
 
-add_executable(game PenguinGame.cpp PenguinGame.h
+add_executable(game main.cpp 
+	PenguinGame.cpp
         entities/Entity.cpp
         entities/Player.cpp
         entities/Wall.cpp
@@ -29,8 +30,11 @@ add_executable(game PenguinGame.cpp PenguinGame.h
         entities/LadderBegin.cpp
         entities/HealthIndicator.cpp
         entities/HealthItem.cpp
+	entities/HealthItem.cpp
         entities/Npc.cpp
         entities/Projectile.cpp
+	entities/Key.cpp 
+	entities/Door.cpp
         GameEngine.cpp
         systems/RenderSystem.cpp
         systems/InputSystem.cpp
@@ -43,6 +47,9 @@ add_executable(game PenguinGame.cpp PenguinGame.h
         systems/TriggerSystem.cpp
         systems/AiSystem.cpp
         systems/CombatSystem.cpp
+	systems/TriggerSystem.cpp
+	systems/TriggerSystem.h
+	systems/InventorySystem.cpp 
         managers/EntityManager.cpp
         managers/SystemsManager.cpp
         managers/ComponentsManager.cpp
@@ -62,6 +69,9 @@ add_executable(game PenguinGame.cpp PenguinGame.h
         components/CollisionDamage.cpp
         components/TimeToLive.cpp
         components/ViewRange.cpp
+	components/Inventory.cpp
+	components/CanCollect.cpp 
+	components/UseAbel.cpp
         events/Event.cpp
         events/KeyPressedEvent.cpp
         events/KeyUpEvent.cpp
@@ -73,7 +83,9 @@ add_executable(game PenguinGame.cpp PenguinGame.h
         events/FallingEvent.cpp
         events/MoveEntity.cpp
         events/EntityCanSee.cpp
+	events/PlayerDies.cpp
+	events/TriggerActivated.cpp
         MapParser.cpp
-        main.cpp events/PlayerDies.cpp events/PlayerDies.h)
+         )
 
 target_link_libraries(game ${SDL2_LIBRARIES} ${SDL2TTF_LIBRARY} ${SDL2_MIXER_LIBRARY})
