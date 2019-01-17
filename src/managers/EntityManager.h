@@ -43,6 +43,8 @@ namespace Managers {
         static bool destroyEntity(int pId);
 
         static std::shared_ptr<Entities::Entity> getEntity(int pId);
+        static std::shared_ptr<Entities::Entity> findPlayer();
+        ~EntityManager();
 
     private:
         static int mCurrEntityIndex;

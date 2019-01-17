@@ -152,10 +152,10 @@ void PenguinGame::initAudio() {
 void PenguinGame::newGame() {
     SDL_CloseAudioDevice(mAudiDdeviceId);
     SDL_FreeWAV(mWavBuffer);
-    delete mGameEngine;
+    mGameEngine->~GameEngine();
+    mGameEngine = nullptr;
     SDL_DestroyRenderer(mRenderer);
     collisionMask.clear();
-    mGameEngine = nullptr;
 
     //initAudio();
     initEngine();

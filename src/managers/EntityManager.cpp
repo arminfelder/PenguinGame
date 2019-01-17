@@ -37,6 +37,17 @@ std::shared_ptr<Entity> EntityManager::getEntity(int pId) {
     if(it != mEntities.end()){
         return it->second;
     }
+    if (pId == 1)
+        return findPlayer();
+    return nullptr;
+}
+
+
+std::shared_ptr<Entity> EntityManager::findPlayer() {
+    for (auto entity : mEntities) {
+        if (entity.second.get()->getType() == Entities::entityTypes::player)
+        return entity.second;
+    }
     return nullptr;
 }
 
@@ -46,4 +57,8 @@ EntityManager::EntityManager() {
     //create camera
     auto cameraID = createEntity<Entity>();
     Managers::ComponentsManager::createCameraComponent(cameraID);
+}
+
+EntityManager::~EntityManager() {
+    mEntities.clear();
 }

@@ -204,3 +204,18 @@ std::shared_ptr<Components::ViewRange> &ComponentsManager::getViewRange(int pEnt
 void ComponentsManager::createViewRange(int pEntityId, int pX, int pY) {
     mViewRanges.insert({pEntityId,std::make_shared<Components::ViewRange>(pX,pY)});
 }
+
+ComponentsManager::~ComponentsManager() {
+    mHealthComponents.clear();
+    mVisualComponents.clear();
+    mSpatialComponents.clear();
+    mMoveableComponents.clear();
+    mCollideables.clear();
+    mCameraOffset.clear();
+    mGravities.clear();
+    mMomentum.clear();
+    mPaths.clear();
+    mTimeToLives.clear();
+    mDamages.clear();
+    mViewRanges.clear();
+}

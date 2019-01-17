@@ -85,6 +85,7 @@ namespace Managers {
         static void createViewRange(int pEntityId, int pX, int pY);
 
         static void removeComponentsOfEntity(int pEntityId);
+        ~ComponentsManager();
 
     private:
         static std::map<int, std::shared_ptr<Components::Health>> mHealthComponents;
