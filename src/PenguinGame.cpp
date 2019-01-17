@@ -193,5 +193,4 @@ void PenguinGame::initMenus() {
     gameOver.get()->addMenuComponent(std::make_shared<MenuComponent>("Sans", "Game Over", "red", position++, MenuEvents::NONE));
     gameOver.get()->addMenuComponent(std::make_shared<MenuComponent>("Sans", "New Game", "green", position++, MenuEvents::NEW_GAME));
     gameOver.get()->addMenuComponent(std::make_shared<MenuComponent>("Sans", "Quit Game", "green", position++, MenuEvents::QUIT_GAME));
-    gameOver.get()->render(mRenderer);
 }
