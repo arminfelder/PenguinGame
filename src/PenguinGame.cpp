@@ -59,15 +59,19 @@ int PenguinGame::run() {
             //SDLEventLoop(&mRunning);
             continue;
 
+        } else if (mOpenGameOver) {
+            mOpenGameOver = false;
+            gameOver.get()->render(mRenderer);
+            continue;
+
         } else {
             last = now;
             now = SDL_GetPerformanceCounter();
             deltaTime = ((now - last) * 1000 / SDL_GetPerformanceFrequency());
-            SDLEventLoop(&mRunning);
             mGameEngine->update(deltaTime);
             SDL_Delay(static_cast<Uint32> (1000 / frames));
-
         }
+        SDLEventLoop(&mRunning);
     }
 
     return 0;
@@ -106,7 +110,7 @@ void PenguinGame::SDLEventLoop(bool *mRunning) {
     while (SDL_PeepEvents(&event, 1, SDL_GETEVENT, 33332, 33333)) {
         switch (event.type) {
             case 33332:
-                gameOver.get()->render(mRenderer);
+                mOpenGameOver = true;
                 break;
 
             case 33333:

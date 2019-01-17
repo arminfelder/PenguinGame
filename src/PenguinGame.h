@@ -56,6 +56,7 @@ private:
     //Menu
     bool mOpenMenu = false;
     bool mOpenPause = false;
+    bool mOpenGameOver = false;
     std::shared_ptr<Menu> mainMenu;
     std::shared_ptr<Menu> pauseMenu;
     std::shared_ptr<Menu> gameOver;
