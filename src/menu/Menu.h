@@ -48,6 +48,7 @@ private:
     void updateSelection(short direction);
     void quitGame();
     void switchMenu(MenuEvents::MenuEventType eventType);
+    void saveGame();
 
     bool mRunning = true;
 

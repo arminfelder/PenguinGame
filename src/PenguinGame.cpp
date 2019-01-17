@@ -130,7 +130,6 @@ void PenguinGame::SDLEventLoop(bool *mRunning) {
                 break;
 
             case 33333:
-                Managers::ComponentsManager::saveUserComponents(std::cout);
                 newGame();
                 break;
         }
@@ -198,6 +197,8 @@ void PenguinGame::initMenus() {
     int position = mainMenu.get()->getMenuSize();
     mainMenu.get()->addMenuComponent(std::make_shared<MenuComponent>("Sans", "First entry", "red", position++, MenuEvents::NONE));
     mainMenu.get()->addMenuComponent(std::make_shared<MenuComponent>("Sans", "New Game", "green", position++, MenuEvents::NEW_GAME));
+    mainMenu.get()->addMenuComponent(std::make_shared<MenuComponent>("Sans", "Save Game", "green", position++, MenuEvents::SAVE_GAME));
+    mainMenu.get()->addMenuComponent(std::make_shared<MenuComponent>("Sans", "Load Game", "green", position++, MenuEvents::LOAD_GAME));
     mainMenu.get()->addMenuComponent(std::make_shared<MenuComponent>("Sans", "Pause Menu", "green", position++, MenuEvents::PAUSE_MENU));
     mainMenu.get()->addMenuComponent(std::make_shared<MenuComponent>("Sans", "Exit Menu", "green", position++, MenuEvents::QUIT_MENU));
     mainMenu.get()->addMenuComponent(std::make_shared<MenuComponent>("Sans", "Quit Game", "green", position++, MenuEvents::QUIT_GAME));
