@@ -73,7 +73,8 @@ add_executable(game PenguinGame.cpp PenguinGame.h
         events/FallingEvent.cpp
         events/MoveEntity.cpp
         events/EntityCanSee.cpp
+        events/PlayerDies.cpp
         MapParser.cpp
-        main.cpp events/PlayerDies.cpp events/PlayerDies.h)
+        main.cpp)
 
 target_link_libraries(game ${SDL2_LIBRARIES} ${SDL2TTF_LIBRARY} ${SDL2_MIXER_LIBRARY})
