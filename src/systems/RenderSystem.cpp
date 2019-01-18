@@ -65,9 +65,16 @@ mWindow(pWindow),mRenderer(pPrenderer),mEventsManager(pEventsManager){
         //move camera up
         else if ((sectorY * height - maxOffsetY) < playerY)
             firstCam->yOffset-=height*0.8;
+
+
+
     };
 
     mEventsManager->regsiterEventHandler(Events::EventTypes::EntityMoved, callback);
+
+    std::shared_ptr<SDL_Surface> imageBG(SDL_LoadBMP("./res/the-background-2819000.bmp"), SDL_FreeSurface);
+    mGameBackground = std::shared_ptr<SDL_Texture>(SDL_CreateTextureFromSurface(mRenderer, imageBG.get()), SDL_DestroyTexture);
+
 
 }
 
@@ -79,12 +86,22 @@ void Systems::RenderSystem::update(uint64_t pTimeDiff) {
 
     auto visualComponents = Managers::ComponentsManager::getVisualComponents();
     auto cameraPositions = Managers::ComponentsManager::getCameraOffsets();
+    auto playerSpatial = Managers::ComponentsManager::getSpatialComponent(1);
     auto firstCam = cameraPositions.begin()->second;
 
 
     Components::CameraOffset offset(0,0);
 
     SDL_RenderClear(mRenderer);
+
+    SDL_Rect rect{static_cast<int>(0+playerSpatial->mPositionX*0.1), static_cast<int>(0+playerSpatial->mPositionY*0.1),1500,800};
+    SDL_Point origin{0,0};
+    SDL_Rect fill{0,0,0,0};
+    SDL_GetWindowSize(mWindow, &fill.w, &fill.h);
+
+
+    SDL_RenderCopyEx(mRenderer, mGameBackground.get() , &rect, &fill , 0,nullptr , SDL_FLIP_NONE);
+
 
     std::map<int, std::shared_ptr<Components::VisualComponent>>::reverse_iterator revIter;
 
@@ -104,7 +121,7 @@ void Systems::RenderSystem::update(uint64_t pTimeDiff) {
         SDL_Point center;
         center.x= 0;
         center.y = 0;
-        SDL_RenderCopyEx(mRenderer, visual->mTexture.get() , nullptr, &dstrect,visual->mRotateAngle, &center, visual->mFlip);
+        SDL_RenderCopyEx(mRenderer, visual->mTexture.get() , nullptr, &dstrect,visual->mRotateAngle, nullptr, visual->mFlip);
     }
 
     SDL_RenderPresent(mRenderer);

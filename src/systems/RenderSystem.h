@@ -40,6 +40,7 @@ namespace Systems {
         SDL_Window *mWindow = nullptr;
         SDL_Renderer *mRenderer = nullptr;
         SDL_Texture *mTestTexture = nullptr;
+        std::shared_ptr<SDL_Texture> mGameBackground;
         Managers::EventsManager *mEventsManager = nullptr;
 
     };
