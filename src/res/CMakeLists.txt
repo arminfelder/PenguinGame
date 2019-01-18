@@ -42,7 +42,9 @@ configure_file(new_bullet.bmp new_bullet.bmp COPYONLY)
 configure_file(00.bmp 00.bmp COPYONLY)
 configure_file(secret_key.bmp secret_key.bmp COPYONLY)
 configure_file(door_open.bmp door_open.bmp COPYONLY)
-configure_file(door_closed.bmp door_closed.bmp COPYONLY)
+configure_file(door_closed.bmp door_closed.bmp COPYONLY COPYONLY)
+configure_file(teleporter_entry.bmp teleporter_entry.bmp COPYONLY)
+configure_file(teleporter_target.bmp teleporter_target.bmp COPYONLY)
 configure_file(the-background-2819000.bmp the-background-2819000.bmp COPYONLY)
 
 

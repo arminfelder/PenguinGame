@@ -34,6 +34,8 @@ add_executable(game main.cpp
         entities/Projectile.cpp
 	    entities/Key.cpp
 	    entities/Door.cpp
+        entities/TeleporterEntrance.cpp
+        entities/TeleporterTarget.cpp
         GameEngine.cpp
         systems/RenderSystem.cpp
         systems/InputSystem.cpp
@@ -46,6 +48,7 @@ add_executable(game main.cpp
         systems/TriggerSystem.cpp
         systems/AiSystem.cpp
         systems/CombatSystem.cpp
+	    systems/TriggerSystem.cpp
 	    systems/InventorySystem.cpp
         managers/EntityManager.cpp
         managers/SystemsManager.cpp
@@ -69,6 +72,7 @@ add_executable(game main.cpp
 	    components/Inventory.cpp
 	    components/CanCollect.cpp
 	    components/UseAbel.cpp
+        components/TeleportTarget.cpp
         events/Event.cpp
         events/KeyPressedEvent.cpp
         events/KeyUpEvent.cpp

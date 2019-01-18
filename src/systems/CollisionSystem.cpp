@@ -54,18 +54,23 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
             for (int vertical = maskTopLimit-1; vertical < maskBottomLimit; vertical++) {
                 unsigned long index = static_cast<unsigned long>(horizontal + vertical * system->mapWidth);
                 try {
-                    if (system->collisionMask->size() > index && (system->collisionMask->at(index)) == true) {
+                    if (system->collisionMask->size() < index && (system->collisionMask->at(index)) == true) {
                         std::cout << "collision via mask detected" << std::endl;
                         maskCollision = true;
                         system->mEventsManager->addEvent(
                                 std::make_shared<Events::CollisionEvent>(entityId, 0, Events::collisionTypes::regular));
+                    } else if (entityId == 1 && index > system->collisionMask->size()) {//player dies -> game over //todo use our own event system
+                        SDL_Event sdlEvent;
+                        sdlEvent.type = 33332;
+                        SDL_PushEvent(&sdlEvent);
                     }
                 }
-                catch (const std::out_of_range& e) {//player dies -> game over //todo use our own event system
+                catch (const std::exception&){//player dies -> game over //todo use our own event system
                     SDL_Event sdlEvent;
                     sdlEvent.type = 33332;
                     SDL_PushEvent(&sdlEvent);
                 }
+
             }
         }
 
@@ -128,6 +133,10 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
                     }
                     case Entities::entityTypes::key:{
                         collisionType = Events::collisionTypes::keyArea2;
+                        break;
+                    }
+                    case Entities::entityTypes::teleporterEntrance:{
+                        collisionType = Events::collisionTypes::teleporterEntry;
                         break;
                     }
                     case Entities::entityTypes::none: {

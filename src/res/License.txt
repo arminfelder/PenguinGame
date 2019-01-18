@@ -9,3 +9,4 @@ heart_4.png,mart(OpenGameArt.org),CC0
 monster/MonsterPack_008/*,Kjell_Granlund(OpenGameArt.org),CC-BY
 00.png,Alekei(OpenGameArt.org),CC-BY
 secret_key.png,Jay Mayu(OpenGameArt.org),CC0
+gen_anim.png,
