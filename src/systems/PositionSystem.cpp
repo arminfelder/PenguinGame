@@ -120,6 +120,19 @@ Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager)
         }else if(event->mType == Events::collisionTypes::ladderBegin){
             moveable->canMoveUp = true;
             moveable->canMoveDown = true;
+        }else if(event->mType == Events::collisionTypes::teleporterEntry){
+            auto targets = Managers::ComponentsManager::getTeleportTargets();
+            if(!targets.empty()) {
+                auto target = targets.begin()->first;
+                auto targetPos = Managers::ComponentsManager::getSpatialComponent(target);
+
+                auto entitySpatial = Managers::ComponentsManager::getSpatialComponent(event->mMovingEntity);
+                entitySpatial->mPositionX = targetPos->mPositionX;
+                entitySpatial->mPositionY = targetPos->mPositionY;
+
+                //system->mEventsManager->addEvent(std::make_shared<Events::MoveEntity>(event->mMovingEntity,0, 0));
+
+            }
         }
     };
 
@@ -145,6 +158,7 @@ Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager)
         }
 
     };
+
 
     mEventsManager->regsiterEventHandler(Events::EventTypes::KeyUp, callback );
     mEventsManager->regsiterEventHandler(Events::EventTypes::KeyDown, callback );
