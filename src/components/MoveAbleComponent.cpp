@@ -25,3 +25,19 @@ Components::MoveAbleComponent::MoveAbleComponent() {
 Components::MoveAbleComponent::MoveAbleComponent(bool pRight, bool pDown, bool pLeft, bool pTop):canMoveRight(pRight),canMoveDown(pDown),canMoveLeft(pLeft),canMoveUp(pTop) {
 
 }
+
+std::string Components::MoveAbleComponent::serialize() {
+    std::string serialize = "MoveAble;" + std::to_string(this->canMoveLeft) + ";" + std::to_string(this->canMoveRight) + ";" + std::to_string(this->canMoveDown) + ";" + std::to_string(this->canMoveUp);
+    return serialize;
+}
+
+void Components::MoveAbleComponent::load(std::vector<std::string> splittedStrings) {
+    if (splittedStrings[0] == "MoveAble") {
+        canMoveLeft = static_cast<bool>(std::stoi(splittedStrings[1]));
+        canMoveRight = static_cast<bool>(std::stoi(splittedStrings[2]));
+        canMoveDown = static_cast<bool>(std::stoi(splittedStrings[3]));
+        canMoveUp = static_cast<bool>(std::stoi(splittedStrings[4]));
+
+    }
+
+}

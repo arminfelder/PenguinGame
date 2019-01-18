@@ -102,6 +102,10 @@ namespace Managers {
         static void createTeleportTarget(int pEntityId, int pTarget);
 
         static void removeComponentsOfEntity(int pEntityId);
+        static void saveUserComponents(std::ostream &out);
+        static void loadUserComponents(std::ifstream &inputFile);
+        static std::vector<std::string> splitString(const std::string &strToSplit, char delimeter);
+
         ~ComponentsManager();
 
     private:

@@ -38,6 +38,7 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
     auto entityManager = pEngine->getEntityManager();
     auto mapDimension = getWorldDimension(pMapfile);
 
+
     std::shared_ptr<SDL_Surface> imageWall(SDL_LoadBMP("./res/brick-wall.bmp"), SDL_FreeSurface) ;
     std::shared_ptr<SDL_Texture> textureWall(SDL_CreateTextureFromSurface(pRenderer, imageWall.get()), SDL_DestroyTexture);
 

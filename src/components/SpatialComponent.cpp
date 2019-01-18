@@ -16,10 +16,25 @@
 * along with PenguinGame. If not, see <http://www.gnu.org/licenses/>.
 ******************************************************************************/
 
+#include <string>
 #include "SpatialComponent.h"
 
 Components::SpatialComponent::SpatialComponent(int pPositionX, int pPositionY,bool pMoveWithMap) {
     mPositionX = pPositionX;
     mPositionY = pPositionY;
     moveWithMap = pMoveWithMap;
+}
+
+std::string Components::SpatialComponent::serialize() {
+    std::string serialized = "SpatialComponent;" + std::to_string(this->mPositionX) + ";" + std::to_string(this->mPositionY) + ";" + std::to_string(this->mPrevPositionX) + ";" + std::to_string(this->mPrevPositionY);
+    return serialized;
+}
+
+void Components::SpatialComponent::load(std::vector<std::string> splittedStrings) {
+    if (splittedStrings[0] == "SpatialComponent") {
+        mPositionX = std::stoi(splittedStrings[1]);
+        mPositionY = std::stoi(splittedStrings[2]);
+        mPrevPositionX = std::stoi(splittedStrings[3]);
+        mPrevPositionY = std::stoi(splittedStrings[4]);
+    }
 }

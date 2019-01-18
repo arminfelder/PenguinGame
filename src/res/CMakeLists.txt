@@ -45,5 +45,7 @@ configure_file(door_open.bmp door_open.bmp COPYONLY)
 configure_file(door_closed.bmp door_closed.bmp COPYONLY COPYONLY)
 configure_file(teleporter_entry.bmp teleporter_entry.bmp COPYONLY)
 configure_file(teleporter_target.bmp teleporter_target.bmp COPYONLY)
+configure_file(the-background-2819000.bmp the-background-2819000.bmp COPYONLY)
+
 
 configure_file(map.txt map.txt COPYONLY)

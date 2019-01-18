@@ -22,8 +22,10 @@
 #include "Menu.h"
 #include <SDL2/SDL.h>
 #include <iostream>
+#include <fstream>
 #include "MenuComponent.h"
 #include "MenuEvents.h"
+#include "../managers/ComponentsManager.h"
 
 
 void Menu::create() {
@@ -133,6 +135,13 @@ void Menu::triggerMenuEvent() {
         case MenuEvents::PAUSE_MENU:
             switchMenu(event);
             break;
+        case MenuEvents::SAVE_GAME:
+            saveGame();
+            break;
+        case MenuEvents::LOAD_GAME:
+            this->close();
+            loadGame();
+            break;
         default:
             std::cout << "function not implemented" << std::endl;
             break;
@@ -161,6 +170,16 @@ void Menu::switchMenu(MenuEvents::MenuEventType event) {
     SDL_Event sdl_event1;
     sdl_event1.type = 32780;
     SDL_PushEvent(&sdl_event1);
+}
+
+void Menu::saveGame() {
+    std::ofstream out("save.txt");
+    Managers::ComponentsManager::saveUserComponents(std::cout);
+}
+
+void Menu::loadGame() {
+    std::ifstream in("save.txt");
+    Managers::ComponentsManager::loadUserComponents(in);
 }
 
 Menu::Menu() = default;

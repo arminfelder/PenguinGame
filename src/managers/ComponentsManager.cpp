@@ -17,6 +17,9 @@
 ******************************************************************************/
 
 
+#include <fstream>
+#include <sstream>
+#include <iostream>
 #include "ComponentsManager.h"
 
 using namespace Managers;
@@ -248,6 +251,8 @@ void ComponentsManager::createUseable(int pEntityId, const std::vector<Component
     mUseables.emplace(std::make_pair(pEntityId,std::make_shared<Components::UseAbel>(pTypes)));
 }
 
+
+
 ComponentsManager::~ComponentsManager() {
     mHealthComponents.clear();
     mVisualComponents.clear();
@@ -277,4 +282,57 @@ std::shared_ptr<Components::TeleportTarget> &ComponentsManager::getTeleportTarge
 
 void ComponentsManager::createTeleportTarget(int pEntityId, int pTarget) {
     mTeleportTargets.emplace(std::make_pair(pEntityId,std::make_shared<Components::TeleportTarget>(pTarget)));
+}
+
+void ComponentsManager::saveUserComponents(std::ostream &out) {
+    auto playerHealth = getHealthComponent(1);
+    auto playerPosition = getSpatialComponent(1);
+    auto playerCamera = getCameraOffsetComponent(2);
+    auto playerMoveAble = getMoveableComponent(1);
+    auto playerMomentum = getMomentumComponent(1);
+
+    //todo: inventory
+
+
+    out << playerHealth.get()->serialize() << std::endl;
+    out << playerPosition.get()->serialize() << std::endl;
+    out << playerCamera.get()->serialize() << std::endl;
+    out << playerMoveAble.get()->serialize() << std::endl;
+    out << playerMomentum.get()->serialize() << std::endl;
+}
+
+void ComponentsManager::loadUserComponents(std::ifstream &inputFile) {
+    auto playerHealth = getHealthComponent(1);
+    auto playerPosition = getSpatialComponent(1);
+    auto playerCamera = getCameraOffsetComponent(2);
+    auto playerMoveAble = getMoveableComponent(1);
+    auto playerMomentum = getMomentumComponent(1);
+
+    std::string line;
+
+    while (std::getline(inputFile, line)) {
+        std::vector<std::string> splittedStrings = splitString(line, ';');
+
+        if (splittedStrings[0] == "Health")
+            playerHealth.get()->load(splittedStrings);
+        else if (splittedStrings[0] == "SpatialComponent")
+            playerPosition.get()->load(splittedStrings);
+        else if (splittedStrings[0] == "CameraOffset")
+            playerCamera.get()->load(splittedStrings);
+        else if (splittedStrings[0] == "MoveAble")
+            playerMoveAble.get()->load(splittedStrings);
+        else if (splittedStrings[0] == "Momentum")
+            playerMomentum.get()->load(splittedStrings);
+    }
+}
+
+std::vector<std::string> ComponentsManager::splitString(const std::string &strToSplit, char delimeter) {
+        std::stringstream ss(strToSplit);
+        std::string item;
+        std::vector<std::string> splittedStrings;
+        while (std::getline(ss, item, delimeter))
+        {
+            splittedStrings.push_back(item);
+        }
+        return splittedStrings;
 }
