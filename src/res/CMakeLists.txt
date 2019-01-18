@@ -44,6 +44,7 @@ configure_file(secret_key.bmp secret_key.bmp COPYONLY)
 configure_file(door_open.bmp door_open.bmp COPYONLY)
 configure_file(door_closed.bmp door_closed.bmp COPYONLY)
 configure_file(the-background-2819000.bmp the-background-2819000.bmp COPYONLY)
+configure_file(monster/MonsterPack_008/depixelizer_1453475724139.bmp monster/MonsterPack_008/depixelizer_1453475724139.bmp COPYONLY)
 
 
 configure_file(map.txt map.txt COPYONLY)
