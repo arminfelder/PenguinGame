@@ -91,7 +91,7 @@ void Menu::handleKeyEvent() {
                     this->close();
                     break;
                 case SDLK_ESCAPE:
-                    this->close();
+                    quitGame();
                 case SDLK_RETURN:
                     triggerMenuEvent();
                     break;
@@ -174,7 +174,6 @@ void Menu::switchMenu(MenuEvents::MenuEventType event) {
 
 void Menu::saveGame() {
     std::ofstream out("save.txt");
-    Managers::ComponentsManager::saveUserComponents(out);
     Managers::ComponentsManager::saveUserComponents(std::cout);
 }
 
