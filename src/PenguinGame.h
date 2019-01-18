@@ -33,7 +33,7 @@ public:
     void initSDL();
     void initEngine();
     void initAudio();
-    void SDLEventLoop(bool* mRunning);
+    void SDLEventLoop();
     void initGame();
     void initMenus();
 

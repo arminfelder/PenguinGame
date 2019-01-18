@@ -273,6 +273,8 @@ void ComponentsManager::saveUserComponents(std::ostream &out) {
     auto playerMoveAble = getMoveableComponent(1);
     auto playerMomentum = getMomentumComponent(1);
 
+    //todo: inventory
+
 
     out << playerHealth.get()->serialize() << std::endl;
     out << playerPosition.get()->serialize() << std::endl;
