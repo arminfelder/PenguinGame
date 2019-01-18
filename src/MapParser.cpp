@@ -78,6 +78,9 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
     std::shared_ptr<SDL_Surface> imageTeleporterTarget(SDL_LoadBMP("./res/teleporter_target.bmp"),SDL_FreeSurface);
     std::shared_ptr<SDL_Texture> textureTeleporterTarget(SDL_CreateTextureFromSurface(pRenderer, imageTeleporterTarget.get()), SDL_DestroyTexture);
 
+    std::shared_ptr<SDL_Surface> imageMonster2(SDL_LoadBMP("./res/monster/MonsterPack_008/depixelizer_1453475724139.bmp"), SDL_FreeSurface);
+    std::shared_ptr<SDL_Texture> textureMonster2(SDL_CreateTextureFromSurface(pRenderer, imageMonster2.get()), SDL_DestroyTexture);
+
 
     std::shared_ptr<SDL_Surface> imageLadder(SDL_LoadBMP("./res/ladder.bmp"), SDL_FreeSurface);
     std::shared_ptr<SDL_Texture> textureLadder(SDL_CreateTextureFromSurface(pRenderer, imageLadder.get()), SDL_DestroyTexture);
@@ -201,6 +204,19 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
                     Managers::ComponentsManager::createHealthComponent(id,50);
                     Managers::ComponentsManager::createPathComponent(id,std::vector<SDL_Point>({SDL_Point{100,0},SDL_Point{-100,0}}),1,true,true);
                     Managers::ComponentsManager::createViewRange(id, 400,0);
+                    break;
+                }
+                case 'M':{
+                    int id = Managers::EntityManager::createEntity<Npc>();
+                    Managers::ComponentsManager::createVisualComponent(id, textureMonster2, 50, 50);
+                    Managers::ComponentsManager::createSpatialComponent(id, x, y);
+                    Managers::ComponentsManager::createCollideAbleComponent(id);
+                    Managers::ComponentsManager::createHealthComponent(id,80);
+                    Managers::ComponentsManager::createPathComponent(id,std::vector<SDL_Point>({SDL_Point{-150,0},SDL_Point{150,0}}),1,true,true);
+                    Managers::ComponentsManager::createViewRange(id, 600,0);
+                    break;
+                }
+                case 'K':{
                     break;
                 }
                 case '|': {
