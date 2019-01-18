@@ -130,8 +130,7 @@ Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager)
                 entitySpatial->mPositionX = targetPos->mPositionX;
                 entitySpatial->mPositionY = targetPos->mPositionY;
 
-                //system->mEventsManager->addEvent(std::make_shared<Events::MoveEntity>(event->mMovingEntity,0, 0));
-
+                system->mEventsManager->addEvent(std::make_shared<Events::MoveEntity>(event->mMovingEntity,0, 0));
             }
         }
     };

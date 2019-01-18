@@ -34,50 +34,8 @@ mWindow(pWindow),mRenderer(pPrenderer),mEventsManager(pEventsManager){
         auto movementElement = static_cast<Events::EntityMoved*>(pEvent.get());
         if (movementElement->mEntityId != 1)
             return;//aka player did not move moved
-
-        int height, width;
-        SDL_GetWindowSize(system->mWindow, &width, &height);
-
-        //TODO: refactor
-        auto cameraPositions = Managers::ComponentsManager::getCameraOffsets();
-        auto firstCam = cameraPositions.begin()->second;
-
-        auto playerPositon = Managers::ComponentsManager::getSpatialComponent(1);
-        auto playerY = playerPositon->mPositionY + firstCam->yOffset;
-        auto playerX = playerPositon->mPositionX + firstCam->xOffset;
-
-        auto sectorX = std::ceil(playerX/ static_cast<double>(width));
-        auto sectorY = std::ceil(playerY/ static_cast<double>(height));
-
-        auto cameraMoveOffset = 0.05;
-        auto maxOffsetX = width * cameraMoveOffset;
-        auto maxOffsetY = height * cameraMoveOffset;
-
-        //test if camera is way off (happens when using the teleporter)
-        auto cameraOffsetSectorX = std::ceil(firstCam->xOffset / static_cast<double>(width));
-        auto cameraOffsetSectorY = std::ceil(firstCam->yOffset / static_cast<double>(height));
-
-
-/*        while (playerY > height*0.8*(cameraOffsetSectorY+1)) {
-            firstCam->yOffset += height * 0.8;
-            cameraOffsetSectorY = std::ceil(firstCam->yOffset / static_cast<double>(height));
-        }*/
-
-        //move camera left
-        if (((sectorX - 1)*width + maxOffsetX) > playerX)
-            firstCam->xOffset+=width*0.8;
-        //move camera right
-        else if ((sectorX * width - maxOffsetX) < playerX)
-            firstCam->xOffset-=width*0.8;
-        //move camera down
-        if (((sectorY - 1)*height + maxOffsetY) > playerY)
-            firstCam->yOffset+=height*0.8;
-        //move camera up
-        else if ((sectorY * height - maxOffsetY) < playerY)
-            firstCam->yOffset-=height*0.8;
-
-
-
+        else
+            system->tryAndMoveCamera();
     };
 
     mEventsManager->regsiterEventHandler(Events::EventTypes::EntityMoved, callback);
@@ -143,6 +101,93 @@ void Systems::RenderSystem::setWindow(SDL_Window *pWindow) {
     mWindow = pWindow;
 }
 
-void Systems::RenderSystem::setRendered(SDL_Renderer *pRenderer) {
+void Systems::RenderSystem::setRenderer(SDL_Renderer *pRenderer) {
     mRenderer = pRenderer;
+}
+
+std::vector<int> Systems::RenderSystem::calculateCameraTargetPosition() {
+    auto playerPositon = Managers::ComponentsManager::getSpatialComponent(1);
+    int height, width;
+    SDL_GetWindowSize(this->mWindow, &width, &height);
+
+    int xCameraSector = static_cast<int>(std::floor(playerPositon->mPositionX) / (width*0.8));
+    int yCameraSector = static_cast<int>(std::floor(playerPositon->mPositionY) / (height*0.8));
+
+    int xOffset = xCameraSector * (int)(width * 0.8);
+    int yOffset = yCameraSector * (int)(height * 0.8);
+
+    std::vector<int> vector = {-xOffset, -yOffset};
+
+    std::cout << xOffset << " " << yOffset << std::endl;
+    std::cout << "playerPosition: " << playerPositon.get()->mPositionX <<" " << playerPositon.get()->mPositionY  << std::endl;
+
+    return vector;
+}
+
+bool Systems::RenderSystem::playerIsVisible() {
+    auto cameraPositions = Managers::ComponentsManager::getCameraOffsets();
+    auto firstCam = cameraPositions.begin()->second;
+    auto playerPosition = Managers::ComponentsManager::getSpatialComponent(1);
+
+    int height, width;
+    SDL_GetWindowSize(this->mWindow, &width, &height);
+    int playerX = playerPosition.get()->mPositionX;
+    int playerY = playerPosition.get()->mPositionY;
+    //need the negative sign here because the camere offset works in adding up that mentioned offset to all Entities later
+    int cameraOffsetX = -(firstCam->xOffset);
+    int cameraOffsetY = -(firstCam->yOffset);
+
+    bool visibleX = (playerX >= cameraOffsetX && playerX <= (cameraOffsetX + width));
+    bool visibleY = (playerY >= cameraOffsetY && playerY <= (cameraOffsetY + height));
+
+    return visibleX && visibleY;
+}
+
+void Systems::RenderSystem::setCameraTargetPosition(std::vector<int> point) {
+    auto cameraPositions = Managers::ComponentsManager::getCameraOffsets();
+    auto firstCam = cameraPositions.begin()->second;
+    firstCam.get()->xOffset = point[0];
+    firstCam.get()->yOffset = point[1];
+}
+
+void Systems::RenderSystem::tryAndMoveCamera() {
+
+
+    if (!this->playerIsVisible()) {
+        auto newCameraPosition = this->calculateCameraTargetPosition();
+        this->setCameraTargetPosition(newCameraPosition);
+    } else { //test if cameraMovement due to player walking is needed
+
+        int height, width;
+        SDL_GetWindowSize(this->mWindow, &width, &height);
+
+        auto cameraPositions = Managers::ComponentsManager::getCameraOffsets();
+        auto firstCam = cameraPositions.begin()->second;
+
+        auto playerPositon = Managers::ComponentsManager::getSpatialComponent(1);
+        auto playerY = playerPositon->mPositionY + firstCam->yOffset;
+        auto playerX = playerPositon->mPositionX + firstCam->xOffset;
+
+        auto sectorX = std::ceil(playerX/ static_cast<double>(width));
+        auto sectorY = std::ceil(playerY/ static_cast<double>(height));
+
+        auto cameraMoveOffset = 0.05;
+        auto maxOffsetX = width * cameraMoveOffset;
+        auto maxOffsetY = height * cameraMoveOffset;
+
+
+
+        //move camera left
+        if (((sectorX - 1) * width + maxOffsetX) > playerX)
+            firstCam->xOffset += static_cast<int>(width * 0.8);
+            //move camera right
+        else if ((sectorX * width - maxOffsetX) < playerX)
+            firstCam->xOffset -= static_cast<int>(width * 0.8);
+        //move camera down
+        if (((sectorY - 1) * height + maxOffsetY) > playerY)
+            firstCam->yOffset += static_cast<int>(height * 0.8);
+            //move camera up
+        else if ((sectorY * height - maxOffsetY) < playerY)
+            firstCam->yOffset -= static_cast<int>(height * 0.8);
+    }
 }

@@ -31,7 +31,7 @@ namespace Systems {
     public:
         RenderSystem(SDL_Window *pWindow, SDL_Renderer *pPrenderer, Managers::EventsManager *pEventsManager);
         void setWindow(SDL_Window *pWindow);
-        void setRendered(SDL_Renderer *pRenderer);
+        void setRenderer(SDL_Renderer *pRenderer);
         ~RenderSystem();
 
         void update(uint64_t pTimeDiff);
@@ -42,6 +42,10 @@ namespace Systems {
         SDL_Texture *mTestTexture = nullptr;
         std::shared_ptr<SDL_Texture> mGameBackground;
         Managers::EventsManager *mEventsManager = nullptr;
+        std::vector<int> calculateCameraTargetPosition();
+        void tryAndMoveCamera();
+        void setCameraTargetPosition(std::vector<int> point);
+        bool playerIsVisible();
 
     };
 }
