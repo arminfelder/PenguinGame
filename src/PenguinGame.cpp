@@ -44,7 +44,7 @@ int PenguinGame::run() {
     SDL_Surface *surface = SDL_GetWindowSurface(mWindow);
 
     while (mRunning) {
-        SDLEventLoop(&mRunning);
+        SDLEventLoop();
         //render one frame to get rid of the old menu. //todo make this better, like using a normal background image
         if (mRenderOnce) {
             mRenderOnce = false;
@@ -52,18 +52,15 @@ int PenguinGame::run() {
         }
         if (mOpenMenu) {
             //todo find better solution to get rid of the already drawn ttfs without redrawing one frame after a menu change
-            //Fill the surface white; todo work with other background.
 //            SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, 0xFF, 0xFF, 0xFF));
 //            SDL_UpdateWindowSurface(mWindow);
             mOpenMenu = false;
             mainMenu.get()->render(mRenderer);
-            //SDLEventLoop(&mRunning);
             continue;
 
         } else if (mOpenPause) {
             mOpenPause = false;
             pauseMenu.get()->render(mRenderer);
-            //SDLEventLoop(&mRunning);
             continue;
 
         } else if (mOpenGameOver) {
@@ -101,7 +98,7 @@ void PenguinGame::drawFrame(uint64_t &last, uint64_t &now, int frames) {
     SDL_Delay(static_cast<Uint32> (1000 / frames));
 }
 
-void PenguinGame::SDLEventLoop(bool *mRunning) {
+void PenguinGame::SDLEventLoop() {
     SDL_Event event;
     SDL_PumpEvents();
     while (SDL_PeepEvents(&event, 1, SDL_GETEVENT, SDL_FIRSTEVENT, SDL_SYSWMEVENT)) {
@@ -195,8 +192,7 @@ void PenguinGame::initMenus() {
     gameOver = std::make_shared<Menu>();
 
     int position = mainMenu.get()->getMenuSize();
-    mainMenu.get()->addMenuComponent(std::make_shared<MenuComponent>("Sans", "First entry", "red", position++, MenuEvents::NONE));
-    mainMenu.get()->addMenuComponent(std::make_shared<MenuComponent>("Sans", "New Game", "green", position++, MenuEvents::NEW_GAME));
+    mainMenu.get()->addMenuComponent(std::make_shared<MenuComponent>("Sans", "New Game", "red", position++, MenuEvents::NEW_GAME));
     mainMenu.get()->addMenuComponent(std::make_shared<MenuComponent>("Sans", "Save Game", "green", position++, MenuEvents::SAVE_GAME));
     mainMenu.get()->addMenuComponent(std::make_shared<MenuComponent>("Sans", "Load Game", "green", position++, MenuEvents::LOAD_GAME));
     mainMenu.get()->addMenuComponent(std::make_shared<MenuComponent>("Sans", "Pause Menu", "green", position++, MenuEvents::PAUSE_MENU));
