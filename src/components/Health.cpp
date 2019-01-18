@@ -17,6 +17,9 @@
 ******************************************************************************/
 
 
+#include <sstream>
+#include <cstring>
+#include <vector>
 #include "Health.h"
 using namespace Components;
 
@@ -38,4 +41,14 @@ void Health::setHealth(int health) {
 
 Health::Health(int pHealth):mHealth(pHealth) {
 
+}
+
+std::string Health::serialize() {
+    std::string serialized = "Health;" + std::to_string(this->mHealth);
+        return serialized;
+}
+
+void Health::load(std::vector<std::string> splittedStrings) {
+    if (splittedStrings[0] == "Health")
+        setHealth(std::stoi(splittedStrings[1]));
 }
