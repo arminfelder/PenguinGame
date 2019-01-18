@@ -53,6 +53,16 @@ mWindow(pWindow),mRenderer(pPrenderer),mEventsManager(pEventsManager){
         auto maxOffsetX = width * cameraMoveOffset;
         auto maxOffsetY = height * cameraMoveOffset;
 
+        //test if camera is way off (happens when using the teleporter)
+        auto cameraOffsetSectorX = std::ceil(firstCam->xOffset / static_cast<double>(width));
+        auto cameraOffsetSectorY = std::ceil(firstCam->yOffset / static_cast<double>(height));
+
+
+/*        while (playerY > height*0.8*(cameraOffsetSectorY+1)) {
+            firstCam->yOffset += height * 0.8;
+            cameraOffsetSectorY = std::ceil(firstCam->yOffset / static_cast<double>(height));
+        }*/
+
         //move camera left
         if (((sectorX - 1)*width + maxOffsetX) > playerX)
             firstCam->xOffset+=width*0.8;

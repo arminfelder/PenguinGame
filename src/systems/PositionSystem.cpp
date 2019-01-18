@@ -125,9 +125,13 @@ Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager)
             if(!targets.empty()) {
                 auto target = targets.begin()->first;
                 auto targetPos = Managers::ComponentsManager::getSpatialComponent(target);
-                if (targetPos) {
-                    system->mEventsManager->addEvent(std::make_shared<Events::MoveEntity>(event->mMovingEntity,targetPos->mPositionX, targetPos->mPositionY));
-                }
+
+                auto entitySpatial = Managers::ComponentsManager::getSpatialComponent(event->mMovingEntity);
+                entitySpatial->mPositionX = targetPos->mPositionX;
+                entitySpatial->mPositionY = targetPos->mPositionY;
+
+                system->mEventsManager->addEvent(std::make_shared<Events::MoveEntity>(event->mMovingEntity,0, 0));
+
             }
         }
     };
