@@ -7,3 +7,5 @@ tux/*,SuperTux,GPL3
 heart_4.png,mart(OpenGameArt.org),CC0
 387133__rdaly95__collecting-health.wav,rdaly95(freesound.org),CC-BY
 monster/MonsterPack_008/*,Kjell_Granlund(OpenGameArt.org),CC-BY
+00.png,Alekei(OpenGameArt.org),CC-BY
+secret_key.png,Jay Mayu(OpenGameArt.org),CC0

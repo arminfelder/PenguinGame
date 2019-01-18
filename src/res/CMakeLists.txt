@@ -39,6 +39,10 @@ configure_file(heart_4.bmp heart_4.bmp COPYONLY)
 configure_file(387133__rdaly95__collecting-health.wav 387133__rdaly95__collecting-health.wav COPYONLY)
 configure_file(monster/MonsterPack_008/depixelizer_1453475703255.bmp monster/MonsterPack_008/depixelizer_1453475703255.bmp COPYONLY)
 configure_file(new_bullet.bmp new_bullet.bmp COPYONLY)
+configure_file(00.bmp 00.bmp COPYONLY)
+configure_file(secret_key.bmp secret_key.bmp COPYONLY)
+configure_file(door_open.bmp door_open.bmp COPYONLY)
+configure_file(door_closed.bmp door_closed.bmp COPYONLY)
 
 
 configure_file(map.txt map.txt COPYONLY)

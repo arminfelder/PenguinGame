@@ -25,6 +25,8 @@
 #include "entities/HealthIndicator.h"
 #include "entities/HealthItem.h"
 #include "entities/Npc.h"
+#include "entities/Key.h"
+#include "entities/Door.h"
 
 using namespace Entities;
 using namespace std;
@@ -41,6 +43,9 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
     std::shared_ptr<SDL_Surface> imageStoneWall(SDL_LoadBMP("./res/stone-wall-2477715_640.bmp"), SDL_FreeSurface) ;
     std::shared_ptr<SDL_Texture> textureStoneWall(SDL_CreateTextureFromSurface(pRenderer, imageStoneWall.get()), SDL_DestroyTexture);
 
+    std::shared_ptr<SDL_Surface> imageStoneWall2(SDL_LoadBMP("./res/00.bmp"), SDL_FreeSurface) ;
+    std::shared_ptr<SDL_Texture> textureStoneWall2(SDL_CreateTextureFromSurface(pRenderer, imageStoneWall2.get()), SDL_DestroyTexture);
+
     map<string, list<string>> playerBmps;
     playerBmps.insert({"walk",{"./res/tux/big/walk-0.bmp","./res/tux/big/walk-1.bmp","./res/tux/big/walk-2.bmp","./res/tux/big/walk-3.bmp","./res/tux/big/walk-4.bmp","./res/tux/big/walk-5.bmp","./res/tux/big/walk-6.bmp","./res/tux/big/walk-7.bmp"}});
 
@@ -49,6 +54,18 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
 
     std::shared_ptr<SDL_Surface> imageHeart(SDL_LoadBMP("./res/heart_4.bmp"), SDL_FreeSurface);
     std::shared_ptr<SDL_Texture> textureHeart(SDL_CreateTextureFromSurface(pRenderer, imageHeart.get()), SDL_DestroyTexture);
+
+    map<string, list<string>> doorBmps;
+    doorBmps.insert({"open",{"./res/door_open.bmp"}});
+    doorBmps.insert({"closed",{"./res/door_closed.bmp"}});
+    auto doorMap = generateTexturesMap(doorBmps,"./res/door_closed.bmp", pRenderer);
+
+    std::shared_ptr<SDL_Surface> imageKey(SDL_LoadBMP("./res/secret_key.bmp"), SDL_FreeSurface);
+    std::shared_ptr<SDL_Texture> textureKey(SDL_CreateTextureFromSurface(pRenderer, imageKey.get()), SDL_DestroyTexture);
+
+    std::shared_ptr<SDL_Surface> imageDoorClosed(SDL_LoadBMP("./res/door_closed.bmp"), SDL_FreeSurface);
+    std::shared_ptr<SDL_Texture> textureDoorClosed(SDL_CreateTextureFromSurface(pRenderer, imageDoorClosed.get()), SDL_DestroyTexture);
+
 
     std::shared_ptr<SDL_Surface> imageMonster1(SDL_LoadBMP("./res/monster/MonsterPack_008/depixelizer_1453475703255.bmp"), SDL_FreeSurface);
     std::shared_ptr<SDL_Texture> textureMonster1(SDL_CreateTextureFromSurface(pRenderer, imageMonster1.get()), SDL_DestroyTexture);
@@ -102,12 +119,35 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
                     collisionMask->push_back(true);
                     break;
                 }
+                case '&':{
+                    int id = Managers::EntityManager::createEntity<Wall>();
+                    Managers::ComponentsManager::createVisualComponent(id, textureStoneWall2, 50, 50);
+                    Managers::ComponentsManager::createSpatialComponent(id, x, y);
+                    collisionMask->pop_back();
+                    collisionMask->push_back(true);
+                    break;
+                }
                 case 'i':{
                     int id = Managers::EntityManager::createEntity<Wall>();
                     Managers::ComponentsManager::createVisualComponent(id, textureInvisible, 50, 50);
                     Managers::ComponentsManager::createSpatialComponent(id, x, y);
                     collisionMask->pop_back();
                     collisionMask->push_back(true);
+                    break;
+                }
+                case 'k':{
+                    int id = Managers::EntityManager::createEntity<Key>();
+                    Managers::ComponentsManager::createVisualComponent(id, textureKey, 50, 50);
+                    Managers::ComponentsManager::createSpatialComponent(id, x, y);
+                    Managers::ComponentsManager::createCollideAbleComponent(id);
+                    break;
+                }
+                case 'd':{
+                    int id = Managers::EntityManager::createEntity<Door>();
+                    Managers::ComponentsManager::createVisualComponent(id, doorMap, 50, 50);
+                    Managers::ComponentsManager::createSpatialComponent(id, x, y);
+                    Managers::ComponentsManager::createCollideAbleComponent(id);
+                    Managers::ComponentsManager::createUseable(id, {Components::Inventory::ItemTypes::keyArea2});
                     break;
                 }
                 case 'p': {
@@ -118,6 +158,8 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
                     Managers::ComponentsManager::createHealthComponent(id,100);
                     Managers::ComponentsManager::createMomentumComponent(id);
                     Managers::ComponentsManager::createCollideAbleComponent(id);
+                    Managers::ComponentsManager::createInventory(id);
+                    Managers::ComponentsManager::createCanCollect(id, {Components::Inventory::ItemTypes::keyArea2});
                     break;
                 }
                 case 'h': {

@@ -54,7 +54,7 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
             for (int vertical = maskTopLimit-1; vertical < maskBottomLimit; vertical++) {
                 unsigned long index = static_cast<unsigned long>(horizontal + vertical * system->mapWidth);
                 try {
-                    if (system->collisionMask->size() < index && (system->collisionMask->at(index)) == true) {
+                    if (system->collisionMask->size() > index && (system->collisionMask->at(index)) == true) {
                         std::cout << "collision via mask detected" << std::endl;
                         maskCollision = true;
                         system->mEventsManager->addEvent(
@@ -120,6 +120,14 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
                     }
                     case Entities::entityTypes::player:{
                         collisionType = Events::collisionTypes::player;
+                        break;
+                    }
+                    case Entities::entityTypes::door:{
+                        collisionType = Events::collisionTypes::regular;
+                        break;
+                    }
+                    case Entities::entityTypes::key:{
+                        collisionType = Events::collisionTypes::keyArea2;
                         break;
                     }
                     case Entities::entityTypes::none: {
