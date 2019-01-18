@@ -174,7 +174,7 @@ void Menu::switchMenu(MenuEvents::MenuEventType event) {
 
 void Menu::saveGame() {
     std::ofstream out("save.txt");
-    Managers::ComponentsManager::saveUserComponents(std::cout);
+    Managers::ComponentsManager::saveUserComponents(out);
 }
 
 void Menu::loadGame() {
