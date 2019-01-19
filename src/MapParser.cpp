@@ -198,8 +198,8 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
                 }
                 case 'm': {
                     int id = Managers::EntityManager::createEntity<Npc>();
-                    Managers::ComponentsManager::createVisualComponent(id, textureMonster1, 50, 50);
-                    Managers::ComponentsManager::createSpatialComponent(id, x, y);
+                    Managers::ComponentsManager::createVisualComponent(id, textureMonster1, 48, 48);
+                    Managers::ComponentsManager::createSpatialComponent(id, x+1, y+1);
                     Managers::ComponentsManager::createCollideAbleComponent(id);
                     Managers::ComponentsManager::createHealthComponent(id,50);
                     Managers::ComponentsManager::createPathComponent(id,std::vector<SDL_Point>({SDL_Point{100,0},SDL_Point{-100,0}}),1,true,true);
@@ -208,8 +208,8 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
                 }
                 case 'M':{
                     int id = Managers::EntityManager::createEntity<Npc>();
-                    Managers::ComponentsManager::createVisualComponent(id, textureMonster2, 50, 50);
-                    Managers::ComponentsManager::createSpatialComponent(id, x, y);
+                    Managers::ComponentsManager::createVisualComponent(id, textureMonster2, 48, 48);
+                    Managers::ComponentsManager::createSpatialComponent(id, x+1, y+1);
                     Managers::ComponentsManager::createCollideAbleComponent(id);
                     Managers::ComponentsManager::createHealthComponent(id,80);
                     Managers::ComponentsManager::createPathComponent(id,std::vector<SDL_Point>({SDL_Point{-150,0},SDL_Point{150,0}}),1,true,true);
@@ -257,9 +257,6 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
             }
         }
         line++;
-
-
-    printCollisionMask(*collisionMask, 102);
     }
     return 0;
 }

@@ -44,11 +44,11 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
 
         //maskCollision
 
-        bool maskCollision = false;
-        int maskRightLimit = static_cast<int>(ceil(static_cast<double>(rightLimit)/50.0));
-        int maskLeftLimit =  static_cast<int>(ceil(static_cast<double>(leftLimit)/50.0));
-        int maskTopLimit =   static_cast<int>(ceil(static_cast<double>(topLimit)/50.0));
-        int maskBottomLimit =static_cast<int>(ceil(static_cast<double>(bottomLimit)/50.0));
+        bool maskCollision  =   false;
+        int maskRightLimit  =   static_cast<int>(ceil(static_cast<double>(rightLimit)/50.0));
+        int maskLeftLimit   =   static_cast<int>(ceil(static_cast<double>(leftLimit)/50.0));
+        int maskTopLimit    =   static_cast<int>(ceil(static_cast<double>(topLimit)/50.0));
+        int maskBottomLimit =   static_cast<int>(ceil(static_cast<double>(bottomLimit)/50.0));
 
         for (int horizontal = maskLeftLimit-1; horizontal < maskRightLimit; horizontal++) {
             for (int vertical = maskTopLimit-1; vertical < maskBottomLimit; vertical++) {
