@@ -88,6 +88,18 @@ void Menu::handleKeyEvent() {
                 case SDLK_RETURN:
                     triggerMenuEvent();
                     break;
+                case SDLK_1:
+                    this->close();
+                    sendSDLEvent(32791);
+                    break;
+                case SDLK_2:
+                    this->close();
+                    sendSDLEvent(32792);
+                    break;
+                case SDLK_3:
+                    this->close();
+                    sendSDLEvent(32793);
+                    break;
                 default: break;
             }
         }

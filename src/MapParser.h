@@ -32,10 +32,13 @@ public:
         int x, y;
     };
 public:
-    static int createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pEngine, SDL_Renderer *pRenderer, std::vector<bool> *collisionMask);
+    static int createWorldFromMapTXT(const std::string &pMapfile, GameEngine *pEngine, SDL_Renderer *pRenderer, std::vector<bool> *collisionMask);
     static mapDimension getWorldDimension(const std::string &pMapfile);
     static void printCollisionMask(std::vector<bool> collisionMask, int xDimension);
-    static std::shared_ptr<std::map<std::string, std::vector<std::shared_ptr<SDL_Texture>>>> generateTexturesMap(const std::map<std::string,std::list<std::string>> &pBmps,const std::string &pString, SDL_Renderer *pRenderer);
+    static std::shared_ptr<std::map<std::string, std::vector<std::shared_ptr<SDL_Texture>>>>
+    generateTexturesMap(const std::map<std::string, std::list<std::string>> &pBmps, const std::string &pString, SDL_Renderer *pRenderer);
+    static void destroyMap(GameEngine *pEngine, SDL_Renderer *pRenderer, std::vector<bool> *collisionMask, SDL_Window* pWindow);
+    static void loadMap(const std::string &pMapfile, GameEngine *pEngine, SDL_Renderer *pRenderer, std::vector<bool> *collisionMask, SDL_Window* pWindow);
 };
 
 

@@ -50,3 +50,4 @@ configure_file(monster/MonsterPack_008/depixelizer_1453475724139.bmp monster/Mon
 
 
 configure_file(map.txt map.txt COPYONLY)
+configure_file(map2.txt map2.txt COPYONLY)
