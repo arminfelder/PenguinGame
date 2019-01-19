@@ -177,7 +177,7 @@ void Menu::saveGame() {
 
 void Menu::loadGame() {
     std::ifstream in("save.txt");
-    if (Managers::ComponentsManager::loadUserComponents(in)) //loading the map would work
+    if (Managers::ComponentsManager::loadUserComponents(in)) //check if loading the map would work
         sendSDLEvent(33334);
     else
         sendSDLEvent(33333); //create new game if loading went wrong
