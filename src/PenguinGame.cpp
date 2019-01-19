@@ -20,6 +20,7 @@
 #include <SDL2/SDL.h>
 #include <iostream>
 #include <SDL_ttf.h>
+#include <fstream>
 #include "MapParser.h"
 #include "menu/Menu.h"
 
@@ -130,6 +131,9 @@ void PenguinGame::SDLEventLoop() {
                 //MapParser::destroyMap(mGameEngine, mRenderer, &collisionMask, mWindow);
                 newGame("./res/map2.txt");
                 break;
+            case 32793:
+                newGame("./res/map3.txt");
+                break;
         }
     }
     while (SDL_PeepEvents(&event, 1, SDL_GETEVENT, 33332, 33334)) {
@@ -142,7 +146,12 @@ void PenguinGame::SDLEventLoop() {
                 newGame();
                 break;
 
-            case 33334:
+            case 33334: //load game data including correct map
+                std::string filename = Managers::ComponentsManager::getMapName().get()->getMapName();
+                newGame(filename);
+                std::ifstream in("save.txt");
+                Managers::ComponentsManager::loadUserComponents(in);
+                in.close();
                 mGameEngine->getEventManager()->addEvent(std::make_shared<Events::HealthEvent>(1,0));
                 break;
         }
@@ -178,10 +187,12 @@ void PenguinGame::loadMap(const std::string &mMapFile) {
     systemManager->getCollisionSystem()->changeCollisionMask(&collisionMask);
     auto mapDimension = MapParser::getWorldDimension(mMapFile);
     systemManager->getCollisionSystem()->changeMapWidth(mapDimension.x);
+    Managers::ComponentsManager::createMapName(mMapFile);
 }
 
 void PenguinGame::initGame() {
-    loadMap("./res/map.txt");
+    std::string map = "./res/map.txt";
+    loadMap(map);
 }
 
 void PenguinGame::initAudio() {

@@ -43,6 +43,7 @@
 #include "../components/CanCollect.h"
 #include "../components/UseAbel.h"
 #include "../components/TeleportTarget.h"
+#include "../components/MapName.h"
 
 namespace Managers {
 
@@ -82,6 +83,7 @@ namespace Managers {
         static std::shared_ptr<Components::CanCollect> &getCanCollect(int pEntityId);
         static std::shared_ptr<Components::UseAbel> &getUseable(int pEntityId);
         static std::shared_ptr<Components::TeleportTarget> &getTeleportTarget(int pEntityId);
+        static std::shared_ptr<Components::MapName> &getMapName();
 
         static void createHealthComponent(int pEntityId, int pHp = 100);
         static void createVisualComponent(int pEntityId, const std::shared_ptr<SDL_Texture> &pTexture, int pSizeW, int pSizeH);
@@ -100,6 +102,7 @@ namespace Managers {
         static void createCanCollect(int pEntityId, const std::set<Components::Inventory::ItemTypes> &pTypes);
         static void createUseable(int pEntityId, const std::vector<Components::Inventory::ItemTypes> &pTypes);
         static void createTeleportTarget(int pEntityId, int pTarget);
+        static void createMapName(const std::string &mapName);
 
         static void removeComponentsOfEntity(int pEntityId);
         static void saveUserComponents(std::ostream &out);
@@ -126,6 +129,7 @@ namespace Managers {
         static std::map<int, std::shared_ptr<Components::CanCollect>> mCanCollects;
         static std::map<int, std::shared_ptr<Components::UseAbel>> mUseables;
         static std::map<int, std::shared_ptr<Components::TeleportTarget>> mTeleportTargets;
+        static std::map<int, std::shared_ptr<Components::MapName>> mMapNameComponents;
 
 
     };
