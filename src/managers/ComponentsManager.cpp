@@ -42,6 +42,7 @@ std::map<int, std::shared_ptr<Components::Inventory>> ComponentsManager::mInvent
 std::map<int, std::shared_ptr<Components::CanCollect>> ComponentsManager::mCanCollects;
 std::map<int, std::shared_ptr<Components::UseAbel>> ComponentsManager::mUseables;
 std::map<int, std::shared_ptr<Components::TeleportTarget>> ComponentsManager::mTeleportTargets;
+std::map<int, std::shared_ptr<Components::MapName>> ComponentsManager::mMapNameComponents;
 
 
 std::map<int, std::shared_ptr<Components::Health>> &ComponentsManager::getHealthComponents() {
@@ -272,6 +273,7 @@ ComponentsManager::~ComponentsManager() {
     mCanCollects.clear();
     mInventories.clear();
     mTeleportTargets.clear();
+    mMapNameComponents.clear();
 }
 
 std::map<int, std::shared_ptr<Components::TeleportTarget>> &ComponentsManager::getTeleportTargets() {
@@ -286,6 +288,14 @@ void ComponentsManager::createTeleportTarget(int pEntityId, int pTarget) {
     mTeleportTargets.emplace(std::make_pair(pEntityId, std::make_shared<Components::TeleportTarget>(pTarget)));
 }
 
+std::shared_ptr<Components::MapName> &ComponentsManager::getMapName() {
+    return mMapNameComponents[1];
+}
+
+void ComponentsManager::createMapName(const std::string &mapName) {
+    mMapNameComponents.emplace(std::make_pair(1, std::make_shared<Components::MapName>(Components::MapName(mapName))));
+}
+
 void ComponentsManager::saveUserComponents(std::ostream &out) {
     auto playerHealth = getHealthComponent(1);
     auto playerPosition = getSpatialComponent(1);
@@ -293,7 +303,9 @@ void ComponentsManager::saveUserComponents(std::ostream &out) {
     auto playerMoveAble = getMoveableComponent(1);
     auto playerMomentum = getMomentumComponent(1);
     auto playerInventory = getInventory(1);
+    auto map = getMapName();
 
+    out << map.get()->serialize() << std::endl;
     out << playerHealth.get()->serialize() << std::endl;
     out << playerPosition.get()->serialize() << std::endl;
     out << playerCamera.get()->serialize() << std::endl;
@@ -303,12 +315,15 @@ void ComponentsManager::saveUserComponents(std::ostream &out) {
 }
 
 bool ComponentsManager::loadUserComponents(std::ifstream &inputFile) {
+    //invoke new game to load correct map
+
     auto playerHealth = getHealthComponent(1);
     auto playerPosition = getSpatialComponent(1);
     auto playerCamera = getCameraOffsetComponent(2);
     auto playerMoveAble = getMoveableComponent(1);
     auto playerMomentum = getMomentumComponent(1);
     auto playerInventory = getInventory(1);
+    auto map = getMapName();
     playerInventory.get()->reset();
 
     std::string line;
@@ -329,6 +344,8 @@ bool ComponentsManager::loadUserComponents(std::ifstream &inputFile) {
             success = playerMomentum.get()->load(splittedStrings);
         else if (splittedStrings[0] == "Inventory")
             success = playerInventory.get()->load(splittedStrings);
+        else if (splittedStrings[0] == "Map")
+            success = map.get()->load(splittedStrings);
         else
             success = false;
         if (!success) {

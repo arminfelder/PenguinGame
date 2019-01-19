@@ -73,6 +73,7 @@ add_executable(game main.cpp
 	    components/CanCollect.cpp
 	    components/UseAbel.cpp
         components/TeleportTarget.cpp
+		components/MapName.cpp
         events/Event.cpp
         events/KeyPressedEvent.cpp
         events/KeyUpEvent.cpp
@@ -87,6 +88,6 @@ add_executable(game main.cpp
         events/PlayerDies.cpp
         events/TriggerActivated.cpp
         MapParser.cpp
-        )
+		)
 
 target_link_libraries(game ${SDL2_LIBRARIES} ${SDL2TTF_LIBRARY} ${SDL2_MIXER_LIBRARY})
