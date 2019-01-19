@@ -259,6 +259,7 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, GameEngine *pE
         }
         line++;
     }
+    map.close();
     return 0;
 }
 
@@ -290,6 +291,7 @@ MapParser::mapDimension MapParser::getWorldDimension(const std::string &pMapfile
     MapParser::mapDimension mapDimension{};
     mapDimension.x = maxLineLenght;
     mapDimension.y = line;
+    map.close();
     return mapDimension;
 }
 
