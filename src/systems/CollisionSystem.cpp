@@ -52,14 +52,14 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
 
         for (int horizontal = maskLeftLimit-1; horizontal < maskRightLimit; horizontal++) {
             for (int vertical = maskTopLimit-1; vertical < maskBottomLimit; vertical++) {
-                unsigned long index = static_cast<unsigned long>(horizontal + vertical * system->mapWidth);
+                int index = (horizontal + vertical * system->mapWidth);
                 try {
-                    if (system->collisionMask->size() < index && (system->collisionMask->at(index)) == true) {
+                    if (system->collisionMask->size() > index && (system->collisionMask->at(index)) == true) {
                         std::cout << "collision via mask detected" << std::endl;
                         maskCollision = true;
                         system->mEventsManager->addEvent(
                                 std::make_shared<Events::CollisionEvent>(entityId, 0, Events::collisionTypes::regular));
-                    } else if (entityId == 1 && index > system->collisionMask->size()) {//player dies -> game over //todo use our own event system
+                    } else if (entityId == 1 && index >= system->collisionMask->size()) {//player dies -> game over //todo use our own event system
                         SDL_Event sdlEvent;
                         sdlEvent.type = 33332;
                         SDL_PushEvent(&sdlEvent);
@@ -113,7 +113,6 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
                     case Entities::entityTypes::ladderBegin: {
                         collisionType = Events::collisionTypes::ladderBegin;
                         break;
-                        //TODO: add break with its own commit
                     }
                     case Entities::entityTypes::healthUp: {
                         collisionType = Events::collisionTypes::healthUp;
