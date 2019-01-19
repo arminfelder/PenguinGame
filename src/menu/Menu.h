@@ -32,7 +32,6 @@ class Menu {
 
 
 public:
-    void create();
     void render(SDL_Renderer* pRenderer);
     void close();
     Menu();
@@ -50,6 +49,7 @@ private:
     void switchMenu(MenuEvents::MenuEventType eventType);
     void saveGame();
     void loadGame();
+    void sendSDLEvent(int type);
 
     bool mRunning = true;
 

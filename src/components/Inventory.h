@@ -23,6 +23,9 @@ namespace Components {
         bool hasItem(const ItemTypes &pItem);
         void removeItem(const ItemTypes &pItem);
         const std::vector<std::string> listItems() const;
+        std::string serialize();
+        bool load(std::vector<std::string> splittedStrings);
+        void reset();
     private:
         std::set<ItemTypes> mItems;
         std::map<ItemTypes, std::string> mItemDescriptions{{ItemTypes::keyArea2,"Key for Area2"}};

@@ -40,7 +40,7 @@ namespace Components {
         int yOffset = 0;
 
         std::string serialize();
-        void load(std::vector<std::string> splittedStrings);
+        bool load(std::vector<std::string> splittedStrings);
     };
 }
 

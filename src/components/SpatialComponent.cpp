@@ -17,24 +17,29 @@
 ******************************************************************************/
 
 #include <string>
+#include <iostream>
 #include "SpatialComponent.h"
 
-Components::SpatialComponent::SpatialComponent(int pPositionX, int pPositionY,bool pMoveWithMap) {
+Components::SpatialComponent::SpatialComponent(int pPositionX, int pPositionY, bool pMoveWithMap) {
     mPositionX = pPositionX;
     mPositionY = pPositionY;
     moveWithMap = pMoveWithMap;
 }
 
 std::string Components::SpatialComponent::serialize() {
-    std::string serialized = "SpatialComponent;" + std::to_string(this->mPositionX) + ";" + std::to_string(this->mPositionY) + ";" + std::to_string(this->mPrevPositionX) + ";" + std::to_string(this->mPrevPositionY);
+    std::string serialized = "SpatialComponent;" + std::to_string(this->mPositionX) + ";" + std::to_string(this->mPositionY) + ";" +
+                             std::to_string(this->mPrevPositionX) + ";" + std::to_string(this->mPrevPositionY);
     return serialized;
 }
 
-void Components::SpatialComponent::load(std::vector<std::string> splittedStrings) {
-    if (splittedStrings[0] == "SpatialComponent") {
+bool Components::SpatialComponent::load(std::vector<std::string> splittedStrings) {
+    if (splittedStrings[0] == "SpatialComponent" && splittedStrings.size() >= 5) {
         mPositionX = std::stoi(splittedStrings[1]);
         mPositionY = std::stoi(splittedStrings[2]);
         mPrevPositionX = std::stoi(splittedStrings[3]);
         mPrevPositionY = std::stoi(splittedStrings[4]);
     }
+    else
+        return false;
+    return true;
 }

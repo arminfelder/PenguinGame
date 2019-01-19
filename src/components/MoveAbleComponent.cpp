@@ -31,13 +31,13 @@ std::string Components::MoveAbleComponent::serialize() {
     return serialize;
 }
 
-void Components::MoveAbleComponent::load(std::vector<std::string> splittedStrings) {
-    if (splittedStrings[0] == "MoveAble") {
+bool Components::MoveAbleComponent::load(std::vector<std::string> splittedStrings) {
+    if (splittedStrings[0] == "MoveAble" && splittedStrings.size() >= 5) {
         canMoveLeft = static_cast<bool>(std::stoi(splittedStrings[1]));
         canMoveRight = static_cast<bool>(std::stoi(splittedStrings[2]));
         canMoveDown = static_cast<bool>(std::stoi(splittedStrings[3]));
         canMoveUp = static_cast<bool>(std::stoi(splittedStrings[4]));
-
+        return true;
     }
-
+    return false;
 }

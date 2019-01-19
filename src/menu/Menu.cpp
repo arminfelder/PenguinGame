@@ -28,14 +28,6 @@
 #include "../managers/ComponentsManager.h"
 
 
-void Menu::create() {
-    int position = getMenuSize();
-    addMenuComponent(std::make_shared<MenuComponent> ("Sans", "erster Eintrag", "red", position++, MenuEvents::NONE));
-    addMenuComponent(std::make_shared<MenuComponent> ("Sans", "New Game", "green", position++,MenuEvents::NEW_GAME));
-    addMenuComponent(std::make_shared<MenuComponent> ("Sans", "Exit Menu", "green", position++, MenuEvents::QUIT_MENU));
-    addMenuComponent(std::make_shared<MenuComponent> ("Sans", "Quit Game", "green", position++, MenuEvents::QUIT_GAME));
-}
-
 void Menu::render(SDL_Renderer* pRenderer) {
     mRunning = true;
     while (mRunning) {
@@ -127,9 +119,7 @@ void Menu::triggerMenuEvent() {
             break;
         case MenuEvents::NEW_GAME:
             this->close();
-            SDL_Event sdl_event;
-            sdl_event.type = 33333;
-            SDL_PushEvent(&sdl_event);
+            sendSDLEvent(33333);
             break;
         case MenuEvents::MAIN_MENU:
         case MenuEvents::PAUSE_MENU:
@@ -150,26 +140,20 @@ void Menu::triggerMenuEvent() {
 
 void Menu::quitGame() {
     this->close();
-    SDL_Event sdl_event;
-    sdl_event.type = SDL_QUIT;
-    SDL_PushEvent(&sdl_event);
+    sendSDLEvent(SDL_QUIT);
 }
 
 void Menu::switchMenu(MenuEvents::MenuEventType event) {
-    SDL_Event sdl_event;
     switch (event) {
         case MenuEvents::MAIN_MENU:
-            sdl_event.type = 32769;
+            sendSDLEvent(32769);
             break;
         case MenuEvents::PAUSE_MENU:
-            sdl_event.type = 32770;
+            sendSDLEvent(32770);
             break;
     }
     this->close();
-    SDL_PushEvent(&sdl_event);
-    SDL_Event sdl_event1;
-    sdl_event1.type = 32780;
-    SDL_PushEvent(&sdl_event1);
+    sendSDLEvent(32780);
 }
 
 void Menu::saveGame() {
@@ -179,7 +163,16 @@ void Menu::saveGame() {
 
 void Menu::loadGame() {
     std::ifstream in("save.txt");
-    Managers::ComponentsManager::loadUserComponents(in);
+    if (Managers::ComponentsManager::loadUserComponents(in))
+        sendSDLEvent(33334);
+    else
+        sendSDLEvent(33333); //create new game if loading went wrong
+}
+
+void Menu::sendSDLEvent(int type) {
+    SDL_Event sdl_event;
+    sdl_event.type = type;
+    SDL_PushEvent(&sdl_event);
 }
 
 Menu::Menu() = default;

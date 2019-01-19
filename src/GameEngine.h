@@ -31,6 +31,7 @@ public:
 
     Managers::EntityManager* getEntityManager();
     Managers::SystemsManager* getSystemsManager();
+    Managers::EventsManager* getEventManager();
     ~GameEngine();
 
 private:

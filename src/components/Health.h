@@ -35,7 +35,7 @@ namespace Components{
 
         void operator--();
         std::string serialize();
-        void load(std::vector<std::string> splittedStrings);
+        bool load(std::vector<std::string> splittedStrings);
 
     private:
         int mHealth;

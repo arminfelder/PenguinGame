@@ -21,6 +21,7 @@
 #include <cstring>
 #include <vector>
 #include "Health.h"
+
 using namespace Components;
 
 void Health::operator++() {
@@ -39,16 +40,19 @@ void Health::setHealth(int health) {
     mHealth = health;
 }
 
-Health::Health(int pHealth):mHealth(pHealth) {
+Health::Health(int pHealth) : mHealth(pHealth) {
 
 }
 
 std::string Health::serialize() {
     std::string serialized = "Health;" + std::to_string(this->mHealth);
-        return serialized;
+    return serialized;
 }
 
-void Health::load(std::vector<std::string> splittedStrings) {
-    if (splittedStrings[0] == "Health")
+bool Health::load(std::vector<std::string> splittedStrings) {
+    if (splittedStrings[0] == "Health" && splittedStrings.size() >= 2) {
         setHealth(std::stoi(splittedStrings[1]));
+        return true;
+    }
+    return false;
 }
