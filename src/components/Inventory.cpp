@@ -28,3 +28,22 @@ const std::vector<std::string> Inventory::listItems() const {
     }
     return mReturnArray;
 }
+
+std::string Inventory::serialize() {
+    std::string output;
+    for (const ItemTypes &item : mItems) {
+        int type = static_cast<int> (item);
+        output += "Inventory;"+std::to_string(type)+"\n";
+    }
+    return output;
+}
+
+void Inventory::load(std::vector<std::string> splittedStrings) {
+    if (splittedStrings[0] == "Inventory") {
+        this->addItem(static_cast<Inventory::ItemTypes>(std::stoi(splittedStrings[1])));
+    }
+}
+
+void Inventory::reset() {
+    mItems.clear();
+}

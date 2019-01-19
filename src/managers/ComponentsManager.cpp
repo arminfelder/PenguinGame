@@ -290,15 +290,14 @@ void ComponentsManager::saveUserComponents(std::ostream &out) {
     auto playerCamera = getCameraOffsetComponent(2);
     auto playerMoveAble = getMoveableComponent(1);
     auto playerMomentum = getMomentumComponent(1);
-
-    //todo: inventory
-
+    auto playerInventory = getInventory(1);
 
     out << playerHealth.get()->serialize() << std::endl;
     out << playerPosition.get()->serialize() << std::endl;
     out << playerCamera.get()->serialize() << std::endl;
     out << playerMoveAble.get()->serialize() << std::endl;
     out << playerMomentum.get()->serialize() << std::endl;
+    out << playerInventory.get()->serialize(); //implicitly returns \n after last element as well
 }
 
 void ComponentsManager::loadUserComponents(std::ifstream &inputFile) {
@@ -307,6 +306,8 @@ void ComponentsManager::loadUserComponents(std::ifstream &inputFile) {
     auto playerCamera = getCameraOffsetComponent(2);
     auto playerMoveAble = getMoveableComponent(1);
     auto playerMomentum = getMomentumComponent(1);
+    auto playerInventory = getInventory(1);
+    playerInventory.get()->reset();
 
     std::string line;
 
@@ -323,6 +324,8 @@ void ComponentsManager::loadUserComponents(std::ifstream &inputFile) {
             playerMoveAble.get()->load(splittedStrings);
         else if (splittedStrings[0] == "Momentum")
             playerMomentum.get()->load(splittedStrings);
+        else if (splittedStrings[0] == "Inventory")
+            playerInventory.get()->load(splittedStrings);
     }
 }
 
