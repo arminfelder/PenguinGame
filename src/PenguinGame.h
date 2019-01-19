@@ -36,8 +36,10 @@ public:
     void SDLEventLoop();
     void initGame();
     void initMenus();
+    void loadMap(const std::string &mMapFile);
 
     void newGame();
+    void newGame(const std::string &mMapFile);
     void end();
     ~PenguinGame();
 private:

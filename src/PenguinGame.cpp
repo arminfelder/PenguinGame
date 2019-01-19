@@ -39,6 +39,9 @@ int PenguinGame::run() {
     SDL_RegisterEvents(32769); //register Menu event
     SDL_RegisterEvents(32770); //register PauseMenu event
     SDL_RegisterEvents(32780); //register MenuSwitch event
+    SDL_RegisterEvents(32791); //register LoadMap1 event
+    SDL_RegisterEvents(32792); //register LoadMap2 event
+    SDL_RegisterEvents(32793); //register LoadMap3 event
     SDL_RegisterEvents(33332); //register Gameover event
     SDL_RegisterEvents(33333); //register New Game event
     SDL_RegisterEvents(33334); //register Load Game event
@@ -108,7 +111,7 @@ void PenguinGame::SDLEventLoop() {
             break;
         }
     }
-    while (SDL_PeepEvents(&event, 1, SDL_GETEVENT, 32769, 32780)) {
+    while (SDL_PeepEvents(&event, 1, SDL_GETEVENT, 32769, 32793)) {
         switch (event.type) {
             case 32769:
                 mOpenMenu = true;
@@ -119,6 +122,13 @@ void PenguinGame::SDLEventLoop() {
                 break;
             case 32780:
                 mRenderOnce = true;
+                break;
+            case 32791:
+                newGame("./res/map.txt");
+                break;
+            case 32792:
+                //MapParser::destroyMap(mGameEngine, mRenderer, &collisionMask, mWindow);
+                newGame("./res/map2.txt");
                 break;
         }
     }
@@ -161,14 +171,17 @@ PenguinGame::PenguinGame() {
 
 }
 
-void PenguinGame::initGame() {
-    auto entityManager = mGameEngine->getEntityManager();
+void PenguinGame::loadMap(const std::string &mMapFile) {
     auto systemManager = mGameEngine->getSystemsManager();
 
-    MapParser::createWorldFormMapTXT("./res/map.txt", mGameEngine, mRenderer, &collisionMask);
+    MapParser::createWorldFromMapTXT(mMapFile, mGameEngine, mRenderer, &collisionMask);
     systemManager->getCollisionSystem()->changeCollisionMask(&collisionMask);
-    auto mapDimension = MapParser::getWorldDimension("./res/map.txt");
+    auto mapDimension = MapParser::getWorldDimension(mMapFile);
     systemManager->getCollisionSystem()->changeMapWidth(mapDimension.x);
+}
+
+void PenguinGame::initGame() {
+    loadMap("./res/map.txt");
 }
 
 void PenguinGame::initAudio() {
@@ -179,7 +192,7 @@ void PenguinGame::initAudio() {
     //SDL_PauseAudioDevice(mAudiDdeviceId, 0);
 }
 
-void PenguinGame::newGame() {
+void PenguinGame::newGame(const std::string &mMapFile) {
     SDL_CloseAudioDevice(mAudiDdeviceId);
     SDL_FreeWAV(mWavBuffer);
     mGameEngine->~GameEngine();
@@ -189,7 +202,11 @@ void PenguinGame::newGame() {
 
     initAudio();
     initEngine();
-    initGame();
+    loadMap(mMapFile);
+}
+
+void PenguinGame::newGame() {
+    newGame("./res/map.txt");
 }
 
 void PenguinGame::initMenus() {

@@ -88,6 +88,18 @@ void Menu::handleKeyEvent() {
                 case SDLK_RETURN:
                     triggerMenuEvent();
                     break;
+                case SDLK_1:
+                    this->close();
+                    sendSDLEvent(32791);
+                    break;
+                case SDLK_2:
+                    this->close();
+                    sendSDLEvent(32792);
+                    break;
+                case SDLK_3:
+                    this->close();
+                    sendSDLEvent(32793);
+                    break;
                 default: break;
             }
         }
@@ -160,6 +172,7 @@ void Menu::switchMenu(MenuEvents::MenuEventType event) {
 void Menu::saveGame() {
     std::ofstream out("save.txt");
     Managers::ComponentsManager::saveUserComponents(out);
+    out.close();
 }
 
 void Menu::loadGame() {
@@ -168,6 +181,7 @@ void Menu::loadGame() {
         sendSDLEvent(33334);
     else
         sendSDLEvent(33333); //create new game if loading went wrong
+    in.close();
 }
 
 void Menu::sendSDLEvent(int type) {

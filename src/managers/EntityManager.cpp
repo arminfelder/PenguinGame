@@ -51,7 +51,7 @@ std::shared_ptr<Entity> EntityManager::findPlayer() {
     return nullptr;
 }
 
-EntityManager::EntityManager() {
+void EntityManager::init() {
     //create Player as id = 1
     createEntity<Player>();
     //create camera
@@ -59,7 +59,17 @@ EntityManager::EntityManager() {
     Managers::ComponentsManager::createCameraComponent(cameraID);
 }
 
+EntityManager::EntityManager() {
+    init();
+}
+
 EntityManager::~EntityManager() {
     mEntities.clear();
     mCurrEntityIndex = 1;
+}
+
+bool EntityManager::destroyAllEntities() {
+    mEntities.clear();
+    mCurrEntityIndex = 1;
+    return true;
 }
