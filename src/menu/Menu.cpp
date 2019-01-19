@@ -127,9 +127,7 @@ void Menu::triggerMenuEvent() {
             break;
         case MenuEvents::NEW_GAME:
             this->close();
-            SDL_Event sdl_event;
-            sdl_event.type = 33333;
-            SDL_PushEvent(&sdl_event);
+            sendSDLEvent(33333);
             break;
         case MenuEvents::MAIN_MENU:
         case MenuEvents::PAUSE_MENU:
@@ -150,26 +148,20 @@ void Menu::triggerMenuEvent() {
 
 void Menu::quitGame() {
     this->close();
-    SDL_Event sdl_event;
-    sdl_event.type = SDL_QUIT;
-    SDL_PushEvent(&sdl_event);
+    sendSDLEvent(SDL_QUIT);
 }
 
 void Menu::switchMenu(MenuEvents::MenuEventType event) {
-    SDL_Event sdl_event;
     switch (event) {
         case MenuEvents::MAIN_MENU:
-            sdl_event.type = 32769;
+            sendSDLEvent(32769);
             break;
         case MenuEvents::PAUSE_MENU:
-            sdl_event.type = 32770;
+            sendSDLEvent(32770);
             break;
     }
     this->close();
-    SDL_PushEvent(&sdl_event);
-    SDL_Event sdl_event1;
-    sdl_event1.type = 32780;
-    SDL_PushEvent(&sdl_event1);
+    sendSDLEvent(32780);
 }
 
 void Menu::saveGame() {
@@ -180,6 +172,14 @@ void Menu::saveGame() {
 void Menu::loadGame() {
     std::ifstream in("save.txt");
     Managers::ComponentsManager::loadUserComponents(in);
+    //system->mEventsManager->addEvent(std::make_shared<Events::EntityMoved>(1,Events::EntityMoved::Direction::right));
+
+}
+
+void Menu::sendSDLEvent(int type) {
+    SDL_Event sdl_event;
+    sdl_event.type = type;
+    SDL_PushEvent(&sdl_event);
 }
 
 Menu::Menu() = default;

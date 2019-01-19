@@ -50,6 +50,7 @@ private:
     void switchMenu(MenuEvents::MenuEventType eventType);
     void saveGame();
     void loadGame();
+    void sendSDLEvent(int type);
 
     bool mRunning = true;
 
