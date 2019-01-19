@@ -25,19 +25,23 @@
 #include "../events/KeyUpEvent.h"
 
 Systems::PhysicsSystem::PhysicsSystem(Managers::EventsManager *pEventsManager):mEventsManager(pEventsManager) {
+    //falling
     auto callback = [system = this](const std::shared_ptr<Events::Event> &pEvent)->void {
         auto event = static_cast<Events::FallingEvent*>(pEvent.get());
         auto entityId = event->mEntityId;
         auto momentum = Managers::ComponentsManager::getMomentumComponent(entityId);
-        //momentum->gravitation = 10;
-        momentum->speedY = 10;
+        momentum->gravitation = 2;
+        momentum->speedY +=momentum->gravitation;
+        if (momentum->speedY >= 12)
+            momentum->speedY = 12;
     };
 
+    //jumping
     auto callbackKeyUp = [system = this](const std::shared_ptr<Events::Event> &pEvent)->void {
         auto event = static_cast<Events::KeyUpEvent*>(pEvent.get());
         if(event->mKeyCode.sym == SDLK_SPACE){
             auto momentum = Managers::ComponentsManager::getMomentumComponent(1);
-            momentum->speedY -= 20;
+            momentum->speedY -= 15;
         }
     };
 
