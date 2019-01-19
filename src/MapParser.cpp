@@ -259,7 +259,7 @@ int MapParser::createWorldFormMapTXT(const std::string &pMapfile, GameEngine *pE
         line++;
 
 
-
+    printCollisionMask(*collisionMask, 102);
     }
     return 0;
 }
@@ -302,3 +302,14 @@ MapParser::generateTexturesMap(const map<string, list<string>> &pMap,const std::
     return returnMap;
 }
 
+void MapParser::printCollisionMask(std::vector<bool> collisionMask, int xDimension) {
+    int counter = 0;
+    std::ostream &out = std::cout;
+    for (bool element : collisionMask) {
+        if (++counter == 102) {
+            out << std::endl << std::endl;
+            counter = 0;
+        }
+        out << element << " ";
+    }
+}

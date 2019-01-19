@@ -54,8 +54,6 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
             for (int vertical = maskTopLimit-1; vertical < maskBottomLimit; vertical++) {
                 int index = (horizontal + vertical * system->mapWidth);
                 try {
-                    if (entityId == 1)
-                        std::cout << system->collisionMask->at(index) << std::endl;
                     if (system->collisionMask->size() > index && (system->collisionMask->at(index)) == true) {
                         std::cout << "collision via mask detected" << std::endl;
                         maskCollision = true;
