@@ -191,7 +191,7 @@ void PenguinGame::loadMap(const std::string &mMapFile) {
 }
 
 void PenguinGame::initGame() {
-    std::string map = "./res/map.txt";
+    std::string map = "./res/map2.txt";
     loadMap(map);
 }
 

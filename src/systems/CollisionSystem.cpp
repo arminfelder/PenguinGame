@@ -24,6 +24,7 @@
 #include "../managers/EntityManager.h"
 #include "../MapParser.h"
 #include "../events/FallingEvent.h"
+#include "../events/MoveEntity.h"
 
 Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanager):mEventsManager(pEventsmanager) {
 
@@ -59,8 +60,13 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
                     if (system->collisionMask->size() > index && (system->collisionMask->at(index)) == true) {
                         std::cout << "collision via mask detected" << std::endl;
                         maskCollision = true;
-                        system->mEventsManager->addEvent(
-                                std::make_shared<Events::CollisionEvent>(entityId, 0, Events::collisionTypes::regular));
+                        bool collisionTop = system->collisionMask->at(horizontal + system->mapWidth * (maskTopLimit-1));
+                        bool collisionBottom = system->collisionMask->at(horizontal + system->mapWidth * (maskBottomLimit-1));
+                        if (entityId == 1 && collisionTop == false && collisionBottom) { //set player at position of upper space
+                            spatial->mPositionY = (maskTopLimit-1) * 50;
+                            system->mEventsManager->addEvent(std::make_shared<Events::MoveEntity>(1, 1, 1)); //move player to correct position
+                        }else
+                            system->mEventsManager->addEvent(std::make_shared<Events::CollisionEvent>(entityId, 0, Events::collisionTypes::regular));
                     } else if (entityId == 1 && index >= system->collisionMask->size()) {//player dies -> game over //todo use our own event system
                         SDL_Event sdlEvent;
                         sdlEvent.type = 33332;
@@ -181,8 +187,7 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
                     if (!floorLeft && !floorRight) { //no floor below us -> fall down
                         system->mEventsManager->addEvent(std::make_shared<Events::FallingEvent>(entityId));
                         std::cout << "added event for falling" << std::endl;
-                    } else if (maskTopLimit ==
-                               maskBottomLimit) { //else: player lands somewhere, if: stop if player occupies only one cube
+                    } else if (maskTopLimit == maskBottomLimit) { //else: player lands somewhere, if: stop if player occupies only one cube
                         //todo make this hack nice using the event queue
                         auto momenta = Managers::ComponentsManager::getMomenta();
                         momenta[entityId]->speedY = 0;

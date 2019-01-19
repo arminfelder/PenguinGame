@@ -261,6 +261,9 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, GameEngine *pE
         line++;
     }
     map.close();
+
+    auto dim = getWorldDimension(pMapfile);
+    printCollisionMask(*collisionMask, dim.x);
     return 0;
 }
 
@@ -316,13 +319,14 @@ MapParser::generateTexturesMap(const map<string, list<string>> &pMap, const std:
 }
 
 void MapParser::printCollisionMask(std::vector<bool> collisionMask, int xDimension) {
-    int counter = 0;
+    int counter = -1;
     std::ostream &out = std::cout;
     for (bool element : collisionMask) {
-        if (++counter == 102) {
+        if (++counter == xDimension) {
             out << std::endl << std::endl;
             counter = 0;
         }
         out << element << " ";
     }
+    out << std::endl;
 }
