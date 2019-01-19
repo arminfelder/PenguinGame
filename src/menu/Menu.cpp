@@ -172,8 +172,7 @@ void Menu::saveGame() {
 void Menu::loadGame() {
     std::ifstream in("save.txt");
     Managers::ComponentsManager::loadUserComponents(in);
-    //system->mEventsManager->addEvent(std::make_shared<Events::EntityMoved>(1,Events::EntityMoved::Direction::right));
-
+    sendSDLEvent(33334);
 }
 
 void Menu::sendSDLEvent(int type) {

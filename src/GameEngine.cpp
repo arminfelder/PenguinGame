@@ -49,3 +49,7 @@ GameEngine::~GameEngine() {
     mSystemsManager->~SystemsManager();
     //mSystemsManager = nullptr;
 }
+
+Managers::EventsManager *GameEngine::getEventManager() {
+    return mEventsManager;
+}

@@ -41,6 +41,7 @@ int PenguinGame::run() {
     SDL_RegisterEvents(32780); //register MenuSwitch event
     SDL_RegisterEvents(33332); //register Gameover event
     SDL_RegisterEvents(33333); //register New Game event
+    SDL_RegisterEvents(33334); //register Load Game event
     SDL_Surface *surface = SDL_GetWindowSurface(mWindow);
 
     while (mRunning) {
@@ -120,7 +121,7 @@ void PenguinGame::SDLEventLoop() {
                 break;
         }
     }
-    while (SDL_PeepEvents(&event, 1, SDL_GETEVENT, 33332, 33333)) {
+    while (SDL_PeepEvents(&event, 1, SDL_GETEVENT, 33332, 33334)) {
         switch (event.type) {
             case 33332:
                 mOpenGameOver = true;
@@ -129,6 +130,8 @@ void PenguinGame::SDLEventLoop() {
             case 33333:
                 newGame();
                 break;
+            case 33334:
+                mGameEngine->getEventManager()->addEvent(std::make_shared<Events::HealthEvent>(1,0));
         }
     }
 }
