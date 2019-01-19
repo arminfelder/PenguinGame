@@ -114,6 +114,7 @@ void PenguinGame::SDLEventLoop() {
                 mOpenMenu = true;
                 break;
             case 32770:
+                pauseMenu->updateInventory();
                 mOpenPause = true;
                 break;
             case 32780:

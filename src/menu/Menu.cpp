@@ -23,6 +23,7 @@
 #include <SDL2/SDL.h>
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include "MenuComponent.h"
 #include "MenuEvents.h"
 #include "../managers/ComponentsManager.h"
@@ -173,6 +174,31 @@ void Menu::sendSDLEvent(int type) {
     SDL_Event sdl_event;
     sdl_event.type = type;
     SDL_PushEvent(&sdl_event);
+}
+
+void Menu::clear() {
+    menuComponents.clear();
+}
+
+void Menu::updateInventory() {
+    //first, delete all inventory elements
+    for (auto menuComponent : menuComponents) {
+        if (menuComponent.second->isItem())
+            menuComponents.erase(menuComponent.first);
+    }
+
+    //and now insert again
+    auto playerInventory = Managers::ComponentsManager::getInventory(1).get();
+    std::string playerInventoryString = playerInventory->serialize();
+    std::stringstream inventoryLine(playerInventoryString);
+    std::string line;
+    while (getline(inventoryLine, line)) {
+        std::vector<std::string> splittedStrings = Managers::ComponentsManager::splitString(line, ';');
+        Components::Inventory::ItemTypes itemType = static_cast<Components::Inventory::ItemTypes>(std::stoi(splittedStrings[1]));
+        std::string inventoryText = playerInventory->getItemTypeDescription(itemType);
+        int position = menuComponents.size() + 1;
+        this->addMenuComponent(std::make_shared<MenuComponent>("Sans", inventoryText, "green", position, MenuEvents::NONE, itemType));
+    }
 }
 
 Menu::Menu() = default;

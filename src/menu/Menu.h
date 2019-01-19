@@ -38,6 +38,8 @@ public:
     std::map<int, std::shared_ptr<MenuComponent>> getMenuComponents();
     int getMenuSize();
     void addMenuComponent(std::shared_ptr<MenuComponent> component);
+    void clear();
+    void updateInventory();
 private:
     int active = 0;
     std::map<int, std::shared_ptr<MenuComponent>> menuComponents;
