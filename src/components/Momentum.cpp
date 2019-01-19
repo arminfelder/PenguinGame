@@ -27,10 +27,11 @@ std::string Components::Momentum::serialize() {
     return serialize;
 }
 
-void Components::Momentum::load(std::vector<std::string> splittedStrings) {
-    if (splittedStrings[0] == "Momentum") {
+bool Components::Momentum::load(std::vector<std::string> splittedStrings) {
+    if (splittedStrings[0] == "Momentum" && splittedStrings.size() >= 3) {
         speedX = std::stoi(splittedStrings[1]);
         speedY = std::stoi(splittedStrings[2]);
+        return true;
     }
-
+    return false;
 }

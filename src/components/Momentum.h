@@ -32,7 +32,7 @@ namespace Components {
         double speedX = 0;
         double speedY = 0;
         std::string serialize();
-        void load(std::vector<std::string> splittedStrings);
+        bool load(std::vector<std::string> splittedStrings);
     };
 }
 

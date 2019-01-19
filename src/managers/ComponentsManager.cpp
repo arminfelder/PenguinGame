@@ -44,17 +44,17 @@ std::map<int, std::shared_ptr<Components::UseAbel>> ComponentsManager::mUseables
 std::map<int, std::shared_ptr<Components::TeleportTarget>> ComponentsManager::mTeleportTargets;
 
 
-std::map<int, std::shared_ptr<Components::Health>> &ComponentsManager::getHealthComponents(){
+std::map<int, std::shared_ptr<Components::Health>> &ComponentsManager::getHealthComponents() {
 
     return mHealthComponents;
 }
 
-std::map<int, std::shared_ptr<Components::VisualComponent>> &ComponentsManager::getVisualComponents(){
+std::map<int, std::shared_ptr<Components::VisualComponent>> &ComponentsManager::getVisualComponents() {
 
     return mVisualComponents;
 }
 
-std::map<int, std::shared_ptr<Components::SpatialComponent>> &ComponentsManager::getSpatialComponents(){
+std::map<int, std::shared_ptr<Components::SpatialComponent>> &ComponentsManager::getSpatialComponents() {
 
     return mSpatialComponents;
 }
@@ -67,12 +67,15 @@ void ComponentsManager::createHealthComponent(int pEntityId, int pHp) {
 void ComponentsManager::createVisualComponent(int pEntityId, const std::shared_ptr<SDL_Texture> &pTexture, int pSizeW, int pSizeH) {
     mVisualComponents.emplace(std::make_pair(pEntityId, std::make_shared<VisualComponent>(pTexture, pSizeW, pSizeH)));
 }
-void ComponentsManager::createVisualComponent(int pEntityId, const std::shared_ptr<std::map<std::string, std::vector<std::shared_ptr<SDL_Texture>>>> &pTextureMap, int pSizeW, int pSizeH) {
+
+void ComponentsManager::createVisualComponent(int pEntityId,
+                                              const std::shared_ptr<std::map<std::string, std::vector<std::shared_ptr<SDL_Texture>>>> &pTextureMap,
+                                              int pSizeW, int pSizeH) {
     mVisualComponents.emplace(std::make_pair(pEntityId, std::make_shared<VisualComponent>(pTextureMap, pSizeW, pSizeH)));
 }
 
 
-void ComponentsManager::createSpatialComponent(int pEntityId, int pPositionX, int pPositionY,bool pMoveWithMap) {
+void ComponentsManager::createSpatialComponent(int pEntityId, int pPositionX, int pPositionY, bool pMoveWithMap) {
     mSpatialComponents.emplace(std::make_pair(pEntityId, std::make_shared<SpatialComponent>(pPositionX, pPositionY, pMoveWithMap)));
 }
 
@@ -97,7 +100,7 @@ std::shared_ptr<Components::MoveAbleComponent> &ComponentsManager::getMoveableCo
 }
 
 void ComponentsManager::createMoveAbleComponent(int pEntityId, bool pRight, bool pDown, bool pLeft, bool pUp) {
-    mMoveableComponents.emplace(std::make_pair(pEntityId,std::make_shared<MoveAbleComponent>(pRight,pDown,pLeft,pUp)));
+    mMoveableComponents.emplace(std::make_pair(pEntityId, std::make_shared<MoveAbleComponent>(pRight, pDown, pLeft, pUp)));
 }
 
 std::map<int, std::shared_ptr<Components::CollideAble>> &ComponentsManager::getCollideAble() {
@@ -109,7 +112,7 @@ std::shared_ptr<Components::CollideAble> &ComponentsManager::getCollideAble(int 
 }
 
 void ComponentsManager::createCollideAbleComponent(int pEntityId) {
-    mCollideables.emplace(std::make_pair(pEntityId,std::make_shared<CollideAble>()));
+    mCollideables.emplace(std::make_pair(pEntityId, std::make_shared<CollideAble>()));
 }
 
 std::map<int, std::shared_ptr<Components::CameraOffset>> &ComponentsManager::getCameraOffsets() {
@@ -145,7 +148,7 @@ std::shared_ptr<Components::Gravity> &ComponentsManager::getGravity(int pEntityI
 }
 
 void ComponentsManager::createGravityComponent(int pEntityId) {
-    mGravities.emplace(std::make_pair(pEntityId,std::make_shared<Components::Gravity>()));
+    mGravities.emplace(std::make_pair(pEntityId, std::make_shared<Components::Gravity>()));
 
 }
 
@@ -168,7 +171,7 @@ void ComponentsManager::removeComponentsOfEntity(int pEntityId) {
 
 void ComponentsManager::createPathComponent(int pEntityId, const std::vector<SDL_Point> &pPath, int pStepsPerSecond, bool pRepeat,
                                             bool pRunning) {
-    mPaths.emplace(std::make_pair(pEntityId,std::make_shared<Components::Path>(pPath, pStepsPerSecond,pRepeat,pRunning)));
+    mPaths.emplace(std::make_pair(pEntityId, std::make_shared<Components::Path>(pPath, pStepsPerSecond, pRepeat, pRunning)));
 }
 
 std::map<int, std::shared_ptr<Components::Path>> &ComponentsManager::getPaths() {
@@ -212,7 +215,7 @@ std::shared_ptr<Components::ViewRange> &ComponentsManager::getViewRange(int pEnt
 }
 
 void ComponentsManager::createViewRange(int pEntityId, int pX, int pY) {
-    mViewRanges.emplace(std::make_pair(pEntityId,std::make_shared<Components::ViewRange>(pX,pY)));
+    mViewRanges.emplace(std::make_pair(pEntityId, std::make_shared<Components::ViewRange>(pX, pY)));
 }
 
 std::map<int, std::shared_ptr<Components::Inventory>> &ComponentsManager::getInventories() {
@@ -224,7 +227,7 @@ std::shared_ptr<Components::Inventory> &ComponentsManager::getInventory(int pEnt
 }
 
 void ComponentsManager::createInventory(int pEntityId) {
-    mInventories.emplace(std::make_pair(pEntityId,std::make_shared<Components::Inventory>()));
+    mInventories.emplace(std::make_pair(pEntityId, std::make_shared<Components::Inventory>()));
 }
 
 std::map<int, std::shared_ptr<Components::CanCollect>> &ComponentsManager::getCanCollects() {
@@ -236,7 +239,7 @@ std::shared_ptr<Components::CanCollect> &ComponentsManager::getCanCollect(int pE
 }
 
 void ComponentsManager::createCanCollect(int pEntityId, const std::set<Components::Inventory::ItemTypes> &pTypes) {
-    mCanCollects.emplace(std::make_pair(pEntityId,std::make_shared<Components::CanCollect>(pTypes)));
+    mCanCollects.emplace(std::make_pair(pEntityId, std::make_shared<Components::CanCollect>(pTypes)));
 }
 
 std::map<int, std::shared_ptr<Components::UseAbel>> &ComponentsManager::getUseables() {
@@ -248,9 +251,8 @@ std::shared_ptr<Components::UseAbel> &ComponentsManager::getUseable(int pEntityI
 }
 
 void ComponentsManager::createUseable(int pEntityId, const std::vector<Components::Inventory::ItemTypes> &pTypes) {
-    mUseables.emplace(std::make_pair(pEntityId,std::make_shared<Components::UseAbel>(pTypes)));
+    mUseables.emplace(std::make_pair(pEntityId, std::make_shared<Components::UseAbel>(pTypes)));
 }
-
 
 
 ComponentsManager::~ComponentsManager() {
@@ -281,7 +283,7 @@ std::shared_ptr<Components::TeleportTarget> &ComponentsManager::getTeleportTarge
 }
 
 void ComponentsManager::createTeleportTarget(int pEntityId, int pTarget) {
-    mTeleportTargets.emplace(std::make_pair(pEntityId,std::make_shared<Components::TeleportTarget>(pTarget)));
+    mTeleportTargets.emplace(std::make_pair(pEntityId, std::make_shared<Components::TeleportTarget>(pTarget)));
 }
 
 void ComponentsManager::saveUserComponents(std::ostream &out) {
@@ -300,7 +302,7 @@ void ComponentsManager::saveUserComponents(std::ostream &out) {
     out << playerInventory.get()->serialize(); //implicitly returns \n after last element as well
 }
 
-void ComponentsManager::loadUserComponents(std::ifstream &inputFile) {
+bool ComponentsManager::loadUserComponents(std::ifstream &inputFile) {
     auto playerHealth = getHealthComponent(1);
     auto playerPosition = getSpatialComponent(1);
     auto playerCamera = getCameraOffsetComponent(2);
@@ -311,31 +313,38 @@ void ComponentsManager::loadUserComponents(std::ifstream &inputFile) {
 
     std::string line;
 
+    bool success = true;
     while (std::getline(inputFile, line)) {
         std::vector<std::string> splittedStrings = splitString(line, ';');
 
         if (splittedStrings[0] == "Health")
-            playerHealth.get()->load(splittedStrings);
+            success = playerHealth.get()->load(splittedStrings);
         else if (splittedStrings[0] == "SpatialComponent")
-            playerPosition.get()->load(splittedStrings);
+            success = playerPosition.get()->load(splittedStrings);
         else if (splittedStrings[0] == "CameraOffset")
-            playerCamera.get()->load(splittedStrings);
+            success = playerCamera.get()->load(splittedStrings);
         else if (splittedStrings[0] == "MoveAble")
-            playerMoveAble.get()->load(splittedStrings);
+            success = playerMoveAble.get()->load(splittedStrings);
         else if (splittedStrings[0] == "Momentum")
-            playerMomentum.get()->load(splittedStrings);
+            success = playerMomentum.get()->load(splittedStrings);
         else if (splittedStrings[0] == "Inventory")
-            playerInventory.get()->load(splittedStrings);
+            success = playerInventory.get()->load(splittedStrings);
+        else
+            success = false;
+        if (!success) {
+            std::cout << "Corrupt game file, creating new game" << std::endl;
+            return success;
+        }
     }
+    return success;
 }
 
 std::vector<std::string> ComponentsManager::splitString(const std::string &strToSplit, char delimeter) {
-        std::stringstream ss(strToSplit);
-        std::string item;
-        std::vector<std::string> splittedStrings;
-        while (std::getline(ss, item, delimeter))
-        {
-            splittedStrings.push_back(item);
-        }
-        return splittedStrings;
+    std::stringstream ss(strToSplit);
+    std::string item;
+    std::vector<std::string> splittedStrings;
+    while (std::getline(ss, item, delimeter)) {
+        splittedStrings.push_back(item);
+    }
+    return splittedStrings;
 }

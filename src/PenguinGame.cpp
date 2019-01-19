@@ -130,8 +130,10 @@ void PenguinGame::SDLEventLoop() {
             case 33333:
                 newGame();
                 break;
+
             case 33334:
                 mGameEngine->getEventManager()->addEvent(std::make_shared<Events::HealthEvent>(1,0));
+                break;
         }
     }
 }

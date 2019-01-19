@@ -34,7 +34,7 @@ namespace Components {
         bool canMoveUp = false;
 
         std::string serialize();
-        void load(std::vector<std::string> splittedStrings);
+        bool load(std::vector<std::string> splittedStrings);
 
     };
 }

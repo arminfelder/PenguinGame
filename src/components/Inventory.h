@@ -24,7 +24,7 @@ namespace Components {
         void removeItem(const ItemTypes &pItem);
         const std::vector<std::string> listItems() const;
         std::string serialize();
-        void load(std::vector<std::string> splittedStrings);
+        bool load(std::vector<std::string> splittedStrings);
         void reset();
     private:
         std::set<ItemTypes> mItems;

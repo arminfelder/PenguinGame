@@ -42,10 +42,11 @@ std::string CameraOffset::serialize() {
     return serialize;
 }
 
-void CameraOffset::load(std::vector<std::string> splittedStrings) {
-    if (splittedStrings[0] == "CameraOffset") {
+bool CameraOffset::load(std::vector<std::string> splittedStrings) {
+    if (splittedStrings[0] == "CameraOffset" && splittedStrings.size()>=3) {
         xOffset = std::stoi(splittedStrings[1]);
         yOffset = std::stoi(splittedStrings[2]);
+        return true;
     }
-
+    return false;
 }

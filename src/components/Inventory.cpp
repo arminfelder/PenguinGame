@@ -38,10 +38,12 @@ std::string Inventory::serialize() {
     return output;
 }
 
-void Inventory::load(std::vector<std::string> splittedStrings) {
-    if (splittedStrings[0] == "Inventory") {
+bool Inventory::load(std::vector<std::string> splittedStrings) {
+    if (splittedStrings[0] == "Inventory" && splittedStrings.size() >= 2) {
         this->addItem(static_cast<Inventory::ItemTypes>(std::stoi(splittedStrings[1])));
+        return true;
     }
+    return false;
 }
 
 void Inventory::reset() {

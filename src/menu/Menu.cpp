@@ -28,14 +28,6 @@
 #include "../managers/ComponentsManager.h"
 
 
-void Menu::create() {
-    int position = getMenuSize();
-    addMenuComponent(std::make_shared<MenuComponent> ("Sans", "erster Eintrag", "red", position++, MenuEvents::NONE));
-    addMenuComponent(std::make_shared<MenuComponent> ("Sans", "New Game", "green", position++,MenuEvents::NEW_GAME));
-    addMenuComponent(std::make_shared<MenuComponent> ("Sans", "Exit Menu", "green", position++, MenuEvents::QUIT_MENU));
-    addMenuComponent(std::make_shared<MenuComponent> ("Sans", "Quit Game", "green", position++, MenuEvents::QUIT_GAME));
-}
-
 void Menu::render(SDL_Renderer* pRenderer) {
     mRunning = true;
     while (mRunning) {
@@ -171,8 +163,10 @@ void Menu::saveGame() {
 
 void Menu::loadGame() {
     std::ifstream in("save.txt");
-    Managers::ComponentsManager::loadUserComponents(in);
-    sendSDLEvent(33334);
+    if (Managers::ComponentsManager::loadUserComponents(in))
+        sendSDLEvent(33334);
+    else
+        sendSDLEvent(33333); //create new game if loading went wrong
 }
 
 void Menu::sendSDLEvent(int type) {

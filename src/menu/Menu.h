@@ -32,7 +32,6 @@ class Menu {
 
 
 public:
-    void create();
     void render(SDL_Renderer* pRenderer);
     void close();
     Menu();
