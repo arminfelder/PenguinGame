@@ -24,15 +24,19 @@
 #include <SDL_pixels.h>
 #include <SDL_ttf.h>
 #include "MenuEvents.h"
+#include "../components/Inventory.h"
 
 class MenuComponent {
 
 public:
     MenuComponent(std::string font, std::string text, std::string color, int position, MenuEvents::MenuEventType);
+    MenuComponent(std::string font, std::string text, std::string color, int position, MenuEvents::MenuEventType menuEventType, Components::Inventory::ItemTypes itemType) : MenuComponent(font, text, color, position, menuEventType) {this->itemType = itemType;};
     std::shared_ptr<SDL_Surface> getSurface();
     int getPosition();
     void updateColor(std::string color);
     MenuEvents::MenuEventType getMenuEventType();
+    bool isItem();
+    Components::Inventory::ItemTypes getItemType();
 
 private:
     const SDL_Color matchColor(std::string color);
@@ -40,6 +44,7 @@ private:
     std::string text;
     std::string color;
     int position;
+    Components::Inventory::ItemTypes itemType = static_cast<Components::Inventory::ItemTypes>(-1);
     MenuEvents::MenuEventType menuEvent;
 };
 

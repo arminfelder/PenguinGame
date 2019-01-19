@@ -49,3 +49,8 @@ bool Inventory::load(std::vector<std::string> splittedStrings) {
 void Inventory::reset() {
     mItems.clear();
 }
+
+std::string Inventory::getItemTypeDescription(Inventory::ItemTypes itemType) {
+    std::string returnValue = mItemDescriptions.find(itemType)->second;
+    return returnValue;
+}

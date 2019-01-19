@@ -38,12 +38,12 @@ const SDL_Color MenuComponent::matchColor(std::string color) {
     return sdl_color;
 }
 
-MenuComponent::MenuComponent(std::string font, std::string text, std::string color, int position, MenuEvents::MenuEventType menuType) {
+MenuComponent::MenuComponent(std::string font, std::string text, std::string color, int position, MenuEvents::MenuEventType menuEventType) {
     this->position = position;
     this->color = std::move(color);
     this->text = std::move(text);
     this->font = std::move(font);
-    this->menuEvent = menuType;
+    this->menuEvent = menuEventType;
 }
 
 std::shared_ptr<SDL_Surface> MenuComponent::getSurface() {
@@ -63,4 +63,11 @@ void MenuComponent::updateColor(std::string color) {
 
 MenuEvents::MenuEventType MenuComponent::getMenuEventType() {
     return this->menuEvent;
+}
+
+bool MenuComponent::isItem() {
+    if ((this->itemType == static_cast<Components::Inventory::ItemTypes>(-1))) //no item
+        return false;
+    else
+        return true;
 }
