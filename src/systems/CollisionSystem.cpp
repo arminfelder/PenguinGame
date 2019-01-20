@@ -62,7 +62,9 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
                         maskCollision = true;
                         bool collisionTop = system->collisionMask->at(horizontal + system->mapWidth * (maskTopLimit-1));
                         bool collisionBottom = system->collisionMask->at(horizontal + system->mapWidth * (maskBottomLimit-1));
-                        if (entityId == 1 && collisionTop == false && collisionBottom) { //set player at position of upper space
+                        if (movingEntity.get()->getType() == Entities::entityTypes::projectile) //if projectile collides with wall, remove it
+                            Managers::EntityManager::destroyEntity(entityId);
+                        if (entityId == 1 && !collisionTop && collisionBottom) { //set player at position of upper space
                             spatial->mPositionY = (maskTopLimit-1) * 50;
                             system->mEventsManager->addEvent(std::make_shared<Events::MoveEntity>(1, 1, 1)); //move player to correct position
                         }else
@@ -74,9 +76,11 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
                     }
                 }
                 catch (const std::exception&){//player dies -> game over //todo use our own event system
-                    SDL_Event sdlEvent;
-                    sdlEvent.type = 33332;
-                    SDL_PushEvent(&sdlEvent);
+                    if (entityId == 1) {
+                        SDL_Event sdlEvent;
+                        sdlEvent.type = 33332;
+                        SDL_PushEvent(&sdlEvent);
+                    }
                 }
 
             }
