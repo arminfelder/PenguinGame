@@ -85,6 +85,7 @@ void Menu::handleKeyEvent() {
                     break;
                 case SDLK_ESCAPE:
                     quitGame();
+                    break;
                 case SDLK_RETURN:
                     triggerMenuEvent();
                     break;

@@ -23,6 +23,9 @@
 Components::SpatialComponent::SpatialComponent(int pPositionX, int pPositionY, bool pMoveWithMap) {
     mPositionX = pPositionX;
     mPositionY = pPositionY;
+    //set previous to starting values to prevent physics problems if an immediate collision happens
+    mPrevPositionX = pPositionX;
+    mPrevPositionY = pPositionY;
     moveWithMap = pMoveWithMap;
 }
 
