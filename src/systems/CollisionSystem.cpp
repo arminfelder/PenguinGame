@@ -66,7 +66,7 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
                             Managers::EntityManager::destroyEntity(entityId);
                         if (entityId == 1 && !collisionTop && collisionBottom) { //set player at position of upper space
                             spatial->mPositionY = (maskTopLimit-1) * 50;
-                            system->mEventsManager->addEvent(std::make_shared<Events::MoveEntity>(1, 1, 1)); //move player to correct position
+                            system->mEventsManager->addEvent(std::make_shared<Events::MoveEntity>(1, 0, 1)); //move player to correct position
                         }else
                             system->mEventsManager->addEvent(std::make_shared<Events::CollisionEvent>(entityId, 0, Events::collisionTypes::regular));
                     } else if (entityId == 1 && index >= system->collisionMask->size()) {//player dies -> game over //todo use our own event system
