@@ -85,16 +85,16 @@ if(time>=1000) {
             int bottomLimitEntry = spatialEntry->mPositionY + 50;
 
             bool collision = false;
-            if (leftLimit > leftLimitEntry && leftLimit < rightLimitEntry) {
-                if (topLimit > topLimitEntry && topLimit < bottomLimitEntry) {
+            if (leftLimit >= leftLimitEntry && leftLimit <= rightLimitEntry) {
+                if (topLimit >= topLimitEntry && topLimit <= bottomLimitEntry) {
                     collision = true;
                 } else if (bottomLimit < topLimitEntry && bottomLimit > bottomLimitEntry) {
                     collision = true;
                 }
-            } else if (rightLimit < leftLimitEntry && rightLimit > rightLimitEntry) {
-                if (topLimit > topLimitEntry && topLimit < bottomLimitEntry) {
+            } else if (rightLimit <= leftLimitEntry && rightLimit >= rightLimitEntry) {
+                if (topLimit >= topLimitEntry && topLimit <= bottomLimitEntry) {
                     collision = true;
-                } else if (bottomLimit < topLimitEntry && bottomLimit > bottomLimitEntry) {
+                } else if (bottomLimit <= topLimitEntry && bottomLimit >= bottomLimitEntry) {
                     collision = true;
                 }
             }
