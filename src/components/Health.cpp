@@ -24,26 +24,10 @@
 
 using namespace Components;
 
-void Health::operator++() {
-    mHealth++;
-}
-
-void Health::operator--() {
-    mHealth--;
-}
-
-int Health::getHealth() {
-    return mHealth;
-}
-
-void Health::setHealth(int health) {
-    mHealth = health;
-}
-
-Health::Health(int pHealth) : mHealth(pHealth) {
+Health::Health(int pHealth) : mHealth(pHealth),mOrigHealth(pHealth) {
 
 }
-
+//TODO: add orig health
 std::string Health::serialize() {
     std::string serialized = "Health;" + std::to_string(this->mHealth);
     return serialized;
@@ -51,7 +35,8 @@ std::string Health::serialize() {
 
 bool Health::load(std::vector<std::string> splittedStrings) {
     if (splittedStrings[0] == "Health" && splittedStrings.size() >= 2) {
-        setHealth(std::stoi(splittedStrings[1]));
+        mHealth = std::stoi(splittedStrings[1]);
+       // mOrigHealth();
         return true;
     }
     return false;

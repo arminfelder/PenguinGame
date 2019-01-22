@@ -44,6 +44,7 @@
 #include "../components/UseAbel.h"
 #include "../components/TeleportTarget.h"
 #include "../components/MapName.h"
+#include "../components/Xp.h"
 
 namespace Managers {
 
@@ -66,6 +67,7 @@ namespace Managers {
         static std::map<int, std::shared_ptr<Components::CanCollect>> &getCanCollects();
         static std::map<int, std::shared_ptr<Components::UseAbel>> &getUseables();
         static std::map<int, std::shared_ptr<Components::TeleportTarget>> &getTeleportTargets();
+        static std::map<int, std::shared_ptr<Components::Xp>> &getXps();
 
         static std::shared_ptr<Components::Health> &getHealthComponent(int pEntityId);
         static std::shared_ptr<Components::VisualComponent> &getVisualComponent(int pEntityId);
@@ -84,6 +86,7 @@ namespace Managers {
         static std::shared_ptr<Components::UseAbel> &getUseable(int pEntityId);
         static std::shared_ptr<Components::TeleportTarget> &getTeleportTarget(int pEntityId);
         static std::shared_ptr<Components::MapName> &getMapName();
+        static std::shared_ptr<Components::Xp> &getXp(int pEntityId);
 
         static void createHealthComponent(int pEntityId, int pHp = 100);
         static void createVisualComponent(int pEntityId, const std::shared_ptr<SDL_Texture> &pTexture, int pSizeW, int pSizeH);
@@ -103,6 +106,7 @@ namespace Managers {
         static void createUseable(int pEntityId, const std::vector<Components::Inventory::ItemTypes> &pTypes);
         static void createTeleportTarget(int pEntityId, int pTarget);
         static void createMapName(const std::string &mapName);
+        static void createXp(int pEntityId);
 
         static void removeComponentsOfEntity(int pEntityId);
         static void saveUserComponents(std::ostream &out);
@@ -130,6 +134,7 @@ namespace Managers {
         static std::map<int, std::shared_ptr<Components::UseAbel>> mUseables;
         static std::map<int, std::shared_ptr<Components::TeleportTarget>> mTeleportTargets;
         static std::map<int, std::shared_ptr<Components::MapName>> mMapNameComponents;
+        static std::map<int, std::shared_ptr<Components::Xp>> mXp;
 
 
     };
