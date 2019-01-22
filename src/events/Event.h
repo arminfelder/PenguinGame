@@ -33,7 +33,8 @@ namespace Events {
         MoveEntity,
         EntityCanSee,
         PlayerDies,
-        TriggerActivated
+        TriggerActivated,
+        EntityDied
 
     };
 

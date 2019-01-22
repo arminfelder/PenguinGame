@@ -88,6 +88,6 @@ add_executable(game main.cpp
         events/PlayerDies.cpp
         events/TriggerActivated.cpp
         MapParser.cpp
-		)
+        systems/XpSystem.cpp systems/XpSystem.h components/Xp.cpp components/Xp.h events/EntityDied.cpp events/EntityDied.h entities/XpIndicator.cpp entities/XpIndicator.h)
 
 target_link_libraries(game ${SDL2_LIBRARIES} ${SDL2TTF_LIBRARY} ${SDL2_MIXER_LIBRARY})

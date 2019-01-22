@@ -88,7 +88,7 @@ void PenguinGame::initSDL() {
     SDL_Init(SDL_INIT_VIDEO);
     SDL_Init(SDL_INIT_AUDIO);
     TTF_Init();
-    mWindow = SDL_CreateWindow("PenguinGame", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1000, 600, 0);
+    mWindow = SDL_CreateWindow("PenguinGame", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1000, 600, SDL_WINDOW_ALLOW_HIGHDPI);
     if (!mWindow) {
         SDL_Log("failed to create window: %s", SDL_GetError());
     }
