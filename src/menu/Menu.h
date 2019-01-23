@@ -41,6 +41,8 @@ public:
     void clear();
     void updateInventory();
     void updateStats();
+    static void sendSDLEvent(int type);
+
 private:
     int active = 0;
     std::map<int, std::shared_ptr<MenuComponent>> menuComponents;
@@ -52,7 +54,6 @@ private:
     void switchMenu(MenuEvents::MenuEventType eventType);
     void saveGame();
     void loadGame();
-    void sendSDLEvent(int type);
 
     bool mRunning = true;
 

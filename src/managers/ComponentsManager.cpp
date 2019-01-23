@@ -301,22 +301,27 @@ void ComponentsManager::createMapName(const std::string &mapName) {
     mMapNameComponents.emplace(std::make_pair(1, std::make_shared<Components::MapName>(Components::MapName(mapName))));
 }
 
-void ComponentsManager::saveUserComponents(std::ostream &out) {
+void ComponentsManager::prepareNextMap(std::ostream &out) {
     auto playerHealth = getHealthComponent(1);
+    auto playerInventory = getInventory(1);
+
+    out << playerHealth.get()->serialize() << std::endl;
+    out << playerInventory.get()->serialize(); //implicitly returns \n after last element as well
+}
+
+void ComponentsManager::saveUserComponents(std::ostream &out) {
+    prepareNextMap(out);
     auto playerPosition = getSpatialComponent(1);
     auto playerCamera = getCameraOffsetComponent(2);
     auto playerMoveAble = getMoveableComponent(1);
     auto playerMomentum = getMomentumComponent(1);
-    auto playerInventory = getInventory(1);
     auto map = getMapName();
 
     out << map.get()->serialize() << std::endl;
-    out << playerHealth.get()->serialize() << std::endl;
     out << playerPosition.get()->serialize() << std::endl;
     out << playerCamera.get()->serialize() << std::endl;
     out << playerMoveAble.get()->serialize() << std::endl;
     out << playerMomentum.get()->serialize() << std::endl;
-    out << playerInventory.get()->serialize(); //implicitly returns \n after last element as well
 }
 
 bool ComponentsManager::loadUserComponents(std::ifstream &inputFile) {
