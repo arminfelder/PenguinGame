@@ -6,6 +6,7 @@ Control:
  - Arrow Down:  Move down a ladder
  - Space:       Jump
  - Ctrl left:   Shoot
+ - Alt  left:   Shoot secondary weapon
 
  - M:           Open/Close Main Menu
  - P:           Open/Close Pause Menu
@@ -13,3 +14,6 @@ Control:
 
  Menu:
  - 1/2/3 start a new game with the selected map file
+
+ Remarks:
+ secondary weapon needs at least xp 11 to be picked up
