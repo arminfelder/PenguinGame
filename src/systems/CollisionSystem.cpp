@@ -158,7 +158,15 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
                         collisionType = Events::collisionTypes::teleporterEntry;
                         break;
                     }
+                    case Entities::entityTypes::ak47:{
+                        collisionType = Events::collisionTypes::ak47;
+                        break;
+                    }
                     case Entities::entityTypes::none: {
+                        break;
+                    }
+                    default:{
+
                         break;
                     }
 
