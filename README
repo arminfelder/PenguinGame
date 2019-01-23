@@ -7,6 +7,7 @@ Control:
  - Space:       Jump
  - Ctrl left:   Shoot
  - Alt  left:   Shoot secondary weapon
+ - Enter        activate item e.g. open door with key
 
  - M:           Open/Close Main Menu
  - P:           Open/Close Pause Menu
