@@ -211,11 +211,26 @@ void Menu::updateInventory() {
     std::string line;
     while (getline(inventoryLine, line)) {
         std::vector<std::string> splittedStrings = Managers::ComponentsManager::splitString(line, ';');
-        Components::Inventory::ItemTypes itemType = static_cast<Components::Inventory::ItemTypes>(std::stoi(splittedStrings[1]));
+        auto itemType = static_cast<Components::Inventory::ItemTypes>(std::stoi(splittedStrings[1]));
         std::string inventoryText = playerInventory->getItemTypeDescription(itemType);
-        int position = menuComponents.size() + 1;
+        auto position = menuComponents.size() + 1;
         this->addMenuComponent(std::make_shared<MenuComponent>("Sans", inventoryText, "green", position, MenuEvents::NONE, itemType));
     }
+    updateStats();
+}
+
+void Menu::updateStats() {
+    //also write player stats
+    auto playerXP = Managers::ComponentsManager::getXp(1);
+    auto playerHeatlh = Managers::ComponentsManager::getHealthComponent(1);
+    auto position = menuComponents.size() + 2;
+
+    std::string xpText = "XP: " + std::to_string(playerXP.get()->mXp);
+    std::string healthText = "Health: " + std::to_string(playerHeatlh.get()->mHealth);
+    auto itemType = Components::Inventory::ItemTypes::none; // use already implemented delete feature to update stats
+    this->addMenuComponent(std::make_shared<MenuComponent>("Sans", xpText, "green", position++, MenuEvents::NONE, itemType));
+    this->addMenuComponent(std::make_shared<MenuComponent>("Sans", healthText, "green", position++, MenuEvents::NONE, itemType));
+
 }
 
 Menu::Menu() = default;
