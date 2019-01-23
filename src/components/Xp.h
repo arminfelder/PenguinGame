@@ -12,7 +12,7 @@ namespace Components {
     class Xp:public Component {
     public:
         Xp();
-        uint mXp;
+        uint mXp = 0;
     };
 }
 

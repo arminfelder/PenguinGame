@@ -16,6 +16,7 @@ namespace Components {
 
     public:
         enum class ItemTypes{
+            none,
             keyArea2
         };
         Inventory();

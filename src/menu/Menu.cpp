@@ -115,8 +115,8 @@ void Menu::updateSelection(short direction) {
     (direction >= 0) ? active++ : active--;
 
     if (active < 0)
-        active = menuComponents.size()-1;
-    else if (active >= menuComponents.size())
+        active = static_cast<int>(menuComponents.size()-1);
+    else if (active >= static_cast<int>(menuComponents.size()))
         active = 0;
     component = menuComponents.at(active);
     component.get()->updateColor("red");
@@ -165,6 +165,8 @@ void Menu::switchMenu(MenuEvents::MenuEventType event) {
         case MenuEvents::PAUSE_MENU:
             sendSDLEvent(32770);
             break;
+        default:
+            return; //if wrong event type got here, do nothing (should never be the case anyways)
     }
     this->close();
     sendSDLEvent(32780);
@@ -209,11 +211,26 @@ void Menu::updateInventory() {
     std::string line;
     while (getline(inventoryLine, line)) {
         std::vector<std::string> splittedStrings = Managers::ComponentsManager::splitString(line, ';');
-        Components::Inventory::ItemTypes itemType = static_cast<Components::Inventory::ItemTypes>(std::stoi(splittedStrings[1]));
+        auto itemType = static_cast<Components::Inventory::ItemTypes>(std::stoi(splittedStrings[1]));
         std::string inventoryText = playerInventory->getItemTypeDescription(itemType);
-        int position = menuComponents.size() + 1;
+        auto position = menuComponents.size() + 1;
         this->addMenuComponent(std::make_shared<MenuComponent>("Sans", inventoryText, "green", position, MenuEvents::NONE, itemType));
     }
+    updateStats();
+}
+
+void Menu::updateStats() {
+    //also write player stats
+    auto playerXP = Managers::ComponentsManager::getXp(1);
+    auto playerHeatlh = Managers::ComponentsManager::getHealthComponent(1);
+    auto position = menuComponents.size() + 2;
+
+    std::string xpText = "XP: " + std::to_string(playerXP.get()->mXp);
+    std::string healthText = "Health: " + std::to_string(playerHeatlh.get()->mHealth);
+    auto itemType = Components::Inventory::ItemTypes::none; // use already implemented delete feature to update stats
+    this->addMenuComponent(std::make_shared<MenuComponent>("Sans", xpText, "green", position++, MenuEvents::NONE, itemType));
+    this->addMenuComponent(std::make_shared<MenuComponent>("Sans", healthText, "green", position++, MenuEvents::NONE, itemType));
+
 }
 
 Menu::Menu() = default;

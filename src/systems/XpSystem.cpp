@@ -10,7 +10,7 @@ using namespace Systems;
 XpSystem::XpSystem(SDL_Renderer *pRenderer,Managers::EventsManager *pEventsManager):mEventsManager(pEventsManager),mRenderer(pRenderer) {
     auto callbackEntityDied = [system = this](const std::shared_ptr<Events::Event> &pEvent){
         auto event = static_cast<Events::EntityDied*>(pEvent.get());
-        int entityId = event->mEntity;
+        //int entityId = event->mEntity;
         auto xp = Managers::ComponentsManager::getXp(1);
         if(xp){
             xp->mXp += event->mOrigHealth/10;

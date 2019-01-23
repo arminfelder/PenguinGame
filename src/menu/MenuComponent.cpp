@@ -25,15 +25,15 @@
 
 
 const SDL_Color MenuComponent::matchColor(std::string color) {
-    SDL_Color sdl_color = {0, 0, 0};
+    SDL_Color sdl_color = {0, 0, 0, 0};
     if (color == "grey")
-        sdl_color = {62, 62, 62};
+        sdl_color = {62, 62, 62, 255};
     else if (color == "red")
-        sdl_color = {232,23,23};
+        sdl_color = {232,23,23, 255};
     else if (color == "green")
-        sdl_color = {23,232,23};
+        sdl_color = {23,232,23, 128};
     else if (color == "blue")
-        sdl_color = {23,23,232};
+        sdl_color = {23,23,232, 255};
 
     return sdl_color;
 }

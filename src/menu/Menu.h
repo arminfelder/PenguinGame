@@ -40,6 +40,7 @@ public:
     void addMenuComponent(std::shared_ptr<MenuComponent> component);
     void clear();
     void updateInventory();
+    void updateStats();
 private:
     int active = 0;
     std::map<int, std::shared_ptr<MenuComponent>> menuComponents;
