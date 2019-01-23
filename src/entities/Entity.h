@@ -39,6 +39,7 @@ namespace Entities {
         door,
         teleporterEntrance,
         teleporterTarget,
+        xpIndicator,
         none
     };
     class Entity {

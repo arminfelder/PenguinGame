@@ -29,6 +29,7 @@
 #include "entities/Door.h"
 #include "entities/TeleporterEntrance.h"
 #include "entities/TeleporterTarget.h"
+#include "entities/XpIndicator.h"
 
 using namespace Entities;
 using namespace std;
@@ -94,13 +95,21 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, GameEngine *pE
     //initial health text
     std::shared_ptr<TTF_Font> Sans(TTF_OpenFont("./res/sans.ttf", 24), TTF_CloseFont);
     SDL_Color White = {255, 255, 255, 255};
-    std::shared_ptr<SDL_Surface> healthMessage(TTF_RenderText_Blended(Sans.get(), "100", White), SDL_FreeSurface);
+    std::shared_ptr<SDL_Surface> healthMessage(TTF_RenderText_Blended(Sans.get(), "HP: 100", White), SDL_FreeSurface);
     auto healthMessageTexture = std::shared_ptr<SDL_Texture>(SDL_CreateTextureFromSurface(pRenderer, healthMessage.get()), SDL_DestroyTexture);
 
     //health indicator
     int id = Managers::EntityManager::createEntity<HealthIndicator>();
     Managers::ComponentsManager::createSpatialComponent(id, 20, 20, false);
-    Managers::ComponentsManager::createVisualComponent(id, healthMessageTexture, 100, 50);
+    Managers::ComponentsManager::createVisualComponent(id, healthMessageTexture, 168, 50);
+
+    //Xp indicator
+    std::shared_ptr<SDL_Surface> xpMessage(TTF_RenderText_Blended(Sans.get(), "XP: 0", White), SDL_FreeSurface);
+    auto xpMessageTexture = std::shared_ptr<SDL_Texture>(SDL_CreateTextureFromSurface(pRenderer, xpMessage.get()), SDL_DestroyTexture);
+
+    id = Managers::EntityManager::createEntity<XpIndicator>();
+    Managers::ComponentsManager::createSpatialComponent(id,20, 60, false);
+    Managers::ComponentsManager::createVisualComponent(id, xpMessageTexture,120,50);
 
     std::ifstream map;
     map.open(pMapfile);
@@ -181,7 +190,7 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, GameEngine *pE
                 }
                 case 'p': {
                     int id = 1;
-                    Managers::ComponentsManager::createVisualComponent(id, playerMap, 48, 48);
+                    Managers::ComponentsManager::createVisualComponent(id, playerMap, 49, 49);
                     Managers::ComponentsManager::createSpatialComponent(id, x + 1, y + 1);
                     Managers::ComponentsManager::createMoveAbleComponent(id, true, false, true, false);
                     Managers::ComponentsManager::createHealthComponent(id, 100);
@@ -189,6 +198,7 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, GameEngine *pE
                     Managers::ComponentsManager::createCollideAbleComponent(id);
                     Managers::ComponentsManager::createInventory(id);
                     Managers::ComponentsManager::createCanCollect(id, {Components::Inventory::ItemTypes::keyArea2});
+                    Managers::ComponentsManager::createXp(id);
                     break;
                 }
                 case 'h': {

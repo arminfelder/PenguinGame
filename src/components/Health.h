@@ -27,18 +27,13 @@ namespace Components{
     class Health : Component {
     public:
         Health(int pHealth);
-        int getHealth();
 
-        void setHealth(int health);
-
-        void operator++();
-
-        void operator--();
         std::string serialize();
         bool load(std::vector<std::string> splittedStrings);
 
-    private:
+    public:
         int mHealth;
+        const int mOrigHealth;
     };
 }
 

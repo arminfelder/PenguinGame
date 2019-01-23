@@ -43,6 +43,7 @@ std::map<int, std::shared_ptr<Components::CanCollect>> ComponentsManager::mCanCo
 std::map<int, std::shared_ptr<Components::UseAbel>> ComponentsManager::mUseables;
 std::map<int, std::shared_ptr<Components::TeleportTarget>> ComponentsManager::mTeleportTargets;
 std::map<int, std::shared_ptr<Components::MapName>> ComponentsManager::mMapNameComponents;
+std::map<int, std::shared_ptr<Components::Xp>> ComponentsManager::mXp;
 
 
 std::map<int, std::shared_ptr<Components::Health>> &ComponentsManager::getHealthComponents() {
@@ -168,6 +169,9 @@ void ComponentsManager::removeComponentsOfEntity(int pEntityId) {
     mViewRanges.erase(pEntityId);
     mInventories.erase(pEntityId);
     mUseables.erase(pEntityId);
+    mTeleportTargets.erase(pEntityId);
+    mMapNameComponents.erase(pEntityId);
+    mXp.erase(pEntityId);
 }
 
 void ComponentsManager::createPathComponent(int pEntityId, const std::vector<SDL_Point> &pPath, int pStepsPerSecond, bool pRepeat,
@@ -274,6 +278,7 @@ ComponentsManager::~ComponentsManager() {
     mInventories.clear();
     mTeleportTargets.clear();
     mMapNameComponents.clear();
+    mXp.clear();
 }
 
 std::map<int, std::shared_ptr<Components::TeleportTarget>> &ComponentsManager::getTeleportTargets() {
@@ -364,4 +369,16 @@ std::vector<std::string> ComponentsManager::splitString(const std::string &strTo
         splittedStrings.push_back(item);
     }
     return splittedStrings;
+}
+
+std::shared_ptr<Components::Xp> &ComponentsManager::getXp(int pEntityId) {
+    return mXp[pEntityId];
+}
+
+void ComponentsManager::createXp(int pEntityId) {
+    mXp.emplace(std::make_pair(pEntityId,std::make_shared<Components::Xp>()));
+}
+
+std::map<int, std::shared_ptr<Xp>> &ComponentsManager::getXps() {
+    return mXp;
 }

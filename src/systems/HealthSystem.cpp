@@ -18,9 +18,11 @@
 
 
 #include <SDL_ttf.h>
+#include <iostream>
 #include "HealthSystem.h"
 #include "../managers/ComponentsManager.h"
 #include "../events/CollisionEvent.h"
+#include "../events/EntityDied.h"
 
 
 Systems::HealthSystem::HealthSystem(SDL_Renderer *pRenderer, Managers::EventsManager *pEventsManager):mEventsManager(pEventsManager),mRenderer(pRenderer) {
@@ -29,12 +31,13 @@ Systems::HealthSystem::HealthSystem(SDL_Renderer *pRenderer, Managers::EventsMan
         auto healthComponent = Managers::ComponentsManager::getHealthComponent(event->entityId);
         if(healthComponent) {
             int newHealth;
-            int updatedHealth = healthComponent->getHealth() + event->healthDiff;
+            int updatedHealth = healthComponent->mHealth + event->healthDiff;
             if (updatedHealth <= 0) {
                 //TODO: emit killed
                 newHealth = 0;
                 if (event->entityId != 1) {
                     Managers::ComponentsManager::removeComponentsOfEntity(event->entityId);
+                    system->mEventsManager->addEvent(std::make_shared<Events::EntityDied>(event->entityId,healthComponent->mOrigHealth));
                 }
                 else {//player dies -> game over //todo use our own event system
                     SDL_Event sdlEvent;
@@ -45,7 +48,7 @@ Systems::HealthSystem::HealthSystem(SDL_Renderer *pRenderer, Managers::EventsMan
                 newHealth = updatedHealth;
             }
 
-            healthComponent->setHealth(newHealth);
+            healthComponent->mHealth =newHealth;
             if (event->entityId == 1) {
                 //TODO: replace fixed id
                 auto visualComponent = Managers::ComponentsManager::getVisualComponent(3);
@@ -64,13 +67,31 @@ Systems::HealthSystem::HealthSystem(SDL_Renderer *pRenderer, Managers::EventsMan
                     bColor = 0;
                 }
 
+                int numberChars = 0;
+                if(newHealth){
+
+                    for(int i=newHealth; i>0; i /=10){
+                        numberChars++;
+                        std::cout<<newHealth<<std::endl;
+                        std::cout<<i<<std::endl;
+                        std::cout<<numberChars<<std::endl;
+                    }
+                }else{
+                    numberChars = 1;
+                }
+
+                int textLength = numberChars+4;
+
+                auto healthString = std::string("HP: ")+std::to_string(newHealth);
+
                 SDL_Color textColor = {rColor, gColor, bColor, 255};
                 SDL_Surface *healthMessage = TTF_RenderText_Blended(system->Sans.get(),
-                                                                    std::to_string(newHealth).c_str(), textColor);
+                                                                    healthString.c_str(), textColor);
                 auto healthMessageTexture = std::shared_ptr<SDL_Texture>(
                         SDL_CreateTextureFromSurface(system->mRenderer, healthMessage), SDL_DestroyTexture);
                 SDL_FreeSurface(healthMessage);
                 visualComponent->mTexture = healthMessageTexture;
+                visualComponent->mImageRect.w = 24*textLength;
             }
         }
 

@@ -34,6 +34,7 @@ Systems::CombatSystem::CombatSystem(SDL_Renderer *pRenderer,Managers::EventsMana
         if(event->mKeyCode.sym == SDLK_LCTRL){
             auto playerSpatial = Managers::ComponentsManager::getSpatialComponent(1);
             auto playerVisual = Managers::ComponentsManager::getVisualComponent(1);
+            auto playerXp = Managers::ComponentsManager::getXp(1);
             int moveX = 200;
             if(playerVisual->mFlip){
                 moveX *= -1;
@@ -47,8 +48,8 @@ Systems::CombatSystem::CombatSystem(SDL_Renderer *pRenderer,Managers::EventsMana
             Managers::ComponentsManager::createVisualComponent(bulletId,system->mBlueBullet, 10,5);
             Managers::ComponentsManager::createSpatialComponent(bulletId,x,y);
             Managers::ComponentsManager::createPathComponent(bulletId,{SDL_Point{moveX,0}},15);
-            Managers::ComponentsManager::createDamageComponent(bulletId,10);
-            Managers::ComponentsManager::createTimeToLive(bulletId, 500);
+            Managers::ComponentsManager::createDamageComponent(bulletId,10+playerXp->mXp);
+            Managers::ComponentsManager::createTimeToLive(bulletId, 500+playerXp->mXp);
         }
     };
 
@@ -56,9 +57,18 @@ Systems::CombatSystem::CombatSystem(SDL_Renderer *pRenderer,Managers::EventsMana
         auto event = static_cast<Events::CollisionEvent*>(pEvent.get());
         if(event->mType == Events::collisionTypes::npc||event->mType == Events::collisionTypes::player){
             auto damage = Managers::ComponentsManager::getDamage(event->mMovingEntity);
+            auto xp = Managers::ComponentsManager::getXp(event->mCollidingEntity);
+
             if(damage) {
-                system->mEventsManager->addEvent(std::make_shared<Events::HealthEvent>(event->mCollidingEntity,-damage->mDamage));
-                Managers::ComponentsManager::removeComponentsOfEntity(event->mMovingEntity);
+                int damageValue = damage->mDamage;
+                if(xp){
+                    damageValue = damageValue-(xp->mXp/5);
+                }
+                if(damageValue>0) {
+                    system->mEventsManager->addEvent(
+                            std::make_shared<Events::HealthEvent>(event->mCollidingEntity, -damage->mDamage));
+                    Managers::ComponentsManager::removeComponentsOfEntity(event->mMovingEntity);
+                }
                 std::cout << "bullet coll" << std::endl;
             }
         }

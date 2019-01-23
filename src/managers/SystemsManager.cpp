@@ -34,6 +34,7 @@ SystemsManager::SystemsManager(SDL_Window *pWindow, SDL_Renderer *pPrenderer, Ev
     mCombatSystem = new CombatSystem(pPrenderer, pEventsManager);
     mInvetorySystem = new InventorySystem(pEventsManager);
     mTriggerSystem = new TriggerSystem(pEventsManager);
+    mXpSystem = new XpSystem(pPrenderer, pEventsManager);
 
     mRenderSystem = new RenderSystem(pWindow,pPrenderer,pEventsManager);
 }
