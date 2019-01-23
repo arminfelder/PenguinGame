@@ -7,6 +7,7 @@
 
 #include "System.h"
 #include "../managers/EventsManager.h"
+#include "../components/UseAbel.h"
 
 namespace Systems {
     class TriggerSystem: public System {
@@ -15,6 +16,7 @@ namespace Systems {
 
     private:
         Managers::EventsManager *mEventsManager;
+        static bool collidesBottomTop(int playerBottomLimit, int playerTopLimit, int entryBottomLimit, int entryTopLimit);
     };
 }
 

@@ -16,17 +16,16 @@
 * along with PenguinGame. If not, see <http://www.gnu.org/licenses/>.
 ******************************************************************************/
 
-#ifndef GAME_TELEPORTERENTRY_H
-#define GAME_TELEPORTERENTRY_H
+#ifndef GAME_DISC_H
+#define GAME_DISC_H
 
 #include "Entity.h"
 
 namespace Entities {
-    class TeleporterEntrance:public Entity {
+    class Disc: public Entity{
     public:
-        TeleporterEntrance(int pId);
+        Disc(int pID);
     };
 }
 
-
-#endif //GAME_TELEPORTERENTRY_H
+#endif //GAME_DISC_H

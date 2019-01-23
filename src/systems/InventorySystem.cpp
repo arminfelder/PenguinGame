@@ -32,6 +32,16 @@ InventorySystem::InventorySystem(Managers::EventsManager *pEventsManager):mEvent
                 }
             }
         }
+        else if (event->mType == Events::collisionTypes::disc) {
+            auto inventory = Managers::ComponentsManager::getInventory(event->mMovingEntity);
+            auto canCollect = Managers::ComponentsManager::getCanCollect(event->mMovingEntity);
+            if (inventory && canCollect) {
+                if(canCollect->mTypes.find(Components::Inventory::ItemTypes::disc) != canCollect->mTypes.end()) {
+                    inventory->addItem(Components::Inventory::ItemTypes::disc);
+                    Managers::ComponentsManager::removeComponentsOfEntity(event->mCollidingEntity);
+                }
+            }
+        }
     };
 
 

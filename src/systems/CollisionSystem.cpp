@@ -57,7 +57,7 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
             for (int vertical = maskTopLimit-1; vertical < maskBottomLimit; vertical++) {
                 int index = (horizontal + vertical * system->mapWidth);
                 try {
-                    if (system->collisionMask->size() > index && (system->collisionMask->at(index)) == true) {
+                    if (system->collisionMask->size() > static_cast<unsigned long>(index) && (system->collisionMask->at(static_cast<unsigned long>(index))) == true) {
                         std::cout << "collision via mask detected" << std::endl;
                         maskCollision = true;
                         bool collisionTop = system->collisionMask->at(horizontal + system->mapWidth * (maskTopLimit-1));
@@ -158,18 +158,22 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
                         collisionType = Events::collisionTypes::teleporterEntry;
                         break;
                     }
-                    case Entities::entityTypes::ak47:{
+                    case Entities::entityTypes ::disc: {
+                        collisionType = Events::collisionTypes::disc;
+                        break;
+                    }
+                    case Entities::entityTypes::savePoint:{
+                        collisionType = Events::collisionTypes::savePoint;
+                        break;
+                    }
+   		    case Entities::entityTypes::ak47:{
                         collisionType = Events::collisionTypes::ak47;
                         break;
                     }
+                    default:
                     case Entities::entityTypes::none: {
                         break;
                     }
-                    default:{
-
-                        break;
-                    }
-
                 }
                 if (leftLimit > entryLeftLimit && leftLimit < entryRightLimit) {
                     if (topLimit > entryTopLimit && topLimit < entryBottomLimit) {
@@ -199,8 +203,8 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
 
         if (!maskCollision && !entityCollision && movingEntity->getType() == Entities::entityTypes::player) {
             //gravitation
-                int floorLeftPosition = (maskBottomLimit) * system->mapWidth + maskLeftLimit - 1;
-                int floorRightPosition = (maskBottomLimit) * system->mapWidth + maskRightLimit - 1;
+            auto floorLeftPosition = static_cast<unsigned long>((maskBottomLimit) * system->mapWidth + maskLeftLimit - 1);
+            auto floorRightPosition = static_cast<unsigned long>((maskBottomLimit) * system->mapWidth + maskRightLimit - 1);
                 if(floorLeftPosition <system->collisionMask->size() && floorRightPosition<system->collisionMask->size()) {
                     bool floorLeft = system->collisionMask->at(static_cast<unsigned long>(floorLeftPosition));
                     bool floorRight = system->collisionMask->at(static_cast<unsigned long>(floorRightPosition));

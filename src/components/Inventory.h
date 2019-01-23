@@ -16,8 +16,10 @@ namespace Components {
 
     public:
         enum class ItemTypes{
+            none,
+            disc,
             keyArea2,
-            ak47
+	    ak47
         };
         Inventory();
         void addItem(const ItemTypes pItem);
@@ -30,7 +32,7 @@ namespace Components {
         void reset();
     private:
         std::set<ItemTypes> mItems;
-        std::map<ItemTypes, std::string> mItemDescriptions{{ItemTypes::keyArea2,"Key for Area2"}};
+        std::map<ItemTypes, std::string> mItemDescriptions{{ItemTypes::keyArea2,"Key for Area2"}, {ItemTypes::disc,"Disc allows to save the game"}};
     };
 }
 

@@ -247,6 +247,16 @@ void ComponentsManager::createCanCollect(int pEntityId, const std::set<Component
     mCanCollects.emplace(std::make_pair(pEntityId, std::make_shared<Components::CanCollect>(pTypes)));
 }
 
+void ComponentsManager::addCollectible(int pEntityId, const Components::Inventory::ItemTypes &pType) {
+    if (!getCanCollect(pEntityId))
+        createCanCollect(pEntityId, {pType});
+    else {
+        auto collectible = getCanCollect(pEntityId);
+        collectible.get()->mTypes.insert(pType);
+    }
+}
+
+
 std::map<int, std::shared_ptr<Components::UseAbel>> &ComponentsManager::getUseables() {
     return mUseables;
 }
@@ -301,22 +311,29 @@ void ComponentsManager::createMapName(const std::string &mapName) {
     mMapNameComponents.emplace(std::make_pair(1, std::make_shared<Components::MapName>(Components::MapName(mapName))));
 }
 
-void ComponentsManager::saveUserComponents(std::ostream &out) {
+void ComponentsManager::prepareNextMap(std::ostream &out) {
     auto playerHealth = getHealthComponent(1);
+    auto playerInventory = getInventory(1);
+    auto playerXP = getXp(1);
+
+    out << playerHealth.get()->serialize() << std::endl;
+    out << playerInventory.get()->serialize(); //implicitly returns \n after last element as well
+    out << playerXP.get()->serialize() << std::endl;
+}
+
+void ComponentsManager::saveUserComponents(std::ostream &out) {
+    prepareNextMap(out);
     auto playerPosition = getSpatialComponent(1);
     auto playerCamera = getCameraOffsetComponent(2);
     auto playerMoveAble = getMoveableComponent(1);
     auto playerMomentum = getMomentumComponent(1);
-    auto playerInventory = getInventory(1);
     auto map = getMapName();
 
     out << map.get()->serialize() << std::endl;
-    out << playerHealth.get()->serialize() << std::endl;
     out << playerPosition.get()->serialize() << std::endl;
     out << playerCamera.get()->serialize() << std::endl;
     out << playerMoveAble.get()->serialize() << std::endl;
     out << playerMomentum.get()->serialize() << std::endl;
-    out << playerInventory.get()->serialize(); //implicitly returns \n after last element as well
 }
 
 bool ComponentsManager::loadUserComponents(std::ifstream &inputFile) {
@@ -328,6 +345,7 @@ bool ComponentsManager::loadUserComponents(std::ifstream &inputFile) {
     auto playerMoveAble = getMoveableComponent(1);
     auto playerMomentum = getMomentumComponent(1);
     auto playerInventory = getInventory(1);
+    auto playerXP = getXp(1);
     auto map = getMapName();
     playerInventory.get()->reset();
 
@@ -351,6 +369,8 @@ bool ComponentsManager::loadUserComponents(std::ifstream &inputFile) {
             success = playerInventory.get()->load(splittedStrings);
         else if (splittedStrings[0] == "Map")
             success = map.get()->load(splittedStrings);
+        else if (splittedStrings[0] == "XP")
+            success = playerXP.get()->load(splittedStrings);
         else
             success = false;
         if (!success) {

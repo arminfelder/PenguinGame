@@ -22,9 +22,7 @@ Components::MoveAbleComponent::MoveAbleComponent() {
 
 }
 
-Components::MoveAbleComponent::MoveAbleComponent(bool pRight, bool pDown, bool pLeft, bool pTop):canMoveRight(pRight),canMoveDown(pDown),canMoveLeft(pLeft),canMoveUp(pTop) {
-
-}
+Components::MoveAbleComponent::MoveAbleComponent(bool pRight, bool pDown, bool pLeft, bool pTop):canMoveLeft(pLeft),canMoveRight(pRight),canMoveDown(pDown),canMoveUp(pTop) { }
 
 std::string Components::MoveAbleComponent::serialize() {
     std::string serialize = "MoveAble;" + std::to_string(this->canMoveLeft) + ";" + std::to_string(this->canMoveRight) + ";" + std::to_string(this->canMoveDown) + ";" + std::to_string(this->canMoveUp);
