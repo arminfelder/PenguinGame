@@ -128,15 +128,15 @@ void PenguinGame::SDLEventLoop() {
                 newGame("./res/map.txt");
                 break;
             case 32792:
-                //MapParser::destroyMap(mGameEngine, mRenderer, &collisionMask, mWindow);
                 newGame("./res/map2.txt");
                 break;
             case 32793:
                 newGame("./res/map3.txt");
                 break;
+            default:break;
         }
     }
-    while (SDL_PeepEvents(&event, 1, SDL_GETEVENT, 33332, 33334)) {
+    while (SDL_PeepEvents(&event, 1, SDL_GETEVENT, 33332, 33335)) {
         switch (event.type) {
             case 33332:
                 mOpenGameOver = true;
@@ -144,6 +144,13 @@ void PenguinGame::SDLEventLoop() {
 
             case 33333:
                 newGame();
+                break;
+
+            case 33335: //continue game on another map -> save data in intermediate file
+                loadMapPreservingUserStats("./res/map.txt");
+                break;
+
+            default:
                 break;
 
             case 33334: //load game data including correct map
@@ -190,8 +197,28 @@ void PenguinGame::loadMap(const std::string &mMapFile) {
     Managers::ComponentsManager::createMapName(mMapFile);
 }
 
+void PenguinGame::loadMapPreservingUserStats(const std::string &mMapFile) {
+    std::string filename = "tmp.txt";
+    //save intermediate data into file
+    std::ofstream out(filename);
+    Managers::ComponentsManager::prepareNextMap(out);
+    out.close();
+
+    //load map and load the saved user data
+    newGame(mMapFile);
+    std::ifstream in(filename);
+    if (!Managers::ComponentsManager::loadUserComponents(in)) //check if loading the map would work
+        Menu::sendSDLEvent(33333); //create new game if loading went wrong
+    in.close();
+
+    //update health to display correctly
+    mGameEngine->getEventManager()->addEvent(std::make_shared<Events::HealthEvent>(1,0));
+    //mGameEngine->getEventManager()->addEvent(std::make_shared<Events::XPEvent>(1,0));
+    remove(filename.c_str());
+}
+
 void PenguinGame::initGame() {
-    std::string map = "./res/map2.txt";
+    std::string map = "./res/map.txt";
     loadMap(map);
 }
 

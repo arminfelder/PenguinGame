@@ -101,6 +101,10 @@ void Menu::handleKeyEvent() {
                     this->close();
                     sendSDLEvent(32793);
                     break;
+                case SDLK_5:
+                    this->close();
+                    sendSDLEvent(33335);
+                    break;
                 default: break;
             }
         }
@@ -189,7 +193,7 @@ void Menu::loadGame() {
 
 void Menu::sendSDLEvent(int type) {
     SDL_Event sdl_event;
-    sdl_event.type = type;
+    sdl_event.type = static_cast<Uint32>(type);
     SDL_PushEvent(&sdl_event);
 }
 

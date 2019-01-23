@@ -41,8 +41,7 @@ bool Components::SpatialComponent::load(std::vector<std::string> splittedStrings
         mPositionY = std::stoi(splittedStrings[2]);
         mPrevPositionX = std::stoi(splittedStrings[3]);
         mPrevPositionY = std::stoi(splittedStrings[4]);
+        return true;
     }
-    else
-        return false;
-    return true;
+    return false;
 }

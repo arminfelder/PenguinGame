@@ -109,6 +109,7 @@ namespace Managers {
         static void createXp(int pEntityId);
 
         static void removeComponentsOfEntity(int pEntityId);
+        static void prepareNextMap(std::ostream &out);
         static void saveUserComponents(std::ostream &out);
         static bool loadUserComponents(std::ifstream &inputFile);
         static std::vector<std::string> splitString(const std::string &strToSplit, char delimeter);
