@@ -304,9 +304,11 @@ void ComponentsManager::createMapName(const std::string &mapName) {
 void ComponentsManager::prepareNextMap(std::ostream &out) {
     auto playerHealth = getHealthComponent(1);
     auto playerInventory = getInventory(1);
+    auto playerXP = getXp(1);
 
     out << playerHealth.get()->serialize() << std::endl;
     out << playerInventory.get()->serialize(); //implicitly returns \n after last element as well
+    out << playerXP.get()->serialize() << std::endl;
 }
 
 void ComponentsManager::saveUserComponents(std::ostream &out) {
@@ -333,6 +335,7 @@ bool ComponentsManager::loadUserComponents(std::ifstream &inputFile) {
     auto playerMoveAble = getMoveableComponent(1);
     auto playerMomentum = getMomentumComponent(1);
     auto playerInventory = getInventory(1);
+    auto playerXP = getXp(1);
     auto map = getMapName();
     playerInventory.get()->reset();
 
@@ -356,6 +359,8 @@ bool ComponentsManager::loadUserComponents(std::ifstream &inputFile) {
             success = playerInventory.get()->load(splittedStrings);
         else if (splittedStrings[0] == "Map")
             success = map.get()->load(splittedStrings);
+        else if (splittedStrings[0] == "XP")
+            success = playerXP.get()->load(splittedStrings);
         else
             success = false;
         if (!success) {
