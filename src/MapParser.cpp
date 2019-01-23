@@ -209,7 +209,7 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, GameEngine *pE
                     Managers::ComponentsManager::createMomentumComponent(id);
                     Managers::ComponentsManager::createCollideAbleComponent(id);
                     Managers::ComponentsManager::createInventory(id);
-                    Managers::ComponentsManager::createCanCollect(id, {Components::Inventory::ItemTypes::keyArea2,Components::Inventory::ItemTypes::disc});
+                    Managers::ComponentsManager::createCanCollect(id, {Components::Inventory::ItemTypes::keyArea2,Components::Inventory::ItemTypes::disc,Components::Inventory::ItemTypes::ak47});
                     Managers::ComponentsManager::createXp(id);
                     break;
                 }
