@@ -271,9 +271,6 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, GameEngine *pE
         line++;
     }
     map.close();
-
-    auto dim = getWorldDimension(pMapfile);
-    printCollisionMask(*collisionMask, dim.x);
     return 0;
 }
 
