@@ -50,6 +50,29 @@ Systems::CombatSystem::CombatSystem(SDL_Renderer *pRenderer,Managers::EventsMana
             Managers::ComponentsManager::createPathComponent(bulletId,{SDL_Point{moveX,0}},15);
             Managers::ComponentsManager::createDamageComponent(bulletId,10+playerXp->mXp);
             Managers::ComponentsManager::createTimeToLive(bulletId, 500+playerXp->mXp);
+        }else if(event->mKeyCode.sym == SDLK_LALT){
+            auto playerInventory = Managers::ComponentsManager::getInventory(1);
+            if(playerInventory && playerInventory->hasItem(Components::Inventory::ItemTypes::ak47)) {
+                auto playerSpatial = Managers::ComponentsManager::getSpatialComponent(1);
+                auto playerVisual = Managers::ComponentsManager::getVisualComponent(1);
+                auto playerXp = Managers::ComponentsManager::getXp(1);
+                int moveX = 200;
+                if (playerVisual->mFlip) {
+                    moveX *= -1;
+                }
+                int test = (playerVisual->mImageRect.w) + 1;
+                int x = playerSpatial->mPositionX +
+                        (((playerVisual->mImageRect.w) + 1) * (playerVisual->mFlip ? -1 : 1));
+                int y = playerSpatial->mPositionY + (playerVisual->mImageRect.h / 2);
+
+                auto texture  =playerVisual->mFlip?system->mAkBulletLeft:system->mAkBulletRight;
+                int bulletId = Managers::EntityManager::createEntity<Entities::Projectile>();
+                Managers::ComponentsManager::createVisualComponent(bulletId, texture, 10, 5);
+                Managers::ComponentsManager::createSpatialComponent(bulletId, x, y);
+                Managers::ComponentsManager::createPathComponent(bulletId, {SDL_Point{moveX, 0}}, 20);
+                Managers::ComponentsManager::createDamageComponent(bulletId, 15 + playerXp->mXp);
+                Managers::ComponentsManager::createTimeToLive(bulletId, 800 + playerXp->mXp);
+            }
         }
     };
 
@@ -106,5 +129,10 @@ Systems::CombatSystem::CombatSystem(SDL_Renderer *pRenderer,Managers::EventsMana
     mEventsManager->regsiterEventHandler(Events::EventTypes::EntityCanSee, canSeeEnemy);
     std::shared_ptr<SDL_Surface> imageBlueBullet(SDL_LoadBMP("./res/new_bullet.bmp"), SDL_FreeSurface);
     mBlueBullet = std::shared_ptr<SDL_Texture>(SDL_CreateTextureFromSurface(pRenderer, imageBlueBullet.get()), SDL_DestroyTexture);
+
+    std::shared_ptr<SDL_Surface> imageAkBulletLeft(SDL_LoadBMP("./res/BulletIcon_left.bmp"), SDL_FreeSurface);
+    mAkBulletLeft = std::shared_ptr<SDL_Texture>(SDL_CreateTextureFromSurface(pRenderer, imageAkBulletLeft.get()), SDL_DestroyTexture);
+    std::shared_ptr<SDL_Surface> imageAkBulletRight(SDL_LoadBMP("./res/BulletIcon_right.bmp"), SDL_FreeSurface);
+    mAkBulletRight = std::shared_ptr<SDL_Texture>(SDL_CreateTextureFromSurface(pRenderer, imageAkBulletRight.get()), SDL_DestroyTexture);
 
 }

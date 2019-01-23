@@ -18,7 +18,8 @@ namespace Components {
         enum class ItemTypes{
             none,
             disc,
-            keyArea2
+            keyArea2,
+	    ak47
         };
         Inventory();
         void addItem(const ItemTypes pItem);

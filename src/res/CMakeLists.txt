@@ -47,7 +47,9 @@ configure_file(teleporter_entry.bmp teleporter_entry.bmp COPYONLY)
 configure_file(teleporter_target.bmp teleporter_target.bmp COPYONLY)
 configure_file(the-background-2819000.bmp the-background-2819000.bmp COPYONLY)
 configure_file(monster/MonsterPack_008/depixelizer_1453475724139.bmp monster/MonsterPack_008/depixelizer_1453475724139.bmp COPYONLY)
-
+configure_file(PixelWeapons/Ak47Pixel.bmp PixelWeapons/Ak47Pixel.bmp COPYONLY)
+configure_file(BulletIcon_left.bmp BulletIcon_left.bmp COPYONLY)
+configure_file(BulletIcon_right.bmp BulletIcon_right.bmp COPYONLY)
 
 configure_file(map.txt map.txt COPYONLY)
 configure_file(map2.txt map2.txt COPYONLY)

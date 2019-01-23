@@ -42,6 +42,7 @@ namespace Entities {
         xpIndicator,
         savePoint,
         disc,
+        ak47,
         none
     };
     class Entity {

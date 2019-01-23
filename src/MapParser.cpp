@@ -32,6 +32,7 @@
 #include "entities/XpIndicator.h"
 #include "entities/SavePoint.h"
 #include "entities/Disc.h"
+#include "entities/Ak47.h"
 
 using namespace Entities;
 using namespace std;
@@ -72,6 +73,9 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, GameEngine *pE
 
     std::shared_ptr<SDL_Surface> imageDoorClosed(SDL_LoadBMP("./res/door_closed.bmp"), SDL_FreeSurface);
     std::shared_ptr<SDL_Texture> textureDoorClosed(SDL_CreateTextureFromSurface(pRenderer, imageDoorClosed.get()), SDL_DestroyTexture);
+
+    std::shared_ptr<SDL_Surface> imageAk47(SDL_LoadBMP("./res/PixelWeapons/Ak47Pixel.bmp"), SDL_FreeSurface);
+    std::shared_ptr<SDL_Texture> textureAk47(SDL_CreateTextureFromSurface(pRenderer, imageAk47.get()), SDL_DestroyTexture);
 
 
     std::shared_ptr<SDL_Surface> imageMonster1(SDL_LoadBMP("./res/monster/MonsterPack_008/depixelizer_1453475703255.bmp"), SDL_FreeSurface);
@@ -205,8 +209,7 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, GameEngine *pE
                     Managers::ComponentsManager::createMomentumComponent(id);
                     Managers::ComponentsManager::createCollideAbleComponent(id);
                     Managers::ComponentsManager::createInventory(id);
-                    Managers::ComponentsManager::createCanCollect(id, {Components::Inventory::ItemTypes::keyArea2});
-                    Managers::ComponentsManager::addCollectible(id, Components::Inventory::ItemTypes::disc);
+                    Managers::ComponentsManager::createCanCollect(id, {Components::Inventory::ItemTypes::keyArea2,Components::Inventory::ItemTypes::disc,Components::Inventory::ItemTypes::ak47});
                     Managers::ComponentsManager::createXp(id);
                     break;
                 }
@@ -237,9 +240,6 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, GameEngine *pE
                     Managers::ComponentsManager::createViewRange(id, 600, 0);
                     break;
                 }
-                case 'K': {
-                    break;
-                }
                 case 's': {
                     int id = Managers::EntityManager::createEntity<Disc>();
                     Managers::ComponentsManager::createVisualComponent(id, textureDisc, 50, 50);
@@ -253,6 +253,16 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, GameEngine *pE
                     Managers::ComponentsManager::createSpatialComponent(id, x, y);
                     Managers::ComponentsManager::createCollideAbleComponent(id);
                     Managers::ComponentsManager::createUseable(id, {Components::Inventory::ItemTypes::disc});
+                    break;
+                }
+                case 'A': {
+                    int id = Managers::EntityManager::createEntity<Ak47>();
+                    Managers::ComponentsManager::createVisualComponent(id, textureAk47,50,50);
+                    Managers::ComponentsManager::createSpatialComponent(id,x,y);
+                    Managers::ComponentsManager::createCollideAbleComponent(id);
+                    break;
+                }
+                case 'K': {
                     break;
                 }
                 case '|': {

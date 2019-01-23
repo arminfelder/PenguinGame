@@ -32,6 +32,8 @@ namespace Systems {
     private:
         Managers::EventsManager *mEventsManager;
         std::shared_ptr<SDL_Texture> mBlueBullet;
+        std::shared_ptr<SDL_Texture> mAkBulletLeft;
+        std::shared_ptr<SDL_Texture> mAkBulletRight;
     };
 }
 
