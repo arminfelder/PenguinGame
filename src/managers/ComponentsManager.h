@@ -103,6 +103,7 @@ namespace Managers {
         static void createViewRange(int pEntityId, int pX, int pY);
         static void createInventory(int pEntityId);
         static void createCanCollect(int pEntityId, const std::set<Components::Inventory::ItemTypes> &pTypes);
+        static void addCollectible(int pEntityId, const Components::Inventory::ItemTypes &pType);
         static void createUseable(int pEntityId, const std::vector<Components::Inventory::ItemTypes> &pTypes);
         static void createTeleportTarget(int pEntityId, int pTarget);
         static void createMapName(const std::string &mapName);

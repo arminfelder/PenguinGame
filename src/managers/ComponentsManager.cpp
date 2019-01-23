@@ -247,6 +247,16 @@ void ComponentsManager::createCanCollect(int pEntityId, const std::set<Component
     mCanCollects.emplace(std::make_pair(pEntityId, std::make_shared<Components::CanCollect>(pTypes)));
 }
 
+void ComponentsManager::addCollectible(int pEntityId, const Components::Inventory::ItemTypes &pType) {
+    if (!getCanCollect(pEntityId))
+        createCanCollect(pEntityId, {pType});
+    else {
+        auto collectible = getCanCollect(pEntityId);
+        collectible.get()->mTypes.insert(pType);
+    }
+}
+
+
 std::map<int, std::shared_ptr<Components::UseAbel>> &ComponentsManager::getUseables() {
     return mUseables;
 }
