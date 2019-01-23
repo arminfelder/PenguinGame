@@ -240,6 +240,7 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, GameEngine *pE
                     Managers::ComponentsManager::createVisualComponent(id, textureSafePoint, 50, 50);
                     Managers::ComponentsManager::createSpatialComponent(id, x, y);
                     Managers::ComponentsManager::createCollideAbleComponent(id);
+                    Managers::ComponentsManager::createUseable(id, {Components::Inventory::ItemTypes::disc});
                     break;
                 }
                 case '|': {
