@@ -16,17 +16,7 @@
 * along with PenguinGame. If not, see <http://www.gnu.org/licenses/>.
 ******************************************************************************/
 
-#ifndef GAME_TELEPORTERENTRY_H
-#define GAME_TELEPORTERENTRY_H
+#include "SavePoint.h"
 
-#include "Entity.h"
-
-namespace Entities {
-    class TeleporterEntrance:public Entity {
-    public:
-        TeleporterEntrance(int pId);
-    };
-}
-
-
-#endif //GAME_TELEPORTERENTRY_H
+using namespace Entities;
+SavePoint::SavePoint(int pID):Entity(pID, entityTypes::savePoint) {}

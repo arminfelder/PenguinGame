@@ -150,16 +150,15 @@ void PenguinGame::SDLEventLoop() {
                 loadMapPreservingUserStats("./res/map.txt");
                 break;
 
-            default:
-                break;
-
-            case 33334: //load game data including correct map
+            case 33334: { //load game data including correct map
                 std::string filename = Managers::ComponentsManager::getMapName().get()->getMapName();
                 newGame(filename);
                 std::ifstream in("save.txt");
                 Managers::ComponentsManager::loadUserComponents(in);
                 in.close();
-                mGameEngine->getEventManager()->addEvent(std::make_shared<Events::HealthEvent>(1,0));
+                mGameEngine->getEventManager()->addEvent(std::make_shared<Events::HealthEvent>(1, 0));
+                break; }
+            default:
                 break;
         }
     }

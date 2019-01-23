@@ -40,6 +40,8 @@ namespace Entities {
         teleporterEntrance,
         teleporterTarget,
         xpIndicator,
+        savePoint,
+        disc,
         none
     };
     class Entity {

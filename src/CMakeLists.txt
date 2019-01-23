@@ -36,6 +36,8 @@ add_executable(game main.cpp
 	    entities/Door.cpp
         entities/TeleporterEntrance.cpp
         entities/TeleporterTarget.cpp
+		entities/XpIndicator.cpp
+		entities/SavePoint.cpp
         GameEngine.cpp
         systems/RenderSystem.cpp
         systems/InputSystem.cpp
@@ -50,7 +52,8 @@ add_executable(game main.cpp
         systems/CombatSystem.cpp
 	    systems/TriggerSystem.cpp
 	    systems/InventorySystem.cpp
-        managers/EntityManager.cpp
+		systems/XpSystem.cpp
+		managers/EntityManager.cpp
         managers/SystemsManager.cpp
         managers/ComponentsManager.cpp
         managers/EventsManager.cpp
@@ -74,6 +77,7 @@ add_executable(game main.cpp
 	    components/UseAbel.cpp
         components/TeleportTarget.cpp
 		components/MapName.cpp
+		components/Xp.cpp
         events/Event.cpp
         events/KeyPressedEvent.cpp
         events/KeyUpEvent.cpp
@@ -87,7 +91,8 @@ add_executable(game main.cpp
         events/EntityCanSee.cpp
         events/PlayerDies.cpp
         events/TriggerActivated.cpp
+		events/EntityDied.cpp
         MapParser.cpp
-        systems/XpSystem.cpp systems/XpSystem.h components/Xp.cpp components/Xp.h events/EntityDied.cpp events/EntityDied.h entities/XpIndicator.cpp entities/XpIndicator.h)
+		entities/Disc.cpp entities/Disc.h)
 
 target_link_libraries(game ${SDL2_LIBRARIES} ${SDL2TTF_LIBRARY} ${SDL2_MIXER_LIBRARY})

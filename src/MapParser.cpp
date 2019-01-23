@@ -30,6 +30,8 @@
 #include "entities/TeleporterEntrance.h"
 #include "entities/TeleporterTarget.h"
 #include "entities/XpIndicator.h"
+#include "entities/SavePoint.h"
+#include "entities/Disc.h"
 
 using namespace Entities;
 using namespace std;
@@ -87,6 +89,12 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, GameEngine *pE
 
     std::shared_ptr<SDL_Surface> imageLadder(SDL_LoadBMP("./res/ladder.bmp"), SDL_FreeSurface);
     std::shared_ptr<SDL_Texture> textureLadder(SDL_CreateTextureFromSurface(pRenderer, imageLadder.get()), SDL_DestroyTexture);
+
+    std::shared_ptr<SDL_Surface> imageSafePoint(SDL_LoadBMP("./res/hello.bmp"), SDL_FreeSurface);
+    std::shared_ptr<SDL_Texture> textureSafePoint(SDL_CreateTextureFromSurface(pRenderer, imageSafePoint.get()), SDL_DestroyTexture);
+
+    std::shared_ptr<SDL_Surface> imageDisc(SDL_LoadBMP("./res/hello.bmp"), SDL_FreeSurface);
+    std::shared_ptr<SDL_Texture> textureDisc(SDL_CreateTextureFromSurface(pRenderer, imageDisc.get()), SDL_DestroyTexture);
 
     std::shared_ptr<SDL_Surface> imageInvisible(SDL_LoadBMP("./res/invisible.bmp"), SDL_FreeSurface);
     std::shared_ptr<SDL_Texture> textureInvisible(SDL_CreateTextureFromSurface(pRenderer, imageInvisible.get()), SDL_DestroyTexture);
@@ -198,6 +206,7 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, GameEngine *pE
                     Managers::ComponentsManager::createCollideAbleComponent(id);
                     Managers::ComponentsManager::createInventory(id);
                     Managers::ComponentsManager::createCanCollect(id, {Components::Inventory::ItemTypes::keyArea2});
+                    Managers::ComponentsManager::createCanCollect(id, {Components::Inventory::ItemTypes::disc});
                     Managers::ComponentsManager::createXp(id);
                     break;
                 }
@@ -231,6 +240,21 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, GameEngine *pE
                 case 'K': {
                     break;
                 }
+                case 's': {
+                    int id = Managers::EntityManager::createEntity<Disc>();
+                    Managers::ComponentsManager::createVisualComponent(id, textureDisc, 50, 50);
+                    Managers::ComponentsManager::createSpatialComponent(id, x, y);
+                    Managers::ComponentsManager::createCollideAbleComponent(id);
+                    break;
+                }
+                case 'S': {
+                    int id = Managers::EntityManager::createEntity<SavePoint>();
+                    Managers::ComponentsManager::createVisualComponent(id, textureSafePoint, 50, 50);
+                    Managers::ComponentsManager::createSpatialComponent(id, x, y);
+                    Managers::ComponentsManager::createCollideAbleComponent(id);
+                    Managers::ComponentsManager::createUseable(id, {Components::Inventory::ItemTypes::disc});
+                    break;
+                }
                 case '|': {
                     int id = Managers::EntityManager::createEntity<Ladder>();
                     Managers::ComponentsManager::createVisualComponent(id, textureLadder, 50, 50);
@@ -253,7 +277,7 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, GameEngine *pE
                     break;
                 }
                 case ':': {
-                    int id = entityManager->createEntity<LadderBegin>();
+                    int id = Managers::EntityManager::createEntity<LadderBegin>();
                     Managers::ComponentsManager::createVisualComponent(id, textureLadder, 50, 50);
                     Managers::ComponentsManager::createSpatialComponent(id, x, y);
                     Managers::ComponentsManager::createCollideAbleComponent(id);

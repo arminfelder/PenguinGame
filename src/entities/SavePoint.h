@@ -15,18 +15,19 @@
 * You should have received a copy of the GNU General Public License
 * along with PenguinGame. If not, see <http://www.gnu.org/licenses/>.
 ******************************************************************************/
-
-#ifndef GAME_TELEPORTERENTRY_H
-#define GAME_TELEPORTERENTRY_H
+#ifndef GAME_SAVEPOINT_H
+#define GAME_SAVEPOINT_H
 
 #include "Entity.h"
 
 namespace Entities {
-    class TeleporterEntrance:public Entity {
+    class SavePoint: public Entity {
     public:
-        TeleporterEntrance(int pId);
+        SavePoint(int pID);
+    private:
+
     };
 }
 
 
-#endif //GAME_TELEPORTERENTRY_H
+#endif //GAME_SAVEPOINT_H

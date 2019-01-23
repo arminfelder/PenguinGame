@@ -33,7 +33,9 @@ namespace Events {
         npc,
         player,
         keyArea2,
-        teleporterEntry
+        teleporterEntry,
+        disc,
+        savePoint
     };
     class CollisionEvent:public Event {
 

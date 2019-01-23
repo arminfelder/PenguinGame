@@ -158,6 +158,14 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
                         collisionType = Events::collisionTypes::teleporterEntry;
                         break;
                     }
+                    case Entities::entityTypes ::disc: {
+                        collisionType = Events::collisionTypes::disc;
+                        break;
+                    }
+                    case Entities::entityTypes::savePoint:{
+                        collisionType = Events::collisionTypes::savePoint;
+                        break;
+                    }
                     default:
                     case Entities::entityTypes::none: {
                         break;

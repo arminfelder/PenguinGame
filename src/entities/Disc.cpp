@@ -16,17 +16,9 @@
 * along with PenguinGame. If not, see <http://www.gnu.org/licenses/>.
 ******************************************************************************/
 
-#ifndef GAME_TELEPORTERENTRY_H
-#define GAME_TELEPORTERENTRY_H
+#include "Disc.h"
 
-#include "Entity.h"
+using namespace Entities;
+Disc::Disc(int pID):Entity(pID, entityTypes::disc) {
 
-namespace Entities {
-    class TeleporterEntrance:public Entity {
-    public:
-        TeleporterEntrance(int pId);
-    };
 }
-
-
-#endif //GAME_TELEPORTERENTRY_H
