@@ -115,8 +115,8 @@ void Menu::updateSelection(short direction) {
     (direction >= 0) ? active++ : active--;
 
     if (active < 0)
-        active = menuComponents.size()-1;
-    else if (active >= menuComponents.size())
+        active = static_cast<int>(menuComponents.size()-1);
+    else if (active >= static_cast<int>(menuComponents.size()))
         active = 0;
     component = menuComponents.at(active);
     component.get()->updateColor("red");
@@ -165,6 +165,8 @@ void Menu::switchMenu(MenuEvents::MenuEventType event) {
         case MenuEvents::PAUSE_MENU:
             sendSDLEvent(32770);
             break;
+        default:
+            return; //if wrong event type got here, do nothing (should never be the case anyways)
     }
     this->close();
     sendSDLEvent(32780);

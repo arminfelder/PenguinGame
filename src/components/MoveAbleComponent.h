@@ -28,6 +28,7 @@ namespace Components {
     public:
         MoveAbleComponent();
         MoveAbleComponent(bool pRight, bool pDown, bool pLeft, bool pTop);
+
         bool canMoveLeft = false;
         bool canMoveRight = false;
         bool canMoveDown = false;
