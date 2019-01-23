@@ -206,7 +206,7 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, GameEngine *pE
                     Managers::ComponentsManager::createCollideAbleComponent(id);
                     Managers::ComponentsManager::createInventory(id);
                     Managers::ComponentsManager::createCanCollect(id, {Components::Inventory::ItemTypes::keyArea2});
-                    Managers::ComponentsManager::createCanCollect(id, {Components::Inventory::ItemTypes::disc});
+                    Managers::ComponentsManager::addCollectible(id, Components::Inventory::ItemTypes::disc);
                     Managers::ComponentsManager::createXp(id);
                     break;
                 }
