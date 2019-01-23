@@ -16,37 +16,9 @@
 * along with PenguinGame. If not, see <http://www.gnu.org/licenses/>.
 ******************************************************************************/
 
-#ifndef GAME_COLLISIONEVENT_H
-#define GAME_COLLISIONEVENT_H
+#include "Disc.h"
 
-#include "Event.h"
-
-namespace Events {
-    enum class collisionTypes{
-        regular,
-        ladder,
-        ladderEnd,
-        ladderBegin,
-        movementReset,
-        healthUp,
-        bullet,
-        npc,
-        player,
-        keyArea2,
-        teleporterEntry,
-        disc,
-        savePoint
-    };
-    class CollisionEvent:public Event {
-
-    public:
-        CollisionEvent(int pMovingEntity, int pCollidingEntity, collisionTypes pType);
-        collisionTypes mType;
-        int mMovingEntity;
-        int mCollidingEntity;
-    };
+using namespace Entities;
+Disc::Disc(int pID):Entity(pID, entityTypes::disc) {
 
 }
-
-
-#endif //GAME_COLLISIONEVENT_H

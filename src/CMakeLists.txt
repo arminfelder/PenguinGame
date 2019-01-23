@@ -93,6 +93,6 @@ add_executable(game main.cpp
         events/TriggerActivated.cpp
 		events/EntityDied.cpp
         MapParser.cpp
-		)
+		entities/Disc.cpp entities/Disc.h)
 
 target_link_libraries(game ${SDL2_LIBRARIES} ${SDL2TTF_LIBRARY} ${SDL2_MIXER_LIBRARY})
