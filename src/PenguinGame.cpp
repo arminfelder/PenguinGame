@@ -213,6 +213,7 @@ void PenguinGame::loadMapPreservingUserStats(const std::string &mMapFile) {
 
     //update health to display correctly
     mGameEngine->getEventManager()->addEvent(std::make_shared<Events::HealthEvent>(1,0));
+    //mGameEngine->getEventManager()->addEvent(std::make_shared<Events::XPEvent>(1,0));
     remove(filename.c_str());
 }
 
