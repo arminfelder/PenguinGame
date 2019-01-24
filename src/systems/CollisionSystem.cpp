@@ -166,6 +166,10 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
                         collisionType = Events::collisionTypes::savePoint;
                         break;
                     }
+   		    case Entities::entityTypes::ak47:{
+                        collisionType = Events::collisionTypes::ak47;
+                        break;
+                    }
                     default:
                     case Entities::entityTypes::none: {
                         break;

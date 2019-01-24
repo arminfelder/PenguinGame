@@ -38,6 +38,7 @@ add_executable(game main.cpp
         entities/TeleporterTarget.cpp
 		entities/XpIndicator.cpp
 		entities/SavePoint.cpp
+		entities/Ak47.cpp
 		entities/Disc.cpp
         GameEngine.cpp
         systems/RenderSystem.cpp

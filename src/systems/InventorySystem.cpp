@@ -21,6 +21,16 @@ InventorySystem::InventorySystem(Managers::EventsManager *pEventsManager):mEvent
                 }
             }
 
+        }else if(event->mType == Events::collisionTypes::ak47){
+            auto inventory = Managers::ComponentsManager::getInventory(event->mMovingEntity);
+            auto canCollect = Managers::ComponentsManager::getCanCollect(event->mMovingEntity);
+            auto xp = Managers::ComponentsManager::getXp(1);
+            if (inventory && canCollect && xp->mXp>10) {
+                if(canCollect->mTypes.find(Components::Inventory::ItemTypes::ak47) != canCollect->mTypes.end()) {
+                    inventory->addItem(Components::Inventory::ItemTypes::ak47);
+                    Managers::ComponentsManager::removeComponentsOfEntity(event->mCollidingEntity);
+                }
+            }
         }
         else if (event->mType == Events::collisionTypes::disc) {
             auto inventory = Managers::ComponentsManager::getInventory(event->mMovingEntity);
@@ -33,5 +43,7 @@ InventorySystem::InventorySystem(Managers::EventsManager *pEventsManager):mEvent
             }
         }
     };
+
+
     mEventsManager->regsiterEventHandler(Events::EventTypes::Collision, collisionCallback);
 }
