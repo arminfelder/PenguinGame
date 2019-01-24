@@ -90,10 +90,10 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, GameEngine *pE
     std::shared_ptr<SDL_Surface> imageLadder(SDL_LoadBMP("./res/ladder.bmp"), SDL_FreeSurface);
     std::shared_ptr<SDL_Texture> textureLadder(SDL_CreateTextureFromSurface(pRenderer, imageLadder.get()), SDL_DestroyTexture);
 
-    std::shared_ptr<SDL_Surface> imageSafePoint(SDL_LoadBMP("./res/hello.bmp"), SDL_FreeSurface);
+    std::shared_ptr<SDL_Surface> imageSafePoint(SDL_LoadBMP("./res/safePoint.bmp"), SDL_FreeSurface);
     std::shared_ptr<SDL_Texture> textureSafePoint(SDL_CreateTextureFromSurface(pRenderer, imageSafePoint.get()), SDL_DestroyTexture);
 
-    std::shared_ptr<SDL_Surface> imageDisc(SDL_LoadBMP("./res/hello.bmp"), SDL_FreeSurface);
+    std::shared_ptr<SDL_Surface> imageDisc(SDL_LoadBMP("./res/disc.bmp"), SDL_FreeSurface);
     std::shared_ptr<SDL_Texture> textureDisc(SDL_CreateTextureFromSurface(pRenderer, imageDisc.get()), SDL_DestroyTexture);
 
     std::shared_ptr<SDL_Surface> imageInvisible(SDL_LoadBMP("./res/invisible.bmp"), SDL_FreeSurface);
@@ -249,8 +249,8 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, GameEngine *pE
                 }
                 case 'S': {
                     int id = Managers::EntityManager::createEntity<SavePoint>();
-                    Managers::ComponentsManager::createVisualComponent(id, textureSafePoint, 50, 50);
-                    Managers::ComponentsManager::createSpatialComponent(id, x, y);
+                    Managers::ComponentsManager::createVisualComponent(id, textureSafePoint, 24, 24);
+                    Managers::ComponentsManager::createSpatialComponent(id, x+12, y+25);
                     Managers::ComponentsManager::createCollideAbleComponent(id);
                     Managers::ComponentsManager::createUseable(id, {Components::Inventory::ItemTypes::disc});
                     break;

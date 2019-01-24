@@ -38,6 +38,7 @@ add_executable(game main.cpp
         entities/TeleporterTarget.cpp
 		entities/XpIndicator.cpp
 		entities/SavePoint.cpp
+		entities/Disc.cpp
         GameEngine.cpp
         systems/RenderSystem.cpp
         systems/InputSystem.cpp
@@ -93,6 +94,6 @@ add_executable(game main.cpp
         events/TriggerActivated.cpp
 		events/EntityDied.cpp
         MapParser.cpp
-		entities/Disc.cpp entities/Disc.h)
+		)
 
 target_link_libraries(game ${SDL2_LIBRARIES} ${SDL2TTF_LIBRARY} ${SDL2_MIXER_LIBRARY})
