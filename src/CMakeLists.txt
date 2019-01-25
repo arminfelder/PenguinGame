@@ -95,6 +95,6 @@ add_executable(game main.cpp
         events/TriggerActivated.cpp
 		events/EntityDied.cpp
         MapParser.cpp
-		)
+		entities/Shield.cpp entities/Shield.h components/EvadeCapability.cpp components/EvadeCapability.h)
 
 target_link_libraries(game ${SDL2_LIBRARIES} ${SDL2TTF_LIBRARY} ${SDL2_MIXER_LIBRARY})

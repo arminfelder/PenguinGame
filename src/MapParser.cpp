@@ -33,6 +33,7 @@
 #include "entities/SavePoint.h"
 #include "entities/Disc.h"
 #include "entities/Ak47.h"
+#include "entities/Shield.h"
 
 using namespace Entities;
 using namespace std;
@@ -102,6 +103,9 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, GameEngine *pE
 
     std::shared_ptr<SDL_Surface> imageInvisible(SDL_LoadBMP("./res/invisible.bmp"), SDL_FreeSurface);
     std::shared_ptr<SDL_Texture> textureInvisible(SDL_CreateTextureFromSurface(pRenderer, imageInvisible.get()), SDL_DestroyTexture);
+
+    std::shared_ptr<SDL_Surface> imageShield(SDL_LoadBMP("./res/a_shield_kite_gold.bmp"), SDL_FreeSurface);
+    std::shared_ptr<SDL_Texture> textureShield(SDL_CreateTextureFromSurface(pRenderer, imageShield.get()), SDL_DestroyTexture);
 
 
     //initial health text
@@ -209,7 +213,11 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, GameEngine *pE
                     Managers::ComponentsManager::createMomentumComponent(id);
                     Managers::ComponentsManager::createCollideAbleComponent(id);
                     Managers::ComponentsManager::createInventory(id);
-                    Managers::ComponentsManager::createCanCollect(id, {Components::Inventory::ItemTypes::keyArea2,Components::Inventory::ItemTypes::disc,Components::Inventory::ItemTypes::ak47});
+                    Managers::ComponentsManager::createCanCollect(id, {Components::Inventory::ItemTypes::keyArea2,
+                                                                       Components::Inventory::ItemTypes::disc,
+                                                                       Components::Inventory::ItemTypes::ak47,
+                                                                       Components::Inventory::ItemTypes::shield});
+                    Managers::ComponentsManager::createEvadeCapability(id,0);
                     Managers::ComponentsManager::createXp(id);
                     break;
                 }
@@ -290,6 +298,13 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, GameEngine *pE
                     int id = Managers::EntityManager::createEntity<LadderBegin>();
                     Managers::ComponentsManager::createVisualComponent(id, textureLadder, 50, 50);
                     Managers::ComponentsManager::createSpatialComponent(id, x, y);
+                    Managers::ComponentsManager::createCollideAbleComponent(id);
+                    break;
+                }
+                case 'q': {
+                    int id = Managers::EntityManager::createEntity<Shield>();
+                    Managers::ComponentsManager::createVisualComponent(id,textureShield, 50,50);
+                    Managers::ComponentsManager::createSpatialComponent(id, x,y);
                     Managers::ComponentsManager::createCollideAbleComponent(id);
                     break;
                 }

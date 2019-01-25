@@ -43,6 +43,7 @@ namespace Entities {
         savePoint,
         disc,
         ak47,
+        shield,
         none
     };
     class Entity {
