@@ -38,7 +38,7 @@ const SDL_Color MenuComponent::matchColor(std::string color) {
     return sdl_color;
 }
 
-MenuComponent::MenuComponent(std::string font, std::string text, std::string color, int position, MenuEvents::MenuEventType menuEventType) {
+MenuComponent::MenuComponent(const std::string &font,const std::string &text,const std::string &color, int position, MenuEvents::MenuEventType menuEventType) {
     this->position = position;
     this->color = std::move(color);
     this->text = std::move(text);
@@ -66,8 +66,9 @@ MenuEvents::MenuEventType MenuComponent::getMenuEventType() {
 }
 
 bool MenuComponent::isItem() {
-    if ((this->itemType == static_cast<Components::Inventory::ItemTypes>(-1))) //no item
-        return false;
-    else
-        return true;
+    return !(this->itemType == static_cast<Components::Inventory::ItemTypes>(-1));
+}
+
+int MenuComponent::getCharsCount() {
+    return text.size();
 }
