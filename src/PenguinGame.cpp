@@ -21,6 +21,7 @@
 #include <iostream>
 #include <SDL_ttf.h>
 #include <fstream>
+#include <ctime>
 #include "MapParser.h"
 #include "menu/Menu.h"
 
@@ -183,7 +184,7 @@ void PenguinGame::end() {
 }
 
 PenguinGame::PenguinGame() {
-
+    std::srand(std::time(nullptr));
 }
 
 void PenguinGame::loadMap(const std::string &mMapFile) {

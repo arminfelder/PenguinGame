@@ -81,17 +81,20 @@ Systems::CombatSystem::CombatSystem(SDL_Renderer *pRenderer,Managers::EventsMana
         if(event->mType == Events::collisionTypes::npc||event->mType == Events::collisionTypes::player){
             auto damage = Managers::ComponentsManager::getDamage(event->mMovingEntity);
             auto xp = Managers::ComponentsManager::getXp(event->mCollidingEntity);
+            auto evadeCap = Managers::ComponentsManager::getEvadeCapability(event->mCollidingEntity);
 
             if(damage) {
-                int damageValue = damage->mDamage;
-                if(xp){
-                    damageValue = damageValue-(xp->mXp/5);
+                if(!evadeCap || (std::rand() % 100) < (100-evadeCap->mChance)) {
+                    int damageValue = damage->mDamage;
+                    if (xp) {
+                        damageValue = damageValue - (xp->mXp / 5);
+                    }
+                    if (damageValue > 0) {
+                        system->mEventsManager->addEvent(
+                                std::make_shared<Events::HealthEvent>(event->mCollidingEntity, -damage->mDamage));
+                    }
                 }
-                if(damageValue>0) {
-                    system->mEventsManager->addEvent(
-                            std::make_shared<Events::HealthEvent>(event->mCollidingEntity, -damage->mDamage));
-                    Managers::ComponentsManager::removeComponentsOfEntity(event->mMovingEntity);
-                }
+                Managers::ComponentsManager::removeComponentsOfEntity(event->mMovingEntity);
                 std::cout << "bullet coll" << std::endl;
             }
         }

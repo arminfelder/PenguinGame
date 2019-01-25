@@ -44,6 +44,7 @@ std::map<int, std::shared_ptr<Components::UseAbel>> ComponentsManager::mUseables
 std::map<int, std::shared_ptr<Components::TeleportTarget>> ComponentsManager::mTeleportTargets;
 std::map<int, std::shared_ptr<Components::MapName>> ComponentsManager::mMapNameComponents;
 std::map<int, std::shared_ptr<Components::Xp>> ComponentsManager::mXp;
+std::map<int, std::shared_ptr<Components::EvadeCapability>> ComponentsManager::mEvadeCapabilities;
 
 
 std::map<int, std::shared_ptr<Components::Health>> &ComponentsManager::getHealthComponents() {
@@ -401,4 +402,16 @@ void ComponentsManager::createXp(int pEntityId) {
 
 std::map<int, std::shared_ptr<Xp>> &ComponentsManager::getXps() {
     return mXp;
+}
+
+std::map<int, std::shared_ptr<EvadeCapability>> &ComponentsManager::getEvadeCapabilities() {
+    return mEvadeCapabilities;
+}
+
+std::shared_ptr<Components::EvadeCapability> &ComponentsManager::getEvadeCapability(int pEntityId) {
+    return mEvadeCapabilities[pEntityId];
+}
+
+void ComponentsManager::createEvadeCapability(int pEntityId, int pEvadeChance) {
+    mEvadeCapabilities.emplace(std::make_pair(pEntityId, std::make_shared<Components::EvadeCapability>(pEvadeChance)));
 }

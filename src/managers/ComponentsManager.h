@@ -45,6 +45,7 @@
 #include "../components/TeleportTarget.h"
 #include "../components/MapName.h"
 #include "../components/Xp.h"
+#include "../components/EvadeCapability.h"
 
 namespace Managers {
 
@@ -68,6 +69,7 @@ namespace Managers {
         static std::map<int, std::shared_ptr<Components::UseAbel>> &getUseables();
         static std::map<int, std::shared_ptr<Components::TeleportTarget>> &getTeleportTargets();
         static std::map<int, std::shared_ptr<Components::Xp>> &getXps();
+        static std::map<int, std::shared_ptr<Components::EvadeCapability>> &getEvadeCapabilities();
 
         static std::shared_ptr<Components::Health> &getHealthComponent(int pEntityId);
         static std::shared_ptr<Components::VisualComponent> &getVisualComponent(int pEntityId);
@@ -87,6 +89,7 @@ namespace Managers {
         static std::shared_ptr<Components::TeleportTarget> &getTeleportTarget(int pEntityId);
         static std::shared_ptr<Components::MapName> &getMapName();
         static std::shared_ptr<Components::Xp> &getXp(int pEntityId);
+        static std::shared_ptr<Components::EvadeCapability> &getEvadeCapability(int pEntityId);
 
         static void createHealthComponent(int pEntityId, int pHp = 100);
         static void createVisualComponent(int pEntityId, const std::shared_ptr<SDL_Texture> &pTexture, int pSizeW, int pSizeH);
@@ -108,6 +111,7 @@ namespace Managers {
         static void createTeleportTarget(int pEntityId, int pTarget);
         static void createMapName(const std::string &mapName);
         static void createXp(int pEntityId);
+        static void createEvadeCapability(int pEntityId, int pEvadeChance);
 
         static void removeComponentsOfEntity(int pEntityId);
         static void prepareNextMap(std::ostream &out);
@@ -137,6 +141,7 @@ namespace Managers {
         static std::map<int, std::shared_ptr<Components::TeleportTarget>> mTeleportTargets;
         static std::map<int, std::shared_ptr<Components::MapName>> mMapNameComponents;
         static std::map<int, std::shared_ptr<Components::Xp>> mXp;
+        static std::map<int, std::shared_ptr<Components::EvadeCapability>> mEvadeCapabilities;
 
 
     };

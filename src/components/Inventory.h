@@ -19,7 +19,8 @@ namespace Components {
             none,
             disc,
             keyArea2,
-	    ak47
+	        ak47,
+	        shield
         };
         Inventory();
         void addItem(const ItemTypes pItem);
@@ -32,7 +33,10 @@ namespace Components {
         void reset();
     private:
         std::set<ItemTypes> mItems;
-        std::map<ItemTypes, std::string> mItemDescriptions{{ItemTypes::keyArea2,"Key for Area2"}, {ItemTypes::disc,"Disc allows to save the game"}, {ItemTypes::ak47, "Ak47"}};
+        std::map<ItemTypes, std::string> mItemDescriptions{{ItemTypes::keyArea2,"Key for Area2"},
+                                                           {ItemTypes::disc,"Disc allows to save the game"},
+                                                           {ItemTypes::ak47, "Ak47"},
+                                                           {ItemTypes::shield, "Shield"}};
     };
 }
 

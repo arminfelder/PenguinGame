@@ -41,6 +41,19 @@ InventorySystem::InventorySystem(Managers::EventsManager *pEventsManager):mEvent
                     Managers::ComponentsManager::removeComponentsOfEntity(event->mCollidingEntity);
                 }
             }
+        }else if(event->mType == Events::collisionTypes::shield){
+            auto inventory = Managers::ComponentsManager::getInventory(event->mMovingEntity);
+            auto canCollect = Managers::ComponentsManager::getCanCollect(event->mMovingEntity);
+            auto evadeCap = Managers::ComponentsManager::getEvadeCapability(event->mMovingEntity);
+            if (inventory && canCollect) {
+                if(canCollect->mTypes.find(Components::Inventory::ItemTypes::shield) != canCollect->mTypes.end()) {
+                    inventory->addItem(Components::Inventory::ItemTypes::shield);
+                    if(evadeCap){
+                        evadeCap->mChance += 10;
+                    }
+                    Managers::ComponentsManager::removeComponentsOfEntity(event->mCollidingEntity);
+                }
+            }
         }
     };
 

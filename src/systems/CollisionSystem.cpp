@@ -26,13 +26,14 @@
 #include "../events/FallingEvent.h"
 #include "../events/MoveEntity.h"
 
-Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanager):mEventsManager(pEventsmanager) {
+Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanager) : mEventsManager(pEventsmanager) {
 
-    auto callback = [system = this](const std::shared_ptr<Events::Event> &pEvent)->void{
-        auto event = static_cast<Events::EntityMoved*>(pEvent.get());
+    auto callback = [system = this](const std::shared_ptr<Events::Event> &pEvent) -> void {
+        auto event = static_cast<Events::EntityMoved *>(pEvent.get());
         auto entityId = event->mEntityId;
         auto movingEntity = Managers::EntityManager::getEntity(event->mEntityId);
-        if (movingEntity == NULL) //map was redrawn, therefore, there might still be a move event (most probably by enemies) which are no longer present
+        if (movingEntity ==
+            NULL) //map was redrawn, therefore, there might still be a move event (most probably by enemies) which are no longer present
             return;
 
         auto collideAbles = Managers::ComponentsManager::getCollideAble();
@@ -47,43 +48,52 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
 
         //maskCollision
 
-        bool maskCollision  =   false;
-        int maskRightLimit  =   static_cast<int>(ceil(static_cast<double>(rightLimit)/50.0));
-        int maskLeftLimit   =   static_cast<int>(ceil(static_cast<double>(leftLimit)/50.0));
-        int maskTopLimit    =   static_cast<int>(ceil(static_cast<double>(topLimit)/50.0));
-        int maskBottomLimit =   static_cast<int>(ceil(static_cast<double>(bottomLimit)/50.0));
+        bool maskCollision = false;
+        int maskRightLimit = static_cast<int>(ceil(static_cast<double>(rightLimit) / 50.0));
+        int maskLeftLimit = static_cast<int>(ceil(static_cast<double>(leftLimit) / 50.0));
+        int maskTopLimit = static_cast<int>(ceil(static_cast<double>(topLimit) / 50.0));
+        int maskBottomLimit = static_cast<int>(ceil(static_cast<double>(bottomLimit) / 50.0));
 
-        for (int horizontal = maskLeftLimit-1; horizontal < maskRightLimit; horizontal++) {
-            for (int vertical = maskTopLimit-1; vertical < maskBottomLimit; vertical++) {
+        for (int horizontal = maskLeftLimit - 1; horizontal < maskRightLimit; horizontal++) {
+            for (int vertical = maskTopLimit - 1; vertical < maskBottomLimit; vertical++) {
                 int index = (horizontal + vertical * system->mapWidth);
                 try {
-                    if (system->collisionMask->size() > static_cast<unsigned long>(index) && (system->collisionMask->at(static_cast<unsigned long>(index))) == true) {
+                    if (system->collisionMask->size() > static_cast<unsigned long>(index) &&
+                        (system->collisionMask->at(static_cast<unsigned long>(index))) == true) {
                         std::cout << "collision via mask detected" << std::endl;
                         maskCollision = true;
-                        bool collisionTop = system->collisionMask->at(horizontal + system->mapWidth * (maskTopLimit-1));
-                        bool collisionBottom = system->collisionMask->at(horizontal + system->mapWidth * (maskBottomLimit-1));
-                        if (movingEntity.get()->getType() == Entities::entityTypes::projectile) //if projectile collides with wall, remove it
+                        bool collisionTop = system->collisionMask->at(
+                                horizontal + system->mapWidth * (maskTopLimit - 1));
+                        bool collisionBottom = system->collisionMask->at(
+                                horizontal + system->mapWidth * (maskBottomLimit - 1));
+                        if (movingEntity.get()->getType() ==
+                            Entities::entityTypes::projectile) //if projectile collides with wall, remove it
                             Managers::EntityManager::destroyEntity(entityId);
                         if (entityId == 1 && !collisionTop && collisionBottom) { //set player at position of upper space
-                            spatial->mPositionY = (maskTopLimit-1) * 50;
-                            system->mEventsManager->addEvent(std::make_shared<Events::MoveEntity>(1, 0, 1)); //move player to correct position
+                            spatial->mPositionY = (maskTopLimit - 1) * 50;
+                            system->mEventsManager->addEvent(
+                                    std::make_shared<Events::MoveEntity>(1, 0, 1)); //move player to correct position
                             return;
-                        } else if (entityId == 1 && collisionTop && !collisionBottom) { //collision while jumping, set back
+                        } else if (entityId == 1 && collisionTop &&
+                                   !collisionBottom) { //collision while jumping, set back
                             spatial->mPositionY = (maskBottomLimit - 1) * 50;
                             spatial->mPrevPositionY = spatial->mPositionY + 1;
-                            system->mEventsManager->addEvent(std::make_shared<Events::MoveEntity>(1, 0, 1)); //move player to correct position
+                            system->mEventsManager->addEvent(
+                                    std::make_shared<Events::MoveEntity>(1, 0, 1)); //move player to correct position
 
                             return;
                         } else
-                            system->mEventsManager->addEvent(std::make_shared<Events::CollisionEvent>(entityId, 0, Events::collisionTypes::regular));
+                            system->mEventsManager->addEvent(std::make_shared<Events::CollisionEvent>(entityId, 0,
+                                                                                                      Events::collisionTypes::regular));
 
-                    } else if (entityId == 1 && index >= system->collisionMask->size()) {//player dies -> game over //todo use our own event system
+                    } else if (entityId == 1 && index >=
+                                                system->collisionMask->size()) {//player dies -> game over //todo use our own event system
                         SDL_Event sdlEvent;
                         sdlEvent.type = 33332;
                         SDL_PushEvent(&sdlEvent);
                     }
                 }
-                catch (const std::exception&){//player dies -> game over //todo use our own event system
+                catch (const std::exception &) {//player dies -> game over //todo use our own event system
                     if (entityId == 1) {
                         SDL_Event sdlEvent;
                         sdlEvent.type = 33332;
@@ -138,36 +148,40 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
                         collisionType = Events::collisionTypes::healthUp;
                         break;
                     }
-                    case Entities::entityTypes::projectile:{
+                    case Entities::entityTypes::projectile: {
                         collisionType = Events::collisionTypes::bullet;
                         break;
                     }
-                    case Entities::entityTypes::player:{
+                    case Entities::entityTypes::player: {
                         collisionType = Events::collisionTypes::player;
                         break;
                     }
-                    case Entities::entityTypes::door:{
+                    case Entities::entityTypes::door: {
                         collisionType = Events::collisionTypes::regular;
                         break;
                     }
-                    case Entities::entityTypes::key:{
+                    case Entities::entityTypes::key: {
                         collisionType = Events::collisionTypes::keyArea2;
                         break;
                     }
-                    case Entities::entityTypes::teleporterEntrance:{
+                    case Entities::entityTypes::teleporterEntrance: {
                         collisionType = Events::collisionTypes::teleporterEntry;
                         break;
                     }
-                    case Entities::entityTypes ::disc: {
+                    case Entities::entityTypes::disc: {
                         collisionType = Events::collisionTypes::disc;
                         break;
                     }
-                    case Entities::entityTypes::savePoint:{
+                    case Entities::entityTypes::savePoint: {
                         collisionType = Events::collisionTypes::savePoint;
                         break;
                     }
-   		    case Entities::entityTypes::ak47:{
+                    case Entities::entityTypes::ak47: {
                         collisionType = Events::collisionTypes::ak47;
+                        break;
+                    }
+                    case Entities::entityTypes::shield:{
+                        collisionType = Events::collisionTypes::shield;
                         break;
                     }
                     default:
@@ -177,22 +191,26 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
                 }
                 if (leftLimit > entryLeftLimit && leftLimit < entryRightLimit) {
                     if (topLimit > entryTopLimit && topLimit < entryBottomLimit) {
-                        system->mEventsManager->addEvent(std::make_shared<Events::CollisionEvent>(entityId, entry.first, collisionType));
+                        system->mEventsManager->addEvent(
+                                std::make_shared<Events::CollisionEvent>(entityId, entry.first, collisionType));
                         std::cout << "collision!" << std::endl;
                         entityCollision = true;
                     } else if (bottomLimit < entryBottomLimit && bottomLimit > entryTopLimit) {
-                        system->mEventsManager->addEvent(std::make_shared<Events::CollisionEvent>(entityId, entry.first, collisionType));
+                        system->mEventsManager->addEvent(
+                                std::make_shared<Events::CollisionEvent>(entityId, entry.first, collisionType));
                         entityCollision = true;
                         std::cout << "collision!" << std::endl;
                     }
                 } else if (rightLimit < entryRightLimit && rightLimit > entryLeftLimit) {
                     if (topLimit > entryTopLimit && topLimit < entryBottomLimit) {
-                        system->mEventsManager->addEvent(std::make_shared<Events::CollisionEvent>(entityId, entry.first, collisionType));
+                        system->mEventsManager->addEvent(
+                                std::make_shared<Events::CollisionEvent>(entityId, entry.first, collisionType));
                         std::cout << "collision!" << std::endl;
                         entityCollision = true;
 
                     } else if (bottomLimit < entryBottomLimit && bottomLimit > entryTopLimit) {
-                        system->mEventsManager->addEvent(std::make_shared<Events::CollisionEvent>(entityId, entry.first, collisionType));
+                        system->mEventsManager->addEvent(
+                                std::make_shared<Events::CollisionEvent>(entityId, entry.first, collisionType));
                         std::cout << "collision!" << std::endl;
                         entityCollision = true;
 
@@ -203,20 +221,24 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
 
         if (!maskCollision && !entityCollision && movingEntity->getType() == Entities::entityTypes::player) {
             //gravitation
-            auto floorLeftPosition = static_cast<unsigned long>((maskBottomLimit) * system->mapWidth + maskLeftLimit - 1);
-            auto floorRightPosition = static_cast<unsigned long>((maskBottomLimit) * system->mapWidth + maskRightLimit - 1);
-                if(floorLeftPosition <system->collisionMask->size() && floorRightPosition<system->collisionMask->size()) {
-                    bool floorLeft = system->collisionMask->at(static_cast<unsigned long>(floorLeftPosition));
-                    bool floorRight = system->collisionMask->at(static_cast<unsigned long>(floorRightPosition));
-                    if (!floorLeft && !floorRight) { //no floor below us -> fall down
-                        system->mEventsManager->addEvent(std::make_shared<Events::FallingEvent>(entityId));
-                        std::cout << "added event for falling" << std::endl;
-                    } else if (maskTopLimit == maskBottomLimit) { //else: player lands somewhere, if: stop if player occupies only one cube
-                        //todo make this hack nice using the event queue
-                        auto momenta = Managers::ComponentsManager::getMomenta();
-                        momenta[entityId]->speedY = 0;
-                    }
+            auto floorLeftPosition = static_cast<unsigned long>((maskBottomLimit) * system->mapWidth + maskLeftLimit -
+                                                                1);
+            auto floorRightPosition = static_cast<unsigned long>((maskBottomLimit) * system->mapWidth + maskRightLimit -
+                                                                 1);
+            if (floorLeftPosition < system->collisionMask->size() &&
+                floorRightPosition < system->collisionMask->size()) {
+                bool floorLeft = system->collisionMask->at(static_cast<unsigned long>(floorLeftPosition));
+                bool floorRight = system->collisionMask->at(static_cast<unsigned long>(floorRightPosition));
+                if (!floorLeft && !floorRight) { //no floor below us -> fall down
+                    system->mEventsManager->addEvent(std::make_shared<Events::FallingEvent>(entityId));
+                    std::cout << "added event for falling" << std::endl;
+                } else if (maskTopLimit ==
+                           maskBottomLimit) { //else: player lands somewhere, if: stop if player occupies only one cube
+                    //todo make this hack nice using the event queue
+                    auto momenta = Managers::ComponentsManager::getMomenta();
+                    momenta[entityId]->speedY = 0;
                 }
+            }
             //end gravitation
         }
 
