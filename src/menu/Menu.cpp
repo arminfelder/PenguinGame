@@ -203,7 +203,7 @@ void Menu::clear() {
 
 void Menu::updateInventory() {
     //first, delete all inventory elements
-    for (auto menuComponent : menuComponents) {
+    for (const auto &menuComponent : menuComponents) {
         if (menuComponent.second->isItem())
             menuComponents.erase(menuComponent.first);
     }
@@ -227,13 +227,16 @@ void Menu::updateStats() {
     //also write player stats
     auto playerXP = Managers::ComponentsManager::getXp(1);
     auto playerHeatlh = Managers::ComponentsManager::getHealthComponent(1);
+    auto playerEvadeCap = Managers::ComponentsManager::getEvadeCapability(1);
     auto position = menuComponents.size() + 2;
 
-    std::string xpText = "XP: " + std::to_string(playerXP.get()->mXp);
-    std::string healthText = "Health: " + std::to_string(playerHeatlh.get()->mHealth);
+    std::string xpText = "XP: " + std::to_string(playerXP->mXp);
+    std::string healthText = "Health: " + std::to_string(playerHeatlh->mHealth);
+    std::string evadeText = "Evade capability: " + std::to_string(playerEvadeCap->mChance)+"%";
     auto itemType = Components::Inventory::ItemTypes::none; // use already implemented delete feature to update stats
     this->addMenuComponent(std::make_shared<MenuComponent>("Sans", xpText, "green", position++, MenuEvents::NONE, itemType));
     this->addMenuComponent(std::make_shared<MenuComponent>("Sans", healthText, "green", position++, MenuEvents::NONE, itemType));
+    this->addMenuComponent(std::make_shared<MenuComponent>("Sans", evadeText, "green", position++, MenuEvents::NONE, itemType));
 
 }
 
