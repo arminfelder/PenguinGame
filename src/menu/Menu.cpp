@@ -232,7 +232,7 @@ void Menu::updateStats() {
 
     std::string xpText = "XP: " + std::to_string(playerXP->mXp);
     std::string healthText = "Health: " + std::to_string(playerHeatlh->mHealth);
-    std::string evadeText = "Evade capability: " + std::to_string(playerEvadeCap->mChance);
+    std::string evadeText = "Evade capability: " + std::to_string(playerEvadeCap->mChance)+"%";
     auto itemType = Components::Inventory::ItemTypes::none; // use already implemented delete feature to update stats
     this->addMenuComponent(std::make_shared<MenuComponent>("Sans", xpText, "green", position++, MenuEvents::NONE, itemType));
     this->addMenuComponent(std::make_shared<MenuComponent>("Sans", healthText, "green", position++, MenuEvents::NONE, itemType));
