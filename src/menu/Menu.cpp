@@ -36,7 +36,7 @@ void Menu::render(SDL_Renderer* pRenderer) {
             SDL_Rect rect;
             rect.x = 400;
             rect.y = height * (component.second->getPosition() - 1) + 40;
-            rect.w = width;
+            rect.w = component.second->getCharsCount()*20 ;
             rect.h = height;
 
             std::shared_ptr<SDL_Surface> surface = component.second->getSurface();
