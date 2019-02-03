@@ -45,6 +45,7 @@ std::map<int, std::shared_ptr<Components::TeleportTarget>> ComponentsManager::mT
 std::map<int, std::shared_ptr<Components::MapName>> ComponentsManager::mMapNameComponents;
 std::map<int, std::shared_ptr<Components::Xp>> ComponentsManager::mXp;
 std::map<int, std::shared_ptr<Components::EvadeCapability>> ComponentsManager::mEvadeCapabilities;
+std::unordered_map<std::type_index,std::map<int,std::shared_ptr<Components::Component>>> ComponentsManager::mComponents;
 
 
 std::map<int, std::shared_ptr<Components::Health>> &ComponentsManager::getHealthComponents() {
@@ -414,4 +415,23 @@ std::shared_ptr<Components::EvadeCapability> &ComponentsManager::getEvadeCapabil
 
 void ComponentsManager::createEvadeCapability(int pEntityId, int pEvadeChance) {
     mEvadeCapabilities.emplace(std::make_pair(pEntityId, std::make_shared<Components::EvadeCapability>(pEvadeChance)));
+}
+
+template<typename T, typename... Args>
+void ComponentsManager::createComponent(int pEntityId, Args... args) {
+    auto pos = mComponents.find(typeid(T));
+    if(pos == mComponents.end()){
+        mComponents.emplace(std::make_pair(typeid(T),std::map<int, std::shared_ptr<Components::Component>>()));
+    }
+    mComponents[typeid(T)].emplace(std::make_pair(pEntityId, std::make_shared<T>(args...)));
+}
+
+template<typename T>
+std::shared_ptr<T> &ComponentsManager::getComponent(int pEntityId) {
+    return mComponents[typeid(T)][pEntityId];
+}
+
+template<typename T>
+std::map<int, std::shared_ptr<T>> &ComponentsManager::getComponents() {
+    return mComponents[typeid(T)];
 }

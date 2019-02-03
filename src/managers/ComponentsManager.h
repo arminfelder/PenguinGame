@@ -24,6 +24,8 @@
 #include <map>
 #include <unordered_map>
 #include <memory>
+#include <typeinfo>
+#include <typeindex>
 #include "../components/Component.h"
 #include "../components/Health.h"
 #include "../components/Position.h"
@@ -71,6 +73,9 @@ namespace Managers {
         static std::map<int, std::shared_ptr<Components::Xp>> &getXps();
         static std::map<int, std::shared_ptr<Components::EvadeCapability>> &getEvadeCapabilities();
 
+        template <typename T>
+        static std::map<int, std::shared_ptr<T>> &getComponents();
+
         static std::shared_ptr<Components::Health> &getHealthComponent(int pEntityId);
         static std::shared_ptr<Components::VisualComponent> &getVisualComponent(int pEntityId);
         static std::shared_ptr<Components::SpatialComponent> &getSpatialComponent(int pEntityId);
@@ -90,6 +95,9 @@ namespace Managers {
         static std::shared_ptr<Components::MapName> &getMapName();
         static std::shared_ptr<Components::Xp> &getXp(int pEntityId);
         static std::shared_ptr<Components::EvadeCapability> &getEvadeCapability(int pEntityId);
+
+        template <typename T>
+        static std::shared_ptr<T> &getComponent(int pEntityId);
 
         static void createHealthComponent(int pEntityId, int pHp = 100);
         static void createVisualComponent(int pEntityId, const std::shared_ptr<SDL_Texture> &pTexture, int pSizeW, int pSizeH);
@@ -112,6 +120,9 @@ namespace Managers {
         static void createMapName(const std::string &mapName);
         static void createXp(int pEntityId);
         static void createEvadeCapability(int pEntityId, int pEvadeChance);
+
+        template <typename T, typename... Args>
+        static void createComponent(int pEntityId, Args... args);
 
         static void removeComponentsOfEntity(int pEntityId);
         static void prepareNextMap(std::ostream &out);
@@ -143,6 +154,7 @@ namespace Managers {
         static std::map<int, std::shared_ptr<Components::Xp>> mXp;
         static std::map<int, std::shared_ptr<Components::EvadeCapability>> mEvadeCapabilities;
 
+        static std::unordered_map<std::type_index,std::map<int,std::shared_ptr<Components::Component>>> mComponents;
 
     };
 }
