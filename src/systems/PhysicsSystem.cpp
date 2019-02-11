@@ -17,6 +17,7 @@
 ******************************************************************************/
 
 
+#include <iostream>
 #include "PhysicsSystem.h"
 #include "../managers/ComponentsManager.h"
 #include "../events/EntityMoved.h"
@@ -38,11 +39,17 @@ Systems::PhysicsSystem::PhysicsSystem(Managers::EventsManager *pEventsManager):m
 
     //jumping
     auto callbackKeyUp = [system = this](const std::shared_ptr<Events::Event> &pEvent)->void {
+        //only allow jumping if not at a ladder
+        if (Managers::ComponentsManager::getMoveableComponent(1).get()->climbing)
+            return;
         auto event = static_cast<Events::KeyUpEvent*>(pEvent.get());
         if(event->mKeyCode.sym == SDLK_SPACE){
             auto momentum = Managers::ComponentsManager::getMomentumComponent(1);
-            if (momentum->speedY == 0)
+            if (momentum->speedY == 0) {
                 momentum->speedY -= 15;
+                system->mEventsManager->addEvent(std::make_shared<Events::FallingEvent>(1));
+                std::cout << "added event for falling after jumping" << std::endl;
+            }
         }
     };
 
