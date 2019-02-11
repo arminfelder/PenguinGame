@@ -21,9 +21,10 @@
 
 #include <iosfwd>
 #include <vector>
+#include "Component.h"
 
 namespace Components {
-    class SpatialComponent {
+    class SpatialComponent: public Component {
     public:
         SpatialComponent(int pPositionX, int pPositionY,bool pMoveWithMap = true);
         int mPositionX;

@@ -26,229 +26,16 @@ using namespace Managers;
 using namespace Components;
 using namespace Entities;
 
-std::map<int, std::shared_ptr<Components::Health>> ComponentsManager::mHealthComponents;
-std::map<int, std::shared_ptr<Components::VisualComponent>> ComponentsManager::mVisualComponents;
-std::map<int, std::shared_ptr<Components::SpatialComponent>> ComponentsManager::mSpatialComponents;
-std::map<int, std::shared_ptr<Components::MoveAbleComponent>> ComponentsManager::mMoveableComponents;
-std::map<int, std::shared_ptr<Components::CollideAble>> ComponentsManager::mCollideables;
-std::map<int, std::shared_ptr<Components::CameraOffset>> ComponentsManager::mCameraOffset;
-std::map<int, std::shared_ptr<Components::Gravity>> ComponentsManager::mGravities;
-std::map<int, std::shared_ptr<Components::Momentum>> ComponentsManager::mMomentum;
-std::map<int, std::shared_ptr<Components::Path>> ComponentsManager::mPaths;
-std::map<int, std::shared_ptr<Components::TimeToLive>> ComponentsManager::mTimeToLives;
-std::map<int, std::shared_ptr<Components::CollisionDamage>> ComponentsManager::mDamages;
-std::map<int, std::shared_ptr<Components::ViewRange>> ComponentsManager::mViewRanges;
-std::map<int, std::shared_ptr<Components::Inventory>> ComponentsManager::mInventories;
-std::map<int, std::shared_ptr<Components::CanCollect>> ComponentsManager::mCanCollects;
-std::map<int, std::shared_ptr<Components::UseAbel>> ComponentsManager::mUseables;
-std::map<int, std::shared_ptr<Components::TeleportTarget>> ComponentsManager::mTeleportTargets;
-std::map<int, std::shared_ptr<Components::MapName>> ComponentsManager::mMapNameComponents;
-std::map<int, std::shared_ptr<Components::Xp>> ComponentsManager::mXp;
-std::map<int, std::shared_ptr<Components::EvadeCapability>> ComponentsManager::mEvadeCapabilities;
 std::unordered_map<std::type_index,std::map<int,std::shared_ptr<Components::Component>>> ComponentsManager::mComponents;
 
 
-std::map<int, std::shared_ptr<Components::Health>> &ComponentsManager::getHealthComponents() {
-
-    return mHealthComponents;
-}
-
-std::map<int, std::shared_ptr<Components::VisualComponent>> &ComponentsManager::getVisualComponents() {
-
-    return mVisualComponents;
-}
-
-std::map<int, std::shared_ptr<Components::SpatialComponent>> &ComponentsManager::getSpatialComponents() {
-
-    return mSpatialComponents;
-}
-
-
-void ComponentsManager::createHealthComponent(int pEntityId, int pHp) {
-    mHealthComponents.emplace(std::make_pair(pEntityId, std::make_shared<Health>(pHp)));
-}
-
-void ComponentsManager::createVisualComponent(int pEntityId, const std::shared_ptr<SDL_Texture> &pTexture, int pSizeW, int pSizeH) {
-    mVisualComponents.emplace(std::make_pair(pEntityId, std::make_shared<VisualComponent>(pTexture, pSizeW, pSizeH)));
-}
-
-void ComponentsManager::createVisualComponent(int pEntityId,
-                                              const std::shared_ptr<std::map<std::string, std::vector<std::shared_ptr<SDL_Texture>>>> &pTextureMap,
-                                              int pSizeW, int pSizeH) {
-    mVisualComponents.emplace(std::make_pair(pEntityId, std::make_shared<VisualComponent>(pTextureMap, pSizeW, pSizeH)));
-}
-
-
-void ComponentsManager::createSpatialComponent(int pEntityId, int pPositionX, int pPositionY, bool pMoveWithMap) {
-    mSpatialComponents.emplace(std::make_pair(pEntityId, std::make_shared<SpatialComponent>(pPositionX, pPositionY, pMoveWithMap)));
-}
-
-std::shared_ptr<Components::Health> &ComponentsManager::getHealthComponent(int pEntityId) {
-    return mHealthComponents[pEntityId];
-}
-
-std::shared_ptr<Components::VisualComponent> &ComponentsManager::getVisualComponent(int pEntityId) {
-    return mVisualComponents[pEntityId];
-}
-
-std::shared_ptr<Components::SpatialComponent> &ComponentsManager::getSpatialComponent(int pEntityId) {
-    return mSpatialComponents[pEntityId];
-}
-
-std::map<int, std::shared_ptr<Components::MoveAbleComponent>> &ComponentsManager::getMoveableComponents() {
-    return mMoveableComponents;
-}
-
-std::shared_ptr<Components::MoveAbleComponent> &ComponentsManager::getMoveableComponent(int pEntityId) {
-    return mMoveableComponents[pEntityId];
-}
-
-void ComponentsManager::createMoveAbleComponent(int pEntityId, bool pRight, bool pDown, bool pLeft, bool pUp) {
-    mMoveableComponents.emplace(std::make_pair(pEntityId, std::make_shared<MoveAbleComponent>(pRight, pDown, pLeft, pUp)));
-}
-
-std::map<int, std::shared_ptr<Components::CollideAble>> &ComponentsManager::getCollideAble() {
-    return mCollideables;
-}
-
-std::shared_ptr<Components::CollideAble> &ComponentsManager::getCollideAble(int pEntityId) {
-    return mCollideables[pEntityId];
-}
-
-void ComponentsManager::createCollideAbleComponent(int pEntityId) {
-    mCollideables.emplace(std::make_pair(pEntityId, std::make_shared<CollideAble>()));
-}
-
-std::map<int, std::shared_ptr<Components::CameraOffset>> &ComponentsManager::getCameraOffsets() {
-    return mCameraOffset;
-}
-
-std::shared_ptr<Components::CameraOffset> &ComponentsManager::getCameraOffsetComponent(int pEntityId) {
-    return mCameraOffset[pEntityId];
-}
-
-void ComponentsManager::createCameraComponent(int pEntityId) {
-    mCameraOffset.emplace(std::make_pair(pEntityId, std::make_shared<CameraOffset>(0, 0)));
-}
-
-std::shared_ptr<Components::Momentum> &ComponentsManager::getMomentumComponent(int pEntityId) {
-    return mMomentum[pEntityId];
-}
-
-void ComponentsManager::createMomentumComponent(int pEntityId) {
-    mMomentum.emplace(std::make_pair(pEntityId, std::make_shared<Momentum>()));
-}
-
-std::map<int, std::shared_ptr<Components::Momentum>> &ComponentsManager::getMomenta() {
-    return mMomentum;
-}
-
-std::map<int, std::shared_ptr<Components::Gravity>> &ComponentsManager::getGravities() {
-    return mGravities;
-}
-
-std::shared_ptr<Components::Gravity> &ComponentsManager::getGravity(int pEntityId) {
-    return mGravities[pEntityId];
-}
-
-void ComponentsManager::createGravityComponent(int pEntityId) {
-    mGravities.emplace(std::make_pair(pEntityId, std::make_shared<Components::Gravity>()));
-
-}
 
 void ComponentsManager::removeComponentsOfEntity(int pEntityId) {
-    mHealthComponents.erase(pEntityId);
-    mVisualComponents.erase(pEntityId);
-    mSpatialComponents.erase(pEntityId);
-    mMoveableComponents.erase(pEntityId);
-    mCollideables.erase(pEntityId);
-    mCameraOffset.erase(pEntityId);
-    mGravities.erase(pEntityId);
-    mMomentum.erase(pEntityId);
-    mPaths.erase(pEntityId);
-    mTimeToLives.erase(pEntityId);
-    mDamages.erase(pEntityId);
-    mViewRanges.erase(pEntityId);
-    mInventories.erase(pEntityId);
-    mUseables.erase(pEntityId);
-    mTeleportTargets.erase(pEntityId);
-    mMapNameComponents.erase(pEntityId);
-    mXp.erase(pEntityId);
+    for(auto &entry: mComponents){
+        entry.second.erase(pEntityId);
+    }
 }
-
-void ComponentsManager::createPathComponent(int pEntityId, const std::vector<SDL_Point> &pPath, int pStepsPerSecond, bool pRepeat,
-                                            bool pRunning) {
-    mPaths.emplace(std::make_pair(pEntityId, std::make_shared<Components::Path>(pPath, pStepsPerSecond, pRepeat, pRunning)));
-}
-
-std::map<int, std::shared_ptr<Components::Path>> &ComponentsManager::getPaths() {
-    return mPaths;
-}
-
-std::shared_ptr<Components::Path> &ComponentsManager::getPaths(int pEntityId) {
-    return mPaths[pEntityId];
-}
-
-std::map<int, std::shared_ptr<Components::CollisionDamage>> &ComponentsManager::getDamages() {
-    return mDamages;
-}
-
-std::map<int, std::shared_ptr<Components::TimeToLive>> &ComponentsManager::getTimeToLives() {
-    return mTimeToLives;
-}
-
-std::shared_ptr<Components::CollisionDamage> &ComponentsManager::getDamage(int pEntityId) {
-    return mDamages[pEntityId];
-}
-
-std::shared_ptr<Components::TimeToLive> &ComponentsManager::getTimeToLive(int pEntityId) {
-    return mTimeToLives[pEntityId];
-}
-
-void ComponentsManager::createDamageComponent(int pEntityId, int pDamage) {
-    mDamages.emplace(std::make_pair(pEntityId, std::make_shared<Components::CollisionDamage>(pDamage)));
-}
-
-void ComponentsManager::createTimeToLive(int pEntityId, uint64_t pTime) {
-    mTimeToLives.emplace(std::make_pair(pEntityId, std::make_shared<Components::TimeToLive>(pTime)));
-}
-
-std::map<int, std::shared_ptr<Components::ViewRange>> &ComponentsManager::getViewRanges() {
-    return mViewRanges;
-}
-
-std::shared_ptr<Components::ViewRange> &ComponentsManager::getViewRange(int pEntityId) {
-    return mViewRanges[pEntityId];
-}
-
-void ComponentsManager::createViewRange(int pEntityId, int pX, int pY) {
-    mViewRanges.emplace(std::make_pair(pEntityId, std::make_shared<Components::ViewRange>(pX, pY)));
-}
-
-std::map<int, std::shared_ptr<Components::Inventory>> &ComponentsManager::getInventories() {
-    return mInventories;
-}
-
-std::shared_ptr<Components::Inventory> &ComponentsManager::getInventory(int pEntityId) {
-    return mInventories[pEntityId];
-}
-
-void ComponentsManager::createInventory(int pEntityId) {
-    mInventories.emplace(std::make_pair(pEntityId, std::make_shared<Components::Inventory>()));
-}
-
-std::map<int, std::shared_ptr<Components::CanCollect>> &ComponentsManager::getCanCollects() {
-    return mCanCollects;
-}
-
-std::shared_ptr<Components::CanCollect> &ComponentsManager::getCanCollect(int pEntity) {
-    return mCanCollects[pEntity];
-}
-
-void ComponentsManager::createCanCollect(int pEntityId, const std::set<Components::Inventory::ItemTypes> &pTypes) {
-    mCanCollects.emplace(std::make_pair(pEntityId, std::make_shared<Components::CanCollect>(pTypes)));
-}
-
+/*
 void ComponentsManager::addCollectible(int pEntityId, const Components::Inventory::ItemTypes &pType) {
     if (!getCanCollect(pEntityId))
         createCanCollect(pEntityId, {pType});
@@ -256,67 +43,17 @@ void ComponentsManager::addCollectible(int pEntityId, const Components::Inventor
         auto collectible = getCanCollect(pEntityId);
         collectible.get()->mTypes.insert(pType);
     }
-}
-
-
-std::map<int, std::shared_ptr<Components::UseAbel>> &ComponentsManager::getUseables() {
-    return mUseables;
-}
-
-std::shared_ptr<Components::UseAbel> &ComponentsManager::getUseable(int pEntityId) {
-    return mUseables[pEntityId];
-}
-
-void ComponentsManager::createUseable(int pEntityId, const std::vector<Components::Inventory::ItemTypes> &pTypes) {
-    mUseables.emplace(std::make_pair(pEntityId, std::make_shared<Components::UseAbel>(pTypes)));
-}
-
+}*/
 
 ComponentsManager::~ComponentsManager() {
-    mHealthComponents.clear();
-    mVisualComponents.clear();
-    mSpatialComponents.clear();
-    mMoveableComponents.clear();
-    mCollideables.clear();
-    mCameraOffset.clear();
-    mGravities.clear();
-    mMomentum.clear();
-    mPaths.clear();
-    mTimeToLives.clear();
-    mDamages.clear();
-    mViewRanges.clear();
-    mUseables.clear();
-    mCanCollects.clear();
-    mInventories.clear();
-    mTeleportTargets.clear();
-    mMapNameComponents.clear();
-    mXp.clear();
+    mComponents.clear();
 }
 
-std::map<int, std::shared_ptr<Components::TeleportTarget>> &ComponentsManager::getTeleportTargets() {
-    return mTeleportTargets;
-}
-
-std::shared_ptr<Components::TeleportTarget> &ComponentsManager::getTeleportTarget(int pEntityId) {
-    return mTeleportTargets[pEntityId];
-}
-
-void ComponentsManager::createTeleportTarget(int pEntityId, int pTarget) {
-    mTeleportTargets.emplace(std::make_pair(pEntityId, std::make_shared<Components::TeleportTarget>(pTarget)));
-}
-
-std::shared_ptr<Components::MapName> &ComponentsManager::getMapName() {
-    return mMapNameComponents[1];
-}
-
-void ComponentsManager::createMapName(const std::string &mapName) {
-    mMapNameComponents.emplace(std::make_pair(1, std::make_shared<Components::MapName>(Components::MapName(mapName))));
-}
 
 void ComponentsManager::prepareNextMap(std::ostream &out) {
-    auto playerHealth = getHealthComponent(1);
-    auto playerInventory = getInventory(1);
-    auto playerXP = getXp(1);
+    auto playerHealth = getComponent<Components::Health>(1);
+    auto playerInventory = getComponent<Components::Inventory>(1);
+    auto playerXP = getComponent<Components::Xp>(1);
 
     out << playerHealth.get()->serialize() << std::endl;
     out << playerInventory.get()->serialize(); //implicitly returns \n after last element as well
@@ -325,11 +62,11 @@ void ComponentsManager::prepareNextMap(std::ostream &out) {
 
 void ComponentsManager::saveUserComponents(std::ostream &out) {
     prepareNextMap(out);
-    auto playerPosition = getSpatialComponent(1);
-    auto playerCamera = getCameraOffsetComponent(2);
-    auto playerMoveAble = getMoveableComponent(1);
-    auto playerMomentum = getMomentumComponent(1);
-    auto map = getMapName();
+    auto playerPosition = getComponent<SpatialComponent>(1);
+    auto playerCamera = getComponent<Components::CameraOffset>(2);
+    auto playerMoveAble = getComponent<Components::MoveAbleComponent>(1);
+    auto playerMomentum = getComponent<Components::Momentum>(1);
+    auto map = getComponent<Components::MapName>(1);
 
     out << map.get()->serialize() << std::endl;
     out << playerPosition.get()->serialize() << std::endl;
@@ -341,14 +78,14 @@ void ComponentsManager::saveUserComponents(std::ostream &out) {
 bool ComponentsManager::loadUserComponents(std::ifstream &inputFile) {
     //invoke new game to load correct map
 
-    auto playerHealth = getHealthComponent(1);
-    auto playerPosition = getSpatialComponent(1);
-    auto playerCamera = getCameraOffsetComponent(2);
-    auto playerMoveAble = getMoveableComponent(1);
-    auto playerMomentum = getMomentumComponent(1);
-    auto playerInventory = getInventory(1);
-    auto playerXP = getXp(1);
-    auto map = getMapName();
+    auto playerHealth = getComponent<Components::Health>(1);
+    auto playerPosition = getComponent<Components::SpatialComponent>(1);
+    auto playerCamera = getComponent<Components::CameraOffset>(2);
+    auto playerMoveAble = getComponent<Components::MoveAbleComponent>(1);
+    auto playerMomentum = getComponent<Components::Momentum>(1);
+    auto playerInventory = getComponent<Components::Inventory>(1);
+    auto playerXP = getComponent<Components::Xp>(1);
+    auto map = getComponent<Components::MapName>(1);
     playerInventory.get()->reset();
 
     std::string line;
@@ -393,45 +130,6 @@ std::vector<std::string> ComponentsManager::splitString(const std::string &strTo
     return splittedStrings;
 }
 
-std::shared_ptr<Components::Xp> &ComponentsManager::getXp(int pEntityId) {
-    return mXp[pEntityId];
-}
 
-void ComponentsManager::createXp(int pEntityId) {
-    mXp.emplace(std::make_pair(pEntityId,std::make_shared<Components::Xp>()));
-}
 
-std::map<int, std::shared_ptr<Xp>> &ComponentsManager::getXps() {
-    return mXp;
-}
 
-std::map<int, std::shared_ptr<EvadeCapability>> &ComponentsManager::getEvadeCapabilities() {
-    return mEvadeCapabilities;
-}
-
-std::shared_ptr<Components::EvadeCapability> &ComponentsManager::getEvadeCapability(int pEntityId) {
-    return mEvadeCapabilities[pEntityId];
-}
-
-void ComponentsManager::createEvadeCapability(int pEntityId, int pEvadeChance) {
-    mEvadeCapabilities.emplace(std::make_pair(pEntityId, std::make_shared<Components::EvadeCapability>(pEvadeChance)));
-}
-
-template<typename T, typename... Args>
-void ComponentsManager::createComponent(int pEntityId, Args... args) {
-    auto pos = mComponents.find(typeid(T));
-    if(pos == mComponents.end()){
-        mComponents.emplace(std::make_pair(typeid(T),std::map<int, std::shared_ptr<Components::Component>>()));
-    }
-    mComponents[typeid(T)].emplace(std::make_pair(pEntityId, std::make_shared<T>(args...)));
-}
-
-template<typename T>
-std::shared_ptr<T> &ComponentsManager::getComponent(int pEntityId) {
-    return mComponents[typeid(T)][pEntityId];
-}
-
-template<typename T>
-std::map<int, std::shared_ptr<T>> &ComponentsManager::getComponents() {
-    return mComponents[typeid(T)];
-}

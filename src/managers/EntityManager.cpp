@@ -56,7 +56,7 @@ void EntityManager::init() {
     createEntity<Player>();
     //create camera
     auto cameraID = createEntity<Entity>();
-    Managers::ComponentsManager::createCameraComponent(cameraID);
+    Managers::ComponentsManager::createComponent<Components::CameraOffset>(cameraID);
 }
 
 EntityManager::EntityManager() {

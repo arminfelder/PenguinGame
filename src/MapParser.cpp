@@ -40,7 +40,7 @@ using namespace std;
 
 int MapParser::createWorldFromMapTXT(const std::string &pMapfile, GameEngine *pEngine, SDL_Renderer *pRenderer, std::vector<bool> *collisionMask) {
 
-    Managers::ComponentsManager::createMapName(pMapfile); //create mapfile component in order to know which file was loaded
+    Managers::ComponentsManager::createComponent<Components::MapName>(1,pMapfile); //create mapfile component in order to know which file was loaded
     auto entityManager = pEngine->getEntityManager();
     auto mapDimension = getWorldDimension(pMapfile);
 
@@ -116,16 +116,16 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, GameEngine *pE
 
     //health indicator
     int id = Managers::EntityManager::createEntity<HealthIndicator>();
-    Managers::ComponentsManager::createSpatialComponent(id, 20, 20, false);
-    Managers::ComponentsManager::createVisualComponent(id, healthMessageTexture, 168, 50);
+    Managers::ComponentsManager::createComponent<Components::SpatialComponent>(id, 20, 20, false);
+    Managers::ComponentsManager::createComponent<Components::VisualComponent>(id, healthMessageTexture, 168, 50);
 
     //Xp indicator
     std::shared_ptr<SDL_Surface> xpMessage(TTF_RenderText_Blended(Sans.get(), "XP: 0", White), SDL_FreeSurface);
     auto xpMessageTexture = std::shared_ptr<SDL_Texture>(SDL_CreateTextureFromSurface(pRenderer, xpMessage.get()), SDL_DestroyTexture);
 
     id = Managers::EntityManager::createEntity<XpIndicator>();
-    Managers::ComponentsManager::createSpatialComponent(id,20, 60, false);
-    Managers::ComponentsManager::createVisualComponent(id, xpMessageTexture,120,50);
+    Managers::ComponentsManager::createComponent<Components::SpatialComponent>(id,20, 60, false);
+    Managers::ComponentsManager::createComponent<Components::VisualComponent>(id, xpMessageTexture,120,50);
 
     std::ifstream map;
     map.open(pMapfile);
@@ -143,131 +143,131 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, GameEngine *pE
             switch (currentLine[i]) {
                 case '#': {
                     int id = Managers::EntityManager::createEntity<Wall>();
-                    Managers::ComponentsManager::createVisualComponent(id, textureWall, 50, 50);
-                    Managers::ComponentsManager::createSpatialComponent(id, x, y);
+                    Managers::ComponentsManager::createComponent<Components::VisualComponent>(id, textureWall, 50, 50);
+                    Managers::ComponentsManager::createComponent<Components::SpatialComponent>(id, x, y);
                     collisionMask->pop_back();
                     collisionMask->push_back(true);
                     break;
                 }
                 case '+': {
                     int id = Managers::EntityManager::createEntity<Wall>();
-                    Managers::ComponentsManager::createVisualComponent(id, textureStoneWall, 50, 50);
-                    Managers::ComponentsManager::createSpatialComponent(id, x, y);
+                    Managers::ComponentsManager::createComponent<Components::VisualComponent>(id, textureStoneWall, 50, 50);
+                    Managers::ComponentsManager::createComponent<Components::SpatialComponent>(id, x, y);
                     collisionMask->pop_back();
                     collisionMask->push_back(true);
                     break;
                 }
                 case '&': {
                     int id = Managers::EntityManager::createEntity<Wall>();
-                    Managers::ComponentsManager::createVisualComponent(id, textureStoneWall2, 50, 50);
-                    Managers::ComponentsManager::createSpatialComponent(id, x, y);
+                    Managers::ComponentsManager::createComponent<Components::VisualComponent>(id, textureStoneWall2, 50, 50);
+                    Managers::ComponentsManager::createComponent<Components::SpatialComponent>(id, x, y);
                     collisionMask->pop_back();
                     collisionMask->push_back(true);
                     break;
                 }
                 case 'T': {
                     int id = Managers::EntityManager::createEntity<TeleporterEntrance>();
-                    Managers::ComponentsManager::createVisualComponent(id, textureTeleporterEntry, 50, 50);
-                    Managers::ComponentsManager::createSpatialComponent(id, x, y);
-                    Managers::ComponentsManager::createCollideAbleComponent(id);
+                    Managers::ComponentsManager::createComponent<Components::VisualComponent>(id, textureTeleporterEntry, 50, 50);
+                    Managers::ComponentsManager::createComponent<Components::SpatialComponent>(id, x, y);
+                    Managers::ComponentsManager::createComponent<Components::CollideAble>(id);
                     //useless
                     teleporterTarget = id;
                     break;
                 }
                 case 't': {
                     int id = Managers::EntityManager::createEntity<TeleporterTarget>();
-                    Managers::ComponentsManager::createVisualComponent(id, textureTeleporterTarget, 50, 50);
-                    Managers::ComponentsManager::createSpatialComponent(id, x, y);
-                    Managers::ComponentsManager::createTeleportTarget(id, teleporterTarget);
+                    Managers::ComponentsManager::createComponent<Components::VisualComponent>(id, textureTeleporterTarget, 50, 50);
+                    Managers::ComponentsManager::createComponent<Components::SpatialComponent>(id, x, y);
+                    Managers::ComponentsManager::createComponent<Components::TeleportTarget>(id, teleporterTarget);
                     break;
                 }
                 case 'i': {
                     int id = Managers::EntityManager::createEntity<Wall>();
-                    Managers::ComponentsManager::createVisualComponent(id, textureInvisible, 50, 50);
-                    Managers::ComponentsManager::createSpatialComponent(id, x, y);
+                    Managers::ComponentsManager::createComponent<Components::VisualComponent>(id, textureInvisible, 50, 50);
+                    Managers::ComponentsManager::createComponent<Components::SpatialComponent>(id, x, y);
                     collisionMask->pop_back();
                     collisionMask->push_back(true);
                     break;
                 }
                 case 'k': {
                     int id = Managers::EntityManager::createEntity<Key>();
-                    Managers::ComponentsManager::createVisualComponent(id, textureKey, 50, 50);
-                    Managers::ComponentsManager::createSpatialComponent(id, x, y);
-                    Managers::ComponentsManager::createCollideAbleComponent(id);
+                    Managers::ComponentsManager::createComponent<Components::VisualComponent>(id, textureKey, 50, 50);
+                    Managers::ComponentsManager::createComponent<Components::SpatialComponent>(id, x, y);
+                    Managers::ComponentsManager::createComponent<Components::CollideAble>(id);
                     break;
                 }
                 case 'd': {
                     int id = Managers::EntityManager::createEntity<Door>();
-                    Managers::ComponentsManager::createVisualComponent(id, doorMap, 50, 50);
-                    Managers::ComponentsManager::createSpatialComponent(id, x, y);
-                    Managers::ComponentsManager::createCollideAbleComponent(id);
-                    Managers::ComponentsManager::createUseable(id, {Components::Inventory::ItemTypes::keyArea2});
+                    Managers::ComponentsManager::createComponent<Components::VisualComponent>(id, doorMap, 50, 50);
+                    Managers::ComponentsManager::createComponent<Components::SpatialComponent>(id, x, y);
+                    Managers::ComponentsManager::createComponent<Components::CollideAble>(id);
+                    Managers::ComponentsManager::createComponent<Components::UseAbel>(id, std::vector{Components::Inventory::ItemTypes::keyArea2});
                     break;
                 }
                 case 'p': {
                     int id = 1;
-                    Managers::ComponentsManager::createVisualComponent(id, playerMap, 49, 49);
-                    Managers::ComponentsManager::createSpatialComponent(id, x + 1, y + 1);
-                    Managers::ComponentsManager::createMoveAbleComponent(id, true, false, true, false);
-                    Managers::ComponentsManager::createHealthComponent(id, 100);
-                    Managers::ComponentsManager::createMomentumComponent(id);
-                    Managers::ComponentsManager::createCollideAbleComponent(id);
-                    Managers::ComponentsManager::createInventory(id);
-                    Managers::ComponentsManager::createCanCollect(id, {Components::Inventory::ItemTypes::keyArea2,
+                    Managers::ComponentsManager::createComponent<Components::VisualComponent>(id, playerMap, 49, 49);
+                    Managers::ComponentsManager::createComponent<Components::SpatialComponent>(id, x + 1, y + 1);
+                    Managers::ComponentsManager::createComponent<Components::MoveAbleComponent>(id, true, false, true, false);
+                    Managers::ComponentsManager::createComponent<Components::Health>(id, 100);
+                    Managers::ComponentsManager::createComponent<Components::Momentum>(id);
+                    Managers::ComponentsManager::createComponent<Components::CollideAble>(id);
+                    Managers::ComponentsManager::createComponent<Components::Inventory>(id);
+                    Managers::ComponentsManager::createComponent<Components::CanCollect>(id, std::set{Components::Inventory::ItemTypes::keyArea2,
                                                                        Components::Inventory::ItemTypes::disc,
                                                                        Components::Inventory::ItemTypes::ak47,
                                                                        Components::Inventory::ItemTypes::shield});
-                    Managers::ComponentsManager::createEvadeCapability(id,0);
-                    Managers::ComponentsManager::createXp(id);
+                    Managers::ComponentsManager::createComponent<Components::EvadeCapability>(id,0);
+                    Managers::ComponentsManager::createComponent<Components::Xp>(id);
                     break;
                 }
                 case 'h': {
                     int id = Managers::EntityManager::createEntity<HealthItem>();
-                    Managers::ComponentsManager::createVisualComponent(id, textureHeart, 50, 50);
-                    Managers::ComponentsManager::createSpatialComponent(id, x, y);
-                    Managers::ComponentsManager::createCollideAbleComponent(id);
+                    Managers::ComponentsManager::createComponent<Components::VisualComponent>(id, textureHeart, 50, 50);
+                    Managers::ComponentsManager::createComponent<Components::SpatialComponent>(id, x, y);
+                    Managers::ComponentsManager::createComponent<Components::CollideAble>(id);
                     break;
                 }
                 case 'm': {
                     int id = Managers::EntityManager::createEntity<Npc>();
-                    Managers::ComponentsManager::createVisualComponent(id, textureMonster1, 48, 48);
-                    Managers::ComponentsManager::createSpatialComponent(id, x + 1, y + 1);
-                    Managers::ComponentsManager::createCollideAbleComponent(id);
-                    Managers::ComponentsManager::createHealthComponent(id, 50);
-                    Managers::ComponentsManager::createPathComponent(id, std::vector<SDL_Point>({SDL_Point{100, 0}, SDL_Point{-100, 0}}), 1, true, true);
-                    Managers::ComponentsManager::createViewRange(id, 400, 0);
+                    Managers::ComponentsManager::createComponent<Components::VisualComponent>(id, textureMonster1, 48, 48);
+                    Managers::ComponentsManager::createComponent<Components::SpatialComponent>(id, x + 1, y + 1);
+                    Managers::ComponentsManager::createComponent<Components::CollideAble>(id);
+                    Managers::ComponentsManager::createComponent<Components::Health>(id, 50);
+                    Managers::ComponentsManager::createComponent<Components::Path>(id, std::vector<SDL_Point>({SDL_Point{100, 0}, SDL_Point{-100, 0}}), 1, true, true);
+                    Managers::ComponentsManager::createComponent<Components::ViewRange>(id, 400, 0);
                     break;
                 }
                 case 'M': {
                     int id = Managers::EntityManager::createEntity<Npc>();
-                    Managers::ComponentsManager::createVisualComponent(id, textureMonster2, 48, 48);
-                    Managers::ComponentsManager::createSpatialComponent(id, x + 1, y + 1);
-                    Managers::ComponentsManager::createCollideAbleComponent(id);
-                    Managers::ComponentsManager::createHealthComponent(id, 80);
-                    Managers::ComponentsManager::createPathComponent(id, std::vector<SDL_Point>({SDL_Point{-150, 0}, SDL_Point{150, 0}}), 1, true, true);
-                    Managers::ComponentsManager::createViewRange(id, 600, 0);
+                    Managers::ComponentsManager::createComponent<Components::VisualComponent>(id, textureMonster2, 48, 48);
+                    Managers::ComponentsManager::createComponent<Components::SpatialComponent>(id, x + 1, y + 1);
+                    Managers::ComponentsManager::createComponent<Components::CollideAble>(id);
+                    Managers::ComponentsManager::createComponent<Components::Health>(id, 80);
+                    Managers::ComponentsManager::createComponent<Components::Path>(id, std::vector<SDL_Point>({SDL_Point{-150, 0}, SDL_Point{150, 0}}), 1, true, true);
+                    Managers::ComponentsManager::createComponent<Components::ViewRange>(id, 600, 0);
                     break;
                 }
                 case 's': {
                     int id = Managers::EntityManager::createEntity<Disc>();
-                    Managers::ComponentsManager::createVisualComponent(id, textureDisc, 50, 50);
-                    Managers::ComponentsManager::createSpatialComponent(id, x, y);
-                    Managers::ComponentsManager::createCollideAbleComponent(id);
+                    Managers::ComponentsManager::createComponent<Components::VisualComponent>(id, textureDisc, 50, 50);
+                    Managers::ComponentsManager::createComponent<Components::SpatialComponent>(id, x, y);
+                    Managers::ComponentsManager::createComponent<Components::CollideAble>(id);
                     break;
                 }
                 case 'S': {
                     int id = Managers::EntityManager::createEntity<SavePoint>();
-                    Managers::ComponentsManager::createVisualComponent(id, textureSafePoint, 24, 24);
-                    Managers::ComponentsManager::createSpatialComponent(id, x+12, y+25);
-                    Managers::ComponentsManager::createCollideAbleComponent(id);
-                    Managers::ComponentsManager::createUseable(id, {Components::Inventory::ItemTypes::disc});
+                    Managers::ComponentsManager::createComponent<Components::VisualComponent>(id, textureSafePoint, 24, 24);
+                    Managers::ComponentsManager::createComponent<Components::SpatialComponent>(id, x+12, y+25);
+                    Managers::ComponentsManager::createComponent<Components::CollideAble>(id);
+                    Managers::ComponentsManager::createComponent<Components::UseAbel>(id, std::vector{Components::Inventory::ItemTypes::disc});
                     break;
                 }
                 case 'A': {
                     int id = Managers::EntityManager::createEntity<Ak47>();
-                    Managers::ComponentsManager::createVisualComponent(id, textureAk47,50,50);
-                    Managers::ComponentsManager::createSpatialComponent(id,x,y);
-                    Managers::ComponentsManager::createCollideAbleComponent(id);
+                    Managers::ComponentsManager::createComponent<Components::VisualComponent>(id, textureAk47,50,50);
+                    Managers::ComponentsManager::createComponent<Components::SpatialComponent>(id,x,y);
+                    Managers::ComponentsManager::createComponent<Components::CollideAble>(id);
                     break;
                 }
                 case 'K': {
@@ -275,37 +275,37 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, GameEngine *pE
                 }
                 case '|': {
                     int id = Managers::EntityManager::createEntity<Ladder>();
-                    Managers::ComponentsManager::createVisualComponent(id, textureLadder, 50, 50);
-                    Managers::ComponentsManager::createSpatialComponent(id, x, y);
-                    Managers::ComponentsManager::createCollideAbleComponent(id);
+                    Managers::ComponentsManager::createComponent<Components::VisualComponent>(id, textureLadder, 50, 50);
+                    Managers::ComponentsManager::createComponent<Components::SpatialComponent>(id, x, y);
+                    Managers::ComponentsManager::createComponent<Components::CollideAble>(id);
                     break;
                 }
                 case '=': {
                     int id = Managers::EntityManager::createEntity<MovementReset>();
-                    Managers::ComponentsManager::createVisualComponent(id, textureInvisible, 50, 50);
-                    Managers::ComponentsManager::createSpatialComponent(id, x, y);
-                    Managers::ComponentsManager::createCollideAbleComponent(id);
+                    Managers::ComponentsManager::createComponent<Components::VisualComponent>(id, textureInvisible, 50, 50);
+                    Managers::ComponentsManager::createComponent<Components::SpatialComponent>(id, x, y);
+                    Managers::ComponentsManager::createComponent<Components::CollideAble>(id);
                     break;
                 }
                 case '-': {
                     int id = Managers::EntityManager::createEntity<LadderEnd>();
-                    Managers::ComponentsManager::createVisualComponent(id, textureInvisible, 50, 50);
-                    Managers::ComponentsManager::createSpatialComponent(id, x, y);
-                    Managers::ComponentsManager::createCollideAbleComponent(id);
+                    Managers::ComponentsManager::createComponent<Components::VisualComponent>(id, textureInvisible, 50, 50);
+                    Managers::ComponentsManager::createComponent<Components::SpatialComponent>(id, x, y);
+                    Managers::ComponentsManager::createComponent<Components::CollideAble>(id);
                     break;
                 }
                 case ':': {
                     int id = Managers::EntityManager::createEntity<LadderBegin>();
-                    Managers::ComponentsManager::createVisualComponent(id, textureLadder, 50, 50);
-                    Managers::ComponentsManager::createSpatialComponent(id, x, y);
-                    Managers::ComponentsManager::createCollideAbleComponent(id);
+                    Managers::ComponentsManager::createComponent<Components::VisualComponent>(id, textureLadder, 50, 50);
+                    Managers::ComponentsManager::createComponent<Components::SpatialComponent>(id, x, y);
+                    Managers::ComponentsManager::createComponent<Components::CollideAble>(id);
                     break;
                 }
                 case 'q': {
                     int id = Managers::EntityManager::createEntity<Shield>();
-                    Managers::ComponentsManager::createVisualComponent(id,textureShield, 50,50);
-                    Managers::ComponentsManager::createSpatialComponent(id, x,y);
-                    Managers::ComponentsManager::createCollideAbleComponent(id);
+                    Managers::ComponentsManager::createComponent<Components::VisualComponent>(id,textureShield, 50,50);
+                    Managers::ComponentsManager::createComponent<Components::SpatialComponent>(id, x,y);
+                    Managers::ComponentsManager::createComponent<Components::CollideAble>(id);
                     break;
                 }
                 default:

@@ -29,7 +29,7 @@ Systems::PhysicsSystem::PhysicsSystem(Managers::EventsManager *pEventsManager):m
     auto callback = [system = this](const std::shared_ptr<Events::Event> &pEvent)->void {
         auto event = static_cast<Events::FallingEvent*>(pEvent.get());
         auto entityId = event->mEntityId;
-        auto momentum = Managers::ComponentsManager::getMomentumComponent(entityId);
+        auto momentum = Managers::ComponentsManager::getComponent<Components::Momentum>(entityId);
         momentum->gravitation = 2;
         momentum->speedY +=momentum->gravitation;
         if (momentum->speedY >= 12)
@@ -40,7 +40,7 @@ Systems::PhysicsSystem::PhysicsSystem(Managers::EventsManager *pEventsManager):m
     auto callbackKeyUp = [system = this](const std::shared_ptr<Events::Event> &pEvent)->void {
         auto event = static_cast<Events::KeyUpEvent*>(pEvent.get());
         if(event->mKeyCode.sym == SDLK_SPACE){
-            auto momentum = Managers::ComponentsManager::getMomentumComponent(1);
+            auto momentum = Managers::ComponentsManager::getComponent<Components::Momentum>(1);
             if (momentum->speedY == 0)
                 momentum->speedY -= 15;
         }
@@ -51,7 +51,7 @@ Systems::PhysicsSystem::PhysicsSystem(Managers::EventsManager *pEventsManager):m
 }
 
 void Systems::PhysicsSystem::update(uint64_t pTimeDiff) {
-    auto momenta = Managers::ComponentsManager::getMomenta();
+    auto momenta = Managers::ComponentsManager::getComponents<Components::Momentum>();
     for(const auto &entry:momenta){
         int timeFactor = pTimeDiff/18;
         if(!timeFactor){

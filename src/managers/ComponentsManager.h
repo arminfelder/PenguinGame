@@ -53,77 +53,28 @@ namespace Managers {
 
     class ComponentsManager {
     public:
-        //TODO: use template functions
-        static std::map<int, std::shared_ptr<Components::Health>> &getHealthComponents();
-        static std::map<int, std::shared_ptr<Components::VisualComponent>> &getVisualComponents();
-        static std::map<int, std::shared_ptr<Components::SpatialComponent>> &getSpatialComponents();
-        static std::map<int, std::shared_ptr<Components::MoveAbleComponent>> &getMoveableComponents();
-        static std::map<int, std::shared_ptr<Components::CollideAble>> &getCollideAble();
-        static std::map<int, std::shared_ptr<Components::CameraOffset>> &getCameraOffsets();
-        static std::map<int, std::shared_ptr<Components::Gravity>> &getGravities();
-        static std::map<int, std::shared_ptr<Components::Momentum>> &getMomenta();
-        static std::map<int, std::shared_ptr<Components::Path>> &getPaths();
-        static std::map<int, std::shared_ptr<Components::CollisionDamage>> &getDamages();
-        static std::map<int, std::shared_ptr<Components::TimeToLive>> &getTimeToLives();
-        static std::map<int, std::shared_ptr<Components::ViewRange>> &getViewRanges();
-        static std::map<int, std::shared_ptr<Components::Inventory>> &getInventories();
-        static std::map<int, std::shared_ptr<Components::CanCollect>> &getCanCollects();
-        static std::map<int, std::shared_ptr<Components::UseAbel>> &getUseables();
-        static std::map<int, std::shared_ptr<Components::TeleportTarget>> &getTeleportTargets();
-        static std::map<int, std::shared_ptr<Components::Xp>> &getXps();
-        static std::map<int, std::shared_ptr<Components::EvadeCapability>> &getEvadeCapabilities();
 
-        template <typename T>
-        static std::map<int, std::shared_ptr<T>> &getComponents();
+        template<typename T>
+        static std::map<int, std::shared_ptr<T>> &getComponents() {
+            std::map<int, std::shared_ptr<T>> test= std::static_pointer_cast<T> (mComponents[typeid(T)]);
+            return test;
+        }
 
-        static std::shared_ptr<Components::Health> &getHealthComponent(int pEntityId);
-        static std::shared_ptr<Components::VisualComponent> &getVisualComponent(int pEntityId);
-        static std::shared_ptr<Components::SpatialComponent> &getSpatialComponent(int pEntityId);
-        static std::shared_ptr<Components::MoveAbleComponent> &getMoveableComponent(int pEntityId);
-        static std::shared_ptr<Components::CollideAble> &getCollideAble(int pEntityId);
-        static std::shared_ptr<Components::CameraOffset> &getCameraOffsetComponent(int pEntityId);
-        static std::shared_ptr<Components::Gravity> &getGravity(int pEntityId);
-        static std::shared_ptr<Components::Momentum> &getMomentumComponent(int pEntityId);
-        static std::shared_ptr<Components::Path> &getPaths(int pEntityId);
-        static std::shared_ptr<Components::CollisionDamage> &getDamage(int pEntityId);
-        static std::shared_ptr<Components::TimeToLive> &getTimeToLive(int pEntityId);
-        static std::shared_ptr<Components::ViewRange> &getViewRange(int pEntityId);
-        static std::shared_ptr<Components::Inventory> &getInventory(int pEntityId);
-        static std::shared_ptr<Components::CanCollect> &getCanCollect(int pEntityId);
-        static std::shared_ptr<Components::UseAbel> &getUseable(int pEntityId);
-        static std::shared_ptr<Components::TeleportTarget> &getTeleportTarget(int pEntityId);
-        static std::shared_ptr<Components::MapName> &getMapName();
-        static std::shared_ptr<Components::Xp> &getXp(int pEntityId);
-        static std::shared_ptr<Components::EvadeCapability> &getEvadeCapability(int pEntityId);
-
-        template <typename T>
-        static std::shared_ptr<T> &getComponent(int pEntityId);
-
-        static void createHealthComponent(int pEntityId, int pHp = 100);
-        static void createVisualComponent(int pEntityId, const std::shared_ptr<SDL_Texture> &pTexture, int pSizeW, int pSizeH);
-        static void createVisualComponent(int pEntityId, const std::shared_ptr<std::map<std::string, std::vector<std::shared_ptr<SDL_Texture>>>> &pTextureMap, int pSizeW, int pSizeH);
-        static void createSpatialComponent(int pEntityId, int pPositionX, int pPositionY,bool pMoveWithMap = true);
-        static void createMoveAbleComponent(int pEntityId, bool pRight, bool pDown, bool pLeft, bool pUp);
-        static void createCollideAbleComponent(int pEntityId);
-        static void createCameraComponent(int pEntityId);
-        static void createGravityComponent(int pEntityId);
-        static void createMomentumComponent(int pEntityId);
-        static void createPathComponent(int pEntityId, const std::vector<SDL_Point> &pPath, int pStepsPerSecond, bool pRepeat = true, bool pRunning = true);
-        static void createDamageComponent(int pEntityId, int pDamage);
-        static void createTimeToLive(int pEntityId, uint64_t pTime);
-        static void createViewRange(int pEntityId, int pX, int pY);
-        static void createInventory(int pEntityId);
-        static void createCanCollect(int pEntityId, const std::set<Components::Inventory::ItemTypes> &pTypes);
-        static void addCollectible(int pEntityId, const Components::Inventory::ItemTypes &pType);
-        static void createUseable(int pEntityId, const std::vector<Components::Inventory::ItemTypes> &pTypes);
-        static void createTeleportTarget(int pEntityId, int pTarget);
-        static void createMapName(const std::string &mapName);
-        static void createXp(int pEntityId);
-        static void createEvadeCapability(int pEntityId, int pEvadeChance);
+        template<typename T>
+        static std::shared_ptr<T> &getComponent(int pEntityId) {
+            auto retVal =  std::static_pointer_cast<T>(mComponents[typeid(T)][pEntityId]);
+            return retVal;
+        }
 
         template <typename T, typename... Args>
-        static void createComponent(int pEntityId, Args... args);
-
+        static std::shared_ptr<T> &createComponent(int pEntityId, Args... args) {
+            auto pos = mComponents.find(typeid(T));
+            if(pos == mComponents.end()){
+                mComponents.emplace(std::make_pair(typeid(T),std::map<int, std::shared_ptr<Components::Component>>()));
+            }
+            mComponents[typeid(T)].emplace(std::make_pair(pEntityId, std::make_shared<T>(args...)));
+            return mComponents[typeid(T)][pEntityId];
+        }
         static void removeComponentsOfEntity(int pEntityId);
         static void prepareNextMap(std::ostream &out);
         static void saveUserComponents(std::ostream &out);
@@ -133,26 +84,6 @@ namespace Managers {
         ~ComponentsManager();
 
     private:
-        //TODO: use a container for the maps
-        static std::map<int, std::shared_ptr<Components::Health>> mHealthComponents;
-        static std::map<int, std::shared_ptr<Components::VisualComponent>> mVisualComponents;
-        static std::map<int, std::shared_ptr<Components::SpatialComponent>> mSpatialComponents;
-        static std::map<int, std::shared_ptr<Components::MoveAbleComponent>> mMoveableComponents;
-        static std::map<int, std::shared_ptr<Components::CollideAble>> mCollideables;
-        static std::map<int, std::shared_ptr<Components::CameraOffset>> mCameraOffset;
-        static std::map<int, std::shared_ptr<Components::Gravity>> mGravities;
-        static std::map<int, std::shared_ptr<Components::Momentum>> mMomentum;
-        static std::map<int, std::shared_ptr<Components::Path>> mPaths;
-        static std::map<int, std::shared_ptr<Components::TimeToLive>> mTimeToLives;
-        static std::map<int, std::shared_ptr<Components::CollisionDamage>> mDamages;
-        static std::map<int, std::shared_ptr<Components::ViewRange>> mViewRanges;
-        static std::map<int, std::shared_ptr<Components::Inventory>> mInventories;
-        static std::map<int, std::shared_ptr<Components::CanCollect>> mCanCollects;
-        static std::map<int, std::shared_ptr<Components::UseAbel>> mUseables;
-        static std::map<int, std::shared_ptr<Components::TeleportTarget>> mTeleportTargets;
-        static std::map<int, std::shared_ptr<Components::MapName>> mMapNameComponents;
-        static std::map<int, std::shared_ptr<Components::Xp>> mXp;
-        static std::map<int, std::shared_ptr<Components::EvadeCapability>> mEvadeCapabilities;
 
         static std::unordered_map<std::type_index,std::map<int,std::shared_ptr<Components::Component>>> mComponents;
 

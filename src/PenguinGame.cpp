@@ -152,7 +152,7 @@ void PenguinGame::SDLEventLoop() {
                 break;
 
             case 33334: { //load game data including correct map
-                std::string filename = Managers::ComponentsManager::getMapName().get()->getMapName();
+                std::string filename = Managers::ComponentsManager::getComponent<Components::MapName>(1).get()->getMapName();
                 newGame(filename);
                 std::ifstream in("save.txt");
                 Managers::ComponentsManager::loadUserComponents(in);
@@ -194,7 +194,7 @@ void PenguinGame::loadMap(const std::string &mMapFile) {
     systemManager->getCollisionSystem()->changeCollisionMask(&collisionMask);
     auto mapDimension = MapParser::getWorldDimension(mMapFile);
     systemManager->getCollisionSystem()->changeMapWidth(mapDimension.x);
-    Managers::ComponentsManager::createMapName(mMapFile);
+    Managers::ComponentsManager::createComponent<Components::MapName>(1,mMapFile);
 }
 
 void PenguinGame::loadMapPreservingUserStats(const std::string &mMapFile) {

@@ -11,11 +11,11 @@ XpSystem::XpSystem(SDL_Renderer *pRenderer,Managers::EventsManager *pEventsManag
     auto callbackEntityDied = [system = this](const std::shared_ptr<Events::Event> &pEvent){
         auto event = static_cast<Events::EntityDied*>(pEvent.get());
         //int entityId = event->mEntity;
-        auto xp = Managers::ComponentsManager::getXp(1);
+        auto xp = Managers::ComponentsManager::getComponent<Components::Xp>(1);
         if(xp){
             xp->mXp += event->mOrigHealth/10;
 
-            auto visualComponent = Managers::ComponentsManager::getVisualComponent(4);
+            auto visualComponent = Managers::ComponentsManager::getComponent<Components::VisualComponent>(4);
 
             if(visualComponent){
                 int numberChars = 0;

@@ -29,8 +29,8 @@
 Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager):mEventsManager(pEventsManager) {
     auto callback = [system = this](const std::shared_ptr<Events::Event> &pEvent)->void {
         auto event = static_cast<Events::KeyUpEvent*>(pEvent.get());
-        auto playerSpatial = Managers::ComponentsManager::getSpatialComponent(1);
-        auto moveable = Managers::ComponentsManager::getMoveableComponent(1);
+        auto playerSpatial = Managers::ComponentsManager::getComponent<Components::SpatialComponent>(1);
+        auto moveable = Managers::ComponentsManager::getComponent<Components::MoveAbleComponent>(1);
 
         int timeFactor = system->mEventsManager->mTimediff/18;
         if(!timeFactor){
@@ -100,11 +100,11 @@ Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager)
         auto event = static_cast<Events::CollisionEvent*>(pEvent.get());
         if(event->mType == Events::collisionTypes::regular){
             int entity = event->mMovingEntity;
-            auto playerSpatial = Managers::ComponentsManager::getSpatialComponent(entity);
+            auto playerSpatial = Managers::ComponentsManager::getComponent<Components::SpatialComponent>(entity);
             playerSpatial->mPositionX = playerSpatial->mPrevPositionX;
             playerSpatial->mPositionY = playerSpatial->mPrevPositionY;
         }
-        auto moveable = Managers::ComponentsManager::getMoveableComponent(1);
+        auto moveable = Managers::ComponentsManager::getComponent<Components::MoveAbleComponent>(1);
         moveable->canMoveRight = true;
         moveable->canMoveLeft = true;
         if(event->mType == Events::collisionTypes::ladder){
@@ -121,12 +121,12 @@ Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager)
             moveable->canMoveUp = true;
             moveable->canMoveDown = true;
         }else if(event->mType == Events::collisionTypes::teleporterEntry){
-            auto targets = Managers::ComponentsManager::getTeleportTargets();
+            auto targets = Managers::ComponentsManager::getComponents<Components::TeleportTarget>();
             if(!targets.empty()) {
                 auto target = targets.begin()->first;
-                auto targetPos = Managers::ComponentsManager::getSpatialComponent(target);
+                auto targetPos = Managers::ComponentsManager::getComponent<Components::SpatialComponent>(target);
 
-                auto entitySpatial = Managers::ComponentsManager::getSpatialComponent(event->mMovingEntity);
+                auto entitySpatial = Managers::ComponentsManager::getComponent<Components::SpatialComponent>(event->mMovingEntity);
                 entitySpatial->mPositionX = targetPos->mPositionX;
                 entitySpatial->mPositionY = targetPos->mPositionY;
 
@@ -138,7 +138,7 @@ Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager)
     auto moveEventCallback = [system = this](const std::shared_ptr<Events::Event> &pEvent)->void {
         auto event = static_cast<Events::MoveEntity*>(pEvent.get());
 
-        auto spatial = Managers::ComponentsManager::getSpatialComponent(event->mEntityId);
+        auto spatial = Managers::ComponentsManager::getComponent<Components::SpatialComponent>(event->mEntityId);
         if(event->mX || event->mY) {
             spatial->mPositionX += event->mX;
             spatial->mPositionY += event->mY;

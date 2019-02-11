@@ -23,7 +23,7 @@
 
 namespace Components {
 
-    class CollideAble:Component {
+    class CollideAble: public Component {
     public:
         bool active = true;
     };

@@ -24,7 +24,7 @@
 #include "Component.h"
 namespace Components {
 
-    class Position : Component {
+    class Position : public Component {
 
     public:
         Position(int xPosition, int yPosition);

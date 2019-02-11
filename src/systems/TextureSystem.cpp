@@ -31,7 +31,7 @@ TextureSystem::TextureSystem(Managers::EventsManager *pEventsManager):mEventsMan
         auto movementElement = static_cast<Events::EntityMoved*>(pEvent.get());
 
         auto entityId = movementElement->mEntityId;
-        auto visual = Managers::ComponentsManager::getVisualComponent(entityId);
+        auto visual = Managers::ComponentsManager::getComponent<Components::VisualComponent>(entityId);
 
         switch (movementElement->mDirection){
             case Events::EntityMoved::Direction::up:{
@@ -72,7 +72,7 @@ TextureSystem::TextureSystem(Managers::EventsManager *pEventsManager):mEventsMan
         auto trigger = Managers::EntityManager::getEntity(event->mTriggeredEntity);
         switch (trigger->getType()){
             case Entities::entityTypes::door:{
-                auto visual = Managers::ComponentsManager::getVisualComponent(event->mTriggeredEntity);
+                auto visual = Managers::ComponentsManager::getComponent<Components::VisualComponent>(event->mTriggeredEntity);
                 visual->mTexture = visual->mTextureMap->find("open")->second.at(0);
             }
         }

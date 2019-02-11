@@ -32,30 +32,28 @@ Systems::CombatSystem::CombatSystem(SDL_Renderer *pRenderer,Managers::EventsMana
     auto attackCallback = [system=this](const std::shared_ptr<Events::Event> &pEvent)->void{
         auto event = static_cast<Events::KeyDownEvent*>(pEvent.get());
         if(event->mKeyCode.sym == SDLK_LCTRL){
-            auto playerSpatial = Managers::ComponentsManager::getSpatialComponent(1);
-            auto playerVisual = Managers::ComponentsManager::getVisualComponent(1);
-            auto playerXp = Managers::ComponentsManager::getXp(1);
+            auto playerSpatial = Managers::ComponentsManager::getComponent<Components::SpatialComponent>(1);
+            auto playerVisual = Managers::ComponentsManager::getComponent<Components::VisualComponent>(1);
+            auto playerXp = Managers::ComponentsManager::getComponent<Components::Xp>(1);
             int moveX = 200;
             if(playerVisual->mFlip){
                 moveX *= -1;
             }
-            int test = (playerVisual->mImageRect.w)+1;
-            test = test*playerVisual->mFlip?-1:1;
             int x = playerSpatial->mPositionX+(((playerVisual->mImageRect.w)+1)*(playerVisual->mFlip?-1:1));
             int y = playerSpatial->mPositionY+(playerVisual->mImageRect.h/2);
 
             int bulletId = Managers::EntityManager::createEntity<Entities::Projectile>();
-            Managers::ComponentsManager::createVisualComponent(bulletId,system->mBlueBullet, 10,5);
-            Managers::ComponentsManager::createSpatialComponent(bulletId,x,y);
-            Managers::ComponentsManager::createPathComponent(bulletId,{SDL_Point{moveX,0}},15);
-            Managers::ComponentsManager::createDamageComponent(bulletId,10+playerXp->mXp);
-            Managers::ComponentsManager::createTimeToLive(bulletId, 500+playerXp->mXp);
+            Managers::ComponentsManager::createComponent<Components::VisualComponent>(bulletId,system->mBlueBullet, 10,5);
+            Managers::ComponentsManager::createComponent<Components::SpatialComponent>(bulletId,x,y);
+            Managers::ComponentsManager::createComponent<Components::Path>(bulletId,std::vector{SDL_Point{moveX,0}},15);
+            Managers::ComponentsManager::createComponent<Components::CollisionDamage>(bulletId,10+playerXp->mXp);
+            Managers::ComponentsManager::createComponent<Components::TimeToLive>(bulletId, 500+playerXp->mXp);
         }else if(event->mKeyCode.sym == SDLK_LALT){
-            auto playerInventory = Managers::ComponentsManager::getInventory(1);
+            auto playerInventory = Managers::ComponentsManager::getComponent<Components::Inventory>(1);
             if(playerInventory && playerInventory->hasItem(Components::Inventory::ItemTypes::ak47)) {
-                auto playerSpatial = Managers::ComponentsManager::getSpatialComponent(1);
-                auto playerVisual = Managers::ComponentsManager::getVisualComponent(1);
-                auto playerXp = Managers::ComponentsManager::getXp(1);
+                auto playerSpatial = Managers::ComponentsManager::getComponent<Components::SpatialComponent>(1);
+                auto playerVisual = Managers::ComponentsManager::getComponent<Components::VisualComponent>(1);
+                auto playerXp = Managers::ComponentsManager::getComponent<Components::Xp>(1);
                 int moveX = 200;
                 if (playerVisual->mFlip) {
                     moveX *= -1;
@@ -67,11 +65,11 @@ Systems::CombatSystem::CombatSystem(SDL_Renderer *pRenderer,Managers::EventsMana
 
                 auto texture  =playerVisual->mFlip?system->mAkBulletLeft:system->mAkBulletRight;
                 int bulletId = Managers::EntityManager::createEntity<Entities::Projectile>();
-                Managers::ComponentsManager::createVisualComponent(bulletId, texture, 10, 5);
-                Managers::ComponentsManager::createSpatialComponent(bulletId, x, y);
-                Managers::ComponentsManager::createPathComponent(bulletId, {SDL_Point{moveX, 0}}, 20);
-                Managers::ComponentsManager::createDamageComponent(bulletId, 15 + playerXp->mXp);
-                Managers::ComponentsManager::createTimeToLive(bulletId, 800 + playerXp->mXp);
+                Managers::ComponentsManager::createComponent<Components::VisualComponent>(bulletId, texture, 10, 5);
+                Managers::ComponentsManager::createComponent<Components::SpatialComponent>(bulletId, x, y);
+                Managers::ComponentsManager::createComponent<Components::Path>(bulletId, std::vector{SDL_Point{moveX, 0}}, 20);
+                Managers::ComponentsManager::createComponent<Components::CollisionDamage>(bulletId, 15 + playerXp->mXp);
+                Managers::ComponentsManager::createComponent<Components::TimeToLive>(bulletId, 800 + playerXp->mXp);
             }
         }
     };
@@ -79,9 +77,9 @@ Systems::CombatSystem::CombatSystem(SDL_Renderer *pRenderer,Managers::EventsMana
     auto bulletCollisionCallback = [system = this](const std::shared_ptr<Events::Event> &pEvent)->void{
         auto event = static_cast<Events::CollisionEvent*>(pEvent.get());
         if(event->mType == Events::collisionTypes::npc||event->mType == Events::collisionTypes::player){
-            auto damage = Managers::ComponentsManager::getDamage(event->mMovingEntity);
-            auto xp = Managers::ComponentsManager::getXp(event->mCollidingEntity);
-            auto evadeCap = Managers::ComponentsManager::getEvadeCapability(event->mCollidingEntity);
+            auto damage = Managers::ComponentsManager::createComponent<Components::CollisionDamage>(event->mMovingEntity);
+            auto xp = Managers::ComponentsManager::getComponent<Components::Xp>(event->mCollidingEntity);
+            auto evadeCap = Managers::ComponentsManager::getComponent<Components::EvadeCapability>(event->mCollidingEntity);
 
             if(damage) {
                 if(!evadeCap || (std::rand() % 100) < (100-evadeCap->mChance)) {
@@ -103,13 +101,13 @@ Systems::CombatSystem::CombatSystem(SDL_Renderer *pRenderer,Managers::EventsMana
 
     auto canSeeEnemy = [system = this](const std::shared_ptr<Events::Event> &pEvent)->void{
         auto event = static_cast<Events::EntityCanSee*>(pEvent.get());
-        auto path = Managers::ComponentsManager::getPaths(event->mSeeingEntity);
+        auto path = Managers::ComponentsManager::getComponent<Components::Path>(event->mSeeingEntity);
         path->mPaused = true;
 
-        auto enemySpatial = Managers::ComponentsManager::getSpatialComponent(event->mSeenEntity);
+        auto enemySpatial = Managers::ComponentsManager::getComponent<Components::SpatialComponent>(event->mSeenEntity);
 
-        auto entitySpatial = Managers::ComponentsManager::getSpatialComponent(event->mSeeingEntity);
-        auto entityVisual = Managers::ComponentsManager::getVisualComponent(event->mSeeingEntity);
+        auto entitySpatial = Managers::ComponentsManager::getComponent<Components::SpatialComponent>(event->mSeeingEntity);
+        auto entityVisual = Managers::ComponentsManager::getComponent<Components::VisualComponent>(event->mSeeingEntity);
         int moveX = 200;
         bool flip = false;
         if(enemySpatial->mPositionX < entitySpatial->mPositionX){
@@ -120,11 +118,11 @@ Systems::CombatSystem::CombatSystem(SDL_Renderer *pRenderer,Managers::EventsMana
         int y = entitySpatial->mPositionY+(entityVisual->mImageRect.h/2);
 
         int bulletId = Managers::EntityManager::createEntity<Entities::Projectile>();
-        Managers::ComponentsManager::createVisualComponent(bulletId,system->mBlueBullet, 10,5);
-        Managers::ComponentsManager::createSpatialComponent(bulletId,x,y);
-        Managers::ComponentsManager::createPathComponent(bulletId,{SDL_Point{moveX,0}},15);
-        Managers::ComponentsManager::createDamageComponent(bulletId,10);
-        Managers::ComponentsManager::createTimeToLive(bulletId, 500);
+        Managers::ComponentsManager::createComponent<Components::VisualComponent>(bulletId,system->mBlueBullet, 10,5);
+        Managers::ComponentsManager::createComponent<Components::SpatialComponent>(bulletId,x,y);
+        Managers::ComponentsManager::createComponent<Components::Path>(bulletId,std::vector{SDL_Point{moveX,0}},15);
+        Managers::ComponentsManager::createComponent<Components::CollisionDamage>(bulletId,10);
+        Managers::ComponentsManager::createComponent<Components::TimeToLive>(bulletId, 500);
     };
 
     mEventsManager->regsiterEventHandler(Events::EventTypes::KePressed ,attackCallback);

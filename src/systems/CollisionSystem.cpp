@@ -36,10 +36,10 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
             NULL) //map was redrawn, therefore, there might still be a move event (most probably by enemies) which are no longer present
             return;
 
-        auto collideAbles = Managers::ComponentsManager::getCollideAble();
+        auto collideAbles = Managers::ComponentsManager::getComponents<Components::CollideAble>();
 
-        auto spatial = Managers::ComponentsManager::getSpatialComponent(entityId);
-        auto visual = Managers::ComponentsManager::getVisualComponent(entityId);
+        auto spatial = Managers::ComponentsManager::getComponent<Components::SpatialComponent>(entityId);
+        auto visual = Managers::ComponentsManager::getComponent<Components::VisualComponent>(entityId);
 
         int rightLimit = visual->mImageRect.w + spatial->mPositionX;
         int leftLimit = spatial->mPositionX;
@@ -86,8 +86,8 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
                             system->mEventsManager->addEvent(std::make_shared<Events::CollisionEvent>(entityId, 0,
                                                                                                       Events::collisionTypes::regular));
 
-                    } else if (entityId == 1 && index >=
-                                                system->collisionMask->size()) {//player dies -> game over //todo use our own event system
+                    } else if (entityId == 1 && index >= static_cast<int>(system->collisionMask->size()))
+                    {//player dies -> game over //todo use our own event system
                         SDL_Event sdlEvent;
                         sdlEvent.type = 33332;
                         SDL_PushEvent(&sdlEvent);
@@ -109,8 +109,8 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
         bool entityCollision = false;
         if (!maskCollision) {
             for (const auto &entry: collideAbles) {
-                auto entrySpatial = Managers::ComponentsManager::getSpatialComponent(entry.first);
-                auto entryVisual = Managers::ComponentsManager::getVisualComponent(entry.first);
+                auto entrySpatial = Managers::ComponentsManager::getComponent<Components::SpatialComponent>(entry.first);
+                auto entryVisual = Managers::ComponentsManager::getComponent<Components::VisualComponent>(entry.first);
                 auto entryEntity = Managers::EntityManager::getEntity(entry.first);
                 int entryRightLimit = entryVisual->mImageRect.w + entrySpatial->mPositionX;
                 int entryLeftLimit = entrySpatial->mPositionX;
@@ -235,7 +235,7 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
                 } else if (maskTopLimit ==
                            maskBottomLimit) { //else: player lands somewhere, if: stop if player occupies only one cube
                     //todo make this hack nice using the event queue
-                    auto momenta = Managers::ComponentsManager::getMomenta();
+                    auto momenta = Managers::ComponentsManager::getComponents<Components::Momentum>();
                     momenta[entityId]->speedY = 0;
                 }
             }

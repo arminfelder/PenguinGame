@@ -15,7 +15,7 @@ Systems::AiSystem::AiSystem(Managers::EventsManager *pEventsManager):mEventsMana
 
 void Systems::AiSystem::update(uint8_t pTimeDiff) {
 
-    for(const auto &path: Managers::ComponentsManager::getPaths()){
+    for(const auto &path: Managers::ComponentsManager::getComponents<Components::Path>()){
 
         int diffX = path.second->mPath[path.second->mCurrPos].x - path.second->mXmovedCurStep;
         int diffY = path.second->mPath[path.second->mCurrPos].y - path.second->mYmovedCurStep;
@@ -64,8 +64,8 @@ void Systems::AiSystem::update(uint8_t pTimeDiff) {
         }
     }
 
-    auto playerSpatial = Managers::ComponentsManager::getSpatialComponent(1);
-    auto playerVisual = Managers::ComponentsManager::getVisualComponent(1);
+    auto playerSpatial = Managers::ComponentsManager::getComponent<Components::SpatialComponent>(1);
+    auto playerVisual = Managers::ComponentsManager::getComponent<Components::VisualComponent>(1);
     int leftLimit = playerSpatial->mPositionX;
     int rightLimit = leftLimit+playerVisual->mImageRect.w;
     int topLimit = playerSpatial->mPositionY;
@@ -76,8 +76,8 @@ void Systems::AiSystem::update(uint8_t pTimeDiff) {
 
 if(time>=1000) {
     time = 0;
-    for (const auto &viewRange: Managers::ComponentsManager::getViewRanges()) {
-        auto spatialEntry = Managers::ComponentsManager::getSpatialComponent(viewRange.first);
+    for (const auto &viewRange: Managers::ComponentsManager::getComponents<Components::ViewRange>()) {
+        auto spatialEntry = Managers::ComponentsManager::getComponent<Components::SpatialComponent>(viewRange.first);
         if(spatialEntry) {
             int leftLimitEntry = spatialEntry->mPositionX - viewRange.second->mX;
             int rightLimitEntry = spatialEntry->mPositionX + viewRange.second->mX;
@@ -101,7 +101,7 @@ if(time>=1000) {
             if (collision) {
                 mEventsManager->addEvent(std::make_shared<Events::EntityCanSee>(viewRange.first, 1));
             } else {
-                auto path = Managers::ComponentsManager::getPaths(viewRange.first);
+                auto path = Managers::ComponentsManager::getComponent<Components::Path>(viewRange.first);
                 path->mPaused = false;
             }
         }

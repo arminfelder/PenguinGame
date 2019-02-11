@@ -209,7 +209,7 @@ void Menu::updateInventory() {
     }
 
     //and now insert again
-    auto playerInventory = Managers::ComponentsManager::getInventory(1).get();
+    auto playerInventory = Managers::ComponentsManager::getComponent<Components::Inventory>(1).get();
     std::string playerInventoryString = playerInventory->serialize();
     std::stringstream inventoryLine(playerInventoryString);
     std::string line;
@@ -225,9 +225,9 @@ void Menu::updateInventory() {
 
 void Menu::updateStats() {
     //also write player stats
-    auto playerXP = Managers::ComponentsManager::getXp(1);
-    auto playerHeatlh = Managers::ComponentsManager::getHealthComponent(1);
-    auto playerEvadeCap = Managers::ComponentsManager::getEvadeCapability(1);
+    auto playerXP = Managers::ComponentsManager::getComponent<Components::Xp>(1);
+    auto playerHeatlh = Managers::ComponentsManager::getComponent<Components::Health>(1);
+    auto playerEvadeCap = Managers::ComponentsManager::getComponent<Components::EvadeCapability>(1);
     auto position = menuComponents.size() + 2;
 
     std::string xpText = "XP: " + std::to_string(playerXP->mXp);

@@ -17,9 +17,9 @@ TriggerSystem::TriggerSystem(Managers::EventsManager *pEventsManager):mEventsMan
     auto keyPressedCallback = [system=this](const std::shared_ptr<Events::Event> &pEvent){
         auto event = static_cast<Events::KeyPressedEvent*>(pEvent.get());
         if(event->mKeyCode.sym == SDLK_RETURN){
-            auto inventory = Managers::ComponentsManager::getInventory(1);
-            auto playerPosition = Managers::ComponentsManager::getSpatialComponent(1);
-            auto playerVisual = Managers::ComponentsManager::getVisualComponent(1);
+            auto inventory = Managers::ComponentsManager::getComponent<Components::Inventory>(1);
+            auto playerPosition = Managers::ComponentsManager::getComponent<Components::SpatialComponent>(1);
+            auto playerVisual = Managers::ComponentsManager::getComponent<Components::VisualComponent>(1);
 
             int padding = 10;
             int playerRightLimit = playerPosition->mPositionX+playerVisual->mImageRect.w+padding;
@@ -28,10 +28,10 @@ TriggerSystem::TriggerSystem(Managers::EventsManager *pEventsManager):mEventsMan
             int playerBottomLimit = playerPosition->mPositionY+playerVisual->mImageRect.h+padding;
 
             if(inventory){
-                auto useables = Managers::ComponentsManager::getUseables();
+                auto useables = Managers::ComponentsManager::getComponents<Components::UseAbel>();
                 for(const auto &useable: useables){
-                    auto spatial = Managers::ComponentsManager::getSpatialComponent(useable.first);
-                    auto visual = Managers::ComponentsManager::getVisualComponent(useable.first);
+                    auto spatial = Managers::ComponentsManager::getComponent<Components::SpatialComponent>(useable.first);
+                    auto visual = Managers::ComponentsManager::getComponent<Components::VisualComponent>(useable.first);
                     int entryRightLimit = spatial->mPositionX+visual->mImageRect.w;
                     int entryLeftLimit = spatial->mPositionX;
                     int entryTopLimit = spatial->mPositionY;
@@ -59,7 +59,7 @@ TriggerSystem::TriggerSystem(Managers::EventsManager *pEventsManager):mEventsMan
                             auto entity = Managers::EntityManager::getEntity(useable.first);
                             switch (entity->getType()){
                                 case Entities::entityTypes::door :{
-                                    Managers::ComponentsManager::getCollideAble().erase(useable.first);
+                                    Managers::ComponentsManager::getComponents<Components::CollideAble>().erase(useable.first);
                                     system->mEventsManager->addEvent(std::make_shared<Events::TriggerActivated>(useable.first,1));
                                     break;
                                 }

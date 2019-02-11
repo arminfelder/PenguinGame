@@ -52,9 +52,9 @@ Systems::RenderSystem::~RenderSystem() {
 
 void Systems::RenderSystem::update(uint64_t pTimeDiff) {
 
-    auto visualComponents = Managers::ComponentsManager::getVisualComponents();
-    auto cameraPositions = Managers::ComponentsManager::getCameraOffsets();
-    auto playerSpatial = Managers::ComponentsManager::getSpatialComponent(1);
+    auto visualComponents = Managers::ComponentsManager::getComponents<Components::VisualComponent>();
+    auto cameraPositions = Managers::ComponentsManager::getComponents<Components::CameraOffset>();
+    auto playerSpatial = Managers::ComponentsManager::getComponent<Components::SpatialComponent>(1);
     auto firstCam = cameraPositions.begin()->second;
 
 
@@ -75,7 +75,7 @@ void Systems::RenderSystem::update(uint64_t pTimeDiff) {
 
     for(revIter = visualComponents.rbegin(); revIter!=visualComponents.rend(); revIter++){
         int entityId = revIter->first;
-        auto spatial = Managers::ComponentsManager::getSpatialComponent(entityId);
+        auto spatial = Managers::ComponentsManager::getComponent<Components::SpatialComponent>(entityId);
         auto visual = revIter->second;
 
         SDL_Rect dstrect = visual->mImageRect;
@@ -106,7 +106,7 @@ void Systems::RenderSystem::setRenderer(SDL_Renderer *pRenderer) {
 }
 
 std::vector<int> Systems::RenderSystem::calculateCameraTargetPosition() {
-    auto playerPositon = Managers::ComponentsManager::getSpatialComponent(1);
+    auto playerPositon = Managers::ComponentsManager::getComponent<Components::SpatialComponent>(1);
     int height, width;
     SDL_GetWindowSize(this->mWindow, &width, &height);
 
@@ -125,9 +125,9 @@ std::vector<int> Systems::RenderSystem::calculateCameraTargetPosition() {
 }
 
 bool Systems::RenderSystem::playerIsVisible() {
-    auto cameraPositions = Managers::ComponentsManager::getCameraOffsets();
+    auto cameraPositions = Managers::ComponentsManager::getComponents<Components::CameraOffset>();
     auto firstCam = cameraPositions.begin()->second;
-    auto playerPosition = Managers::ComponentsManager::getSpatialComponent(1);
+    auto playerPosition = Managers::ComponentsManager::getComponent<Components::SpatialComponent>(1);
 
     int height, width;
     SDL_GetWindowSize(this->mWindow, &width, &height);
@@ -144,7 +144,7 @@ bool Systems::RenderSystem::playerIsVisible() {
 }
 
 void Systems::RenderSystem::setCameraTargetPosition(std::vector<int> point) {
-    auto cameraPositions = Managers::ComponentsManager::getCameraOffsets();
+    auto cameraPositions = Managers::ComponentsManager::getComponents<Components::CameraOffset>();
     auto firstCam = cameraPositions.begin()->second;
     firstCam.get()->xOffset = point[0];
     firstCam.get()->yOffset = point[1];
@@ -161,10 +161,10 @@ void Systems::RenderSystem::tryAndMoveCamera() {
         int height, width;
         SDL_GetWindowSize(this->mWindow, &width, &height);
 
-        auto cameraPositions = Managers::ComponentsManager::getCameraOffsets();
+        auto cameraPositions = Managers::ComponentsManager::getComponents<Components::CameraOffset>();
         auto firstCam = cameraPositions.begin()->second;
 
-        auto playerPositon = Managers::ComponentsManager::getSpatialComponent(1);
+        auto playerPositon = Managers::ComponentsManager::getComponent<Components::SpatialComponent>(1);
         auto playerY = playerPositon->mPositionY + firstCam->yOffset;
         auto playerX = playerPositon->mPositionX + firstCam->xOffset;
 

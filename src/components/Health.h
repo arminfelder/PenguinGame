@@ -24,7 +24,7 @@
 #include <string>
 #include "Component.h"
 namespace Components{
-    class Health : Component {
+    class Health : public Component {
     public:
         Health(int pHealth);
 

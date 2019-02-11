@@ -28,7 +28,7 @@
 Systems::HealthSystem::HealthSystem(SDL_Renderer *pRenderer, Managers::EventsManager *pEventsManager):mEventsManager(pEventsManager),mRenderer(pRenderer) {
     auto callback = [system = this](const std::shared_ptr<Events::Event> &pEvent)->void {
         auto event = static_cast<Events::HealthEvent*>(pEvent.get());
-        auto healthComponent = Managers::ComponentsManager::getHealthComponent(event->entityId);
+        auto healthComponent = Managers::ComponentsManager::getComponent<Components::Health>(event->entityId);
         if(healthComponent) {
             int newHealth;
             int updatedHealth = healthComponent->mHealth + event->healthDiff;
@@ -51,7 +51,7 @@ Systems::HealthSystem::HealthSystem(SDL_Renderer *pRenderer, Managers::EventsMan
             healthComponent->mHealth =newHealth;
             if (event->entityId == 1) {
                 //TODO: replace fixed id
-                auto visualComponent = Managers::ComponentsManager::getVisualComponent(3);
+                auto visualComponent = Managers::ComponentsManager::getComponent<Components::VisualComponent>(3);
 
                 //TODO: memory leak, font loading etc...
                 Uint8 rColor;
@@ -115,7 +115,7 @@ Systems::HealthSystem::HealthSystem(SDL_Renderer *pRenderer, Managers::EventsMan
 }
 
 void Systems::HealthSystem::update(uint64_t pTime) {
-    auto ttls = Managers::ComponentsManager::getTimeToLives();
+    auto ttls = Managers::ComponentsManager::getComponents<Components::TimeToLive>();
     for(const auto &ttl: ttls){
         ttl.second->mMsecs -=pTime;
         if(ttl.second->mMsecs <=0){
