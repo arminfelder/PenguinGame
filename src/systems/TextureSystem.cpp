@@ -74,7 +74,10 @@ TextureSystem::TextureSystem(Managers::EventsManager *pEventsManager):mEventsMan
             case Entities::entityTypes::door:{
                 auto visual = Managers::ComponentsManager::getVisualComponent(event->mTriggeredEntity);
                 visual->mTexture = visual->mTextureMap->find("open")->second.at(0);
+                break;
             }
+            default:
+                break;
         }
 
     };
