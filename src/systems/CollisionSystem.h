@@ -21,6 +21,8 @@
 
 #include "System.h"
 #include "../managers/EventsManager.h"
+#include "../events/CollisionEvent.h"
+#include "../components/CollideAble.h"
 
 namespace Systems {
     class CollisionSystem: public System {
@@ -33,6 +35,7 @@ namespace Systems {
         Managers::EventsManager *mEventsManager = nullptr;
         std::vector<bool> *collisionMask = nullptr;
         int mapWidth = -1;
+        bool detectCollision(int topLimit, int entryTopLimit, int bottomLimit, int entryBottomLimit, int entityId, Events::collisionTypes collisionType, const std::pair<int, std::shared_ptr<Components::CollideAble>> entry, Managers::EventsManager* mEventsManager);
 
     };
 }

@@ -47,7 +47,7 @@ int PenguinGame::run() {
     SDL_RegisterEvents(33332); //register Gameover event
     SDL_RegisterEvents(33333); //register New Game event
     SDL_RegisterEvents(33334); //register Load Game event
-    SDL_Surface *surface = SDL_GetWindowSurface(mWindow);
+//    SDL_Surface *surface = SDL_GetWindowSurface(mWindow);
 
     while (mRunning) {
         SDLEventLoop();
