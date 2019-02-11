@@ -25,16 +25,17 @@ Components::MoveAbleComponent::MoveAbleComponent() {
 Components::MoveAbleComponent::MoveAbleComponent(bool pRight, bool pDown, bool pLeft, bool pTop):canMoveLeft(pLeft),canMoveRight(pRight),canMoveDown(pDown),canMoveUp(pTop) { }
 
 std::string Components::MoveAbleComponent::serialize() {
-    std::string serialize = "MoveAble;" + std::to_string(this->canMoveLeft) + ";" + std::to_string(this->canMoveRight) + ";" + std::to_string(this->canMoveDown) + ";" + std::to_string(this->canMoveUp);
+    std::string serialize = "MoveAble;" + std::to_string(this->canMoveLeft) + ";" + std::to_string(this->canMoveRight) + ";" + std::to_string(this->canMoveDown) + ";" + std::to_string(this->canMoveUp) + ";" + std::to_string(this->climbing);
     return serialize;
 }
 
 bool Components::MoveAbleComponent::load(std::vector<std::string> splittedStrings) {
-    if (splittedStrings[0] == "MoveAble" && splittedStrings.size() >= 5) {
+    if (splittedStrings[0] == "MoveAble" && splittedStrings.size() >= 6) {
         canMoveLeft = static_cast<bool>(std::stoi(splittedStrings[1]));
         canMoveRight = static_cast<bool>(std::stoi(splittedStrings[2]));
         canMoveDown = static_cast<bool>(std::stoi(splittedStrings[3]));
         canMoveUp = static_cast<bool>(std::stoi(splittedStrings[4]));
+        climbing = static_cast<bool>(std::stoi(splittedStrings[5]));
         return true;
     }
     return false;

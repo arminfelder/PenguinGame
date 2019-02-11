@@ -114,12 +114,15 @@ Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager)
         }else if(event->mType == Events::collisionTypes::movementReset){
             moveable->canMoveUp = false;
             moveable->canMoveDown = false;
+            moveable->climbing = false;
         }else if(event->mType == Events::collisionTypes::ladderEnd){
             moveable->canMoveUp = false;
             moveable->canMoveDown = true;
+            moveable->climbing = true;
         }else if(event->mType == Events::collisionTypes::ladderBegin){
             moveable->canMoveUp = true;
             moveable->canMoveDown = true;
+            moveable->climbing = true;
         }else if(event->mType == Events::collisionTypes::teleporterEntry){
             auto targets = Managers::ComponentsManager::getTeleportTargets();
             if(!targets.empty()) {
