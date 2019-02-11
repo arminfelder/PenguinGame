@@ -35,6 +35,8 @@ Systems::PhysicsSystem::PhysicsSystem(Managers::EventsManager *pEventsManager):m
         momentum->speedY +=momentum->gravitation;
         if (momentum->speedY >= 12)
             momentum->speedY = 12;
+        if (momentum->speedY == 0)
+            momentum->speedY +=momentum->gravitation;
     };
 
     //jumping
@@ -45,10 +47,15 @@ Systems::PhysicsSystem::PhysicsSystem(Managers::EventsManager *pEventsManager):m
         auto event = static_cast<Events::KeyUpEvent*>(pEvent.get());
         if(event->mKeyCode.sym == SDLK_SPACE){
             auto momentum = Managers::ComponentsManager::getMomentumComponent(1);
-            if (momentum->speedY == 0) {
-                momentum->speedY -= 15;
-                system->mEventsManager->addEvent(std::make_shared<Events::FallingEvent>(1));
-                std::cout << "added event for falling after jumping" << std::endl;
+            auto moveAbleComponent = Managers::ComponentsManager::getMoveableComponent(1);
+            if (momentum->speedY == 0 || (!moveAbleComponent->doubleJumpUsed && moveAbleComponent->canDoubleJump)) { //allow jumping only if user is on ground or has not used double jump (plus is allowed to do so)
+                if (momentum->speedY != 0) {//if double jump used, set so
+                    moveAbleComponent->doubleJumpUsed = true;
+                    std::cout << "old y " << std::to_string(momentum->speedY) <<  std::endl;
+                }
+                momentum->speedY = -21;
+//                system->mEventsManager->addEvent(std::make_shared<Events::FallingEvent>(1));
+//                std::cout << "added event for falling after jumping" << std::endl;
             }
         }
     };

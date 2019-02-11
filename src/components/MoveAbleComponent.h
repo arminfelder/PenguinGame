@@ -34,6 +34,8 @@ namespace Components {
         bool canMoveDown = false;
         bool canMoveUp = false;
         bool climbing = false;
+        bool canDoubleJump = false;
+        bool doubleJumpUsed = false;
 
         std::string serialize();
         bool load(std::vector<std::string> splittedStrings);
