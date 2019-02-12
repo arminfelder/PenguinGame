@@ -82,7 +82,7 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
                                     std::make_shared<Events::MoveEntity>(1, 0, 1)); //move player to correct position
 
                             return;
-                        } else
+                        }  else
                             system->mEventsManager->addEvent(std::make_shared<Events::CollisionEvent>(entityId, 0,
                                                                                                       Events::collisionTypes::regular));
 

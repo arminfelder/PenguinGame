@@ -28,6 +28,7 @@ namespace Systems {
     class PositionSystem : public System {
     public:
         PositionSystem(Managers::EventsManager *pEventsManager);
+        void update();
 
     private:
         Managers::EventsManager *mEventsManager = nullptr;
