@@ -30,6 +30,10 @@ Systems::AudioSystem::AudioSystem(Managers::EventsManager *pEventsManager):mEven
             case Events::EventTypes::Health:{
                 Mix_VolumeChunk(system->mCollectItem.get(), MIX_MAX_VOLUME);
                 Mix_PlayChannel( -1, system->mCollectItem.get(), 0 );
+                break;
+            }
+            default:{
+
             }
         }
     };

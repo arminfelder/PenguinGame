@@ -62,7 +62,8 @@ int Menu::getMenuSize() {
 }
 
 void Menu::addMenuComponent(std::shared_ptr<MenuComponent> component) {
-    int newId = static_cast<int>(menuComponents.size());
+    int newId;
+    newId = static_cast<int>(menuComponents.size());
 
     menuComponents.insert({newId, component});
 }

@@ -86,7 +86,7 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
                             system->mEventsManager->addEvent(std::make_shared<Events::CollisionEvent>(entityId, 0,
                                                                                                       Events::collisionTypes::regular));
 
-                    } else if (entityId == 1 && index >= system->collisionMask->size()) {//player dies -> game over //todo use our own event system
+                    } else if (entityId == 1 && index >= static_cast<int>(system->collisionMask->size())) {//player dies -> game over //todo use our own event system
                         SDL_Event sdlEvent;
                         sdlEvent.type = 33332;
                         SDL_PushEvent(&sdlEvent);
@@ -105,7 +105,6 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
 
         //end maskCollision
 
-        bool entityCollision = false;
         if (!maskCollision) {
             for (const auto &entry: collideAbles) {
                 auto entrySpatial = Managers::ComponentsManager::getSpatialComponent(entry.first);
@@ -196,9 +195,9 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
                     case Entities::entityTypes::xpIndicator:break;
                 }
                 if (leftLimit > entryLeftLimit && leftLimit < entryRightLimit)
-                    entityCollision = system->detectCollision(topLimit, entryTopLimit, bottomLimit, entryBottomLimit, entityId, collisionType, entry, system->mEventsManager);
+                    system->detectCollision(topLimit, entryTopLimit, bottomLimit, entryBottomLimit, entityId, collisionType, entry, system->mEventsManager);
                 else if (rightLimit < entryRightLimit && rightLimit > entryLeftLimit)
-                    entityCollision = system->detectCollision(topLimit, entryTopLimit, bottomLimit, entryBottomLimit, entityId, collisionType, entry, system->mEventsManager);
+                    system->detectCollision(topLimit, entryTopLimit, bottomLimit, entryBottomLimit, entityId, collisionType, entry, system->mEventsManager);
 
 
             }

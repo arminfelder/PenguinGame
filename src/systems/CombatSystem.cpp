@@ -39,8 +39,6 @@ Systems::CombatSystem::CombatSystem(SDL_Renderer *pRenderer,Managers::EventsMana
             if(playerVisual->mFlip){
                 moveX *= -1;
             }
-            int test = (playerVisual->mImageRect.w)+1;
-            test = test*playerVisual->mFlip?-1:1;
             int x = playerSpatial->mPositionX+(((playerVisual->mImageRect.w)+1)*(playerVisual->mFlip?-1:1));
             int y = playerSpatial->mPositionY+(playerVisual->mImageRect.h/2);
 
@@ -60,7 +58,6 @@ Systems::CombatSystem::CombatSystem(SDL_Renderer *pRenderer,Managers::EventsMana
                 if (playerVisual->mFlip) {
                     moveX *= -1;
                 }
-                int test = (playerVisual->mImageRect.w) + 1;
                 int x = playerSpatial->mPositionX +
                         (((playerVisual->mImageRect.w) + 1) * (playerVisual->mFlip ? -1 : 1));
                 int y = playerSpatial->mPositionY + (playerVisual->mImageRect.h / 2);
@@ -151,7 +148,6 @@ Systems::CombatSystem::CombatSystem(SDL_Renderer *pRenderer,Managers::EventsMana
                             if (entityVisual->mFlip) {
                                 moveX *= -1;
                             }
-                            int test = (entityVisual->mImageRect.w) + 1;
                             int x = entitySpatial->mPositionX +
                                     (((entityVisual->mImageRect.w) + 1) * (entityVisual->mFlip ? -1 : 1));
                             int y = entitySpatial->mPositionY + (entityVisual->mImageRect.h / 2);
@@ -250,6 +246,6 @@ Systems::CombatSystem::CombatSystem(SDL_Renderer *pRenderer,Managers::EventsMana
 
 }
 
-void Systems::CombatSystem::attackWithItem(const Components::Inventory::ItemTypes &pItem) {
+void Systems::CombatSystem::attackWithItem([[maybe_unused]] const Components::Inventory::ItemTypes &pItem) {
 
 }

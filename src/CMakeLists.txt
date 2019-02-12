@@ -77,7 +77,7 @@ add_executable(game main.cpp
         components/ViewRange.cpp
 	    components/Inventory.cpp
 	    components/CanCollect.cpp
-	    components/UseAbel.cpp
+	    components/UseAble.cpp
         components/TeleportTarget.cpp
 		components/MapName.cpp
 		components/Xp.cpp
