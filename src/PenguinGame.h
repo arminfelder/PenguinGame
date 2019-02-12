@@ -37,10 +37,13 @@ public:
     void initGame();
     void initMenus();
     void loadMap(const std::string &mMapFile);
+    void loadMap(const std::string &mMapFile, int playerPosition);
     void loadMapPreservingUserStats(const std::string &mMapFile);
+    void loadMapPreservingUserStats(const std::string &mMapFile, int playerPosition);
 
-    void newGame();
+        void newGame();
     void newGame(const std::string &mMapFile);
+    void newGame(const std::string &mMapFile, int playerPosition);
     void end();
     ~PenguinGame();
 private:
@@ -51,6 +54,9 @@ private:
     std::vector<bool> collisionMask;
     void drawFrame(uint64_t &last, uint64_t &now, int frames);
     std::string getMapFileNameFromJumper(int jumperID);
+    int getPlayerPositionFromJumper(int jumperID);
+    int getMapIDFromJumper(int jumperID);
+    std::vector<std::string> getConnectionMapLine(int mapID);
 
     //audio
     SDL_AudioSpec mWavSpec;

@@ -81,7 +81,7 @@ int PenguinGame::run() {
             continue;
 
         } else {
-           drawFrame(last, now, frames);
+            drawFrame(last, now, frames);
         }
     }
 
@@ -137,7 +137,8 @@ void PenguinGame::SDLEventLoop() {
             case 32793:
                 newGame("./res/map3.txt");
                 break;
-            default:break;
+            default:
+                break;
         }
     }
     while (SDL_PeepEvents(&event, 1, SDL_GETEVENT, 33332, 33335)) {
@@ -151,10 +152,11 @@ void PenguinGame::SDLEventLoop() {
                 break;
 
             case 33335: {//continue game on another map -> save data in intermediate file
-                auto id = *reinterpret_cast<int*>(event.user.data1);
+                auto id = *reinterpret_cast<int *>(event.user.data1);
 
                 auto collideAbles = Managers::ComponentsManager::getCollideAble();
-                int counter = 0;
+                int jumperCounter = 0;
+                int playerPosition = 0;
                 std::string map;
                 for (const auto &collideAble : collideAbles) {
                     auto entity = Managers::EntityManager::getEntity(collideAble.first);
@@ -162,19 +164,16 @@ void PenguinGame::SDLEventLoop() {
                     if (type == Entities::entityTypes::mapChanger) {
                         //compare if id matches with the one from event
                         if (collideAble.first == id) { //found jump
-                            std::cout << "ID for new map " << id << std::endl;
-                            //map = "./res/map.txt";
-                            map = getMapFileNameFromJumper(counter);
+                            map = getMapFileNameFromJumper(jumperCounter);
+                            playerPosition = getPlayerPositionFromJumper(jumperCounter);
                             break;
-                        }
-                        else
-                            counter++;
+                        } else
+                            jumperCounter++;
                     }
                 }
 
-
                 delete event.user.data1;
-                loadMapPreservingUserStats(map);
+                loadMapPreservingUserStats(map, playerPosition);
                 break;
             }
             case 33334: { //load game data including correct map
@@ -186,7 +185,8 @@ void PenguinGame::SDLEventLoop() {
                 mGameEngine->getEventManager()->addEvent(std::make_shared<Events::HealthEvent>(1, 0));
                 auto xpSystem = mGameEngine->getSystemsManager()->getXpSystem();
                 xpSystem->drawXp();
-                break; }
+                break;
+            }
             default:
                 break;
         }
@@ -215,10 +215,10 @@ PenguinGame::PenguinGame() {
     std::srand(std::time(nullptr));
 }
 
-void PenguinGame::loadMap(const std::string &mMapFile) {
+void PenguinGame::loadMap(const std::string &mMapFile, int playerPosition) {
     auto systemManager = mGameEngine->getSystemsManager();
 
-    MapParser::createWorldFromMapTXT(mMapFile, mGameEngine, mRenderer, &collisionMask);
+    MapParser::createWorldFromMapTXT(mMapFile, mGameEngine, mRenderer, &collisionMask, playerPosition);
     systemManager->getCollisionSystem()->changeCollisionMask(&collisionMask);
     auto mapDimension = MapParser::getWorldDimension(mMapFile);
     systemManager->getCollisionSystem()->changeMapWidth(mapDimension.x);
@@ -227,7 +227,11 @@ void PenguinGame::loadMap(const std::string &mMapFile) {
     auto debug = Managers::ComponentsManager::getXps();
 }
 
-void PenguinGame::loadMapPreservingUserStats(const std::string &mMapFile) {
+void PenguinGame::loadMap(const std::string &mMapFile) {
+    loadMap(mMapFile, 0);
+}
+
+void PenguinGame::loadMapPreservingUserStats(const std::string &mMapFile, int playerPosition) {
     std::string filename = "tmp.txt";
     //save intermediate data into file
     std::ofstream out(filename);
@@ -235,18 +239,22 @@ void PenguinGame::loadMapPreservingUserStats(const std::string &mMapFile) {
     out.close();
 
     //load map and load the saved user data
-    newGame(mMapFile);
+    newGame(mMapFile, playerPosition);
     std::ifstream in(filename);
     if (!Managers::ComponentsManager::loadUserComponents(in)) //check if loading the map would work
         Menu::sendSDLEvent(33333); //create new game if loading went wrong
     in.close();
 
     //update health to display correctly
-    mGameEngine->getEventManager()->addEvent(std::make_shared<Events::HealthEvent>(1,0));
+    mGameEngine->getEventManager()->addEvent(std::make_shared<Events::HealthEvent>(1, 0));
     auto xpSystem = mGameEngine->getSystemsManager()->getXpSystem();
     xpSystem->drawXp();
     //mGameEngine->getEventManager()->addEvent(std::make_shared<Events::XPEvent>(1,0));
     remove(filename.c_str());
+}
+
+void PenguinGame::loadMapPreservingUserStats(const std::string &mMapFile) {
+    loadMapPreservingUserStats(mMapFile, 0);
 }
 
 void PenguinGame::initGame() {
@@ -262,7 +270,7 @@ void PenguinGame::initAudio() {
     //SDL_PauseAudioDevice(mAudiDdeviceId, 0);
 }
 
-void PenguinGame::newGame(const std::string &mMapFile) {
+void PenguinGame::newGame(const std::string &mMapFile, int playerPosition) {
     SDL_CloseAudioDevice(mAudiDdeviceId);
     SDL_FreeWAV(mWavBuffer);
     mGameEngine->~GameEngine();
@@ -272,7 +280,11 @@ void PenguinGame::newGame(const std::string &mMapFile) {
 
     initAudio();
     initEngine();
-    loadMap(mMapFile);
+    loadMap(mMapFile, playerPosition);
+}
+
+void PenguinGame::newGame(const std::string &mMapFile) {
+    newGame(mMapFile, 0);
 }
 
 void PenguinGame::newGame() {
@@ -304,6 +316,40 @@ void PenguinGame::initMenus() {
 }
 
 std::string PenguinGame::getMapFileNameFromJumper(int jumperID) {
+    std::string map = "./res/maps/";
+    int mapID = getMapIDFromJumper(jumperID);
+
+    if (mapID != -1) {
+        auto mapLine = getConnectionMapLine(mapID);
+        if (mapLine.size() > 1)
+            map += mapLine[0];
+    }
+
+    if (map == "./res/maps/") //map somehow not found -> set default
+        map += "area1/map.txt";
+    return map;
+}
+
+int PenguinGame::getPlayerPositionFromJumper(int jumperID) {
+    std::ifstream connectionFile("./res/maps/connection.txt");
+    std::string line;
+    std::string map = "./res/maps/";
+    int playerPosition = 0;
+
+    while (std::getline(connectionFile, line)) {
+        std::vector<std::string> splittedStrings = Managers::ComponentsManager::splitString(line, ';');
+
+        if (("./res/maps/" + splittedStrings[0]) == Managers::ComponentsManager::getMapName().get()->getMapName()) {
+            if (splittedStrings.size() > (jumperID + 1) * 2)
+                playerPosition = std::stoi(splittedStrings[jumperID * 2 + 2]);
+            break;
+        }
+    }
+    connectionFile.close();
+    return playerPosition;
+}
+
+int PenguinGame::getMapIDFromJumper(int jumperID) {
     std::ifstream connectionFile("./res/maps/connection.txt");
     std::string line;
     std::string map = "./res/maps/";
@@ -312,30 +358,30 @@ std::string PenguinGame::getMapFileNameFromJumper(int jumperID) {
     while (std::getline(connectionFile, line)) {
         std::vector<std::string> splittedStrings = Managers::ComponentsManager::splitString(line, ';');
 
-        std::string mapName = Managers::ComponentsManager::getMapName().get()->getMapName();
         if (("./res/maps/" + splittedStrings[0]) == Managers::ComponentsManager::getMapName().get()->getMapName()) {
-            if (splittedStrings.size() > jumperID+1)
-                mapID = std::stoi(splittedStrings[jumperID+1]);
+            if (splittedStrings.size() > (jumperID + 1) * 2)
+                mapID = std::stoi(splittedStrings[jumperID * 2 + 1]);
             break;
         }
     }
     connectionFile.close();
+    return mapID;
+}
+
+std::vector<std::string> PenguinGame::getConnectionMapLine(int mapID) {
     if (mapID != -1) {
         std::ifstream connectionFile("./res/maps/connection.txt");
-
-        int counter = 1;
-        while(std::getline(connectionFile, line)) {
+        int counter = 1; //used to select correct map line
+        std::string line;
+        while (std::getline(connectionFile, line)) {
             if (counter == mapID) {
                 std::vector<std::string> splittedStrings = Managers::ComponentsManager::splitString(line, ';');
-                map += splittedStrings[0];
-                break;
+                return splittedStrings;
             } else
                 counter++;
         }
 
         connectionFile.close();
     }
-    if (map == "./res/maps/") //map somehow not found -> set default
-        map += "area1/map.txt";
-    return map;
+    return {""};
 }
