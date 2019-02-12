@@ -158,6 +158,8 @@ void PenguinGame::SDLEventLoop() {
                 Managers::ComponentsManager::loadUserComponents(in);
                 in.close();
                 mGameEngine->getEventManager()->addEvent(std::make_shared<Events::HealthEvent>(1, 0));
+                auto xpSystem = mGameEngine->getSystemsManager()->getXpSystem();
+                xpSystem->drawXp();
                 break; }
             default:
                 break;
@@ -195,6 +197,8 @@ void PenguinGame::loadMap(const std::string &mMapFile) {
     auto mapDimension = MapParser::getWorldDimension(mMapFile);
     systemManager->getCollisionSystem()->changeMapWidth(mapDimension.x);
     Managers::ComponentsManager::createMapName(mMapFile);
+    auto xpSystem = mGameEngine->getSystemsManager()->getXpSystem();
+    auto debug = Managers::ComponentsManager::getXps();
 }
 
 void PenguinGame::loadMapPreservingUserStats(const std::string &mMapFile) {

@@ -31,10 +31,13 @@ void XpSystem::drawXp(int pXp) {
 
     if(visualComponent){
         int numberChars = 0;
-        if(pXp){
+        if(pXp >=0){
             for(int i=pXp; i>0; i /=10){
                 numberChars++;
             }
+        }else if(pXp == -1){
+            pXp = Managers::ComponentsManager::getXp(1)->mXp;
+
         }else{
             numberChars = 1;
         }
