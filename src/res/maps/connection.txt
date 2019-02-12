@@ -1,2 +1,2 @@
 area1/map.txt;2
-area1/map2.txt;
+area1/getDisk.txt;1
