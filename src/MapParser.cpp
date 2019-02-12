@@ -223,7 +223,7 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused
                         break;
 
                     int id = 1;
-                    Managers::ComponentsManager::createVisualComponent(id, playerMap, 49, 49);
+                    Managers::ComponentsManager::createVisualComponent(id, playerMap, 39, 49);
                     Managers::ComponentsManager::createSpatialComponent(id, x + 1, y + 1);
                     Managers::ComponentsManager::createMoveAbleComponent(id, true, false, true, false);
                     Managers::ComponentsManager::createHealthComponent(id, 100);
