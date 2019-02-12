@@ -18,6 +18,6 @@
 
 #include "KeyUpEvent.h"
 
-Events::KeyUpEvent::KeyUpEvent(SDL_Keysym pCode, const Uint8* pKeys):Event(EventTypes::KeyUp),mKeyCode(pCode),mKeys(pKeys) {
+Events::KeyUpEvent::KeyUpEvent(SDL_Keysym pCode, std::vector<Uint8> &&pKeys):Event(EventTypes::KeyUp),mKeyCode(pCode),mKeys(std::move(pKeys)) {
 
 }

@@ -19,6 +19,6 @@
 #include "KeyPressedEvent.h"
 
 using namespace Events;
-KeyPressedEvent::KeyPressedEvent(SDL_Keysym pCode, const Uint8* pKeys):Event(EventTypes::KePressed) ,mKeyCode(pCode),mKeys(pKeys) {
+KeyPressedEvent::KeyPressedEvent(SDL_Keysym pCode, std::vector<Uint8> &&pKeys):Event(EventTypes::KePressed) ,mKeyCode(pCode),mKeys(pKeys) {
 
 }

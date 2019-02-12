@@ -141,6 +141,7 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused
             int y = line * 50;
             //Defines entities given on the input from map file
             switch (currentLine[i]) {
+                //wall
                 case '#': {
                     int id = Managers::EntityManager::createEntity<Wall>();
                     Managers::ComponentsManager::createVisualComponent(id, textureWall, 50, 50);
@@ -149,6 +150,7 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused
                     collisionMask->push_back(true);
                     break;
                 }
+                //wall
                 case '+': {
                     int id = Managers::EntityManager::createEntity<Wall>();
                     Managers::ComponentsManager::createVisualComponent(id, textureStoneWall, 50, 50);
@@ -157,6 +159,7 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused
                     collisionMask->push_back(true);
                     break;
                 }
+                //wall
                 case '&': {
                     int id = Managers::EntityManager::createEntity<Wall>();
                     Managers::ComponentsManager::createVisualComponent(id, textureStoneWall2, 50, 50);
@@ -165,6 +168,7 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused
                     collisionMask->push_back(true);
                     break;
                 }
+                //Teleporterentrance
                 case 'T': {
                     int id = Managers::EntityManager::createEntity<TeleporterEntrance>();
                     Managers::ComponentsManager::createVisualComponent(id, textureTeleporterEntry, 50, 50);
@@ -174,6 +178,7 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused
                     teleporterTarget = id;
                     break;
                 }
+                //Teleportertarget
                 case 't': {
                     int id = Managers::EntityManager::createEntity<TeleporterTarget>();
                     Managers::ComponentsManager::createVisualComponent(id, textureTeleporterTarget, 50, 50);
@@ -181,6 +186,7 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused
                     Managers::ComponentsManager::createTeleportTarget(id, teleporterTarget);
                     break;
                 }
+                //invisible wall
                 case 'i': {
                     int id = Managers::EntityManager::createEntity<Wall>();
                     Managers::ComponentsManager::createVisualComponent(id, textureInvisible, 50, 50);
@@ -189,6 +195,7 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused
                     collisionMask->push_back(true);
                     break;
                 }
+                //key 1
                 case 'k': {
                     int id = Managers::EntityManager::createEntity<Key>();
                     Managers::ComponentsManager::createVisualComponent(id, textureKey, 50, 50);
@@ -196,6 +203,7 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused
                     Managers::ComponentsManager::createCollideAbleComponent(id);
                     break;
                 }
+                //door
                 case 'd': {
                     int id = Managers::EntityManager::createEntity<Door>();
                     Managers::ComponentsManager::createVisualComponent(id, doorMap, 50, 50);
@@ -204,6 +212,7 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused
                     Managers::ComponentsManager::createUseable(id, {Components::Inventory::ItemTypes::keyArea2});
                     break;
                 }
+                //player
                 case 'p': {
                     int id = 1;
                     Managers::ComponentsManager::createVisualComponent(id, playerMap, 49, 49);
@@ -229,6 +238,7 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused
                     Managers::ComponentsManager::createCollideAbleComponent(id);
                     break;
                 }
+                //Health
                 case 'h': {
                     int id = Managers::EntityManager::createEntity<HealthItem>();
                     Managers::ComponentsManager::createVisualComponent(id, textureHeart, 50, 50);
@@ -236,6 +246,7 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused
                     Managers::ComponentsManager::createCollideAbleComponent(id);
                     break;
                 }
+                //simple monster
                 case 'm': {
                     int id = Managers::EntityManager::createEntity<Npc>();
                     Managers::ComponentsManager::createVisualComponent(id, textureMonster1, 48, 48);
@@ -249,6 +260,7 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused
 
                     break;
                 }
+                //
                 case 'M': {
                     int id = Managers::EntityManager::createEntity<Npc>();
                     Managers::ComponentsManager::createVisualComponent(id, textureMonster2, 48, 48);

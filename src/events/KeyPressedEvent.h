@@ -22,13 +22,14 @@
 #include <SDL_keycode.h>
 #include <SDL_system.h>
 #include "Event.h"
+#include <vector>
 
 namespace Events {
     class KeyPressedEvent:public Event {
     public:
-        KeyPressedEvent(SDL_Keysym pCode, const Uint8* pKeys);
+        KeyPressedEvent(SDL_Keysym pCode, std::vector<Uint8> &&pKeys);
         SDL_Keysym mKeyCode;
-        const Uint8* mKeys;
+        const std::vector<Uint8> mKeys;
     };
 }
 

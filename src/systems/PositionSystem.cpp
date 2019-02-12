@@ -32,7 +32,7 @@ Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager)
         auto playerSpatial = Managers::ComponentsManager::getSpatialComponent(1);
         auto moveable = Managers::ComponentsManager::getMoveableComponent(1);
 
-        int timeFactor = system->mEventsManager->mTimediff/18;
+        int timeFactor = static_cast<int>(system->mEventsManager->mTimediff/18);
         if(!timeFactor){
             timeFactor = 1;
         }
