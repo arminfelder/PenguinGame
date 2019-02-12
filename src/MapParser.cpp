@@ -40,6 +40,10 @@ using namespace Entities;
 using namespace std;
 
 int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused]] GameEngine *pEngine, SDL_Renderer *pRenderer, std::vector<bool> *collisionMask) {
+    return createWorldFromMapTXT(pMapfile, pEngine, pRenderer, collisionMask, 0);
+}
+
+int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused]] GameEngine *pEngine, SDL_Renderer *pRenderer, std::vector<bool> *collisionMask, int playerPositionNumber) {
 
     Managers::ComponentsManager::createMapName(pMapfile); //create mapfile component in order to know which file was loaded
     auto mapDimension = getWorldDimension(pMapfile);
@@ -135,6 +139,7 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused
         std::string currentLine;
         getline(map, currentLine);
         int teleporterTarget;
+        int pCounter = 0;
         for (int i = 0; i < (int) currentLine.length(); i++) {
             collisionMask->push_back(false);
             int x = i * 50;
@@ -205,6 +210,9 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused
                     break;
                 }
                 case 'p': {
+                    if (playerPositionNumber != pCounter++)
+                        break;
+
                     int id = 1;
                     Managers::ComponentsManager::createVisualComponent(id, playerMap, 49, 49);
                     Managers::ComponentsManager::createSpatialComponent(id, x + 1, y + 1);
