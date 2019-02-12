@@ -16,29 +16,21 @@
 * along with PenguinGame. If not, see <http://www.gnu.org/licenses/>.
 ******************************************************************************/
 
-#ifndef GAME_COLLISIONSYSTEM_H
-#define GAME_COLLISIONSYSTEM_H
+#ifndef GAME_MAPCHANGER_H
+#define GAME_MAPCHANGER_H
 
-#include "System.h"
-#include "../managers/EventsManager.h"
-#include "../events/CollisionEvent.h"
-#include "../components/CollideAble.h"
+#include "Entity.h"
 
-namespace Systems {
-    class CollisionSystem: public System {
+namespace Entities {
+    enum class jumpToMap{
+
+    };
+    class MapChanger: public Entity {
     public:
-        CollisionSystem(Managers::EventsManager *pEventsmanager);
-        void changeCollisionMask(std::vector<bool> *collisionMask);
-        void changeMapWidth(int width);
 
-    private:
-        Managers::EventsManager *mEventsManager = nullptr;
-        std::vector<bool> *collisionMask = nullptr;
-        int mapWidth = -1;
-        bool detectCollision(int topLimit, int entryTopLimit, int bottomLimit, int entryBottomLimit, int entityId, Events::collisionTypes collisionType, const std::pair<int, std::shared_ptr<Components::CollideAble>> &entry, Managers::EventsManager* mEventsManager);
-
+        MapChanger(int pID);
     };
 }
 
 
-#endif //GAME_COLLISIONSYSTEM_H
+#endif //GAME_MAPCHANGER_H

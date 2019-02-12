@@ -20,8 +20,11 @@
 #include <SDL2/SDL.h>
 #include <iostream>
 #include <SDL_ttf.h>
+#include <iostream>
 #include <fstream>
+#include <sstream>
 #include <ctime>
+#include <filesystem>
 #include "MapParser.h"
 #include "menu/Menu.h"
 
@@ -47,7 +50,7 @@ int PenguinGame::run() {
     SDL_RegisterEvents(33332); //register Gameover event
     SDL_RegisterEvents(33333); //register New Game event
     SDL_RegisterEvents(33334); //register Load Game event
-    SDL_Surface *surface = SDL_GetWindowSurface(mWindow);
+//    SDL_Surface *surface = SDL_GetWindowSurface(mWindow);
 
     while (mRunning) {
         SDLEventLoop();
@@ -147,10 +150,33 @@ void PenguinGame::SDLEventLoop() {
                 newGame();
                 break;
 
-            case 33335: //continue game on another map -> save data in intermediate file
-                loadMapPreservingUserStats("./res/map.txt");
-                break;
+            case 33335: {//continue game on another map -> save data in intermediate file
+                auto id = *reinterpret_cast<int*>(event.user.data1);
 
+                auto collideAbles = Managers::ComponentsManager::getCollideAble();
+                int counter = 0;
+                std::string map;
+                for (const auto &collideAble : collideAbles) {
+                    auto entity = Managers::EntityManager::getEntity(collideAble.first);
+                    auto type = entity->getType();
+                    if (type == Entities::entityTypes::mapChanger) {
+                        //compare if id matches with the one from event
+                        if (collideAble.first == id) { //found jump
+                            std::cout << "ID for new map " << id << std::endl;
+                            //map = "./res/map.txt";
+                            map = getMapFileNameFromJumper(counter);
+                            break;
+                        }
+                        else
+                            counter++;
+                    }
+                }
+
+
+                delete event.user.data1;
+                loadMapPreservingUserStats(map);
+                break;
+            }
             case 33334: { //load game data including correct map
                 std::string filename = Managers::ComponentsManager::getMapName().get()->getMapName();
                 newGame(filename);
@@ -224,7 +250,7 @@ void PenguinGame::loadMapPreservingUserStats(const std::string &mMapFile) {
 }
 
 void PenguinGame::initGame() {
-    std::string map = "./res/map.txt";
+    std::string map = "./res/maps/area1/map.txt";
     loadMap(map);
 }
 
@@ -250,7 +276,7 @@ void PenguinGame::newGame(const std::string &mMapFile) {
 }
 
 void PenguinGame::newGame() {
-    newGame("./res/map.txt");
+    newGame("./res/maps/area1/map.txt");
 }
 
 void PenguinGame::initMenus() {
@@ -275,4 +301,40 @@ void PenguinGame::initMenus() {
     gameOver.get()->addMenuComponent(std::make_shared<MenuComponent>("Sans", "New Game", "green", position++, MenuEvents::NEW_GAME));
     gameOver.get()->addMenuComponent(std::make_shared<MenuComponent>("Sans", "Load Game", "green", position++, MenuEvents::LOAD_GAME));
     gameOver.get()->addMenuComponent(std::make_shared<MenuComponent>("Sans", "Quit Game", "green", position++, MenuEvents::QUIT_GAME));
+}
+
+std::string PenguinGame::getMapFileNameFromJumper(int jumperID) {
+    std::ifstream connectionFile("./res/maps/connection.txt");
+    std::string line;
+    std::string map = "./res/maps/";
+    int mapID = -1;
+
+    while (std::getline(connectionFile, line)) {
+        std::vector<std::string> splittedStrings = Managers::ComponentsManager::splitString(line, ';');
+
+        std::string mapName = Managers::ComponentsManager::getMapName().get()->getMapName();
+        if (("./res/maps/" + splittedStrings[0]) == Managers::ComponentsManager::getMapName().get()->getMapName()) {
+            if (splittedStrings.size() > jumperID+1)
+                mapID = std::stoi(splittedStrings[jumperID+1]);
+            break;
+        }
+    }
+    connectionFile.close();
+    if (mapID != -1) {
+        std::ifstream connectionFile("./res/maps/connection.txt");
+
+        int counter = 1;
+        while(std::getline(connectionFile, line)) {
+            if (counter == mapID) {
+                std::vector<std::string> splittedStrings = Managers::ComponentsManager::splitString(line, ';');
+                map += splittedStrings[0];
+            } else
+                counter++;
+        }
+
+        connectionFile.close();
+    }
+    if (map == "./res/maps/") //map somehow not found -> set default
+        map += "area1/map.txt";
+    return map;
 }

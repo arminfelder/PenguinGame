@@ -73,6 +73,27 @@ Systems::CombatSystem::CombatSystem(SDL_Renderer *pRenderer,Managers::EventsMana
                 Managers::ComponentsManager::createDamageComponent(bulletId, 15 + playerXp->mXp);
                 Managers::ComponentsManager::createTimeToLive(bulletId, 800 + playerXp->mXp);
             }
+        }else if(event->mKeyCode.sym == SDLK_LSHIFT){
+
+            auto playerSpatial = Managers::ComponentsManager::getSpatialComponent(1);
+            auto playerVisual = Managers::ComponentsManager::getVisualComponent(1);
+            auto playerXp = Managers::ComponentsManager::getXp(1);
+            int moveX = 20;
+            if (playerVisual->mFlip) {
+                moveX *= -1;
+            }
+            int x = playerSpatial->mPositionX +
+                    (((playerVisual->mImageRect.w) + 1) * (playerVisual->mFlip ? -1 : 1));
+            int y = playerSpatial->mPositionY + (playerVisual->mImageRect.h / 5);
+
+            auto texture  =playerVisual->mFlip?system->mTextureHandRight:system->mTextureHandLeft;
+            int bulletId = Managers::EntityManager::createEntity<Entities::Projectile>();
+            Managers::ComponentsManager::createVisualComponent(bulletId, texture, 40, 40);
+            Managers::ComponentsManager::createSpatialComponent(bulletId, x, y);
+            Managers::ComponentsManager::createPathComponent(bulletId, {SDL_Point{moveX, 0},SDL_Point{-moveX,0}}, 5);
+            Managers::ComponentsManager::createDamageComponent(bulletId, 15 + playerXp->mXp);
+            Managers::ComponentsManager::createTimeToLive(bulletId, 180 + playerXp->mXp);
+
         }
     };
 
@@ -110,21 +131,104 @@ Systems::CombatSystem::CombatSystem(SDL_Renderer *pRenderer,Managers::EventsMana
 
         auto entitySpatial = Managers::ComponentsManager::getSpatialComponent(event->mSeeingEntity);
         auto entityVisual = Managers::ComponentsManager::getVisualComponent(event->mSeeingEntity);
-        int moveX = 200;
-        bool flip = false;
-        if(enemySpatial->mPositionX < entitySpatial->mPositionX){
-            moveX *= -1;
-            flip = true;
-        }
-        int x = entitySpatial->mPositionX+(((entityVisual->mImageRect.w)+1)*(flip?-1:1));
-        int y = entitySpatial->mPositionY+(entityVisual->mImageRect.h/2);
+        auto entityInventory = Managers::ComponentsManager::getInventory(event->mSeeingEntity);
+        int distributionSum = entityInventory->getDistributionSum(entityInventory);
+        if(entityInventory && distributionSum > 0){ // test distributionSum for greater zero to prevent division by zero
 
-        int bulletId = Managers::EntityManager::createEntity<Entities::Projectile>();
-        Managers::ComponentsManager::createVisualComponent(bulletId,system->mBlueBullet, 10,5);
-        Managers::ComponentsManager::createSpatialComponent(bulletId,x,y);
-        Managers::ComponentsManager::createPathComponent(bulletId,{SDL_Point{moveX,0}},15);
-        Managers::ComponentsManager::createDamageComponent(bulletId,10);
-        Managers::ComponentsManager::createTimeToLive(bulletId, 500);
+            auto items = entityInventory->listItems<Components::Inventory::ItemTypes>();
+
+            int randomAttack = std::rand() % distributionSum; //some random function from 0 to distributionSum
+
+
+            //randomAttack++;
+            int attackFinder = 0;
+            for (const auto &item : items) { //find attack
+                int distribution = entityInventory->getItemTypeDistribution(item); // get actual number from item
+                if (attackFinder > randomAttack || randomAttack <= attackFinder+distribution)
+                    switch (item){
+                        case Components::Inventory::ItemTypes::ak47:{
+                            int moveX = 200;
+                            if (entityVisual->mFlip) {
+                                moveX *= -1;
+                            }
+                            int test = (entityVisual->mImageRect.w) + 1;
+                            int x = entitySpatial->mPositionX +
+                                    (((entityVisual->mImageRect.w) + 1) * (entityVisual->mFlip ? -1 : 1));
+                            int y = entitySpatial->mPositionY + (entityVisual->mImageRect.h / 2);
+
+                            auto texture  =entityVisual->mFlip?system->mAkBulletLeft:system->mAkBulletRight;
+                            int bulletId = Managers::EntityManager::createEntity<Entities::Projectile>();
+                            Managers::ComponentsManager::createVisualComponent(bulletId, texture, 10, 5);
+                            Managers::ComponentsManager::createSpatialComponent(bulletId, x, y);
+                            Managers::ComponentsManager::createPathComponent(bulletId, {SDL_Point{moveX, 0}}, 20);
+                            Managers::ComponentsManager::createDamageComponent(bulletId, 15 );
+                            Managers::ComponentsManager::createTimeToLive(bulletId, 800 );
+                            break;
+                        }
+                        case Components::Inventory::ItemTypes::finger:{
+                            int moveX = 20;
+                            if (entityVisual->mFlip) {
+                                moveX *= -1;
+                            }
+                            int x = entitySpatial->mPositionX +
+                                    (((entityVisual->mImageRect.w) + 1) * (entityVisual->mFlip ? -1 : 1));
+                            int y = entitySpatial->mPositionY + (entityVisual->mImageRect.h / 5);
+
+                            auto texture  =entityVisual->mFlip?system->mTextureHandRight:system->mTextureHandLeft;
+                            int bulletId = Managers::EntityManager::createEntity<Entities::Projectile>();
+                            Managers::ComponentsManager::createVisualComponent(bulletId, texture, 40, 40);
+                            Managers::ComponentsManager::createSpatialComponent(bulletId, x, y);
+                            Managers::ComponentsManager::createPathComponent(bulletId, {SDL_Point{moveX, 0},SDL_Point{-moveX,0}}, 5);
+                            Managers::ComponentsManager::createDamageComponent(bulletId, 15 );
+                            Managers::ComponentsManager::createTimeToLive(bulletId, 180 );
+                            break;
+                        }
+                        default:{
+
+                            int moveX = 200;
+                            bool flip = false;
+                            if (enemySpatial->mPositionX < entitySpatial->mPositionX) {
+                                moveX *= -1;
+                                flip = true;
+                            }
+                            int x = entitySpatial->mPositionX + (((entityVisual->mImageRect.w) + 1) * (flip ? -1 : 1));
+                            int y = entitySpatial->mPositionY + (entityVisual->mImageRect.h / 2);
+
+                            int bulletId = Managers::EntityManager::createEntity<Entities::Projectile>();
+                            Managers::ComponentsManager::createVisualComponent(bulletId, system->mBlueBullet, 10, 5);
+                            Managers::ComponentsManager::createSpatialComponent(bulletId, x, y);
+                            Managers::ComponentsManager::createPathComponent(bulletId, {SDL_Point{moveX, 0}}, 15);
+                            Managers::ComponentsManager::createDamageComponent(bulletId, 10);
+                            Managers::ComponentsManager::createTimeToLive(bulletId, 500);
+                        }
+
+
+                    }
+                else
+                    attackFinder += distribution;
+            }
+
+
+
+        }else {
+
+            int moveX = 200;
+            bool flip = false;
+            if (enemySpatial->mPositionX < entitySpatial->mPositionX) {
+                moveX *= -1;
+                flip = true;
+            }
+            int x = entitySpatial->mPositionX + (((entityVisual->mImageRect.w) + 1) * (flip ? -1 : 1));
+            int y = entitySpatial->mPositionY + (entityVisual->mImageRect.h / 2);
+
+            int bulletId = Managers::EntityManager::createEntity<Entities::Projectile>();
+            Managers::ComponentsManager::createVisualComponent(bulletId, system->mBlueBullet, 10, 5);
+            Managers::ComponentsManager::createSpatialComponent(bulletId, x, y);
+            Managers::ComponentsManager::createPathComponent(bulletId, {SDL_Point{moveX, 0}}, 15);
+            Managers::ComponentsManager::createDamageComponent(bulletId, 10);
+            Managers::ComponentsManager::createTimeToLive(bulletId, 500);
+
+        }
     };
 
     mEventsManager->regsiterEventHandler(Events::EventTypes::KePressed ,attackCallback);
@@ -137,5 +241,15 @@ Systems::CombatSystem::CombatSystem(SDL_Renderer *pRenderer,Managers::EventsMana
     mAkBulletLeft = std::shared_ptr<SDL_Texture>(SDL_CreateTextureFromSurface(pRenderer, imageAkBulletLeft.get()), SDL_DestroyTexture);
     std::shared_ptr<SDL_Surface> imageAkBulletRight(SDL_LoadBMP("./res/BulletIcon_right.bmp"), SDL_FreeSurface);
     mAkBulletRight = std::shared_ptr<SDL_Texture>(SDL_CreateTextureFromSurface(pRenderer, imageAkBulletRight.get()), SDL_DestroyTexture);
+
+    std::shared_ptr<SDL_Surface> imageHandRight(SDL_LoadBMP("./res/hand_cursor0000Fliped.bmp"), SDL_FreeSurface);
+    mTextureHandRight=std::shared_ptr<SDL_Texture>(SDL_CreateTextureFromSurface(pRenderer, imageHandRight.get()), SDL_DestroyTexture);
+
+    std::shared_ptr<SDL_Surface> imageHandLeft(SDL_LoadBMP("./res/hand_cursor0000.bmp"), SDL_FreeSurface);
+    mTextureHandLeft= std::shared_ptr<SDL_Texture>(SDL_CreateTextureFromSurface(pRenderer, imageHandLeft.get()), SDL_DestroyTexture);
+
+}
+
+void Systems::CombatSystem::attackWithItem(const Components::Inventory::ItemTypes &pItem) {
 
 }

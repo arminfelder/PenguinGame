@@ -54,7 +54,15 @@ configure_file(BulletIcon_left.bmp BulletIcon_left.bmp COPYONLY)
 configure_file(BulletIcon_right.bmp BulletIcon_right.bmp COPYONLY)
 configure_file(a_shield_kite_gold.bmp a_shield_kite_gold.bmp COPYONLY)
 
+configure_file(hand_cursor0000.bmp hand_cursor0000.bmp COPYONLY)
+configure_file(hand_cursor0000Fliped.bmp hand_cursor0000Fliped.bmp COPYONLY)
+
+
 
 configure_file(map.txt map.txt COPYONLY)
 configure_file(map2.txt map2.txt COPYONLY)
 configure_file(map3.txt map3.txt COPYONLY)
+configure_file(maps/connection.txt maps/connection.txt COPYONLY)
+configure_file(maps/area1/map.txt maps/area1/map.txt COPYONLY)
+configure_file(maps/area1/map2.txt maps/area1/map2.txt COPYONLY)
+

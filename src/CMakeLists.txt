@@ -40,6 +40,7 @@ add_executable(game main.cpp
 		entities/SavePoint.cpp
 		entities/Ak47.cpp
 		entities/Disc.cpp
+		entities/MapChanger.cpp
         GameEngine.cpp
         systems/RenderSystem.cpp
         systems/InputSystem.cpp
@@ -95,6 +96,6 @@ add_executable(game main.cpp
         events/TriggerActivated.cpp
 		events/EntityDied.cpp
         MapParser.cpp
-		entities/Shield.cpp entities/Shield.h components/EvadeCapability.cpp components/EvadeCapability.h)
+		entities/Shield.cpp entities/Shield.h components/EvadeCapability.cpp components/EvadeCapability.h components/EndsGame.cpp components/EndsGame.h)
 
 target_link_libraries(game ${SDL2_LIBRARIES} ${SDL2TTF_LIBRARY} ${SDL2_MIXER_LIBRARY})

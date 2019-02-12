@@ -34,6 +34,7 @@
 #include "entities/Disc.h"
 #include "entities/Ak47.h"
 #include "entities/Shield.h"
+#include "entities/MapChanger.h"
 
 using namespace Entities;
 using namespace std;
@@ -217,8 +218,16 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, GameEngine *pE
                                                                        Components::Inventory::ItemTypes::disc,
                                                                        Components::Inventory::ItemTypes::ak47,
                                                                        Components::Inventory::ItemTypes::shield});
-                    Managers::ComponentsManager::createEvadeCapability(id,0);
+                    Managers::ComponentsManager::createEvadeCapability(id, 0);
                     Managers::ComponentsManager::createXp(id);
+                    break;
+                }
+
+                case 'J': { //map jumper
+                    int id = Managers::EntityManager::createEntity<MapChanger>();
+                    Managers::ComponentsManager::createVisualComponent(id, textureSafePoint, 50, 50);
+                    Managers::ComponentsManager::createSpatialComponent(id, x, y);
+                    Managers::ComponentsManager::createCollideAbleComponent(id);
                     break;
                 }
                 case 'h': {
@@ -236,6 +245,9 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, GameEngine *pE
                     Managers::ComponentsManager::createHealthComponent(id, 50);
                     Managers::ComponentsManager::createPathComponent(id, std::vector<SDL_Point>({SDL_Point{100, 0}, SDL_Point{-100, 0}}), 1, true, true);
                     Managers::ComponentsManager::createViewRange(id, 400, 0);
+                    Managers::ComponentsManager::createInventory(id);
+
+
                     break;
                 }
                 case 'M': {
