@@ -60,29 +60,49 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
                 try {
                     if (system->collisionMask->size() > static_cast<unsigned long>(index) &&
                         (system->collisionMask->at(static_cast<unsigned long>(index))) == true) {
-                        std::cout << "collision via mask detected" << std::endl;
                         maskCollision = true;
+                        std::cout << "mask collision" << std::endl;
                         bool collisionTop = system->collisionMask->at(
                                 horizontal + system->mapWidth * (maskTopLimit - 1));
                         bool collisionBottom = system->collisionMask->at(
                                 horizontal + system->mapWidth * (maskBottomLimit - 1));
+                        bool collisionLeft = system->collisionMask->at(maskLeftLimit-1 + vertical * system->mapWidth);
+                        bool collisionRight = system->collisionMask->at(maskRightLimit-1 + vertical * system->mapWidth);
+                        bool nothingHappened = true;
                         if (movingEntity.get()->getType() ==
                             Entities::entityTypes::projectile) //if projectile collides with wall, remove it
                             Managers::EntityManager::destroyEntity(entityId);
+
+
                         if (entityId == 1 && !collisionTop && collisionBottom) { //set player at position of upper space
                             spatial->mPositionY = (maskTopLimit - 1) * 50;
                             system->mEventsManager->addEvent(
                                     std::make_shared<Events::MoveEntity>(1, 0, 1)); //move player to correct position
-                            return;
+                                    nothingHappened = false;
                         } else if (entityId == 1 && collisionTop &&
                                    !collisionBottom) { //collision while jumping, set back
                             spatial->mPositionY = (maskBottomLimit - 1) * 50;
                             spatial->mPrevPositionY = spatial->mPositionY + 1;
                             system->mEventsManager->addEvent(
                                     std::make_shared<Events::MoveEntity>(1, 0, 1)); //move player to correct position
-
-                            return;
-                        }  else
+                                    nothingHappened = false;
+                        }
+//                        if(entityId == 1 && !collisionLeft && collisionRight) {
+//                            spatial->mPositionX = (maskLeftLimit - 1) * 50;
+//                            spatial->mPrevPositionX = spatial->mPositionX + 1;
+//                            system->mEventsManager->addEvent(std::make_shared<Events::MoveEntity>(1, 1, 0));
+//                            nothingHappened = false;
+//                        } else if(entityId == 1 && collisionLeft && !collisionRight) {
+//                            spatial->mPositionX = (maskRightLimit - 1) * 50;
+//                            spatial->mPrevPositionX = spatial->mPositionX + 1;
+//                            system->mEventsManager->addEvent(std::make_shared<Events::MoveEntity>(1, 1, 0));
+//                            nothingHappened = false;
+//                        }
+                        if (!nothingHappened) {//set physics to zero
+                            auto momentum = Managers::ComponentsManager::getMomentumComponent(entityId);
+                            momentum->speedY = 0;
+                            momentum->speedX = 0;
+                        } else
                             system->mEventsManager->addEvent(std::make_shared<Events::CollisionEvent>(entityId, 0,
                                                                                                       Events::collisionTypes::regular));
 
