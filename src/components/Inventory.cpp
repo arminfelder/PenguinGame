@@ -2,6 +2,7 @@
 // Created by armin on 16.01.19.
 //
 
+#include <memory>
 #include "Inventory.h"
 
 using namespace Components;
@@ -21,13 +22,7 @@ void Inventory::removeItem(const Inventory::ItemTypes &pItem) {
     mItems.erase(pItem);
 }
 
-const std::vector<std::string> Inventory::listItems() const {
-    std::vector<std::string> mReturnArray(mItems.size());
-    for(const auto &item: mItems){
-        mReturnArray.push_back(mItemDescriptions.find(item)->second);
-    }
-    return mReturnArray;
-}
+
 
 std::string Inventory::serialize() {
     std::string output;
@@ -53,4 +48,19 @@ void Inventory::reset() {
 std::string Inventory::getItemTypeDescription(Inventory::ItemTypes itemType) {
     std::string returnValue = mItemDescriptions.find(itemType)->second;
     return returnValue;
+}
+
+int Inventory::getItemTypeDistribution(Inventory::ItemTypes itemType) {
+    int returnValue = mItemDistribution.find(itemType)->second;
+    return returnValue;
+}
+
+int Inventory::getDistributionSum(std::shared_ptr<Components::Inventory> entityInventory) {
+    auto items = entityInventory->listItems<Components::Inventory::ItemTypes>();
+
+    int distributionSum = 0;
+    for (const auto &item : items) {//find length for distributionSum
+        distributionSum+=entityInventory->getItemTypeDistribution(item); //sum up here the distribution from inventory.h
+    }
+    return distributionSum;
 }

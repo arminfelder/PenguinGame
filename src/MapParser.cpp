@@ -236,6 +236,9 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, GameEngine *pE
                     Managers::ComponentsManager::createHealthComponent(id, 50);
                     Managers::ComponentsManager::createPathComponent(id, std::vector<SDL_Point>({SDL_Point{100, 0}, SDL_Point{-100, 0}}), 1, true, true);
                     Managers::ComponentsManager::createViewRange(id, 400, 0);
+                    Managers::ComponentsManager::createInventory(id);
+
+
                     break;
                 }
                 case 'M': {

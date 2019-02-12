@@ -23,17 +23,22 @@
 #include <SDL_render.h>
 #include "System.h"
 #include "../managers/EventsManager.h"
+#include "../components/Inventory.h"
 
 namespace Systems {
     class CombatSystem:public System {
     public:
         CombatSystem(SDL_Renderer *pRenderer,Managers::EventsManager *pEventsManager);
+        void attackWithItem(const Components::Inventory::ItemTypes &pItem);
 
     private:
         Managers::EventsManager *mEventsManager;
         std::shared_ptr<SDL_Texture> mBlueBullet;
         std::shared_ptr<SDL_Texture> mAkBulletLeft;
         std::shared_ptr<SDL_Texture> mAkBulletRight;
+        std::shared_ptr<SDL_Texture> mTextureHandRight;
+        std::shared_ptr<SDL_Texture> mTextureHandLeft;
+
     };
 }
 
