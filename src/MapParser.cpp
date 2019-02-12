@@ -332,6 +332,7 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, GameEngine *pE
         line++;
     }
     map.close();
+    //printCollisionMask(*collisionMask, getWorldDimension(pMapfile).x);
     return 0;
 }
 

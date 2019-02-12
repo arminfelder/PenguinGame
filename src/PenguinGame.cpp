@@ -328,6 +328,7 @@ std::string PenguinGame::getMapFileNameFromJumper(int jumperID) {
             if (counter == mapID) {
                 std::vector<std::string> splittedStrings = Managers::ComponentsManager::splitString(line, ';');
                 map += splittedStrings[0];
+                break;
             } else
                 counter++;
         }
