@@ -185,7 +185,6 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
                     }
                     case Entities::entityTypes::mapChanger: {
                         collisionType = Events::collisionTypes::mapChanger;
-                        //entityCollision = system->detectCollision(topLimit, entryTopLimit, bottomLimit, entryBottomLimit, entityId, collisionType, entry, system->mEventsManager);
                         break;
                     }
                     default:
@@ -243,7 +242,7 @@ void Systems::CollisionSystem::changeMapWidth(int width) {
 }
 
 bool Systems::CollisionSystem::detectCollision(int topLimit, int entryTopLimit, int bottomLimit, int entryBottomLimit, int entityId, Events::collisionTypes collisionType,
-                                               const std::pair<int, std::shared_ptr<Components::CollideAble>> entry, Managers::EventsManager* mEventsManager) {
+                                               const std::pair<int, std::shared_ptr<Components::CollideAble>> &entry, Managers::EventsManager* mEventsManager) {
     bool entityCollision = false;
 
     if (collisionType == Events::collisionTypes::ladder) {
