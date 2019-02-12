@@ -40,7 +40,7 @@ std::map<int, std::shared_ptr<Components::CollisionDamage>> ComponentsManager::m
 std::map<int, std::shared_ptr<Components::ViewRange>> ComponentsManager::mViewRanges;
 std::map<int, std::shared_ptr<Components::Inventory>> ComponentsManager::mInventories;
 std::map<int, std::shared_ptr<Components::CanCollect>> ComponentsManager::mCanCollects;
-std::map<int, std::shared_ptr<Components::UseAbel>> ComponentsManager::mUseables;
+std::map<int, std::shared_ptr<Components::UseAble>> ComponentsManager::mUseables;
 std::map<int, std::shared_ptr<Components::TeleportTarget>> ComponentsManager::mTeleportTargets;
 std::map<int, std::shared_ptr<Components::MapName>> ComponentsManager::mMapNameComponents;
 std::map<int, std::shared_ptr<Components::Xp>> ComponentsManager::mXp;
@@ -259,16 +259,16 @@ void ComponentsManager::addCollectible(int pEntityId, const Components::Inventor
 }
 
 
-std::map<int, std::shared_ptr<Components::UseAbel>> &ComponentsManager::getUseables() {
+std::map<int, std::shared_ptr<Components::UseAble>> &ComponentsManager::getUseables() {
     return mUseables;
 }
 
-std::shared_ptr<Components::UseAbel> &ComponentsManager::getUseable(int pEntityId) {
+std::shared_ptr<Components::UseAble> &ComponentsManager::getUseable(int pEntityId) {
     return mUseables[pEntityId];
 }
 
 void ComponentsManager::createUseable(int pEntityId, const std::vector<Components::Inventory::ItemTypes> &pTypes) {
-    mUseables.emplace(std::make_pair(pEntityId, std::make_shared<Components::UseAbel>(pTypes)));
+    mUseables.emplace(std::make_pair(pEntityId, std::make_shared<Components::UseAble>(pTypes)));
 }
 
 

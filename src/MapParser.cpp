@@ -39,10 +39,9 @@
 using namespace Entities;
 using namespace std;
 
-int MapParser::createWorldFromMapTXT(const std::string &pMapfile, GameEngine *pEngine, SDL_Renderer *pRenderer, std::vector<bool> *collisionMask) {
+int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused]] GameEngine *pEngine, SDL_Renderer *pRenderer, std::vector<bool> *collisionMask) {
 
     Managers::ComponentsManager::createMapName(pMapfile); //create mapfile component in order to know which file was loaded
-    auto entityManager = pEngine->getEntityManager();
     auto mapDimension = getWorldDimension(pMapfile);
 
 

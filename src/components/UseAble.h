@@ -9,9 +9,9 @@
 #include "Inventory.h"
 
 namespace Components {
-    class UseAbel: public Component {
+    class UseAble: public Component {
     public:
-        UseAbel(const std::vector<Inventory::ItemTypes> &pItems );
+        UseAble(const std::vector<Inventory::ItemTypes> &pItems );
         std::vector<Inventory::ItemTypes> mRequiresItems;
     };
 }

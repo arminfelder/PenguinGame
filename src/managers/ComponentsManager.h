@@ -26,7 +26,6 @@
 #include <memory>
 #include "../components/Component.h"
 #include "../components/Health.h"
-#include "../components/Position.h"
 #include "../entities/Entity.h"
 #include "../components/VisualComponent.h"
 #include "../components/SpatialComponent.h"
@@ -41,7 +40,7 @@
 #include "../components/ViewRange.h"
 #include "../components/Inventory.h"
 #include "../components/CanCollect.h"
-#include "../components/UseAbel.h"
+#include "../components/UseAble.h"
 #include "../components/TeleportTarget.h"
 #include "../components/MapName.h"
 #include "../components/Xp.h"
@@ -67,7 +66,7 @@ namespace Managers {
         static std::map<int, std::shared_ptr<Components::ViewRange>> &getViewRanges();
         static std::map<int, std::shared_ptr<Components::Inventory>> &getInventories();
         static std::map<int, std::shared_ptr<Components::CanCollect>> &getCanCollects();
-        static std::map<int, std::shared_ptr<Components::UseAbel>> &getUseables();
+        static std::map<int, std::shared_ptr<Components::UseAble>> &getUseables();
         static std::map<int, std::shared_ptr<Components::TeleportTarget>> &getTeleportTargets();
         static std::map<int, std::shared_ptr<Components::Xp>> &getXps();
         static std::map<int, std::shared_ptr<Components::EvadeCapability>> &getEvadeCapabilities();
@@ -87,7 +86,7 @@ namespace Managers {
         static std::shared_ptr<Components::ViewRange> &getViewRange(int pEntityId);
         static std::shared_ptr<Components::Inventory> &getInventory(int pEntityId);
         static std::shared_ptr<Components::CanCollect> &getCanCollect(int pEntityId);
-        static std::shared_ptr<Components::UseAbel> &getUseable(int pEntityId);
+        static std::shared_ptr<Components::UseAble> &getUseable(int pEntityId);
         static std::shared_ptr<Components::TeleportTarget> &getTeleportTarget(int pEntityId);
         static std::shared_ptr<Components::MapName> &getMapName();
         static std::shared_ptr<Components::Xp> &getXp(int pEntityId);
@@ -141,7 +140,7 @@ namespace Managers {
         static std::map<int, std::shared_ptr<Components::ViewRange>> mViewRanges;
         static std::map<int, std::shared_ptr<Components::Inventory>> mInventories;
         static std::map<int, std::shared_ptr<Components::CanCollect>> mCanCollects;
-        static std::map<int, std::shared_ptr<Components::UseAbel>> mUseables;
+        static std::map<int, std::shared_ptr<Components::UseAble>> mUseables;
         static std::map<int, std::shared_ptr<Components::TeleportTarget>> mTeleportTargets;
         static std::map<int, std::shared_ptr<Components::MapName>> mMapNameComponents;
         static std::map<int, std::shared_ptr<Components::Xp>> mXp;

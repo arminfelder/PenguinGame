@@ -70,5 +70,5 @@ bool MenuComponent::isItem() {
 }
 
 int MenuComponent::getCharsCount() {
-    return text.size();
+    return static_cast<int>(text.size());
 }
