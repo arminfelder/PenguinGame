@@ -26,18 +26,26 @@ using namespace Systems;
 void InputSystem::update() {
     SDL_Event event;
 
-    auto keys = SDL_GetKeyboardState(nullptr);
 
     while(SDL_PeepEvents(&event, 1, SDL_GETEVENT, SDL_KEYDOWN, SDL_MOUSEWHEEL)){
+        auto length = 0;
+        auto keys = SDL_GetKeyboardState(&length);
+        if (keys[SDL_SCANCODE_SPACE]) {
+            printf("<RETURN> is pressed.\n");
+        }
+
+        std::vector<Uint8> keyVec(length);
+
+        std::copy(keys,keys+length,keyVec.begin());
 
         switch (event.type){
 
             case SDL_KEYDOWN: {
-                mEventsManager->addEvent(std::make_shared<Events::KeyPressedEvent>(event.key.keysym,keys));
+                mEventsManager->addEvent(std::make_shared<Events::KeyPressedEvent>(event.key.keysym,std::move(keyVec)));
                 break;
             }
             case SDL_KEYUP: {
-                mEventsManager->addEvent(std::make_shared<Events::KeyUpEvent>(event.key.keysym,keys));
+                mEventsManager->addEvent(std::make_shared<Events::KeyUpEvent>(event.key.keysym,std::move(keyVec)));
                 break;
             }
 
@@ -46,4 +54,9 @@ void InputSystem::update() {
 }
 
 InputSystem::InputSystem(Managers::EventsManager *pEventsManager):mEventsManager(pEventsManager) {
+}
+
+std::vector<SDL_Keysym> InputSystem::getPressedKeys(Uint8 pKeyMap) {
+
+    return std::vector<SDL_Keysym>();
 }

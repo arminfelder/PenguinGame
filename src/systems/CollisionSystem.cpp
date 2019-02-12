@@ -220,6 +220,7 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
                     //todo make this hack nice using the event queue
                     auto momenta = Managers::ComponentsManager::getMomenta();
                     momenta[entityId]->speedY = 0;
+                    momenta[entityId]->speedX = 0;
                     auto moveAbleComponent = Managers::ComponentsManager::getMoveableComponent(1);
                     moveAbleComponent->doubleJumpUsed = false;
                 }

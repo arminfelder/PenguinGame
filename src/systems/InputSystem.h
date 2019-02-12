@@ -30,6 +30,7 @@ namespace Systems{
 
     private:
         Managers::EventsManager *mEventsManager = nullptr;
+        std::vector<SDL_Keysym> getPressedKeys(Uint8 pKeyMap);
     };
 }
 

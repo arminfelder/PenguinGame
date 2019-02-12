@@ -22,13 +22,14 @@
 #include <SDL_keycode.h>
 #include <SDL_system.h>
 #include "Event.h"
+#include <vector>
 
 namespace Events {
     class KeyUpEvent:public Event {
     public:
-        KeyUpEvent(SDL_Keysym pCode, const Uint8* pKeys);
+        KeyUpEvent(SDL_Keysym pCode, std::vector<Uint8> &&pKeys);
         SDL_Keysym mKeyCode;
-        const Uint8* mKeys;
+        const std::vector<Uint8> mKeys;
     };
 }
 
