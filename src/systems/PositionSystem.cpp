@@ -168,3 +168,9 @@ Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager)
     mEventsManager->regsiterEventHandler(Events::EventTypes::Collision, callbackCollision);
     mEventsManager->regsiterEventHandler(Events::EventTypes::MoveEntity, moveEventCallback);
 }
+
+void Systems::PositionSystem::update() {
+    auto playerSpatial = Managers::ComponentsManager::getSpatialComponent(1);
+    playerSpatial->mPrevPositionX = playerSpatial->mPositionX;
+    playerSpatial->mPrevPositionY = playerSpatial->mPositionY;
+}
