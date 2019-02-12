@@ -62,3 +62,7 @@ configure_file(hand_cursor0000Fliped.bmp hand_cursor0000Fliped.bmp COPYONLY)
 configure_file(map.txt map.txt COPYONLY)
 configure_file(map2.txt map2.txt COPYONLY)
 configure_file(map3.txt map3.txt COPYONLY)
+configure_file(maps/connection.txt maps/connection.txt COPYONLY)
+configure_file(maps/area1/map.txt maps/area1/map.txt COPYONLY)
+configure_file(maps/area1/map2.txt maps/area1/map2.txt COPYONLY)
+

@@ -44,7 +44,8 @@ namespace Entities {
         disc,
         ak47,
         shield,
-        none
+        none,
+        mapChanger
     };
     class Entity {
     public:

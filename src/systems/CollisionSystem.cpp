@@ -183,10 +183,17 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
                         collisionType = Events::collisionTypes::shield;
                         break;
                     }
+                    case Entities::entityTypes::mapChanger: {
+                        collisionType = Events::collisionTypes::mapChanger;
+                        break;
+                    }
                     default:
                     case Entities::entityTypes::none: {
                         break;
                     }
+                    case Entities::entityTypes::healthIndicator:break;
+                    case Entities::entityTypes::teleporterTarget:break;
+                    case Entities::entityTypes::xpIndicator:break;
                 }
                 if (leftLimit > entryLeftLimit && leftLimit < entryRightLimit)
                     entityCollision = system->detectCollision(topLimit, entryTopLimit, bottomLimit, entryBottomLimit, entityId, collisionType, entry, system->mEventsManager);
@@ -235,26 +242,31 @@ void Systems::CollisionSystem::changeMapWidth(int width) {
 }
 
 bool Systems::CollisionSystem::detectCollision(int topLimit, int entryTopLimit, int bottomLimit, int entryBottomLimit, int entityId, Events::collisionTypes collisionType,
-                                               const std::pair<int, std::shared_ptr<Components::CollideAble>> entry, Managers::EventsManager* mEventsManager) {
+                                               const std::pair<int, std::shared_ptr<Components::CollideAble>> &entry, Managers::EventsManager* mEventsManager) {
     bool entityCollision = false;
 
     if (collisionType == Events::collisionTypes::ladder) {
-        if (topLimit > entryTopLimit && topLimit < entryBottomLimit) {
-            std::cout << "collision!" << std::endl;
-            entityCollision = true;
-            mEventsManager->addEvent(std::make_shared<Events::CollisionEvent>(entityId, entry.first, collisionType));
-        } else if (bottomLimit < entryBottomLimit && bottomLimit > entryTopLimit) {
+        if ((topLimit > entryTopLimit && topLimit < entryBottomLimit) || (bottomLimit < entryBottomLimit && bottomLimit > entryTopLimit)) {
             std::cout << "collision!" << std::endl;
             entityCollision = true;
             mEventsManager->addEvent(std::make_shared<Events::CollisionEvent>(entityId, entry.first, collisionType));
         }
     }
-    else {
-        if (topLimit >= entryTopLimit && topLimit <= entryBottomLimit) {
-            std::cout << "collision!" << std::endl;
+    else if (collisionType == Events::collisionTypes::mapChanger){
+        if ((topLimit >= entryTopLimit && topLimit <= entryBottomLimit) || (bottomLimit <= entryBottomLimit && bottomLimit >= entryTopLimit)) {
+            std::cout << "map change collision!" << std::endl;
             entityCollision = true;
-            mEventsManager->addEvent(std::make_shared<Events::CollisionEvent>(entityId, entry.first, collisionType));
-        } else if (bottomLimit <= entryBottomLimit && bottomLimit >= entryTopLimit) {
+            { //if collision with jumper happens, go to specific map
+                SDL_Event sdl_event;
+                sdl_event.type = static_cast<Uint32>(33335);
+                auto idPointer = new int;
+                *idPointer = entry.first;
+                sdl_event.user.data1 = idPointer;
+                SDL_PushEvent(&sdl_event);
+            }
+        }
+    } else {
+        if ((topLimit >= entryTopLimit && topLimit <= entryBottomLimit) || (bottomLimit <= entryBottomLimit && bottomLimit >= entryTopLimit)) {
             std::cout << "collision!" << std::endl;
             entityCollision = true;
             mEventsManager->addEvent(std::make_shared<Events::CollisionEvent>(entityId, entry.first, collisionType));

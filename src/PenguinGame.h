@@ -50,6 +50,7 @@ private:
     GameEngine *mGameEngine = nullptr;
     std::vector<bool> collisionMask;
     void drawFrame(uint64_t &last, uint64_t &now, int frames);
+    std::string getMapFileNameFromJumper(int jumperID);
 
     //audio
     SDL_AudioSpec mWavSpec;
