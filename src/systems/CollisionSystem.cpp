@@ -60,7 +60,6 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
                 try {
                     if (system->collisionMask->size() > static_cast<unsigned long>(index) &&
                         (system->collisionMask->at(static_cast<unsigned long>(index))) == true) {
-                        std::cout << "collision via mask detected" << std::endl;
                         maskCollision = true;
                         bool collisionTop = system->collisionMask->at(
                                 horizontal + system->mapWidth * (maskTopLimit - 1));
@@ -214,7 +213,6 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
                 if (!floorLeft && !floorRight) { //no floor below us -> fall down
                     if (!Managers::ComponentsManager::getMoveableComponent(1).get()->climbing) { //only fall, if the player is not climbing at the moment
                         system->mEventsManager->addEvent(std::make_shared<Events::FallingEvent>(entityId));
-                        std::cout << "added event for falling" << std::endl;
                     }
                 } else if (maskTopLimit == maskBottomLimit) { //else: player lands somewhere, if: stop if player occupies only one cube
                     //todo make this hack nice using the event queue
@@ -247,14 +245,12 @@ bool Systems::CollisionSystem::detectCollision(int topLimit, int entryTopLimit, 
 
     if (collisionType == Events::collisionTypes::ladder) {
         if ((topLimit > entryTopLimit && topLimit < entryBottomLimit) || (bottomLimit < entryBottomLimit && bottomLimit > entryTopLimit)) {
-            std::cout << "collision!" << std::endl;
             entityCollision = true;
             mEventsManager->addEvent(std::make_shared<Events::CollisionEvent>(entityId, entry.first, collisionType));
         }
     }
     else if (collisionType == Events::collisionTypes::mapChanger){
         if ((topLimit >= entryTopLimit && topLimit <= entryBottomLimit) || (bottomLimit <= entryBottomLimit && bottomLimit >= entryTopLimit)) {
-            std::cout << "map change collision!" << std::endl;
             entityCollision = true;
             { //if collision with jumper happens, go to specific map
                 SDL_Event sdl_event;
@@ -267,7 +263,6 @@ bool Systems::CollisionSystem::detectCollision(int topLimit, int entryTopLimit, 
         }
     } else {
         if ((topLimit >= entryTopLimit && topLimit <= entryBottomLimit) || (bottomLimit <= entryBottomLimit && bottomLimit >= entryTopLimit)) {
-            std::cout << "collision!" << std::endl;
             entityCollision = true;
             mEventsManager->addEvent(std::make_shared<Events::CollisionEvent>(entityId, entry.first, collisionType));
         }
