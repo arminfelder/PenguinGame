@@ -51,6 +51,8 @@ namespace Managers {
 
         Systems::CollisionSystem *getCollisionSystem() const;
 
+        Systems::XpSystem *getXpSystem() const;
+
         ~SystemsManager();
 
     private:
