@@ -19,11 +19,13 @@
 
 #include <SDL_timer.h>
 #include <iostream>
+#include <tuple>
 #include "RenderSystem.h"
 #include "../managers/ComponentsManager.h"
 #include "../components/CameraOffset.h"
 #include "../events/EntityMoved.h"
 
+#define UNUSED(x) (void)(x)
 
 Systems::RenderSystem::RenderSystem(SDL_Window *pWindow, SDL_Renderer *pPrenderer, Managers::EventsManager *pEventsManager):
 mWindow(pWindow),mRenderer(pPrenderer),mEventsManager(pEventsManager){
@@ -50,8 +52,7 @@ Systems::RenderSystem::~RenderSystem() {
 
 }
 
-void Systems::RenderSystem::update(uint64_t pTimeDiff) {
-
+void Systems::RenderSystem::update( [[maybe_unused]] uint64_t pTimeDiff) {
     auto visualComponents = Managers::ComponentsManager::getVisualComponents();
     auto cameraPositions = Managers::ComponentsManager::getCameraOffsets();
     auto playerSpatial = Managers::ComponentsManager::getSpatialComponent(1);
@@ -63,7 +64,6 @@ void Systems::RenderSystem::update(uint64_t pTimeDiff) {
     SDL_RenderClear(mRenderer);
 
     SDL_Rect rect{static_cast<int>(0+playerSpatial->mPositionX*0.1), static_cast<int>(0+playerSpatial->mPositionY*0.1),1500,800};
-    SDL_Point origin{0,0};
     SDL_Rect fill{0,0,0,0};
     SDL_GetWindowSize(mWindow, &fill.w, &fill.h);
 
@@ -86,9 +86,6 @@ void Systems::RenderSystem::update(uint64_t pTimeDiff) {
             dstrect.x = spatial->mPositionX;
             dstrect.y = spatial->mPositionY;
         }
-        SDL_Point center;
-        center.x= 0;
-        center.y = 0;
         SDL_RenderCopyEx(mRenderer, visual->mTexture.get() , nullptr, &dstrect,visual->mRotateAngle, nullptr, visual->mFlip);
     }
 

@@ -8,9 +8,7 @@
 #include "../events/EntityCanSee.h"
 
 Systems::AiSystem::AiSystem(Managers::EventsManager *pEventsManager):mEventsManager(pEventsManager) {
-    auto callback = [system = this](const std::shared_ptr<Events::Event> &pEvent){
 
-    };
 }
 
 void Systems::AiSystem::update(uint8_t pTimeDiff) {
@@ -26,7 +24,7 @@ void Systems::AiSystem::update(uint8_t pTimeDiff) {
             int moveX = 0;
             int moveY = 0;
             if(!diffX &&!diffY){
-                if(path.second->mCurrPos < path.second->mPath.size()-1){
+                if(path.second->mCurrPos < static_cast<int>(path.second->mPath.size()-1)){
                     path.second->mCurrPos++;
                     path.second->mXmovedCurStep = 0;
                     path.second->mYmovedCurStep = 0;

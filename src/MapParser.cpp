@@ -39,14 +39,13 @@
 using namespace Entities;
 using namespace std;
 
-int MapParser::createWorldFromMapTXT(const std::string &pMapfile, GameEngine *pEngine, SDL_Renderer *pRenderer, std::vector<bool> *collisionMask) {
+int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused]] GameEngine *pEngine, SDL_Renderer *pRenderer, std::vector<bool> *collisionMask) {
     return createWorldFromMapTXT(pMapfile, pEngine, pRenderer, collisionMask, 0);
 }
 
-int MapParser::createWorldFromMapTXT(const std::string &pMapfile, GameEngine *pEngine, SDL_Renderer *pRenderer, std::vector<bool> *collisionMask, int playerPositionNumber) {
+int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused]] GameEngine *pEngine, SDL_Renderer *pRenderer, std::vector<bool> *collisionMask, int playerPositionNumber) {
 
     Managers::ComponentsManager::createMapName(pMapfile); //create mapfile component in order to know which file was loaded
-    auto entityManager = pEngine->getEntityManager();
     auto mapDimension = getWorldDimension(pMapfile);
 
 
@@ -340,7 +339,6 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, GameEngine *pE
         line++;
     }
     map.close();
-    //printCollisionMask(*collisionMask, getWorldDimension(pMapfile).x);
     return 0;
 }
 

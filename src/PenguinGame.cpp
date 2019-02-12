@@ -38,7 +38,6 @@ int PenguinGame::run() {
     initMenus();
     auto now = SDL_GetPerformanceCounter();
     uint64_t last = now;
-    uint64_t deltaTime = 0;
     int frames = 60;
 
     SDL_RegisterEvents(32769); //register Menu event
@@ -152,8 +151,8 @@ void PenguinGame::SDLEventLoop() {
                 break;
 
             case 33335: {//continue game on another map -> save data in intermediate file
-                auto id = *reinterpret_cast<int *>(event.user.data1);
-
+                auto idptr = reinterpret_cast<int*>(event.user.data1);
+                auto id = *idptr;
                 auto collideAbles = Managers::ComponentsManager::getCollideAble();
                 int jumperCounter = 0;
                 int playerPosition = 0;
@@ -172,8 +171,8 @@ void PenguinGame::SDLEventLoop() {
                     }
                 }
 
-                delete event.user.data1;
-                loadMapPreservingUserStats(map, playerPosition);
+                delete idptr;
+                loadMapPreservingUserStats(map);
                 break;
             }
             case 33334: { //load game data including correct map
@@ -223,8 +222,6 @@ void PenguinGame::loadMap(const std::string &mMapFile, int playerPosition) {
     auto mapDimension = MapParser::getWorldDimension(mMapFile);
     systemManager->getCollisionSystem()->changeMapWidth(mapDimension.x);
     Managers::ComponentsManager::createMapName(mMapFile);
-    auto xpSystem = mGameEngine->getSystemsManager()->getXpSystem();
-    auto debug = Managers::ComponentsManager::getXps();
 }
 
 void PenguinGame::loadMap(const std::string &mMapFile) {
@@ -288,7 +285,7 @@ void PenguinGame::newGame(const std::string &mMapFile) {
 }
 
 void PenguinGame::newGame() {
-    newGame("./res/maps/area1/map.txt");
+    newGame((const std::string &) "./res/maps/area1/map.txt");
 }
 
 void PenguinGame::initMenus() {
@@ -359,7 +356,7 @@ int PenguinGame::getMapIDFromJumper(int jumperID) {
         std::vector<std::string> splittedStrings = Managers::ComponentsManager::splitString(line, ';');
 
         if (("./res/maps/" + splittedStrings[0]) == Managers::ComponentsManager::getMapName().get()->getMapName()) {
-            if (splittedStrings.size() > (jumperID + 1) * 2)
+            if (static_cast<int>(splittedStrings.size()) > (jumperID + 1) * 2)
                 mapID = std::stoi(splittedStrings[jumperID * 2 + 1]);
             break;
         }
