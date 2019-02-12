@@ -58,6 +58,8 @@ configure_file(hand_cursor0000.bmp hand_cursor0000.bmp COPYONLY)
 configure_file(hand_cursor0000Fliped.bmp hand_cursor0000Fliped.bmp COPYONLY)
 
 configure_file(iceblock.bmp iceblock.bmp COPYONLY)
+configure_file("Lava #4.bmp" "Lava #4.bmp" COPYONLY)
+
 
 configure_file(map.txt map.txt COPYONLY)
 configure_file(map2.txt map2.txt COPYONLY)
