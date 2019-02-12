@@ -13,3 +13,4 @@ gen_anim.png,rrcaseyr(OpenGameArt.org), CC-BY-SA
 PixelWeapons/*,PixelMannen(OpenGameArt.org),CC0
 BulletIcon.png,BrighamKeys(OpenGameArt.org),CC-BY-SA
 hand_cursor0000.png,andreyin(OpenGameArt.org),CC0
+Lava #4.png,LuminousDragonGames(OpenGameArt.org),CC0
