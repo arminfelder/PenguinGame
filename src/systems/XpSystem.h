@@ -14,7 +14,7 @@ namespace Systems {
     class XpSystem : public System {
     public:
         XpSystem(SDL_Renderer *pRenderer,Managers::EventsManager *pEventsManager);
-
+        void drawXp(int pXp=-1);
     private:
         Managers::EventsManager *mEventsManager = nullptr;
         SDL_Renderer *mRenderer = nullptr;

@@ -77,3 +77,7 @@ SystemsManager::~SystemsManager() {
     mRenderSystem->~RenderSystem();
 
 }
+
+Systems::XpSystem *SystemsManager::getXpSystem() const {
+    return mXpSystem;
+}

@@ -15,34 +15,44 @@ XpSystem::XpSystem(SDL_Renderer *pRenderer,Managers::EventsManager *pEventsManag
         if(xp){
             xp->mXp += event->mOrigHealth/10;
 
-            auto visualComponent = Managers::ComponentsManager::getVisualComponent(4);
+            system->drawXp(xp->mXp);
 
-            if(visualComponent){
-                int numberChars = 0;
-                if(xp->mXp){
-                    for(int i=xp->mXp; i>0; i /=10){
-                        numberChars++;
-                    }
-                }else{
-                    numberChars = 1;
-                }
-
-                int textLength = numberChars+4;
-
-                auto xpString = std::string("XP: ")+std::to_string(xp->mXp);
-
-                SDL_Color textColor = {255, 255, 255, 255};
-                SDL_Surface *xpMessage = TTF_RenderText_Blended(system->Sans.get(),
-                                                                    xpString.c_str(), textColor);
-                auto xpMessageTexture = std::shared_ptr<SDL_Texture>(
-                        SDL_CreateTextureFromSurface(system->mRenderer, xpMessage), SDL_DestroyTexture);
-                SDL_FreeSurface(xpMessage);
-                visualComponent->mTexture = xpMessageTexture;
-                visualComponent->mImageRect.w = 24*textLength;
-            }
         }
     };
 
     Sans = std::shared_ptr<TTF_Font>(TTF_OpenFont("./res/sans.ttf", 24), TTF_CloseFont);
     mEventsManager->regsiterEventHandler(Events::EventTypes::EntityDied,callbackEntityDied);
+}
+
+void XpSystem::drawXp(int pXp) {
+
+
+    auto visualComponent = Managers::ComponentsManager::getVisualComponent(4);
+
+    if(visualComponent){
+        int numberChars = 0;
+        if(pXp >=0){
+            for(int i=pXp; i>0; i /=10){
+                numberChars++;
+            }
+        }else if(pXp == -1){
+            pXp = Managers::ComponentsManager::getXp(1)->mXp;
+
+        }else{
+            numberChars = 1;
+        }
+
+        int textLength = numberChars+4;
+
+        auto xpString = std::string("XP: ")+std::to_string(pXp);
+
+        SDL_Color textColor = {255, 255, 255, 255};
+        SDL_Surface *xpMessage = TTF_RenderText_Blended(this->Sans.get(),
+                                                        xpString.c_str(), textColor);
+        auto xpMessageTexture = std::shared_ptr<SDL_Texture>(
+                SDL_CreateTextureFromSurface(this->mRenderer, xpMessage), SDL_DestroyTexture);
+        SDL_FreeSurface(xpMessage);
+        visualComponent->mTexture = xpMessageTexture;
+        visualComponent->mImageRect.w = 24*textLength;
+    }
 }
