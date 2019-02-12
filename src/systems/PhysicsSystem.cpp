@@ -58,8 +58,6 @@ Systems::PhysicsSystem::PhysicsSystem(Managers::EventsManager *pEventsManager):m
 //                std::cout << "added event for falling after jumping" << std::endl;
             }
 
-            auto test = event->mKeys[SDL_SCANCODE_SPACE];
-
             if(event->mKeys[SDL_SCANCODE_LEFT]){
                 momentum->speedX = -6;
             }else if(event->mKeys[SDL_SCANCODE_RIGHT]){
