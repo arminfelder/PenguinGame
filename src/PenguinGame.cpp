@@ -147,10 +147,13 @@ void PenguinGame::SDLEventLoop() {
                 newGame();
                 break;
 
-            case 33335: //continue game on another map -> save data in intermediate file
+            case 33335: {//continue game on another map -> save data in intermediate file
+                int id = *(int*) event.user.data1;
+                std::cout << "ID for new map " << id << std::endl;
+                delete event.user.data1;
                 loadMapPreservingUserStats("./res/map.txt");
                 break;
-
+            }
             case 33334: { //load game data including correct map
                 std::string filename = Managers::ComponentsManager::getMapName().get()->getMapName();
                 newGame(filename);
@@ -195,6 +198,7 @@ void PenguinGame::loadMap(const std::string &mMapFile) {
     auto mapDimension = MapParser::getWorldDimension(mMapFile);
     systemManager->getCollisionSystem()->changeMapWidth(mapDimension.x);
     Managers::ComponentsManager::createMapName(mMapFile);
+    //todo put here map jump loader
 }
 
 void PenguinGame::loadMapPreservingUserStats(const std::string &mMapFile) {

@@ -40,6 +40,7 @@ add_executable(game main.cpp
 		entities/SavePoint.cpp
 		entities/Ak47.cpp
 		entities/Disc.cpp
+		entities/MapChanger.cpp
         GameEngine.cpp
         systems/RenderSystem.cpp
         systems/InputSystem.cpp
