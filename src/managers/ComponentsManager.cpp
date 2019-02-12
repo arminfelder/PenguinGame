@@ -45,6 +45,7 @@ std::map<int, std::shared_ptr<Components::TeleportTarget>> ComponentsManager::mT
 std::map<int, std::shared_ptr<Components::MapName>> ComponentsManager::mMapNameComponents;
 std::map<int, std::shared_ptr<Components::Xp>> ComponentsManager::mXp;
 std::map<int, std::shared_ptr<Components::EvadeCapability>> ComponentsManager::mEvadeCapabilities;
+std::map<int, std::shared_ptr<Components::EndsGame>> ComponentsManager::mEndGames;
 
 
 std::map<int, std::shared_ptr<Components::Health>> &ComponentsManager::getHealthComponents() {
@@ -414,4 +415,16 @@ std::shared_ptr<Components::EvadeCapability> &ComponentsManager::getEvadeCapabil
 
 void ComponentsManager::createEvadeCapability(int pEntityId, int pEvadeChance) {
     mEvadeCapabilities.emplace(std::make_pair(pEntityId, std::make_shared<Components::EvadeCapability>(pEvadeChance)));
+}
+
+std::map<int, std::shared_ptr<Components::EndsGame>> &ComponentsManager::getEndGames() {
+    return mEndGames;
+}
+
+std::shared_ptr<Components::EndsGame> &ComponentsManager::getEndGame(int pEntityId) {
+    return mEndGames[pEntityId];
+}
+
+void ComponentsManager::createEndGame(int pEntityId) {
+    mEndGames.emplace(std::make_pair(pEntityId, std::make_shared<Components::EndsGame>()));
 }

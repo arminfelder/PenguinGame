@@ -137,14 +137,14 @@ Systems::CombatSystem::CombatSystem(SDL_Renderer *pRenderer,Managers::EventsMana
 
             auto items = entityInventory->listItems<Components::Inventory::ItemTypes>();
 
-            int randomAttack = rand() % distributionSum; //some random function from 0 to distributionSum
+            int randomAttack = std::rand() % distributionSum; //some random function from 0 to distributionSum
 
 
-
+            //randomAttack++;
             int attackFinder = 0;
             for (const auto &item : items) { //find attack
                 int distribution = entityInventory->getItemTypeDistribution(item); // get actual number from item
-                if (attackFinder >= randomAttack || attackFinder < randomAttack+distribution)
+                if (attackFinder > randomAttack || randomAttack <= attackFinder+distribution)
                     switch (item){
                         case Components::Inventory::ItemTypes::ak47:{
                             int moveX = 200;
@@ -163,6 +163,24 @@ Systems::CombatSystem::CombatSystem(SDL_Renderer *pRenderer,Managers::EventsMana
                             Managers::ComponentsManager::createPathComponent(bulletId, {SDL_Point{moveX, 0}}, 20);
                             Managers::ComponentsManager::createDamageComponent(bulletId, 15 );
                             Managers::ComponentsManager::createTimeToLive(bulletId, 800 );
+                            break;
+                        }
+                        case Components::Inventory::ItemTypes::finger:{
+                            int moveX = 20;
+                            if (entityVisual->mFlip) {
+                                moveX *= -1;
+                            }
+                            int x = entitySpatial->mPositionX +
+                                    (((entityVisual->mImageRect.w) + 1) * (entityVisual->mFlip ? -1 : 1));
+                            int y = entitySpatial->mPositionY + (entityVisual->mImageRect.h / 5);
+
+                            auto texture  =entityVisual->mFlip?system->mTextureHandRight:system->mTextureHandLeft;
+                            int bulletId = Managers::EntityManager::createEntity<Entities::Projectile>();
+                            Managers::ComponentsManager::createVisualComponent(bulletId, texture, 40, 40);
+                            Managers::ComponentsManager::createSpatialComponent(bulletId, x, y);
+                            Managers::ComponentsManager::createPathComponent(bulletId, {SDL_Point{moveX, 0},SDL_Point{-moveX,0}}, 5);
+                            Managers::ComponentsManager::createDamageComponent(bulletId, 15 );
+                            Managers::ComponentsManager::createTimeToLive(bulletId, 180 );
                             break;
                         }
                         default:{

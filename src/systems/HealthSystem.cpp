@@ -38,6 +38,12 @@ Systems::HealthSystem::HealthSystem(SDL_Renderer *pRenderer, Managers::EventsMan
                 if (event->entityId != 1) {
                     Managers::ComponentsManager::removeComponentsOfEntity(event->entityId);
                     system->mEventsManager->addEvent(std::make_shared<Events::EntityDied>(event->entityId,healthComponent->mOrigHealth));
+                        auto endsGame = Managers::ComponentsManager::getEndGame(event->entityId);
+                        if(endsGame){
+                            SDL_Event sdl_event;
+                            sdl_event.type = static_cast<Uint32>(33332);
+                            SDL_PushEvent(&sdl_event);
+                    }
                 }
                 else {//player dies -> game over //todo use our own event system
                     SDL_Event sdlEvent;

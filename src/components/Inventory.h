@@ -60,10 +60,11 @@ namespace Components {
                                                            {ItemTypes::disc,"Disc allows to save the game"},
                                                            {ItemTypes::ak47, "Ak47"},
                                                            {ItemTypes::shield, "Shield"}};
-        std::map<ItemTypes, int> mItemDistribution{{ItemTypes::ak47, 4},
-                                                  {ItemTypes::shield, 1},
+        std::map<ItemTypes, int> mItemDistribution{{ItemTypes::ak47, 2},
+                                                  {ItemTypes::shield, 0},
                                                   {ItemTypes::keyArea2, 0},
-                                                  {ItemTypes::disc, 0}};
+                                                  {ItemTypes::disc, 0},
+                                                   {ItemTypes::finger, 6}};
     };
 }
 

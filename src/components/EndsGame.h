@@ -5,10 +5,12 @@
 #ifndef GAME_ENDSGAME_H
 #define GAME_ENDSGAME_H
 
+#include "Component.h"
 
-class EndsGame {
+namespace Components {
+    class EndsGame : public Component {
 
-};
-
+    };
+}
 
 #endif //GAME_ENDSGAME_H

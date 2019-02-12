@@ -33,7 +33,7 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
         auto entityId = event->mEntityId;
         auto movingEntity = Managers::EntityManager::getEntity(event->mEntityId);
         if (movingEntity ==
-            NULL) //map was redrawn, therefore, there might still be a move event (most probably by enemies) which are no longer present
+            nullptr) //map was redrawn, therefore, there might still be a move event (most probably by enemies) which are no longer present
             return;
 
         auto collideAbles = Managers::ComponentsManager::getCollideAble();
