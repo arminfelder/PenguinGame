@@ -52,6 +52,10 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused
     std::shared_ptr<SDL_Surface> imageWall(SDL_LoadBMP("./res/brick-wall.bmp"), SDL_FreeSurface);
     std::shared_ptr<SDL_Texture> textureWall(SDL_CreateTextureFromSurface(pRenderer, imageWall.get()), SDL_DestroyTexture);
 
+    std::shared_ptr<SDL_Surface> imageIceblock(SDL_LoadBMP("./res/iceblock.bmp"), SDL_FreeSurface);
+    std::shared_ptr<SDL_Texture> textureIceblock(SDL_CreateTextureFromSurface(pRenderer, imageIceblock.get()), SDL_DestroyTexture);
+
+
     std::shared_ptr<SDL_Surface> imageStoneWall(SDL_LoadBMP("./res/stone-wall-2477715_640.bmp"), SDL_FreeSurface);
     std::shared_ptr<SDL_Texture> textureStoneWall(SDL_CreateTextureFromSurface(pRenderer, imageStoneWall.get()), SDL_DestroyTexture);
 
