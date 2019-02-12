@@ -172,7 +172,7 @@ void PenguinGame::SDLEventLoop() {
                 }
 
                 delete idptr;
-                loadMapPreservingUserStats(map);
+                loadMapPreservingUserStats(map, playerPosition);
                 break;
             }
             case 33334: { //load game data including correct map
@@ -337,7 +337,7 @@ int PenguinGame::getPlayerPositionFromJumper(int jumperID) {
         std::vector<std::string> splittedStrings = Managers::ComponentsManager::splitString(line, ';');
 
         if (("./res/maps/" + splittedStrings[0]) == Managers::ComponentsManager::getMapName().get()->getMapName()) {
-            if (splittedStrings.size() > (jumperID + 1) * 2)
+            if (static_cast<int>(splittedStrings.size()) > (jumperID + 1) * 2)
                 playerPosition = std::stoi(splittedStrings[jumperID * 2 + 2]);
             break;
         }
