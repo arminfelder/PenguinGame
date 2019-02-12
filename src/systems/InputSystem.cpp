@@ -55,8 +55,3 @@ void InputSystem::update() {
 
 InputSystem::InputSystem(Managers::EventsManager *pEventsManager):mEventsManager(pEventsManager) {
 }
-
-std::vector<SDL_Keysym> InputSystem::getPressedKeys(Uint8 pKeyMap) {
-
-    return std::vector<SDL_Keysym>();
-}
