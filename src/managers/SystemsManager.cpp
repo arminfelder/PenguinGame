@@ -32,7 +32,7 @@ SystemsManager::SystemsManager(SDL_Window *pWindow, SDL_Renderer *pPrenderer, Ev
     mPhysicsSystem = new PhysicsSystem(pEventsManager);
     mAiSystem = new AiSystem(pEventsManager);
     mCombatSystem = new CombatSystem(pPrenderer, pEventsManager);
-    mInvetorySystem = new InventorySystem(pEventsManager);
+    mInvetorySystem = new InventorySystem(pPrenderer,pEventsManager);
     mTriggerSystem = new TriggerSystem(pEventsManager);
     mXpSystem = new XpSystem(pPrenderer, pEventsManager);
 

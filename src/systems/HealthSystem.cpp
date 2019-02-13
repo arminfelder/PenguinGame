@@ -36,8 +36,11 @@ Systems::HealthSystem::HealthSystem(SDL_Renderer *pRenderer, Managers::EventsMan
                 //TODO: emit killed
                 newHealth = 0;
                 if (event->entityId != 1) {
+                    auto spatial = Managers::ComponentsManager::getSpatialComponent(event->entityId);
+                    auto inventory = Managers::ComponentsManager::getInventory(event->entityId);
+                    std::cout<<"pos: "<<spatial->mPositionX<<" "<<spatial->mPositionY<<std::endl;
+                    system->mEventsManager->addEvent(std::make_shared<Events::EntityDied>(event->entityId,healthComponent->mOrigHealth, SDL_Point{spatial->mPositionX,spatial->mPositionY},inventory));
                     Managers::ComponentsManager::removeComponentsOfEntity(event->entityId);
-                    system->mEventsManager->addEvent(std::make_shared<Events::EntityDied>(event->entityId,healthComponent->mOrigHealth));
                         auto endsGame = Managers::ComponentsManager::getEndGame(event->entityId);
                         if(endsGame){
                             SDL_Event sdl_event;

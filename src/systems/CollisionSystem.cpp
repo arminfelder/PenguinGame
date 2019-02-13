@@ -205,6 +205,9 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
                         collisionType = Events::collisionTypes::mapChanger;
                         break;
                     }
+                    case Entities::entityTypes::doubleJumpEnabler: {
+                        collisionType = Events::collisionTypes::doubleJump;
+                    }
                     default:
                     case Entities::entityTypes::none: {
                         break;

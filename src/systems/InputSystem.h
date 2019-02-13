@@ -27,17 +27,14 @@ namespace Systems{
     struct KeySymHash {
     public:
         size_t operator()(const SDL_Keysym & sym) const {
-            return std::hash<int>()(sym.sym);
+            return std::hash<int32_t>()(sym.sym);
         }
     };
     struct KeySymEqual {
     public:
         bool operator()(const SDL_Keysym & sym1, const SDL_Keysym & sym2) const {
 
-            if ( sym1.sym == sym2.sym )
-                return true;
-            else
-                return false;
+            return sym1.sym == sym2.sym;
         }
     };
     class InputSystem: public System {

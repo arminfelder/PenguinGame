@@ -11,6 +11,7 @@
 #include <vector>
 #include "Component.h"
 #include <memory>
+#include <unordered_set>
 
 namespace Components {
     class Inventory:public Component {
@@ -22,7 +23,8 @@ namespace Components {
             keyArea2,
 	        ak47,
 	        shield,
-	        finger
+	        finger,
+	        doubleJump
         };
         Inventory();
         void addItem(const ItemTypes pItem);
@@ -54,12 +56,15 @@ namespace Components {
         bool load(std::vector<std::string> splittedStrings);
         void reset();
 
+        std::unordered_set<ItemTypes> mDropables{ItemTypes::doubleJump,ItemTypes::keyArea2};
+
     private:
         std::set<ItemTypes> mItems;
         std::map<ItemTypes, std::string> mItemDescriptions{{ItemTypes::keyArea2,"Key for Area2"},
                                                            {ItemTypes::disc,"Disc allows to save the game"},
                                                            {ItemTypes::ak47, "Ak47"},
-                                                           {ItemTypes::shield, "Shield"}};
+                                                           {ItemTypes::shield, "Shield"},
+                                                           {ItemTypes::doubleJump,"double jump enabler"}};
         std::map<ItemTypes, int> mItemDistribution{{ItemTypes::ak47, 2},
                                                   {ItemTypes::shield, 0},
                                                   {ItemTypes::keyArea2, 0},

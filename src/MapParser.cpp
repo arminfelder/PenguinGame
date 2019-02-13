@@ -109,6 +109,9 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused
     std::shared_ptr<SDL_Surface> imageBird(SDL_LoadBMP("./res/frame-1.bmp"), SDL_FreeSurface);
     std::shared_ptr<SDL_Texture> textureBird(SDL_CreateTextureFromSurface(pRenderer, imageBird.get()), SDL_DestroyTexture);
 
+    std::shared_ptr<SDL_Surface> imageTank(SDL_LoadBMP("./res/tank_kv.bmp"), SDL_FreeSurface);
+    std::shared_ptr<SDL_Texture> textureTank(SDL_CreateTextureFromSurface(pRenderer, imageTank.get()), SDL_DestroyTexture);
+
 
     std::shared_ptr<SDL_Surface> imageLadder(SDL_LoadBMP("./res/ladder.bmp"), SDL_FreeSurface);
     std::shared_ptr<SDL_Texture> textureLadder(SDL_CreateTextureFromSurface(pRenderer, imageLadder.get()), SDL_DestroyTexture);
@@ -124,6 +127,9 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused
 
     std::shared_ptr<SDL_Surface> imageShield(SDL_LoadBMP("./res/a_shield_kite_gold.bmp"), SDL_FreeSurface);
     std::shared_ptr<SDL_Texture> textureShield(SDL_CreateTextureFromSurface(pRenderer, imageShield.get()), SDL_DestroyTexture);
+
+    std::shared_ptr<SDL_Surface> imageDoubleJump(SDL_LoadBMP("./res/doubleJump.bmp"), SDL_FreeSurface);
+    std::shared_ptr<SDL_Texture> textureDoubleJump(SDL_CreateTextureFromSurface(pRenderer, imageDoubleJump.get()), SDL_DestroyTexture);
 
 
     //initial health text
@@ -247,7 +253,8 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused
                     Managers::ComponentsManager::createCanCollect(id, {Components::Inventory::ItemTypes::keyArea2,
                                                                        Components::Inventory::ItemTypes::disc,
                                                                        Components::Inventory::ItemTypes::ak47,
-                                                                       Components::Inventory::ItemTypes::shield});
+                                                                       Components::Inventory::ItemTypes::shield,
+                                                                       Components::Inventory::ItemTypes::doubleJump});
                     Managers::ComponentsManager::createEvadeCapability(id, 0);
                     Managers::ComponentsManager::createXp(id);
                     break;
@@ -316,6 +323,18 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused
                     break;
                 }
                 case 'K': {
+                    int id = Managers::EntityManager::createEntity<Npc>();
+                    Managers::ComponentsManager::createVisualComponent(id, textureTank, 48, 48);
+                    Managers::ComponentsManager::createSpatialComponent(id, x + 1, y + 1);
+                    Managers::ComponentsManager::createCollideAbleComponent(id);
+                    Managers::ComponentsManager::createHealthComponent(id, 80);
+                    Managers::ComponentsManager::createPathComponent(id, std::vector<SDL_Point>({SDL_Point{-150, 0}, SDL_Point{150, 0}}), 1, true, true);
+                    Managers::ComponentsManager::createViewRange(id, 600, 0);
+                    Managers::ComponentsManager::createInventory(id);
+                    auto inventory = Managers::ComponentsManager::getInventory(id);
+                    inventory->addItem(Components::Inventory::ItemTypes::ak47);
+                    inventory->addItem(Components::Inventory::ItemTypes::doubleJump);
+                    inventory->addItem(Components::Inventory::ItemTypes::keyArea2);
                     break;
                 }
                 case '|': {

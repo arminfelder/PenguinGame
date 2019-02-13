@@ -45,7 +45,8 @@ namespace Entities {
         ak47,
         shield,
         none,
-        mapChanger
+        mapChanger,
+        doubleJumpEnabler
     };
     class Entity {
     public:

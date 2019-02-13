@@ -38,7 +38,8 @@ namespace Events {
         savePoint,
         ak47,
         shield,
-        mapChanger
+        mapChanger,
+        doubleJump
     };
     class CollisionEvent:public Event {
 
