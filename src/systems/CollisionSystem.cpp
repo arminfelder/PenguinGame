@@ -73,7 +73,7 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
                             Entities::entityTypes::projectile) //if projectile collides with wall, remove it
                             Managers::EntityManager::destroyEntity(entityId);
 
-                            if (entityId == 1 && !collisionTop && collisionBottom) { //set player at position of upper space
+                        if (entityId == 1 && !collisionTop && collisionBottom) { //set player at position of upper space
                             spatial->mPositionY = (maskTopLimit - 1) * 50;
                             spatial->mPrevPositionY = spatial->mPositionY + 1;
                             system->mEventsManager->addEvent(
@@ -88,7 +88,7 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
                             nothingHappened = false;
                         }
 
-                        if(entityId == 1 && !collisionLeft && collisionRight) {
+                        else if(entityId == 1 && !collisionLeft && collisionRight) {
                             spatial->mPositionX = (maskLeftLimit - 1) * 50 + 10;
                             spatial->mPrevPositionX = spatial->mPositionX + 1;
                             system->mEventsManager->addEvent(std::make_shared<Events::MoveEntity>(1, 1, 0));
