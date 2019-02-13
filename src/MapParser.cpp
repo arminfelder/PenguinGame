@@ -157,7 +157,23 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused
                 //wall
                 case '#': {
                     int id = Managers::EntityManager::createEntity<Wall>();
+                    Managers::ComponentsManager::createVisualComponent(id, textureIceblock, 50, 50);
+                    Managers::ComponentsManager::createSpatialComponent(id, x, y);
+                    collisionMask->pop_back();
+                    collisionMask->push_back(true);
+                    break;
+                }
+                case '/': {
+                    int id = Managers::EntityManager::createEntity<Wall>();
                     Managers::ComponentsManager::createVisualComponent(id, textureWall, 50, 50);
+                    Managers::ComponentsManager::createSpatialComponent(id, x, y);
+                    collisionMask->pop_back();
+                    collisionMask->push_back(true);
+                    break;
+                }
+                case '\\': {
+                    int id = Managers::EntityManager::createEntity<Wall>();
+                    Managers::ComponentsManager::createVisualComponent(id, textureLava, 50, 50);
                     Managers::ComponentsManager::createSpatialComponent(id, x, y);
                     collisionMask->pop_back();
                     collisionMask->push_back(true);
