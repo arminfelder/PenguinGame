@@ -44,8 +44,9 @@ void InputSystem::update(Uint64 pTimeDiff) {
         }
     }
     static Uint64 lastTimeDiff = 0;
-    static Uint64 rate = 40;
-    if(lastTimeDiff+pTimeDiff >= rate) {
+    const Uint64 rate = 15;
+    lastTimeDiff += pTimeDiff;
+    if(lastTimeDiff >= rate) {
         auto length = 0;
         auto keys = SDL_GetKeyboardState(&length);
         std::vector<Uint8> keyVec(length);
@@ -57,9 +58,8 @@ void InputSystem::update(Uint64 pTimeDiff) {
                 mPressedKeys.erase(key);
             }
         }
-        lastTimeDiff -= rate;
+        lastTimeDiff = 0;
     }
-    lastTimeDiff += pTimeDiff;
 }
 
 InputSystem::InputSystem(Managers::EventsManager *pEventsManager):mEventsManager(pEventsManager) {
