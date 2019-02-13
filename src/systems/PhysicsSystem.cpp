@@ -53,7 +53,7 @@ Systems::PhysicsSystem::PhysicsSystem(Managers::EventsManager *pEventsManager):m
                     moveAbleComponent->doubleJumpUsed = true;
                     std::cout << "old y " << std::to_string(momentum->speedY) <<  std::endl;
                 }
-                momentum->speedY = -21;
+                momentum->speedY = -17;
 //                system->mEventsManager->addEvent(std::make_shared<Events::FallingEvent>(1));
 //                std::cout << "added event for falling after jumping" << std::endl;
             }
@@ -61,9 +61,9 @@ Systems::PhysicsSystem::PhysicsSystem(Managers::EventsManager *pEventsManager):m
             auto test = event->mKeys[SDL_SCANCODE_SPACE];
 
             if(event->mKeys[SDL_SCANCODE_LEFT]){
-                momentum->speedX = -6;
+                momentum->speedX = -5;
             }else if(event->mKeys[SDL_SCANCODE_RIGHT]){
-                momentum->speedX = 6;
+                momentum->speedX = 5;
             }
         }
     };
