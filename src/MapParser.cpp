@@ -106,6 +106,9 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused
     std::shared_ptr<SDL_Surface> imageMonster2(SDL_LoadBMP("./res/monster/MonsterPack_008/depixelizer_1453475724139.bmp"), SDL_FreeSurface);
     std::shared_ptr<SDL_Texture> textureMonster2(SDL_CreateTextureFromSurface(pRenderer, imageMonster2.get()), SDL_DestroyTexture);
 
+    std::shared_ptr<SDL_Surface> imageBird(SDL_LoadBMP("./res/frame-1.bmp"), SDL_FreeSurface);
+    std::shared_ptr<SDL_Texture> textureBird(SDL_CreateTextureFromSurface(pRenderer, imageBird.get()), SDL_DestroyTexture);
+
 
     std::shared_ptr<SDL_Surface> imageLadder(SDL_LoadBMP("./res/ladder.bmp"), SDL_FreeSurface);
     std::shared_ptr<SDL_Texture> textureLadder(SDL_CreateTextureFromSurface(pRenderer, imageLadder.get()), SDL_DestroyTexture);
@@ -268,11 +271,11 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused
                 //simple monster
                 case 'm': {
                     int id = Managers::EntityManager::createEntity<Npc>();
-                    Managers::ComponentsManager::createVisualComponent(id, textureMonster1, 48, 48);
+                    Managers::ComponentsManager::createVisualComponent(id, textureBird, 48, 48);
                     Managers::ComponentsManager::createSpatialComponent(id, x + 1, y + 1);
                     Managers::ComponentsManager::createCollideAbleComponent(id);
                     Managers::ComponentsManager::createHealthComponent(id, 50);
-                    Managers::ComponentsManager::createPathComponent(id, std::vector<SDL_Point>({SDL_Point{100, 0}, SDL_Point{-100, 0}}), 1, true, true);
+                    Managers::ComponentsManager::createPathComponent(id, std::vector<SDL_Point>({SDL_Point{100, 0},SDL_Point{0,-20}, SDL_Point{-100, 0},SDL_Point{0,20}}), 2, true, true);
                     Managers::ComponentsManager::createViewRange(id, 400, 0);
                     Managers::ComponentsManager::createInventory(id);
 

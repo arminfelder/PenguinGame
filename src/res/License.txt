@@ -16,3 +16,4 @@ hand_cursor0000.png,andreyin(OpenGameArt.org),CC0
 iceblock.svg,digit1024(OpenGameArt.org),CC-BA-SA
 Lava #4.png,LuminousDragonGames(OpenGameArt.org),CC0
 crow-man.bmp,Spring(OpenGameArt.org),CC-BY
+frame-1.bmp,bevouliin.com(OpenGameArt.org),CC0
