@@ -143,11 +143,11 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused
     map.open(pMapfile);
 
     int line = 0;
+    int pCounter = 0;
     while (!map.eof()) {
         std::string currentLine;
         getline(map, currentLine);
         int teleporterTarget;
-        int pCounter = 0;
         for (int i = 0; i < (int) currentLine.length(); i++) {
             collisionMask->push_back(false);
             int x = i * 50;
