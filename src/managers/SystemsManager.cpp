@@ -51,11 +51,11 @@ RenderSystem *SystemsManager::getMRenderSystem() const {
     return mRenderSystem;
 }
 
-void SystemsManager::update(uint64_t pTimeDiff) {
+void SystemsManager::update(Uint64 pTimeDiff) {
     mHealthSystem->update(pTimeDiff);
     mAiSystem->update(pTimeDiff);
     mPhysicsSystem->update(pTimeDiff);
-    mInputSystem->update();
+    mInputSystem->update(pTimeDiff);
     mEventsManager->dispatch(pTimeDiff);
     mPositionSystem->update();
     mRenderSystem->update(pTimeDiff);

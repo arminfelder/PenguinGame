@@ -67,10 +67,10 @@ Systems::PhysicsSystem::PhysicsSystem(Managers::EventsManager *pEventsManager):m
     };
 
     mEventsManager->regsiterEventHandler(Events::EventTypes::Falling,callback);
-    mEventsManager->regsiterEventHandler(Events::EventTypes::KeyUp, callbackKeyUp);
+    mEventsManager->regsiterEventHandler(Events::EventTypes::KePressed, callbackKeyUp);
 }
 
-void Systems::PhysicsSystem::update(uint64_t pTimeDiff) {
+void Systems::PhysicsSystem::update(Uint64 pTimeDiff) {
     auto momenta = Managers::ComponentsManager::getMomenta();
     for(const auto &entry:momenta){
         int timeFactor = pTimeDiff/18;

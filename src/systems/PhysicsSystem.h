@@ -27,7 +27,7 @@ namespace Systems {
     class PhysicsSystem {
     public:
         PhysicsSystem(Managers::EventsManager *pEventsManager);
-        void update(uint64_t);
+        void update(Uint64);
 
     private:
         Managers::EventsManager *mEventsManager;

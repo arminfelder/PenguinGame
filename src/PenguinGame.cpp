@@ -38,7 +38,7 @@ int PenguinGame::run() {
     initGame();
     initMenus();
     auto now = SDL_GetPerformanceCounter();
-    uint64_t last = now;
+    Uint64 last = now;
     int frames = 60;
 
     SDL_RegisterEvents(32769); //register Menu event
@@ -99,10 +99,10 @@ void PenguinGame::initSDL() {
     mRunning = true;
 }
 
-void PenguinGame::drawFrame(uint64_t &last, uint64_t &now, int frames) {
+void PenguinGame::drawFrame(Uint64 &last, Uint64 &now, int frames) {
     last = now;
     now = SDL_GetPerformanceCounter();
-    uint64_t deltaTime = ((now - last) * 1000 / SDL_GetPerformanceFrequency());
+    Uint64 deltaTime = ((now - last) * 1000 / SDL_GetPerformanceFrequency());
     mGameEngine->update(deltaTime);
     SDL_Delay(static_cast<Uint32> (1000 / frames));
 }

@@ -11,7 +11,7 @@
 namespace Components{
 class TimeToLive:public Component {
 public:
-    TimeToLive(uint64_t pMsecs);
+    TimeToLive(Uint64 pMsecs);
     int64_t mMsecs;
 };
 }
