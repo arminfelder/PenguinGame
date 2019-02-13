@@ -8,3 +8,8 @@ area2/getAK.txt;6;3
 area2/map2.txt;10;0;6;1
 area2/boss.txt;6;0
 area2/getShield.txt;8;0
+area3/start.txt;12;0;8;2;13;0
+area3/returner.txt;4;1;11;0
+area3/hellEntrance.txt;14;1
+area3/hell.txt;15;0;1;0
+area3/finalBoss.txt;1;0
