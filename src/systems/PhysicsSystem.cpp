@@ -59,9 +59,9 @@ Systems::PhysicsSystem::PhysicsSystem(Managers::EventsManager *pEventsManager):m
             }
 
             if(event->mKeys[SDL_SCANCODE_LEFT]){
-                momentum->speedX = -6;
+                momentum->speedX = -5;
             }else if(event->mKeys[SDL_SCANCODE_RIGHT]){
-                momentum->speedX = 6;
+                momentum->speedX = 5;
             }
         }
     };
