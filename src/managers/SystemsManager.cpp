@@ -57,6 +57,7 @@ void SystemsManager::update(uint64_t pTimeDiff) {
     mPhysicsSystem->update(pTimeDiff);
     mInputSystem->update();
     mEventsManager->dispatch(pTimeDiff);
+    mPositionSystem->update();
     mRenderSystem->update(pTimeDiff);
 }
 
