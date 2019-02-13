@@ -27,6 +27,7 @@
 #include <filesystem>
 #include "MapParser.h"
 #include "menu/Menu.h"
+#include "events/MoveEntity.h"
 
 
 int PenguinGame::run() {
@@ -222,6 +223,10 @@ void PenguinGame::loadMap(const std::string &mMapFile, int playerPosition) {
     auto mapDimension = MapParser::getWorldDimension(mMapFile);
     systemManager->getCollisionSystem()->changeMapWidth(mapDimension.x);
     Managers::ComponentsManager::createMapName(mMapFile);
+
+    //little hack to update camera position
+    mGameEngine->getEventManager()->addEvent(std::make_shared<Events::MoveEntity>(1, 1, 0));
+    mGameEngine->getEventManager()->addEvent(std::make_shared<Events::MoveEntity>(1, -1, 0));
 }
 
 void PenguinGame::loadMap(const std::string &mMapFile) {
