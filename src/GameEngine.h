@@ -27,7 +27,7 @@
 class GameEngine {
 public:
     GameEngine(SDL_Window *pWindow, SDL_Renderer *pPrenderer);
-    void update(uint64_t timediff);
+    void update(Uint64 timediff);
 
     Managers::EntityManager* getEntityManager();
     Managers::SystemsManager* getSystemsManager();

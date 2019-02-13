@@ -52,7 +52,7 @@ private:
     bool mRunning = false;
     GameEngine *mGameEngine = nullptr;
     std::vector<bool> collisionMask;
-    void drawFrame(uint64_t &last, uint64_t &now, int frames);
+    void drawFrame(Uint64 &last, Uint64 &now, int frames);
     std::string getMapFileNameFromJumper(int jumperID);
     int getPlayerPositionFromJumper(int jumperID);
     int getMapIDFromJumper(int jumperID);

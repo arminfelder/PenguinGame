@@ -19,7 +19,7 @@
 #include "GameEngine.h"
 
 using namespace Managers;
-void GameEngine::update(uint64_t timediff) {
+void GameEngine::update(Uint64 timediff) {
     mSystemsManager->update(timediff);
     mEventsManager->dispatch(timediff);
 }

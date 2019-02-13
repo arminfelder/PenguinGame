@@ -26,6 +26,7 @@
 #include <list>
 #include <functional>
 #include <memory>
+#include <SDL_quit.h>
 #include "../events/Event.h"
 
 namespace Managers {
@@ -33,10 +34,10 @@ namespace Managers {
     class EventsManager {
 
     public:
-        void dispatch(uint64_t pTimediff);
+        void dispatch(Uint64 pTimediff);
         void addEvent(const std::shared_ptr<Events::Event> &pEvent);
         void regsiterEventHandler(Events::EventTypes,const std::function<void(const std::shared_ptr<Events::Event>& )> &pEvent);
-        uint64_t mTimediff;
+        Uint64 mTimediff;
         ~EventsManager();
     private:
         std::queue<std::shared_ptr<Events::Event> > mEventsQueue;

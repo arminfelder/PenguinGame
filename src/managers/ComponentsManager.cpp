@@ -209,7 +209,7 @@ void ComponentsManager::createDamageComponent(int pEntityId, int pDamage) {
     mDamages.emplace(std::make_pair(pEntityId, std::make_shared<Components::CollisionDamage>(pDamage)));
 }
 
-void ComponentsManager::createTimeToLive(int pEntityId, uint64_t pTime) {
+void ComponentsManager::createTimeToLive(int pEntityId, Uint64 pTime) {
     mTimeToLives.emplace(std::make_pair(pEntityId, std::make_shared<Components::TimeToLive>(pTime)));
 }
 

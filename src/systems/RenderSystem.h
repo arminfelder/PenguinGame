@@ -34,7 +34,7 @@ namespace Systems {
         void setRenderer(SDL_Renderer *pRenderer);
         ~RenderSystem();
 
-        void update(uint64_t pTimeDiff);
+        void update(Uint64 pTimeDiff);
 
     private:
         SDL_Window *mWindow = nullptr;

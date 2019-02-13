@@ -19,7 +19,7 @@
 
 #include "EventsManager.h"
 
-void Managers::EventsManager::dispatch(uint64_t pTimediff) {
+void Managers::EventsManager::dispatch(Uint64 pTimediff) {
     mTimediff = pTimediff;
     while(!mEventsQueue.empty()){
         auto event = mEventsQueue.front();
