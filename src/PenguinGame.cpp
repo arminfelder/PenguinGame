@@ -260,7 +260,9 @@ void PenguinGame::loadMapPreservingUserStats(const std::string &mMapFile) {
 }
 
 void PenguinGame::initGame() {
-    std::string map = "./res/maps/area1/map.txt";
+    //todo change back
+    //std::string map = "./res/maps/area1/map.txt";
+    std::string map = "./res/maps/area2/start.txt";
     loadMap(map);
 }
 
