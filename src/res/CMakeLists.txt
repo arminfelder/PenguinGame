@@ -57,6 +57,8 @@ configure_file(a_shield_kite_gold.bmp a_shield_kite_gold.bmp COPYONLY)
 configure_file(hand_cursor0000.bmp hand_cursor0000.bmp COPYONLY)
 configure_file(hand_cursor0000Fliped.bmp hand_cursor0000Fliped.bmp COPYONLY)
 
+configure_file(iceblock.bmp iceblock.bmp COPYONLY)
+configure_file("Lava #4.bmp" "Lava #4.bmp" COPYONLY)
 
 
 configure_file(map.txt map.txt COPYONLY)
@@ -66,4 +68,5 @@ configure_file(maps/connection.txt maps/connection.txt COPYONLY)
 configure_file(maps/area1/map.txt maps/area1/map.txt COPYONLY)
 configure_file(maps/area1/map2.txt maps/area1/map2.txt COPYONLY)
 configure_file(maps/area1/getDisk.txt maps/area1/getDisk.txt COPYONLY)
+configure_file(maps/area1/boss.txt maps/area1/boss.txt COPYONLY)
 

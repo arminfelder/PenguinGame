@@ -52,6 +52,14 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused
     std::shared_ptr<SDL_Surface> imageWall(SDL_LoadBMP("./res/brick-wall.bmp"), SDL_FreeSurface);
     std::shared_ptr<SDL_Texture> textureWall(SDL_CreateTextureFromSurface(pRenderer, imageWall.get()), SDL_DestroyTexture);
 
+    std::shared_ptr<SDL_Surface> imageIceblock(SDL_LoadBMP("./res/iceblock.bmp"), SDL_FreeSurface);
+    std::shared_ptr<SDL_Texture> textureIceblock(SDL_CreateTextureFromSurface(pRenderer, imageIceblock.get()), SDL_DestroyTexture);
+
+    std::shared_ptr<SDL_Surface> imageLava(SDL_LoadBMP("./res/Lava #4.bmp"), SDL_FreeSurface);
+    std::shared_ptr<SDL_Texture> textureLava(SDL_CreateTextureFromSurface(pRenderer, imageLava.get()), SDL_DestroyTexture);
+
+
+
     std::shared_ptr<SDL_Surface> imageStoneWall(SDL_LoadBMP("./res/stone-wall-2477715_640.bmp"), SDL_FreeSurface);
     std::shared_ptr<SDL_Texture> textureStoneWall(SDL_CreateTextureFromSurface(pRenderer, imageStoneWall.get()), SDL_DestroyTexture);
 
@@ -223,7 +231,7 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused
                         break;
 
                     int id = 1;
-                    Managers::ComponentsManager::createVisualComponent(id, playerMap, 49, 49);
+                    Managers::ComponentsManager::createVisualComponent(id, playerMap, 38, 48);
                     Managers::ComponentsManager::createSpatialComponent(id, x + 1, y + 1);
                     Managers::ComponentsManager::createMoveAbleComponent(id, true, false, true, false);
                     Managers::ComponentsManager::createHealthComponent(id, 100);

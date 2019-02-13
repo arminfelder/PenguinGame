@@ -61,31 +61,51 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
                     if (system->collisionMask->size() > static_cast<unsigned long>(index) &&
                         (system->collisionMask->at(static_cast<unsigned long>(index))) == true) {
                         maskCollision = true;
+                        std::cout << "mask collision" << std::endl;
                         bool collisionTop = system->collisionMask->at(
                                 horizontal + system->mapWidth * (maskTopLimit - 1));
                         bool collisionBottom = system->collisionMask->at(
                                 horizontal + system->mapWidth * (maskBottomLimit - 1));
+                        bool collisionLeft = system->collisionMask->at(maskLeftLimit-1 + vertical * system->mapWidth);
+                        bool collisionRight = system->collisionMask->at(maskRightLimit-1 + vertical * system->mapWidth);
+                        bool nothingHappened = true;
                         if (movingEntity.get()->getType() ==
                             Entities::entityTypes::projectile) //if projectile collides with wall, remove it
                             Managers::EntityManager::destroyEntity(entityId);
+
                         if (entityId == 1 && !collisionTop && collisionBottom) { //set player at position of upper space
                             spatial->mPositionY = (maskTopLimit - 1) * 50;
+                            spatial->mPrevPositionY = spatial->mPositionY + 1;
                             system->mEventsManager->addEvent(
                                     std::make_shared<Events::MoveEntity>(1, 0, 1)); //move player to correct position
-                            return;
+                            nothingHappened = false;
                         } else if (entityId == 1 && collisionTop &&
                                    !collisionBottom) { //collision while jumping, set back
                             spatial->mPositionY = (maskBottomLimit - 1) * 50;
                             spatial->mPrevPositionY = spatial->mPositionY + 1;
                             system->mEventsManager->addEvent(
                                     std::make_shared<Events::MoveEntity>(1, 0, 1)); //move player to correct position
+                            nothingHappened = false;
+                        }
 
+                        else if(entityId == 1 && !collisionLeft && collisionRight) {
+                            spatial->mPositionX = (maskLeftLimit - 1) * 50 + 10;
+                            spatial->mPrevPositionX = spatial->mPositionX + 1;
+                            system->mEventsManager->addEvent(std::make_shared<Events::MoveEntity>(1, 1, 0));
+                            nothingHappened = false;
+                        } else if(entityId == 1 && collisionLeft && !collisionRight) {
+                            spatial->mPositionX = (maskRightLimit - 1) * 50;
+                            spatial->mPrevPositionX = spatial->mPositionX + 1;
+                            system->mEventsManager->addEvent(std::make_shared<Events::MoveEntity>(1, 1, 0));
+                            nothingHappened = false;
+                        }
+
+                        if (nothingHappened)
+                            system->mEventsManager->addEvent(std::make_shared<Events::CollisionEvent>(entityId, 0, Events::collisionTypes::regular));
+                        else
                             return;
-                        } else
-                            system->mEventsManager->addEvent(std::make_shared<Events::CollisionEvent>(entityId, 0,
-                                                                                                      Events::collisionTypes::regular));
 
-                    } else if (entityId == 1 && index >= static_cast<int>(system->collisionMask->size())) {//player dies -> game over //todo use our own event system
+                    } else if (entityId == 1 && index >= static_cast<int>(system->collisionMask->size())) {//player dies (out of range) -> game over //todo use our own event system
                         SDL_Event sdlEvent;
                         sdlEvent.type = 33332;
                         SDL_PushEvent(&sdlEvent);
