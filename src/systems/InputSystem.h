@@ -19,17 +19,35 @@
 #ifndef GAME_INPUTSYSTEM_H
 #define GAME_INPUTSYSTEM_H
 
+#include <unordered_set>
 #include "System.h"
 #include "../managers/EventsManager.h"
 
 namespace Systems{
+    struct KeySymHash {
+    public:
+        size_t operator()(const SDL_Keysym & sym) const {
+            return std::hash<int>()(sym.sym);
+        }
+    };
+    struct KeySymEqual {
+    public:
+        bool operator()(const SDL_Keysym & sym1, const SDL_Keysym & sym2) const {
+
+            if ( sym1.sym == sym2.sym )
+                return true;
+            else
+                return false;
+        }
+    };
     class InputSystem: public System {
     public:
         InputSystem(Managers::EventsManager *pEventsManager);
-        void update();
+        void update(Uint64 pTimeDiff);
 
     private:
         Managers::EventsManager *mEventsManager = nullptr;
+        std::unordered_set<SDL_Keysym,KeySymHash, KeySymEqual> mPressedKeys;
         
     };
 }

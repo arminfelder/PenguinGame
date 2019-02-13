@@ -36,7 +36,7 @@ Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager)
         if(!timeFactor){
             timeFactor = 1;
         }
-        if (event->getType() != Events::EventTypes::KeyUp) {
+        if (true) {
             SDL_Event sdl_event;
             switch (event->mKeyCode.sym) {
                 case SDLK_UP:

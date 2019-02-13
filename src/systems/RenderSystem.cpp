@@ -52,7 +52,7 @@ Systems::RenderSystem::~RenderSystem() {
 
 }
 
-void Systems::RenderSystem::update( [[maybe_unused]] uint64_t pTimeDiff) {
+void Systems::RenderSystem::update( [[maybe_unused]] Uint64 pTimeDiff) {
     auto visualComponents = Managers::ComponentsManager::getVisualComponents();
     auto cameraPositions = Managers::ComponentsManager::getCameraOffsets();
     auto playerSpatial = Managers::ComponentsManager::getSpatialComponent(1);

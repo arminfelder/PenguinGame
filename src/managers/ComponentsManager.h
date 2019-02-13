@@ -104,7 +104,7 @@ namespace Managers {
         static void createMomentumComponent(int pEntityId);
         static void createPathComponent(int pEntityId, const std::vector<SDL_Point> &pPath, int pStepsPerSecond, bool pRepeat = true, bool pRunning = true);
         static void createDamageComponent(int pEntityId, int pDamage);
-        static void createTimeToLive(int pEntityId, uint64_t pTime);
+        static void createTimeToLive(int pEntityId, Uint64 pTime);
         static void createViewRange(int pEntityId, int pX, int pY);
         static void createInventory(int pEntityId);
         static void createCanCollect(int pEntityId, const std::set<Components::Inventory::ItemTypes> &pTypes);

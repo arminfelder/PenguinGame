@@ -120,7 +120,7 @@ Systems::HealthSystem::HealthSystem(SDL_Renderer *pRenderer, Managers::EventsMan
     mEventsManager->regsiterEventHandler(Events::EventTypes::Collision, collisionCallback);
 }
 
-void Systems::HealthSystem::update(uint64_t pTime) {
+void Systems::HealthSystem::update(Uint64 pTime) {
     auto ttls = Managers::ComponentsManager::getTimeToLives();
     for(const auto &ttl: ttls){
         ttl.second->mMsecs -=pTime;
