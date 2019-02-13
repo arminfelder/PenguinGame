@@ -271,8 +271,9 @@ bool Systems::CollisionSystem::detectCollision(int topLimit, int entryTopLimit, 
     }
     else if (collisionType == Events::collisionTypes::mapChanger){
         if ((topLimit >= entryTopLimit && topLimit <= entryBottomLimit) || (bottomLimit <= entryBottomLimit && bottomLimit >= entryTopLimit)) {
-            entityCollision = true;
+            if (entityId == 1) // only do if the player touches that jumper
             { //if collision with jumper happens, go to specific map
+                entityCollision = true;
                 SDL_Event sdl_event;
                 sdl_event.type = static_cast<Uint32>(33335);
                 auto idPointer = new int;
