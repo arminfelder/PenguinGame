@@ -2,5 +2,8 @@ area1/map.txt;2;0;3;0;5;0
 area1/getDisk.txt;1;0
 area1/map2.txt;1;1;4;0
 area1/boss.txt;3;1
-area1/downwards.txt;1;2;6;0
-area2/start.txt;5;1
+area1/downwards.txt;1;2;6;2
+area2/start.txt;9;0;8;0;5;1;7;0
+area2/getAK.txt;6;3
+area2/map2.txt;6;1
+area2/boss.txt;6;0

@@ -71,4 +71,8 @@ configure_file(maps/area1/getDisk.txt maps/area1/getDisk.txt COPYONLY)
 configure_file(maps/area1/boss.txt maps/area1/boss.txt COPYONLY)
 configure_file(maps/area1/downwards.txt maps/area1/downwards.txt COPYONLY)
 configure_file(maps/area2/start.txt maps/area2/start.txt COPYONLY)
+configure_file(maps/area2/boss.txt maps/area2/boss.txt COPYONLY)
+configure_file(maps/area2/getAK.txt maps/area2/getAK.txt COPYONLY)
+configure_file(maps/area2/getShield.txt maps/area2/getShield.txt COPYONLY)
+configure_file(maps/area2/map2.txt maps/area2/map2.txt COPYONLY)
 
