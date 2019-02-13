@@ -22,7 +22,8 @@ namespace Components {
             keyArea2,
 	        ak47,
 	        shield,
-	        finger
+	        finger,
+	        keyArea1
         };
         Inventory();
         void addItem(const ItemTypes pItem);
@@ -59,12 +60,14 @@ namespace Components {
         std::map<ItemTypes, std::string> mItemDescriptions{{ItemTypes::keyArea2,"Key for Area2"},
                                                            {ItemTypes::disc,"Disc allows to save the game"},
                                                            {ItemTypes::ak47, "Ak47"},
-                                                           {ItemTypes::shield, "Shield"}};
+                                                           {ItemTypes::shield, "Shield"},
+                                                           {ItemTypes ::keyArea1, "Key for Area1"}};
         std::map<ItemTypes, int> mItemDistribution{{ItemTypes::ak47, 2},
                                                   {ItemTypes::shield, 0},
                                                   {ItemTypes::keyArea2, 0},
                                                   {ItemTypes::disc, 0},
-                                                   {ItemTypes::finger, 6}};
+                                                   {ItemTypes::finger, 6},
+                                                   {ItemTypes ::keyArea1, 0}};
     };
 }
 
