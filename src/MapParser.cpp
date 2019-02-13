@@ -94,6 +94,9 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused
     std::shared_ptr<SDL_Surface> imageMonster1(SDL_LoadBMP("./res/monster/MonsterPack_008/depixelizer_1453475703255.bmp"), SDL_FreeSurface);
     std::shared_ptr<SDL_Texture> textureMonster1(SDL_CreateTextureFromSurface(pRenderer, imageMonster1.get()), SDL_DestroyTexture);
 
+    std::shared_ptr<SDL_Surface> imageCrowMan(SDL_LoadBMP("./res/crow-man.bmp"), SDL_FreeSurface);
+    std::shared_ptr<SDL_Texture> textureCrowMan(SDL_CreateTextureFromSurface(pRenderer, imageCrowMan.get()), SDL_DestroyTexture);
+
     std::shared_ptr<SDL_Surface> imageTeleporterEntry(SDL_LoadBMP("./res/teleporter_entry.bmp"), SDL_FreeSurface);
     std::shared_ptr<SDL_Texture> textureTeleporterEntry(SDL_CreateTextureFromSurface(pRenderer, imageTeleporterEntry.get()), SDL_DestroyTexture);
 
