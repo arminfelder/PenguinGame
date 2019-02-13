@@ -169,7 +169,23 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused
                 //wall
                 case '#': {
                     int id = Managers::EntityManager::createEntity<Wall>();
+                    Managers::ComponentsManager::createVisualComponent(id, textureIceblock, 50, 50);
+                    Managers::ComponentsManager::createSpatialComponent(id, x, y);
+                    collisionMask->pop_back();
+                    collisionMask->push_back(true);
+                    break;
+                }
+                case '/': {
+                    int id = Managers::EntityManager::createEntity<Wall>();
                     Managers::ComponentsManager::createVisualComponent(id, textureWall, 50, 50);
+                    Managers::ComponentsManager::createSpatialComponent(id, x, y);
+                    collisionMask->pop_back();
+                    collisionMask->push_back(true);
+                    break;
+                }
+                case '\\': {
+                    int id = Managers::EntityManager::createEntity<Wall>();
+                    Managers::ComponentsManager::createVisualComponent(id, textureLava, 50, 50);
                     Managers::ComponentsManager::createSpatialComponent(id, x, y);
                     collisionMask->pop_back();
                     collisionMask->push_back(true);
@@ -228,7 +244,16 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused
                     Managers::ComponentsManager::createCollideAbleComponent(id);
                     break;
                 }
-                //door
+                //door area1
+                case 'D': {
+                    int id = Managers::EntityManager::createEntity<Door>();
+                    Managers::ComponentsManager::createVisualComponent(id, doorMap, 50, 50);
+                    Managers::ComponentsManager::createSpatialComponent(id, x, y);
+                    Managers::ComponentsManager::createCollideAbleComponent(id);
+                    Managers::ComponentsManager::createUseable(id, {Components::Inventory::ItemTypes::keyArea1});
+                    break;
+                }
+                //door area2
                 case 'd': {
                     int id = Managers::EntityManager::createEntity<Door>();
                     Managers::ComponentsManager::createVisualComponent(id, doorMap, 50, 50);

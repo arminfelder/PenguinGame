@@ -24,7 +24,11 @@ namespace Components {
 	        ak47,
 	        shield,
 	        finger,
+<<<<<<< HEAD
 	        doubleJump
+=======
+	        keyArea1
+>>>>>>> master
         };
         Inventory();
         void addItem(const ItemTypes pItem);
@@ -64,12 +68,17 @@ namespace Components {
                                                            {ItemTypes::disc,"Disc allows to save the game"},
                                                            {ItemTypes::ak47, "Ak47"},
                                                            {ItemTypes::shield, "Shield"},
+<<<<<<< HEAD
                                                            {ItemTypes::doubleJump,"double jump enabler"}};
+=======
+                                                           {ItemTypes ::keyArea1, "Key for Area1"}};
+>>>>>>> master
         std::map<ItemTypes, int> mItemDistribution{{ItemTypes::ak47, 2},
                                                   {ItemTypes::shield, 0},
                                                   {ItemTypes::keyArea2, 0},
                                                   {ItemTypes::disc, 0},
-                                                   {ItemTypes::finger, 6}};
+                                                   {ItemTypes::finger, 6},
+                                                   {ItemTypes ::keyArea1, 0}};
     };
 }
 

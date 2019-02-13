@@ -69,9 +69,22 @@ configure_file(map.txt map.txt COPYONLY)
 configure_file(map2.txt map2.txt COPYONLY)
 configure_file(map3.txt map3.txt COPYONLY)
 configure_file(maps/connection.txt maps/connection.txt COPYONLY)
+
 configure_file(maps/area1/map.txt maps/area1/map.txt COPYONLY)
 configure_file(maps/area1/map2.txt maps/area1/map2.txt COPYONLY)
 configure_file(maps/area1/getDisk.txt maps/area1/getDisk.txt COPYONLY)
 configure_file(maps/area1/boss.txt maps/area1/boss.txt COPYONLY)
 configure_file(maps/area1/downwards.txt maps/area1/downwards.txt COPYONLY)
+
+configure_file(maps/area2/start.txt maps/area2/start.txt COPYONLY)
+configure_file(maps/area2/boss.txt maps/area2/boss.txt COPYONLY)
+configure_file(maps/area2/getAK.txt maps/area2/getAK.txt COPYONLY)
+configure_file(maps/area2/getShield.txt maps/area2/getShield.txt COPYONLY)
+configure_file(maps/area2/map2.txt maps/area2/map2.txt COPYONLY)
+
+configure_file(maps/area3/start.txt maps/area3/start.txt COPYONLY)
+configure_file(maps/area3/returner.txt maps/area3/returner.txt COPYONLY)
+configure_file(maps/area3/hellEntrance.txt maps/area3/hellEntrance.txt COPYONLY)
+configure_file(maps/area3/hell.txt maps/area3/hell.txt COPYONLY)
+configure_file(maps/area3/finalBoss.txt maps/area3/finalBoss.txt COPYONLY)
 
