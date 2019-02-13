@@ -73,17 +73,7 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
                             Entities::entityTypes::projectile) //if projectile collides with wall, remove it
                             Managers::EntityManager::destroyEntity(entityId);
 
-                        if(entityId == 1 && !collisionLeft && collisionRight) {
-                            spatial->mPositionX = (maskLeftLimit - 1) * 50;
-                            spatial->mPrevPositionX = spatial->mPositionX + 1;
-                            system->mEventsManager->addEvent(std::make_shared<Events::MoveEntity>(1, 1, 0));
-                            nothingHappened = false;
-                        } else if(entityId == 1 && collisionLeft && !collisionRight) {
-                            spatial->mPositionX = (maskRightLimit - 1) * 50;
-                            spatial->mPrevPositionX = spatial->mPositionX + 1;
-                            system->mEventsManager->addEvent(std::make_shared<Events::MoveEntity>(1, 1, 0));
-                            nothingHappened = false;
-                        }else if (entityId == 1 && !collisionTop && collisionBottom) { //set player at position of upper space
+                            if (entityId == 1 && !collisionTop && collisionBottom) { //set player at position of upper space
                             spatial->mPositionY = (maskTopLimit - 1) * 50;
                             spatial->mPrevPositionY = spatial->mPositionY + 1;
                             system->mEventsManager->addEvent(
@@ -96,9 +86,24 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
                             system->mEventsManager->addEvent(
                                     std::make_shared<Events::MoveEntity>(1, 0, 1)); //move player to correct position
                             nothingHappened = false;
-                        } else
+                        }
+
+                        if(entityId == 1 && !collisionLeft && collisionRight) {
+                            spatial->mPositionX = (maskLeftLimit - 1) * 50 + 10;
+                            spatial->mPrevPositionX = spatial->mPositionX + 1;
+                            system->mEventsManager->addEvent(std::make_shared<Events::MoveEntity>(1, 1, 0));
+                            nothingHappened = false;
+                        } else if(entityId == 1 && collisionLeft && !collisionRight) {
+                            spatial->mPositionX = (maskRightLimit - 1) * 50;
+                            spatial->mPrevPositionX = spatial->mPositionX + 1;
+                            system->mEventsManager->addEvent(std::make_shared<Events::MoveEntity>(1, 1, 0));
+                            nothingHappened = false;
+                        }
+
+                        if (nothingHappened)
                             system->mEventsManager->addEvent(std::make_shared<Events::CollisionEvent>(entityId, 0, Events::collisionTypes::regular));
-                        return;
+                        else
+                            return;
 
                     } else if (entityId == 1 && index >= static_cast<int>(system->collisionMask->size())) {//player dies (out of range) -> game over //todo use our own event system
                         SDL_Event sdlEvent;

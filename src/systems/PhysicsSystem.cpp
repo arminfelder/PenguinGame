@@ -53,7 +53,7 @@ Systems::PhysicsSystem::PhysicsSystem(Managers::EventsManager *pEventsManager):m
                     moveAbleComponent->doubleJumpUsed = true;
                     std::cout << "old y " << std::to_string(momentum->speedY) <<  std::endl;
                 }
-                momentum->speedY = -17;
+                momentum->speedY = -21;
 //                system->mEventsManager->addEvent(std::make_shared<Events::FallingEvent>(1));
 //                std::cout << "added event for falling after jumping" << std::endl;
             }
