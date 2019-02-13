@@ -69,4 +69,5 @@ configure_file(maps/area1/map.txt maps/area1/map.txt COPYONLY)
 configure_file(maps/area1/map2.txt maps/area1/map2.txt COPYONLY)
 configure_file(maps/area1/getDisk.txt maps/area1/getDisk.txt COPYONLY)
 configure_file(maps/area1/boss.txt maps/area1/boss.txt COPYONLY)
+configure_file(maps/area1/downwards.txt maps/area1/downwards.txt COPYONLY)
 

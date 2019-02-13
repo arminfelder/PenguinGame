@@ -143,11 +143,11 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused
     map.open(pMapfile);
 
     int line = 0;
+    int pCounter = 0;
     while (!map.eof()) {
         std::string currentLine;
         getline(map, currentLine);
         int teleporterTarget;
-        int pCounter = 0;
         for (int i = 0; i < (int) currentLine.length(); i++) {
             collisionMask->push_back(false);
             int x = i * 50;
@@ -249,8 +249,8 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused
 
                 case 'J': { //map jumper
                     int id = Managers::EntityManager::createEntity<MapChanger>();
-                    Managers::ComponentsManager::createVisualComponent(id, textureSafePoint, 50, 50);
-                    Managers::ComponentsManager::createSpatialComponent(id, x, y);
+                    Managers::ComponentsManager::createVisualComponent(id, textureSafePoint, 48, 48);
+                    Managers::ComponentsManager::createSpatialComponent(id, x+1, y+1);
                     Managers::ComponentsManager::createCollideAbleComponent(id);
                     break;
                 }
