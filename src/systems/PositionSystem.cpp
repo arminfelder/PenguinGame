@@ -109,22 +109,24 @@ Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager)
             playerSpatial->mPositionY = playerSpatial->mPrevPositionY;
         }
         auto moveable = Managers::ComponentsManager::getMoveableComponent(1);
+        auto momentum = Managers::ComponentsManager::getMomentumComponent(1);
         if(moveable) {
             moveable->canMoveRight = true;
             moveable->canMoveLeft = true;
             if (event->mType == Events::collisionTypes::ladder) {
                 moveable->canMoveDown = true;
                 moveable->canMoveUp = true;
-
+                moveable->climbing = true;
+                momentum->speedY = 0;
             } else if (event->mType == Events::collisionTypes::movementReset) {
                 moveable->canMoveUp = false;
                 moveable->canMoveDown = false;
                 moveable->climbing = false;
-            } else if (event->mType == Events::collisionTypes::ladderEnd) {
+            } else if (event->mType == Events::collisionTypes::ladderEnd && !static_cast<int>(momentum->speedY)) {
                 moveable->canMoveUp = false;
                 moveable->canMoveDown = true;
                 moveable->climbing = true;
-            } else if (event->mType == Events::collisionTypes::ladderBegin) {
+            } else if (event->mType == Events::collisionTypes::ladderBegin && !static_cast<int>(momentum->speedY)) {
                 moveable->canMoveUp = true;
                 moveable->canMoveDown = true;
                 moveable->climbing = true;
