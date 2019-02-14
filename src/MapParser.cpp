@@ -275,7 +275,8 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused
                     Managers::ComponentsManager::createMomentumComponent(id);
                     Managers::ComponentsManager::createCollideAbleComponent(id);
                     Managers::ComponentsManager::createInventory(id);
-                    Managers::ComponentsManager::createCanCollect(id, {Components::Inventory::ItemTypes::keyArea2,
+                    Managers::ComponentsManager::createCanCollect(id, {Components::Inventory::ItemTypes::keyArea1,
+                                                                       Components::Inventory::ItemTypes::keyArea2,
                                                                        Components::Inventory::ItemTypes::disc,
                                                                        Components::Inventory::ItemTypes::ak47,
                                                                        Components::Inventory::ItemTypes::shield,
@@ -359,7 +360,7 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused
                     auto inventory = Managers::ComponentsManager::getInventory(id);
                     inventory->addItem(Components::Inventory::ItemTypes::ak47);
                     inventory->addItem(Components::Inventory::ItemTypes::doubleJump);
-                    inventory->addItem(Components::Inventory::ItemTypes::keyArea2);
+                    inventory->addItem(Components::Inventory::ItemTypes::keyArea1);
                     break;
                 }
                 case '|': {

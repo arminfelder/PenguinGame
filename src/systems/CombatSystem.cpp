@@ -112,7 +112,7 @@ Systems::CombatSystem::CombatSystem(SDL_Renderer *pRenderer,Managers::EventsMana
                                 std::make_shared<Events::HealthEvent>(event->mCollidingEntity, -damage->mDamage));
                     }
                 }
-                Managers::ComponentsManager::removeComponentsOfEntity(event->mMovingEntity);
+                //Managers::ComponentsManager::removeComponentsOfEntity(event->mMovingEntity);
                 std::cout << "bullet coll" << std::endl;
             }
         }

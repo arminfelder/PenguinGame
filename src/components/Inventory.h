@@ -57,7 +57,7 @@ namespace Components {
         bool load(std::vector<std::string> splittedStrings);
         void reset();
 
-        std::unordered_set<ItemTypes> mDropables{ItemTypes::doubleJump,ItemTypes::keyArea2};
+        std::unordered_set<ItemTypes> mDropables{ItemTypes::doubleJump,ItemTypes::keyArea2, ItemTypes::keyArea1};
 
     private:
         std::set<ItemTypes> mItems;

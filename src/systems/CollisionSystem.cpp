@@ -178,7 +178,7 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
                         break;
                     }
                     case Entities::entityTypes::key: {
-                        collisionType = Events::collisionTypes::keyArea2;
+                        collisionType = Events::collisionTypes::key;
                         break;
                     }
                     case Entities::entityTypes::teleporterEntrance: {

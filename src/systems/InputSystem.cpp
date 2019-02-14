@@ -27,37 +27,48 @@ void InputSystem::update(Uint64 pTimeDiff) {
     SDL_Event event;
 
 
-    while(SDL_PeepEvents(&event, 1, SDL_GETEVENT, SDL_KEYDOWN, SDL_MOUSEWHEEL)){
 
-        switch (event.type){
-
-            case SDL_KEYDOWN: {
-              //  mEventsManager->addEvent(std::make_shared<Events::KeyPressedEvent>(event.key.keysym,std::move(keyVec)));
-                mPressedKeys.insert(event.key.keysym);
-                break;
-            }
-            case SDL_KEYUP: {
-              //  mEventsManager->addEvent(std::make_shared<Events::KeyUpEvent>(event.key.keysym,std::move(keyVec)));
-                mPressedKeys.erase(event.key.keysym);
-                break;
-            }
-        }
-    }
     static Uint64 lastTimeDiff = 0;
     const Uint64 rate = 15;
     lastTimeDiff += pTimeDiff;
     if(lastTimeDiff >= rate) {
+        while(SDL_PeepEvents(&event, 1, SDL_GETEVENT, SDL_KEYDOWN, SDL_MOUSEWHEEL)){
+
+            switch (event.type){
+
+                case SDL_KEYDOWN: {
+                    //  mEventsManager->addEvent(std::make_shared<Events::KeyPressedEvent>(event.key.keysym,std::move(keyVec)));
+                    if (event.key.keysym.scancode != SDL_SCANCODE_UNKNOWN) {
+                        mPressedKeys.emplace(event.key.keysym);
+                    }
+                    break;
+                }
+                case SDL_KEYUP: {
+                    //  mEventsManager->addEvent(std::make_shared<Events::KeyUpEvent>(event.key.keysym,std::move(keyVec)));
+                    if(mPressedKeys.find(event.key.keysym) != mPressedKeys.end()) {
+                        mPressedKeys.erase(event.key.keysym);
+                    }
+                    break;
+                }
+            }
+        }
         auto length = 0;
         auto keys = SDL_GetKeyboardState(&length);
         std::vector<Uint8> keyVec(length);
         std::copy(keys,keys+length,keyVec.begin());
 
-        for (const auto key: mPressedKeys) {
-            mEventsManager->addEvent(std::make_shared<Events::KeyPressedEvent>(key, keyVec));
-            if(key.sym != SDLK_LEFT && key.sym != SDLK_RIGHT){
-                mPressedKeys.erase(key);
+        if(!mPressedKeys.empty()) {
+                for (const auto &elem: mPressedKeys) {
+                    if (elem.scancode != SDL_SCANCODE_UNKNOWN) {
+                        mEventsManager->addEvent(std::make_shared<Events::KeyPressedEvent>(elem, keyVec));
+                        if (elem.sym != SDLK_LEFT && elem.sym != SDLK_RIGHT) {
+                            mPressedKeys.erase(elem);
+                        }
+                    }
+                }
             }
-        }
+
+
         lastTimeDiff = 0;
     }
 }

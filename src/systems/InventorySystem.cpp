@@ -24,7 +24,26 @@ InventorySystem::InventorySystem(SDL_Renderer *pRenderer, Managers::EventsManage
                     Managers::ComponentsManager::removeComponentsOfEntity(event->mCollidingEntity);
                 }
             }
+        }else if(event->mType == Events::collisionTypes::key){
+            auto inventory = Managers::ComponentsManager::getInventory(event->mMovingEntity);
+            auto canCollect = Managers::ComponentsManager::getCanCollect(event->mMovingEntity);
+            auto canOpen = Managers::ComponentsManager::getCanOpen(event->mCollidingEntity);
 
+            if(canOpen) {
+                Components::Inventory::ItemTypes item;
+                if (canOpen->mOpens == Components::CanOpen::Areas::area1) {
+                    item = Components::Inventory::ItemTypes::keyArea1;
+                } else if (canOpen->mOpens == Components::CanOpen::Areas::area2) {
+                    item = Components::Inventory::ItemTypes::keyArea2;
+                }
+
+                if (inventory && canCollect) {
+                    if (canCollect->mTypes.find(item) != canCollect->mTypes.end()) {
+                        inventory->addItem(item);
+                        Managers::ComponentsManager::removeComponentsOfEntity(event->mCollidingEntity);
+                    }
+                }
+            }
         }else if(event->mType == Events::collisionTypes::ak47){
             auto inventory = Managers::ComponentsManager::getInventory(event->mMovingEntity);
             auto canCollect = Managers::ComponentsManager::getCanCollect(event->mMovingEntity);
@@ -76,7 +95,6 @@ InventorySystem::InventorySystem(SDL_Renderer *pRenderer, Managers::EventsManage
 
     auto entityDiedCallback = [system=this] (const std::shared_ptr<Events::Event> &pEvent){
         auto event = static_cast<Events::EntityDied*>(pEvent.get());
-        auto id = event->mEntity;
         auto inventory = event->mInventory;
         if(inventory){
             for(const auto &dropable: inventory->mDropables){
@@ -89,11 +107,20 @@ InventorySystem::InventorySystem(SDL_Renderer *pRenderer, Managers::EventsManage
                             Managers::ComponentsManager::createCollideAbleComponent(entityId);
                             break;
                         }
+                        case Components::Inventory::ItemTypes::keyArea1:{
+                            int entityId = Managers::EntityManager::createEntity<Entities::Key>();
+                            Managers::ComponentsManager::createVisualComponent(entityId, system->textureKey2, 50,50);
+                            Managers::ComponentsManager::createSpatialComponent(entityId, event->mPosition.x, event->mPosition.y);
+                            Managers::ComponentsManager::createCollideAbleComponent(entityId);
+                            Managers::ComponentsManager::createCanOpen(entityId, Components::CanOpen::Areas::area1);
+                            break;
+                        }
                         case Components::Inventory::ItemTypes::keyArea2:{
                             int entityId = Managers::EntityManager::createEntity<Entities::Key>();
                             Managers::ComponentsManager::createVisualComponent(entityId, system->textureKey2, 50,50);
                             Managers::ComponentsManager::createSpatialComponent(entityId, event->mPosition.x, event->mPosition.y);
                             Managers::ComponentsManager::createCollideAbleComponent(entityId);
+                            Managers::ComponentsManager::createCanOpen(entityId, Components::CanOpen::Areas::area2);
                             break;
                         }
                         default:break;
