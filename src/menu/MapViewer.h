@@ -27,10 +27,12 @@ class MapViewer {
 public:
     MapViewer();
     void render(SDL_Renderer* pRenderer);
+    void close();
 
 private:
     std::map<int, std::shared_ptr<MapRoom>> mapComponents;
     bool mRunning;
+    void handleKeyEvent();
 
     std::map<std::string,int> mMapMapping;
 

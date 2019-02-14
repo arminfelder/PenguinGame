@@ -17,6 +17,7 @@
 ******************************************************************************/
 
 #include <SDL_timer.h>
+#include <SDL_events.h>
 #include "MapViewer.h"
 
 MapViewer::MapViewer() {
@@ -73,6 +74,30 @@ void MapViewer::render(SDL_Renderer *pRenderer) {
             SDL_RenderCopy(pRenderer, texture.get(), nullptr, &component.second->mRect);
         }
         SDL_RenderPresent(pRenderer);
+        handleKeyEvent();
         SDL_Delay(static_cast<Uint32> (1000 / 60));
     }
+}
+
+void MapViewer::close() {
+    mRunning = false;
+}
+
+void MapViewer::handleKeyEvent() {
+    SDL_Event event;
+    SDL_PumpEvents();
+    while (SDL_PeepEvents(&event, 1, SDL_GETEVENT, SDL_KEYDOWN, SDL_KEYDOWN)) {
+        if (event.type == SDL_KEYDOWN) {
+            switch(event.key.keysym.sym) {
+                case SDLK_m:
+                case SDLK_p:
+                case SDLK_n:
+                case SDLK_ESCAPE:
+                    this->close();
+                    break;
+                default: break;
+            }
+        }
+    }
+
 }
