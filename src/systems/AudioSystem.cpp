@@ -37,16 +37,17 @@ Systems::AudioSystem::AudioSystem(Managers::EventsManager *pEventsManager):mEven
             }
         }
     };
-
-    mEventsManager->regsiterEventHandler(Events::EventTypes::Health, callback);
-}
-
-bool Systems::AudioSystem::setMusic(const std::string &pArea) {
     mArea1Music = std::shared_ptr<Mix_Music>(Mix_LoadMUS( "./res/04 All of Us.wav" ),Mix_FreeMusic);
     mArea2Music = std::shared_ptr<Mix_Music>(Mix_LoadMUS("./res/Intro Theme.mp3"),Mix_FreeMusic);
     mArea3Music = std::shared_ptr<Mix_Music>(Mix_LoadMUS("./res/Desert Theme.mp3"),Mix_FreeMusic);
 
     mCollectItem = std::shared_ptr<Mix_Chunk>(Mix_LoadWAV("./res/387133__rdaly95__collecting-health.wav"),Mix_FreeChunk);
+
+    mEventsManager->regsiterEventHandler(Events::EventTypes::Health, callback);
+}
+
+bool Systems::AudioSystem::setMusic(const std::string &pArea) {
+
 
     if(pArea == "area1" ){
         Mix_PlayMusic( mArea1Music.get(), -1 );
