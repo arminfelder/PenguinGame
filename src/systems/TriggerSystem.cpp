@@ -27,51 +27,58 @@ TriggerSystem::TriggerSystem(Managers::EventsManager *pEventsManager):mEventsMan
             int playerTopLimit = playerPosition->mPositionY-padding;
             int playerBottomLimit = playerPosition->mPositionY+playerVisual->mImageRect.h+padding;
 
-            if(inventory){
+            if(inventory && playerPosition && playerVisual){
                 auto useables = Managers::ComponentsManager::getUseables();
-                for(const auto &useable: useables){
+                for(const auto &useable: useables) {
                     auto spatial = Managers::ComponentsManager::getSpatialComponent(useable.first);
                     auto visual = Managers::ComponentsManager::getVisualComponent(useable.first);
-                    int entryRightLimit = spatial->mPositionX+visual->mImageRect.w;
-                    int entryLeftLimit = spatial->mPositionX;
-                    int entryTopLimit = spatial->mPositionY;
-                    int entryBottomLimit = spatial->mPositionY+visual->mImageRect.h;
+                    if (spatial && visual) {
+                        int entryRightLimit = spatial->mPositionX + visual->mImageRect.w;
+                        int entryLeftLimit = spatial->mPositionX;
+                        int entryTopLimit = spatial->mPositionY;
+                        int entryBottomLimit = spatial->mPositionY + visual->mImageRect.h;
 
-                    bool collides = false;
-                    if (playerRightLimit >= entryLeftLimit &&playerRightLimit<=entryRightLimit){
-                        collides = collidesBottomTop(playerBottomLimit, playerTopLimit, entryBottomLimit, entryTopLimit);
-                    }
-                    else if(playerLeftLimit<=entryRightLimit&&playerLeftLimit>=entryLeftLimit){
-                        collides = collidesBottomTop(playerBottomLimit, playerTopLimit, entryBottomLimit, entryTopLimit);
-                    }
-                    else if (playerLeftLimit<= entryLeftLimit && playerRightLimit >= entryRightLimit) { //player within point (like for saving)
-                        collides = collidesBottomTop(playerBottomLimit, playerTopLimit, entryBottomLimit, entryTopLimit);
-                    }
-
-                    if(collides){
-                        bool requierementsFullFilled = true;
-                        for(const auto &cond: useable.second->mRequiresItems){
-                            if(!inventory->hasItem(cond)){
-                                requierementsFullFilled = false;
-                            }
+                        bool collides = false;
+                        if (playerRightLimit >= entryLeftLimit && playerRightLimit <= entryRightLimit) {
+                            collides = collidesBottomTop(playerBottomLimit, playerTopLimit, entryBottomLimit,
+                                                         entryTopLimit);
+                        } else if (playerLeftLimit <= entryRightLimit && playerLeftLimit >= entryLeftLimit) {
+                            collides = collidesBottomTop(playerBottomLimit, playerTopLimit, entryBottomLimit,
+                                                         entryTopLimit);
+                        } else if (playerLeftLimit <= entryLeftLimit &&
+                                   playerRightLimit >= entryRightLimit) { //player within point (like for saving)
+                            collides = collidesBottomTop(playerBottomLimit, playerTopLimit, entryBottomLimit,
+                                                         entryTopLimit);
                         }
-                        if(requierementsFullFilled){
-                            auto entity = Managers::EntityManager::getEntity(useable.first);
-                            switch (entity->getType()){
-                                case Entities::entityTypes::door :{
-                                    Managers::ComponentsManager::getCollideAble().erase(useable.first);
-                                    system->mEventsManager->addEvent(std::make_shared<Events::TriggerActivated>(useable.first,1));
-                                    break;
+
+                        if (collides) {
+                            bool requierementsFullFilled = true;
+                            for (const auto &cond: useable.second->mRequiresItems) {
+                                if (!inventory->hasItem(cond)) {
+                                    requierementsFullFilled = false;
                                 }
-                                case Entities::entityTypes::savePoint : {
-                                    std::ofstream out("save.txt");
-                                    Managers::ComponentsManager::saveUserComponents(out);
-                                    out.close();
-                                    std::cout << "Game saved" << std::endl;
-                                    break;
+                            }
+                            if (requierementsFullFilled) {
+                                auto entity = Managers::EntityManager::getEntity(useable.first);
+                                if (entity) {
+                                    switch (entity->getType()) {
+                                        case Entities::entityTypes::door : {
+                                            Managers::ComponentsManager::getCollideAble().erase(useable.first);
+                                            system->mEventsManager->addEvent(
+                                                    std::make_shared<Events::TriggerActivated>(useable.first, 1));
+                                            break;
+                                        }
+                                        case Entities::entityTypes::savePoint : {
+                                            std::ofstream out("save.txt");
+                                            Managers::ComponentsManager::saveUserComponents(out);
+                                            out.close();
+                                            std::cout << "Game saved" << std::endl;
+                                            break;
+                                        }
+                                        default:
+                                            break;
+                                    }
                                 }
-                                default:
-                                    break;
                             }
                         }
                     }

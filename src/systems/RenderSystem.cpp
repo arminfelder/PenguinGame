@@ -58,38 +58,43 @@ void Systems::RenderSystem::update( [[maybe_unused]] Uint64 pTimeDiff) {
     auto playerSpatial = Managers::ComponentsManager::getSpatialComponent(1);
     auto firstCam = cameraPositions.begin()->second;
 
+    if(playerSpatial&&firstCam) {
+        Components::CameraOffset offset(0, 0);
 
-    Components::CameraOffset offset(0,0);
+        SDL_RenderClear(mRenderer);
 
-    SDL_RenderClear(mRenderer);
-
-    SDL_Rect rect{static_cast<int>(0+playerSpatial->mPositionX*0.1), static_cast<int>(0+playerSpatial->mPositionY*0.1),1500,800};
-    SDL_Rect fill{0,0,0,0};
-    SDL_GetWindowSize(mWindow, &fill.w, &fill.h);
-
-
-    SDL_RenderCopyEx(mRenderer, mGameBackground.get() , &rect, &fill , 0,nullptr , SDL_FLIP_NONE);
+        SDL_Rect rect{static_cast<int>(0 + playerSpatial->mPositionX * 0.1),
+                      static_cast<int>(0 + playerSpatial->mPositionY * 0.1), 1500, 800};
+        SDL_Rect fill{0, 0, 0, 0};
+        SDL_GetWindowSize(mWindow, &fill.w, &fill.h);
 
 
-    std::map<int, std::shared_ptr<Components::VisualComponent>>::reverse_iterator revIter;
+        SDL_RenderCopyEx(mRenderer, mGameBackground.get(), &rect, &fill, 0, nullptr, SDL_FLIP_NONE);
 
-    for(revIter = visualComponents.rbegin(); revIter!=visualComponents.rend(); revIter++){
-        int entityId = revIter->first;
-        auto spatial = Managers::ComponentsManager::getSpatialComponent(entityId);
-        auto visual = revIter->second;
 
-        SDL_Rect dstrect = visual->mImageRect;
-        if(spatial->moveWithMap) {
-            dstrect.x = spatial->mPositionX + firstCam->getXOffset();
-            dstrect.y = spatial->mPositionY + firstCam->getYOffset();
-        }else{
-            dstrect.x = spatial->mPositionX;
-            dstrect.y = spatial->mPositionY;
+        std::map<int, std::shared_ptr<Components::VisualComponent>>::reverse_iterator revIter;
+
+        for (revIter = visualComponents.rbegin(); revIter != visualComponents.rend(); revIter++) {
+            int entityId = revIter->first;
+            auto spatial = Managers::ComponentsManager::getSpatialComponent(entityId);
+            if(spatial) {
+                auto visual = revIter->second;
+
+                SDL_Rect dstrect = visual->mImageRect;
+                if (spatial->moveWithMap) {
+                    dstrect.x = spatial->mPositionX + firstCam->getXOffset();
+                    dstrect.y = spatial->mPositionY + firstCam->getYOffset();
+                } else {
+                    dstrect.x = spatial->mPositionX;
+                    dstrect.y = spatial->mPositionY;
+                }
+                SDL_RenderCopyEx(mRenderer, visual->mTexture.get(), nullptr, &dstrect, visual->mRotateAngle, nullptr,
+                                 visual->mFlip);
+            }
         }
-        SDL_RenderCopyEx(mRenderer, visual->mTexture.get() , nullptr, &dstrect,visual->mRotateAngle, nullptr, visual->mFlip);
-    }
 
-    SDL_RenderPresent(mRenderer);
+        SDL_RenderPresent(mRenderer);
+    }
 
 }
 
