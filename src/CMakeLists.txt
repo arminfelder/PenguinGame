@@ -81,6 +81,7 @@ add_executable(game main.cpp
         components/TeleportTarget.cpp
 		components/MapName.cpp
 		components/Xp.cpp
+        components/VisitedMaps.cpp
         events/Event.cpp
         events/KeyPressedEvent.cpp
         events/KeyUpEvent.cpp
