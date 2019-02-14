@@ -16,7 +16,7 @@ using namespace Systems;
 TriggerSystem::TriggerSystem(Managers::EventsManager *pEventsManager):mEventsManager(pEventsManager) {
     auto keyPressedCallback = [system=this](const std::shared_ptr<Events::Event> &pEvent){
         auto event = static_cast<Events::KeyPressedEvent*>(pEvent.get());
-        if(event->mKeyCode.sym == SDLK_RETURN){
+        if(event->mKeyCode == SDLK_RETURN){
             auto inventory = Managers::ComponentsManager::getInventory(1);
             auto playerPosition = Managers::ComponentsManager::getSpatialComponent(1);
             auto playerVisual = Managers::ComponentsManager::getVisualComponent(1);

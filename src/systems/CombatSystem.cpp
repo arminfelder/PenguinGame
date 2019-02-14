@@ -31,7 +31,7 @@ Systems::CombatSystem::CombatSystem(SDL_Renderer *pRenderer,Managers::EventsMana
 
     auto attackCallback = [system=this](const std::shared_ptr<Events::Event> &pEvent)->void{
         auto event = static_cast<Events::KeyDownEvent*>(pEvent.get());
-        if(event->mKeyCode.sym == SDLK_LCTRL){
+        if(event->mKeyCode == SDLK_LCTRL){
             auto playerSpatial = Managers::ComponentsManager::getSpatialComponent(1);
             auto playerVisual = Managers::ComponentsManager::getVisualComponent(1);
             auto playerXp = Managers::ComponentsManager::getXp(1);
@@ -48,7 +48,7 @@ Systems::CombatSystem::CombatSystem(SDL_Renderer *pRenderer,Managers::EventsMana
             Managers::ComponentsManager::createPathComponent(bulletId,{SDL_Point{moveX,0}},15);
             Managers::ComponentsManager::createDamageComponent(bulletId,10+playerXp->mXp);
             Managers::ComponentsManager::createTimeToLive(bulletId, 500+playerXp->mXp);
-        }else if(event->mKeyCode.sym == SDLK_LALT){
+        }else if(event->mKeyCode == SDLK_LALT){
             auto playerInventory = Managers::ComponentsManager::getInventory(1);
             if(playerInventory && playerInventory->hasItem(Components::Inventory::ItemTypes::ak47)) {
                 auto playerSpatial = Managers::ComponentsManager::getSpatialComponent(1);
@@ -70,7 +70,7 @@ Systems::CombatSystem::CombatSystem(SDL_Renderer *pRenderer,Managers::EventsMana
                 Managers::ComponentsManager::createDamageComponent(bulletId, 15 + playerXp->mXp);
                 Managers::ComponentsManager::createTimeToLive(bulletId, 800 + playerXp->mXp);
             }
-        }else if(event->mKeyCode.sym == SDLK_LSHIFT){
+        }else if(event->mKeyCode == SDLK_LSHIFT){
 
             auto playerSpatial = Managers::ComponentsManager::getSpatialComponent(1);
             auto playerVisual = Managers::ComponentsManager::getVisualComponent(1);

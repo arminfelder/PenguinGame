@@ -36,7 +36,7 @@ Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager)
         int timeFactor = 1;
         if (true) {
             SDL_Event sdl_event;
-            switch (event->mKeyCode.sym) {
+            switch (event->mKeyCode) {
                 case SDLK_UP:
                     if (moveable->canMoveUp) {
                         playerSpatial->mPrevPositionX = playerSpatial->mPositionX;

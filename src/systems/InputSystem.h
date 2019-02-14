@@ -44,7 +44,7 @@ namespace Systems{
 
     private:
         Managers::EventsManager *mEventsManager = nullptr;
-        std::unordered_set<SDL_Keysym,KeySymHash, KeySymEqual> mPressedKeys;
+        std::unordered_set<int> mPressedKeys;
         
     };
 }

@@ -27,10 +27,10 @@
 namespace Events {
     class KeyPressedEvent:public Event {
     public:
-        KeyPressedEvent(SDL_Keysym pCode, std::vector<Uint8> &&pKeys);
-        KeyPressedEvent(SDL_Keysym pCode, const std::vector<Uint8> &Keys);
+       // KeyPressedEvent(int pCode, std::vector<Uint8> &&pKeys);
+        KeyPressedEvent(int pCode, const std::vector<Uint8> &Keys);
 
-        SDL_Keysym mKeyCode;
+        int mKeyCode;
         const std::vector<Uint8> mKeys;
     };
 }
