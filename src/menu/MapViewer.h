@@ -19,8 +19,20 @@
 #ifndef GAME_MAPVIEWER_H
 #define GAME_MAPVIEWER_H
 
+#include <memory>
+#include <map>
+#include "MapRoom.h"
 
 class MapViewer {
+public:
+    MapViewer();
+    void render(SDL_Renderer* pRenderer);
+
+private:
+    std::map<int, std::shared_ptr<MapRoom>> mapComponents;
+    bool mRunning;
+
+    std::map<std::string,int> mMapMapping;
 
 };
 

@@ -24,6 +24,7 @@
 #include <SDL_audio.h>
 #include "GameEngine.h"
 #include "menu/Menu.h"
+#include "menu/MapViewer.h"
 
 class PenguinGame {
 
@@ -69,9 +70,11 @@ private:
     bool mOpenPause = false;
     bool mOpenGameOver = false;
     bool mRenderOnce = false;
+    bool mOpenMap = false;
     std::shared_ptr<Menu> mainMenu;
     std::shared_ptr<Menu> pauseMenu;
     std::shared_ptr<Menu> gameOver;
+    std::shared_ptr<MapViewer> mapViewer;
 
 };
 

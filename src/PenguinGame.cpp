@@ -78,6 +78,9 @@ int PenguinGame::run() {
             gameOver.get()->render(mRenderer);
             continue;
 
+        }else if(mOpenMap){
+            mOpenMap = false;
+            mapViewer.get()->render(mRenderer);
         } else {
             drawFrame(last, now, frames);
         }
@@ -124,7 +127,7 @@ void PenguinGame::SDLEventLoop() {
                 mOpenPause = true;
                 break;
             case 32771:
-                mOpenPause = true;
+                mOpenMap = true;
                 break;
             case 32780:
                 mRenderOnce = true;
@@ -289,6 +292,7 @@ void PenguinGame::initMenus() {
     mainMenu = std::make_shared<Menu>();
     pauseMenu = std::make_shared<Menu>();
     gameOver = std::make_shared<Menu>();
+    mapViewer = std::make_shared<MapViewer>();
 
     int position = mainMenu.get()->getMenuSize();
     mainMenu.get()->addMenuComponent(std::make_shared<MenuComponent>("Sans", "New Game", "red", position++, MenuEvents::NEW_GAME));
