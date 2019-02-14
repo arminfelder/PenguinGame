@@ -82,3 +82,7 @@ SystemsManager::~SystemsManager() {
 Systems::XpSystem *SystemsManager::getXpSystem() const {
     return mXpSystem;
 }
+
+Systems::AudioSystem *SystemsManager::getAudioSystem() const {
+    return mAudioSystem;
+}

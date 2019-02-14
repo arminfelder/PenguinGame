@@ -53,6 +53,8 @@ namespace Managers {
 
         Systems::XpSystem *getXpSystem() const;
 
+        Systems::AudioSystem *getAudioSystem() const;
+
         ~SystemsManager();
 
     private:
