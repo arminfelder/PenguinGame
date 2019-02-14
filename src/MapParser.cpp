@@ -115,6 +115,9 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused
     std::shared_ptr<SDL_Surface> imageRatKing(SDL_LoadBMP("./res/ratking2.bmp"), SDL_FreeSurface);
     std::shared_ptr<SDL_Texture> textureRatKing(SDL_CreateTextureFromSurface(pRenderer, imageRatKing.get()), SDL_DestroyTexture);
 
+    std::shared_ptr<SDL_Surface> imageUnicorn(SDL_LoadBMP("./res/unicorn.bmp"), SDL_FreeSurface);
+    std::shared_ptr<SDL_Texture> textureUnicorn(SDL_CreateTextureFromSurface(pRenderer, imageUnicorn.get()), SDL_DestroyTexture);
+
 
     std::shared_ptr<SDL_Surface> imageLadder(SDL_LoadBMP("./res/ladder.bmp"), SDL_FreeSurface);
     std::shared_ptr<SDL_Texture> textureLadder(SDL_CreateTextureFromSurface(pRenderer, imageLadder.get()), SDL_DestroyTexture);
@@ -133,6 +136,9 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused
 
     std::shared_ptr<SDL_Surface> imageDoubleJump(SDL_LoadBMP("./res/doubleJump.bmp"), SDL_FreeSurface);
     std::shared_ptr<SDL_Texture> textureDoubleJump(SDL_CreateTextureFromSurface(pRenderer, imageDoubleJump.get()), SDL_DestroyTexture);
+
+    std::shared_ptr<SDL_Surface> imageBee(SDL_LoadBMP("./res/sprite2.bmp"), SDL_FreeSurface);
+    std::shared_ptr<SDL_Texture> textureBee(SDL_CreateTextureFromSurface(pRenderer, imageBee.get()), SDL_DestroyTexture);
 
 
     //initial health text
@@ -319,6 +325,23 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused
 
                     break;
                 }
+                case 'b':{
+                    int id = Managers::EntityManager::createEntity<Npc>();
+                    Managers::ComponentsManager::createVisualComponent(id, textureBee, 48, 48);
+                    Managers::ComponentsManager::createSpatialComponent(id, x + 1, y + 1);
+                    Managers::ComponentsManager::createCollideAbleComponent(id);
+                    Managers::ComponentsManager::createHealthComponent(id, 70);
+                    Managers::ComponentsManager::createPathComponent(id, std::vector<SDL_Point>({SDL_Point{100, 0},SDL_Point{0,-20}, SDL_Point{-100, 0},SDL_Point{0,20}}), 2, true, true);
+                    Managers::ComponentsManager::createViewRange(id, 300, 0);
+                    Managers::ComponentsManager::createInventory(id);
+                    Managers::ComponentsManager::createXp(id);
+                    auto xp = Managers::ComponentsManager::getXp(id);
+                    xp->mXp = 10;
+                    auto inventory = Managers::ComponentsManager::getInventory(id);
+                    inventory->addItem(Components::Inventory::ItemTypes::finger);
+
+                    break;
+                }
                 //
                 case 'M': {
                     int id = Managers::EntityManager::createEntity<Npc>();
@@ -367,12 +390,29 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused
                     inventory->addItem(Components::Inventory::ItemTypes::keyArea1);
                     break;
                 }
+                case 'U': {
+                    int id = Managers::EntityManager::createEntity<Npc>();
+                    Managers::ComponentsManager::createVisualComponent(id, textureUnicorn, 48, 48);
+                    Managers::ComponentsManager::createSpatialComponent(id, x + 1, y + 1);
+                    Managers::ComponentsManager::createCollideAbleComponent(id);
+                    Managers::ComponentsManager::createHealthComponent(id, 150);
+                    Managers::ComponentsManager::createPathComponent(id, std::vector<SDL_Point>({SDL_Point{-150, 0}, SDL_Point{150, 0}}), 1, true, true);
+                    Managers::ComponentsManager::createViewRange(id, 600, 0);
+                    Managers::ComponentsManager::createInventory(id);
+                    Managers::ComponentsManager::createXp(id);
+                    auto xp = Managers::ComponentsManager::getXp(id);
+                    xp->mXp = 150;
+                    auto inventory = Managers::ComponentsManager::getInventory(id);
+                    inventory->addItem(Components::Inventory::ItemTypes::ak47);
+                    inventory->addItem(Components::Inventory::ItemTypes::keyArea2);
+                    break;
+                }
                 case 'R':{
                     int id = Managers::EntityManager::createEntity<Npc>();
                     Managers::ComponentsManager::createVisualComponent(id, textureRatKing, 48, 60);
                     Managers::ComponentsManager::createSpatialComponent(id, x + 1, y - 10);
                     Managers::ComponentsManager::createCollideAbleComponent(id);
-                    Managers::ComponentsManager::createHealthComponent(id, 180);
+                    Managers::ComponentsManager::createHealthComponent(id, 300);
                     Managers::ComponentsManager::createPathComponent(id, std::vector<SDL_Point>({SDL_Point{-150, 0}, SDL_Point{150, 0}}), 1, true, true);
                     Managers::ComponentsManager::createViewRange(id, 800, 0);
                     Managers::ComponentsManager::createInventory(id);

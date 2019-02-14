@@ -112,6 +112,9 @@ Systems::CombatSystem::CombatSystem(SDL_Renderer *pRenderer,Managers::EventsMana
                     if (xp) {
                         damageValue = damageValue - (xp->mXp / 5);
                     }
+                    if(damageValue<0){
+                        damageValue = 5;
+                    }
                     if (damageValue > 0) {
                         system->mEventsManager->addEvent(
                                 std::make_shared<Events::HealthEvent>(event->mCollidingEntity, -damage->mDamage));
