@@ -32,39 +32,39 @@ TextureSystem::TextureSystem(Managers::EventsManager *pEventsManager):mEventsMan
 
         auto entityId = movementElement->mEntityId;
         auto visual = Managers::ComponentsManager::getVisualComponent(entityId);
+        if(visual) {
+            switch (movementElement->mDirection) {
+                case Events::EntityMoved::Direction::up: {
+                    break;
+                }
+                case Events::EntityMoved::Direction::down: {
+                    break;
+                };
+                case Events::EntityMoved::Direction::left: {
+                    auto pos = visual->mTextureMap->find("walk");
+                    if (pos != visual->mTextureMap->end()) {
+                        if (!pos->second.empty()) {
+                            visual->curImgPos = (visual->curImgPos + 1) % static_cast<int>(pos->second.size());
+                            visual->mTexture = pos->second[visual->curImgPos];
+                            visual->mFlip = SDL_FLIP_HORIZONTAL;
+                        }
+                    }
+                    break;
+                };
+                case Events::EntityMoved::Direction::right: {
+                    auto pos = visual->mTextureMap->find("walk");
+                    if (pos != visual->mTextureMap->end()) {
+                        if (!pos->second.empty()) {
+                            visual->curImgPos = (visual->curImgPos + 1) % static_cast<int>(pos->second.size());
+                            visual->mTexture = pos->second[visual->curImgPos];
+                            visual->mFlip = SDL_FLIP_NONE;
 
-        switch (movementElement->mDirection){
-            case Events::EntityMoved::Direction::up:{
-                break;
+                        }
+                    }
+                    break;
+                };
             }
-            case Events::EntityMoved::Direction::down:{
-                break;
-            };
-            case Events::EntityMoved::Direction::left:{
-                auto pos = visual->mTextureMap->find("walk");
-                if(pos != visual->mTextureMap->end()){
-                    if(!pos->second.empty()){
-                        visual->curImgPos = (visual->curImgPos+1)%static_cast<int>(pos->second.size());
-                        visual->mTexture = pos->second[visual->curImgPos];
-                        visual->mFlip =SDL_FLIP_HORIZONTAL;
-                    }
-                }
-                break;
-            };
-            case Events::EntityMoved::Direction::right:{
-                auto pos = visual->mTextureMap->find("walk");
-                if(pos != visual->mTextureMap->end()){
-                    if(!pos->second.empty()){
-                        visual->curImgPos = (visual->curImgPos+1)%static_cast<int>(pos->second.size());
-                        visual->mTexture = pos->second[visual->curImgPos];
-                        visual->mFlip =SDL_FLIP_NONE;
-
-                    }
-                }
-                break;
-            };
         }
-
     };
 
     auto entityTriggeredCallback = [system = this](const std::shared_ptr<Events::Event> &pEvent){
@@ -73,7 +73,9 @@ TextureSystem::TextureSystem(Managers::EventsManager *pEventsManager):mEventsMan
         switch (trigger->getType()){
             case Entities::entityTypes::door:{
                 auto visual = Managers::ComponentsManager::getVisualComponent(event->mTriggeredEntity);
-                visual->mTexture = visual->mTextureMap->find("open")->second.at(0);
+                if(visual) {
+                    visual->mTexture = visual->mTextureMap->find("open")->second.at(0);
+                }
                 break;
             }
             default:

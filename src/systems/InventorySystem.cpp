@@ -29,7 +29,7 @@ InventorySystem::InventorySystem(SDL_Renderer *pRenderer, Managers::EventsManage
             auto canCollect = Managers::ComponentsManager::getCanCollect(event->mMovingEntity);
             auto canOpen = Managers::ComponentsManager::getCanOpen(event->mCollidingEntity);
 
-            if(canOpen) {
+            if(canOpen&&canCollect&&inventory) {
                 Components::Inventory::ItemTypes item;
                 if (canOpen->mOpens == Components::CanOpen::Areas::area1) {
                     item = Components::Inventory::ItemTypes::keyArea1;
@@ -48,7 +48,7 @@ InventorySystem::InventorySystem(SDL_Renderer *pRenderer, Managers::EventsManage
             auto inventory = Managers::ComponentsManager::getInventory(event->mMovingEntity);
             auto canCollect = Managers::ComponentsManager::getCanCollect(event->mMovingEntity);
             auto xp = Managers::ComponentsManager::getXp(1);
-            if (inventory && canCollect && xp->mXp>10) {
+            if (inventory && canCollect &&& xp && xp->mXp>10) {
                 if(canCollect->mTypes.find(Components::Inventory::ItemTypes::ak47) != canCollect->mTypes.end()) {
                     inventory->addItem(Components::Inventory::ItemTypes::ak47);
                     Managers::ComponentsManager::removeComponentsOfEntity(event->mCollidingEntity);
@@ -68,7 +68,7 @@ InventorySystem::InventorySystem(SDL_Renderer *pRenderer, Managers::EventsManage
             auto inventory = Managers::ComponentsManager::getInventory(event->mMovingEntity);
             auto canCollect = Managers::ComponentsManager::getCanCollect(event->mMovingEntity);
             auto evadeCap = Managers::ComponentsManager::getEvadeCapability(event->mMovingEntity);
-            if (inventory && canCollect) {
+            if (inventory && canCollect&&evadeCap) {
                 if(canCollect->mTypes.find(Components::Inventory::ItemTypes::shield) != canCollect->mTypes.end()) {
                     inventory->addItem(Components::Inventory::ItemTypes::shield);
                     if(evadeCap){

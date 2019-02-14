@@ -31,12 +31,14 @@ Systems::PhysicsSystem::PhysicsSystem(Managers::EventsManager *pEventsManager):m
         auto event = static_cast<Events::FallingEvent*>(pEvent.get());
         auto entityId = event->mEntityId;
         auto momentum = Managers::ComponentsManager::getMomentumComponent(entityId);
-        momentum->gravitation = 2;
-        momentum->speedY +=momentum->gravitation;
-        if (momentum->speedY >= 12)
-            momentum->speedY = 12;
-        if (momentum->speedY == 0)
-            momentum->speedY +=momentum->gravitation;
+        if(momentum) {
+            momentum->gravitation = 2;
+            momentum->speedY += momentum->gravitation;
+            if (momentum->speedY >= 12)
+                momentum->speedY = 12;
+            if (momentum->speedY == 0)
+                momentum->speedY += momentum->gravitation;
+        }
     };
 
     //jumping
@@ -48,7 +50,7 @@ Systems::PhysicsSystem::PhysicsSystem(Managers::EventsManager *pEventsManager):m
         if(event->mKeyCode == SDLK_SPACE){
             auto momentum = Managers::ComponentsManager::getMomentumComponent(1);
             auto moveAbleComponent = Managers::ComponentsManager::getMoveableComponent(1);
-            if (momentum->speedY == 0 || (!moveAbleComponent->doubleJumpUsed && moveAbleComponent->canDoubleJump)) { //allow jumping only if user is on ground or has not used double jump (plus is allowed to do so)
+            if (momentum&&moveAbleComponent&&( momentum->speedY == 0 || (!moveAbleComponent->doubleJumpUsed && moveAbleComponent->canDoubleJump))) { //allow jumping only if user is on ground or has not used double jump (plus is allowed to do so)
                 if (momentum->speedY != 0) {//if double jump used, set so
                     moveAbleComponent->doubleJumpUsed = true;
                     std::cout << "old y " << std::to_string(momentum->speedY) <<  std::endl;

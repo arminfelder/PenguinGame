@@ -33,63 +33,69 @@ Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager)
         auto playerSpatial = Managers::ComponentsManager::getSpatialComponent(1);
         auto moveable = Managers::ComponentsManager::getMoveableComponent(1);
 
-        int timeFactor = 1;
-        if (true) {
-            SDL_Event sdl_event;
-            switch (event->mKeyCode) {
-                case SDLK_UP:
-                    if (moveable->canMoveUp) {
-                        playerSpatial->mPrevPositionX = playerSpatial->mPositionX;
-                        playerSpatial->mPrevPositionY = playerSpatial->mPositionY;
-                        playerSpatial->mPositionY -= 5*timeFactor;
+        if(playerSpatial&&moveable) {
+            int timeFactor = 1;
+            if (true) {
+                SDL_Event sdl_event;
+                switch (event->mKeyCode) {
+                    case SDLK_UP:
+                        if (moveable->canMoveUp) {
+                            playerSpatial->mPrevPositionX = playerSpatial->mPositionX;
+                            playerSpatial->mPrevPositionY = playerSpatial->mPositionY;
+                            playerSpatial->mPositionY -= 5 * timeFactor;
 
-                        system->mEventsManager->addEvent(std::make_shared<Events::EntityMoved>(1,Events::EntityMoved::Direction::up));
-                    }
-                    break;
-                case SDLK_RIGHT:
-                    if (moveable->canMoveRight) {
-                        playerSpatial->mPrevPositionX = playerSpatial->mPositionX;
-                        playerSpatial->mPrevPositionY = playerSpatial->mPositionY;
-                        playerSpatial->mPositionX += 5*timeFactor;
-                        system->mEventsManager->addEvent(std::make_shared<Events::EntityMoved>(1,Events::EntityMoved::Direction::right));
+                            system->mEventsManager->addEvent(
+                                    std::make_shared<Events::EntityMoved>(1, Events::EntityMoved::Direction::up));
+                        }
+                        break;
+                    case SDLK_RIGHT:
+                        if (moveable->canMoveRight) {
+                            playerSpatial->mPrevPositionX = playerSpatial->mPositionX;
+                            playerSpatial->mPrevPositionY = playerSpatial->mPositionY;
+                            playerSpatial->mPositionX += 5 * timeFactor;
+                            system->mEventsManager->addEvent(
+                                    std::make_shared<Events::EntityMoved>(1, Events::EntityMoved::Direction::right));
 
-                    }
-                    break;
-                case SDLK_DOWN:
-                    if (moveable->canMoveDown) {
-                        playerSpatial->mPrevPositionX = playerSpatial->mPositionX;
-                        playerSpatial->mPrevPositionY = playerSpatial->mPositionY;
-                        playerSpatial->mPositionY += 5*timeFactor;
-                        system->mEventsManager->addEvent(std::make_shared<Events::EntityMoved>(1,Events::EntityMoved::Direction::down));
-                    }
-                    break;
-                case SDLK_LEFT:
-                    if (moveable->canMoveLeft) {
-                        playerSpatial->mPrevPositionX = playerSpatial->mPositionX;
-                        playerSpatial->mPrevPositionY = playerSpatial->mPositionY;
-                        playerSpatial->mPositionX -= 5*timeFactor;
-                        system->mEventsManager->addEvent(std::make_shared<Events::EntityMoved>(1,Events::EntityMoved::Direction::left));
-                    }
-                    break;
+                        }
+                        break;
+                    case SDLK_DOWN:
+                        if (moveable->canMoveDown) {
+                            playerSpatial->mPrevPositionX = playerSpatial->mPositionX;
+                            playerSpatial->mPrevPositionY = playerSpatial->mPositionY;
+                            playerSpatial->mPositionY += 5 * timeFactor;
+                            system->mEventsManager->addEvent(
+                                    std::make_shared<Events::EntityMoved>(1, Events::EntityMoved::Direction::down));
+                        }
+                        break;
+                    case SDLK_LEFT:
+                        if (moveable->canMoveLeft) {
+                            playerSpatial->mPrevPositionX = playerSpatial->mPositionX;
+                            playerSpatial->mPrevPositionY = playerSpatial->mPositionY;
+                            playerSpatial->mPositionX -= 5 * timeFactor;
+                            system->mEventsManager->addEvent(
+                                    std::make_shared<Events::EntityMoved>(1, Events::EntityMoved::Direction::left));
+                        }
+                        break;
 
-                case SDLK_m:
-                    sdl_event.type = 32769;
-                    SDL_PushEvent(&sdl_event);
-                    break;
+                    case SDLK_m:
+                        sdl_event.type = 32769;
+                        SDL_PushEvent(&sdl_event);
+                        break;
 
-                case SDLK_p:
-                    sdl_event.type = 32770;
-                    SDL_PushEvent(&sdl_event);
-                    break;
+                    case SDLK_p:
+                        sdl_event.type = 32770;
+                        SDL_PushEvent(&sdl_event);
+                        break;
 
-                    //quit game
-                case SDLK_ESCAPE:
-                    sdl_event.type = SDL_QUIT;
-                    SDL_PushEvent(&sdl_event);
-                    break;
+                        //quit game
+                    case SDLK_ESCAPE:
+                        sdl_event.type = SDL_QUIT;
+                        SDL_PushEvent(&sdl_event);
+                        break;
 
-                default:
-                    break;
+                    default:
+                        break;
+                }
             }
         }
     };
@@ -104,36 +110,41 @@ Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager)
         }
         auto moveable = Managers::ComponentsManager::getMoveableComponent(1);
         auto momentum = Managers::ComponentsManager::getMomentumComponent(1).get();
-        moveable->canMoveRight = true;
-        moveable->canMoveLeft = true;
-        if(event->mType == Events::collisionTypes::ladder){
-            moveable->canMoveDown = true;
-            moveable->canMoveUp = true;
-            moveable->climbing = true;
-            momentum->speedY = 0;
-        }else if(event->mType == Events::collisionTypes::movementReset){
-            moveable->canMoveUp = false;
-            moveable->canMoveDown = false;
-            moveable->climbing = false;
-        }else if(event->mType == Events::collisionTypes::ladderEnd && !static_cast<int>(momentum->speedY)){
-            moveable->canMoveUp = false;
-            moveable->canMoveDown = true;
-            moveable->climbing = true;
-        }else if(event->mType == Events::collisionTypes::ladderBegin && !static_cast<int>(momentum->speedY)){
-            moveable->canMoveUp = true;
-            moveable->canMoveDown = true;
-            moveable->climbing = true;
-        }else if(event->mType == Events::collisionTypes::teleporterEntry){
-            auto targets = Managers::ComponentsManager::getTeleportTargets();
-            if(!targets.empty()) {
-                auto target = targets.begin()->first;
-                auto targetPos = Managers::ComponentsManager::getSpatialComponent(target);
+        if(moveable) {
+            moveable->canMoveRight = true;
+            moveable->canMoveLeft = true;
+            if (event->mType == Events::collisionTypes::ladder) {
+                moveable->canMoveDown = true;
+                moveable->canMoveUp = true;
+                moveable->climbing = true;
+                momentum->speedY = 0;
+            } else if (event->mType == Events::collisionTypes::movementReset) {
+                moveable->canMoveUp = false;
+                moveable->canMoveDown = false;
+                moveable->climbing = false;
+            } else if (event->mType == Events::collisionTypes::ladderEnd && !static_cast<int>(momentum->speedY)) {
+                moveable->canMoveUp = false;
+                moveable->canMoveDown = true;
+                moveable->climbing = true;
+            } else if (event->mType == Events::collisionTypes::ladderBegin && !static_cast<int>(momentum->speedY)) {
+                moveable->canMoveUp = true;
+                moveable->canMoveDown = true;
+                moveable->climbing = true;
+            } else if (event->mType == Events::collisionTypes::teleporterEntry) {
+                auto targets = Managers::ComponentsManager::getTeleportTargets();
+                if (!targets.empty()) {
+                    auto target = targets.begin()->first;
+                    auto targetPos = Managers::ComponentsManager::getSpatialComponent(target);
 
-                auto entitySpatial = Managers::ComponentsManager::getSpatialComponent(event->mMovingEntity);
-                entitySpatial->mPositionX = targetPos->mPositionX;
-                entitySpatial->mPositionY = targetPos->mPositionY;
+                    auto entitySpatial = Managers::ComponentsManager::getSpatialComponent(event->mMovingEntity);
+                    if(entitySpatial&&targetPos) {
+                        entitySpatial->mPositionX = targetPos->mPositionX;
+                        entitySpatial->mPositionY = targetPos->mPositionY;
 
-                system->mEventsManager->addEvent(std::make_shared<Events::MoveEntity>(event->mMovingEntity,1, 1));
+                        system->mEventsManager->addEvent(
+                                std::make_shared<Events::MoveEntity>(event->mMovingEntity, 1, 1));
+                    }
+                }
             }
         }
     };
@@ -142,7 +153,7 @@ Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager)
         auto event = static_cast<Events::MoveEntity*>(pEvent.get());
 
         auto spatial = Managers::ComponentsManager::getSpatialComponent(event->mEntityId);
-        if(event->mX || event->mY) {
+        if( spatial &&(event->mX || event->mY)) {
             spatial->mPositionX += event->mX;
             spatial->mPositionY += event->mY;
             Events::EntityMoved::Direction direction;
@@ -171,6 +182,8 @@ Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager)
 
 void Systems::PositionSystem::update() {
     auto playerSpatial = Managers::ComponentsManager::getSpatialComponent(1);
-    playerSpatial->mPrevPositionX = playerSpatial->mPositionX;
-    playerSpatial->mPrevPositionY = playerSpatial->mPositionY;
+    if (playerSpatial) {
+        playerSpatial->mPrevPositionX = playerSpatial->mPositionX;
+        playerSpatial->mPrevPositionY = playerSpatial->mPositionY;
+    }
 }

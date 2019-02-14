@@ -38,14 +38,19 @@ Systems::HealthSystem::HealthSystem(SDL_Renderer *pRenderer, Managers::EventsMan
                 if (event->entityId != 1) {
                     auto spatial = Managers::ComponentsManager::getSpatialComponent(event->entityId);
                     auto inventory = Managers::ComponentsManager::getInventory(event->entityId);
-                    std::cout<<"pos: "<<spatial->mPositionX<<" "<<spatial->mPositionY<<std::endl;
-                    system->mEventsManager->addEvent(std::make_shared<Events::EntityDied>(event->entityId,healthComponent->mOrigHealth, SDL_Point{spatial->mPositionX,spatial->mPositionY},inventory));
-                    Managers::ComponentsManager::removeComponentsOfEntity(event->entityId);
+                    if(spatial&&inventory) {
+                        std::cout << "pos: " << spatial->mPositionX << " " << spatial->mPositionY << std::endl;
+                        system->mEventsManager->addEvent(
+                                std::make_shared<Events::EntityDied>(event->entityId, healthComponent->mOrigHealth,
+                                                                     SDL_Point{spatial->mPositionX,
+                                                                               spatial->mPositionY}, inventory));
+                        Managers::ComponentsManager::removeComponentsOfEntity(event->entityId);
                         auto endsGame = Managers::ComponentsManager::getEndGame(event->entityId);
-                        if(endsGame){
+                        if (endsGame) {
                             SDL_Event sdl_event;
                             sdl_event.type = static_cast<Uint32>(33332);
                             SDL_PushEvent(&sdl_event);
+                        }
                     }
                 }
                 else {//player dies -> game over //todo use our own event system
@@ -62,45 +67,47 @@ Systems::HealthSystem::HealthSystem(SDL_Renderer *pRenderer, Managers::EventsMan
                 //TODO: replace fixed id
                 auto visualComponent = Managers::ComponentsManager::getVisualComponent(3);
 
-                //TODO: memory leak, font loading etc...
-                Uint8 rColor;
-                Uint8 gColor;
-                Uint8 bColor;
-                if (newHealth <= 100) {
-                    rColor = 255;
-                    gColor = 255 + static_cast<Uint8>((newHealth - 100) * 2.5);
-                    bColor = gColor;
-                } else {
-                    rColor = 0;
-                    gColor = 125;
-                    bColor = 0;
-                }
-
-                int numberChars = 0;
-                if(newHealth){
-
-                    for(int i=newHealth; i>0; i /=10){
-                        numberChars++;
-                        std::cout<<newHealth<<std::endl;
-                        std::cout<<i<<std::endl;
-                        std::cout<<numberChars<<std::endl;
+                if (visualComponent) {
+                    //TODO: memory leak, font loading etc...
+                    Uint8 rColor;
+                    Uint8 gColor;
+                    Uint8 bColor;
+                    if (newHealth <= 100) {
+                        rColor = 255;
+                        gColor = 255 + static_cast<Uint8>((newHealth - 100) * 2.5);
+                        bColor = gColor;
+                    } else {
+                        rColor = 0;
+                        gColor = 125;
+                        bColor = 0;
                     }
-                }else{
-                    numberChars = 1;
+
+                    int numberChars = 0;
+                    if (newHealth) {
+
+                        for (int i = newHealth; i > 0; i /= 10) {
+                            numberChars++;
+                            std::cout << newHealth << std::endl;
+                            std::cout << i << std::endl;
+                            std::cout << numberChars << std::endl;
+                        }
+                    } else {
+                        numberChars = 1;
+                    }
+
+                    int textLength = numberChars + 4;
+
+                    auto healthString = std::string("HP: ") + std::to_string(newHealth);
+
+                    SDL_Color textColor = {rColor, gColor, bColor, 255};
+                    SDL_Surface *healthMessage = TTF_RenderText_Blended(system->Sans.get(),
+                                                                        healthString.c_str(), textColor);
+                    auto healthMessageTexture = std::shared_ptr<SDL_Texture>(
+                            SDL_CreateTextureFromSurface(system->mRenderer, healthMessage), SDL_DestroyTexture);
+                    SDL_FreeSurface(healthMessage);
+                    visualComponent->mTexture = healthMessageTexture;
+                    visualComponent->mImageRect.w = 24 * textLength;
                 }
-
-                int textLength = numberChars+4;
-
-                auto healthString = std::string("HP: ")+std::to_string(newHealth);
-
-                SDL_Color textColor = {rColor, gColor, bColor, 255};
-                SDL_Surface *healthMessage = TTF_RenderText_Blended(system->Sans.get(),
-                                                                    healthString.c_str(), textColor);
-                auto healthMessageTexture = std::shared_ptr<SDL_Texture>(
-                        SDL_CreateTextureFromSurface(system->mRenderer, healthMessage), SDL_DestroyTexture);
-                SDL_FreeSurface(healthMessage);
-                visualComponent->mTexture = healthMessageTexture;
-                visualComponent->mImageRect.w = 24*textLength;
             }
         }
 
