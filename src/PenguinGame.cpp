@@ -81,6 +81,7 @@ int PenguinGame::run() {
         }else if(mOpenMap){
             mOpenMap = false;
             mapViewer.get()->render(mRenderer);
+            continue;
         } else {
             drawFrame(last, now, frames);
         }
