@@ -109,7 +109,7 @@ Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager)
             playerSpatial->mPositionY = playerSpatial->mPrevPositionY;
         }
         auto moveable = Managers::ComponentsManager::getMoveableComponent(1);
-        auto momentum = Managers::ComponentsManager::getMomentumComponent(1).get();
+        auto momentum = Managers::ComponentsManager::getMomentumComponent(1);
         if(moveable) {
             moveable->canMoveRight = true;
             moveable->canMoveLeft = true;
