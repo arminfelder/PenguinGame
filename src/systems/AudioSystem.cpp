@@ -24,7 +24,7 @@
 #include "../events/Event.h"
 #include "../managers/EventsManager.h"
 
-Systems::AudioSystem::AudioSystem(Managers::EventsManager *pEventsManager,const std::string &pArea):mEventsManager(pEventsManager) {
+Systems::AudioSystem::AudioSystem(Managers::EventsManager *pEventsManager):mEventsManager(pEventsManager) {
     auto callback = [system = this] (const std::shared_ptr<Events::Event> &pEvent){
         switch (pEvent->getType()){
             case Events::EventTypes::Health:{
@@ -37,6 +37,11 @@ Systems::AudioSystem::AudioSystem(Managers::EventsManager *pEventsManager,const 
             }
         }
     };
+
+    mEventsManager->regsiterEventHandler(Events::EventTypes::Health, callback);
+}
+
+bool Systems::AudioSystem::setMusic(const std::string &pArea) {
     mArea1Music = std::shared_ptr<Mix_Music>(Mix_LoadMUS( "./res/04 All of Us.wav" ),Mix_FreeMusic);
     mArea2Music = std::shared_ptr<Mix_Music>(Mix_LoadMUS("./res/Intro Theme.mp3"),Mix_FreeMusic);
     mArea3Music = std::shared_ptr<Mix_Music>(Mix_LoadMUS("./res/Desert Theme.mp3"),Mix_FreeMusic);
@@ -52,5 +57,5 @@ Systems::AudioSystem::AudioSystem(Managers::EventsManager *pEventsManager,const 
     }
 
     Mix_VolumeMusic(50);
-    mEventsManager->regsiterEventHandler(Events::EventTypes::Health, callback);
+    return true;
 }

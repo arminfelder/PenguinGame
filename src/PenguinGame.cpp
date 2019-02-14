@@ -275,9 +275,12 @@ void PenguinGame::newGame(const std::string &mMapFile, int playerPosition) {
     SDL_DestroyRenderer(mRenderer);
     collisionMask.clear();
 
+    std::vector<std::string> splittedStrings = Managers::ComponentsManager::splitString(mMapFile, '/');
+    std::string area = splittedStrings[3];
     initAudio();
     initEngine();
     loadMap(mMapFile, playerPosition);
+    mGameEngine->getSystemsManager()->getAudioSystem()->setMusic(area);
 }
 
 void PenguinGame::newGame(const std::string &mMapFile) {

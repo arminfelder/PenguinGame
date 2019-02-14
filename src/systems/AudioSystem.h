@@ -28,7 +28,8 @@
 namespace Systems {
     class AudioSystem {
     public:
-        AudioSystem(Managers::EventsManager *pEventsManager,const std::string &pArea ="area1");
+        AudioSystem(Managers::EventsManager *pEventsManager);
+        bool setMusic(const std::string &pArea);
 
     private:
         Managers::EventsManager *mEventsManager = nullptr;
