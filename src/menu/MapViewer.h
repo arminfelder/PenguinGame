@@ -38,6 +38,7 @@ private:
     SDL_Color mCurrentRoom;
     std::map<std::string,int> mMapMapping;
     std::vector<SDL_Rect> mDoorways;
+    std::vector<SDL_Rect> mSafePoints;
 
 };
 

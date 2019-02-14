@@ -55,7 +55,29 @@ MapViewer::MapViewer() {
     SDL_Rect area3_room3_area3_room4{968,384,4,36};
     SDL_Rect area3_room4_area3_room5{728,384,4,36};
 
-    SDL_Rect save_point_1{728,384,4,36};
+    SDL_Rect save_point_1{508,20,4,4};
+    SDL_Rect save_point_2{168,122,4,4};
+    SDL_Rect save_point_3{198,222,4,4};
+
+    SDL_Rect save_point_4{418,182,4,4};
+    SDL_Rect save_point_5{518,92,4,4};
+    SDL_Rect save_point_6{758,164,4,4};
+
+    SDL_Rect save_point_7{922,62,4,4};
+    SDL_Rect save_point_8{982,432,4,4};
+    SDL_Rect save_point_9{750,454,4,4};
+
+
+    mSafePoints.emplace_back(save_point_1);
+    mSafePoints.emplace_back(save_point_2);
+    mSafePoints.emplace_back(save_point_3);
+    mSafePoints.emplace_back(save_point_4);
+    mSafePoints.emplace_back(save_point_5);
+    mSafePoints.emplace_back(save_point_6);
+    mSafePoints.emplace_back(save_point_7);
+    mSafePoints.emplace_back(save_point_8);
+    mSafePoints.emplace_back(save_point_9);
+
 
 
     mDoorways.emplace_back(area1_room1_area1_room2);
@@ -157,6 +179,18 @@ void MapViewer::render(SDL_Renderer *pRenderer) {
 
             SDL_RenderCopy(pRenderer, texture.get(), nullptr, &way);
         }
+
+        for(const auto &point:mSafePoints){
+            std::shared_ptr<SDL_Surface> surface(SDL_CreateRGBSurface(0, point.w, point.h ,32,0,0,0,0), SDL_FreeSurface);
+
+            SDL_FillRect(surface.get(), nullptr,
+                         SDL_MapRGB(surface.get()->format, 62,62,62));
+            auto texture = std::shared_ptr<SDL_Texture>(SDL_CreateTextureFromSurface(pRenderer, surface.get()),
+                                                        SDL_DestroyTexture);
+
+            SDL_RenderCopy(pRenderer, texture.get(), nullptr, &point);
+        }
+
         SDL_RenderPresent(pRenderer);
         handleKeyEvent();
         SDL_Delay(static_cast<Uint32> (1000 / 60));
