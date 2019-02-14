@@ -48,8 +48,8 @@ Systems::CombatSystem::CombatSystem(SDL_Renderer *pRenderer,Managers::EventsMana
                 Managers::ComponentsManager::createVisualComponent(bulletId, system->mBlueBullet, 10, 5);
                 Managers::ComponentsManager::createSpatialComponent(bulletId, x, y);
                 Managers::ComponentsManager::createPathComponent(bulletId, {SDL_Point{moveX, 0}}, 15);
-                Managers::ComponentsManager::createDamageComponent(bulletId, 10 + playerXp->mXp);
-                Managers::ComponentsManager::createTimeToLive(bulletId, 500 + playerXp->mXp);
+                Managers::ComponentsManager::createDamageComponent(bulletId, 10 + system->calculateLevel(playerXp->mXp));
+                Managers::ComponentsManager::createTimeToLive(bulletId, 500 + system->calculateLevel(playerXp->mXp));
                 Managers::ComponentsManager::createOwnership(bulletId, 1);
 
             }
@@ -72,10 +72,9 @@ Systems::CombatSystem::CombatSystem(SDL_Renderer *pRenderer,Managers::EventsMana
                 Managers::ComponentsManager::createVisualComponent(bulletId, texture, 10, 5);
                 Managers::ComponentsManager::createSpatialComponent(bulletId, x, y);
                 Managers::ComponentsManager::createPathComponent(bulletId, {SDL_Point{moveX, 0}}, 20);
-                Managers::ComponentsManager::createDamageComponent(bulletId, 15 + playerXp->mXp);
-                Managers::ComponentsManager::createTimeToLive(bulletId, 800 + playerXp->mXp);
+                Managers::ComponentsManager::createDamageComponent(bulletId, 15 + system->calculateLevel(playerXp->mXp));
+                Managers::ComponentsManager::createTimeToLive(bulletId, 800 + system->calculateLevel(playerXp->mXp));
                 Managers::ComponentsManager::createOwnership(bulletId, 1);
-
             }
         }else if(event->mKeyCode == SDLK_LSHIFT){
 
@@ -97,8 +96,8 @@ Systems::CombatSystem::CombatSystem(SDL_Renderer *pRenderer,Managers::EventsMana
                 Managers::ComponentsManager::createSpatialComponent(bulletId, x, y);
                 Managers::ComponentsManager::createPathComponent(bulletId, {SDL_Point{moveX, 0}, SDL_Point{-moveX, 0}},
                                                                  5);
-                Managers::ComponentsManager::createDamageComponent(bulletId, 15 + playerXp->mXp);
-                Managers::ComponentsManager::createTimeToLive(bulletId, 180 + playerXp->mXp);
+                Managers::ComponentsManager::createDamageComponent(bulletId, 15 + system->calculateLevel(playerXp->mXp));
+                Managers::ComponentsManager::createTimeToLive(bulletId, 180 + system->calculateLevel(playerXp->mXp));
                 Managers::ComponentsManager::createOwnership(bulletId, 1);
             }
         }
@@ -116,15 +115,12 @@ Systems::CombatSystem::CombatSystem(SDL_Renderer *pRenderer,Managers::EventsMana
                     if (!evadeCap || (std::rand() % 100) < (100 - evadeCap->mChance)) {
                         int damageValue = damage->mDamage;
                         if (xp) {
-                            damageValue = damageValue - (xp->mXp / 5);
+                            damageValue = damageValue - (system->calculateLevel(xp->mXp) / 5);
                         }
-                        if (!damageValue) {
-                            damageValue = 5;
-                        }
-                        if (damageValue > 0) {
-                            system->mEventsManager->addEvent(
-                                    std::make_shared<Events::HealthEvent>(event->mCollidingEntity, -damage->mDamage));
-                        }
+                    if (damageValue < 5)
+                        damageValue = 5;
+
+                    system->mEventsManager->addEvent(std::make_shared<Events::HealthEvent>(event->mCollidingEntity, -damage->mDamage));
                     }
                     //Managers::ComponentsManager::removeComponentsOfEntity(event->mMovingEntity);
                     std::cout << "bullet coll" << std::endl;
@@ -296,4 +292,23 @@ Systems::CombatSystem::CombatSystem(SDL_Renderer *pRenderer,Managers::EventsMana
 
 void Systems::CombatSystem::attackWithItem([[maybe_unused]] const Components::Inventory::ItemTypes &pItem) {
 
+}
+
+//calculate level based on the xp the player got.
+//basically, each next level needs the twice as much as the one before
+int Systems::CombatSystem::calculateLevel(int xp) {
+    int level = 0;
+    int base = 25;
+    int next;
+
+    while (true) {
+        next = static_cast<int>(ceil(pow(2, level))*base);
+        if (xp >= next) {
+            level++;
+            //xp -= next; //harder xp mode
+        }
+        else
+            break;
+    }
+    return level;
 }

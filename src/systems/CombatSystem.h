@@ -38,6 +38,7 @@ namespace Systems {
         std::shared_ptr<SDL_Texture> mAkBulletRight;
         std::shared_ptr<SDL_Texture> mTextureHandRight;
         std::shared_ptr<SDL_Texture> mTextureHandLeft;
+        int calculateLevel(int xp);
 
     };
 }

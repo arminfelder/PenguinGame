@@ -17,7 +17,7 @@ namespace Components {
     class Inventory:public Component {
 
     public:
-        enum class ItemTypes{
+        enum class ItemTypes:int{
             none,
             disc,
             keyArea2,
