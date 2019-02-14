@@ -68,15 +68,15 @@ MapViewer::MapViewer() {
     SDL_Rect save_point_9{750,454,4,4};
 
 
-    mSafePoints.emplace_back(save_point_1);
-    mSafePoints.emplace_back(save_point_2);
-    mSafePoints.emplace_back(save_point_3);
-    mSafePoints.emplace_back(save_point_4);
-    mSafePoints.emplace_back(save_point_5);
-    mSafePoints.emplace_back(save_point_6);
-    mSafePoints.emplace_back(save_point_7);
-    mSafePoints.emplace_back(save_point_8);
-    mSafePoints.emplace_back(save_point_9);
+    mSafePoints.emplace_back(save_point_1); //area 1, room 3
+    mSafePoints.emplace_back(save_point_2); //area 1, room 5
+    mSafePoints.emplace_back(save_point_3); //area 1, room 5
+    mSafePoints.emplace_back(save_point_4); //area 2, room 1
+    mSafePoints.emplace_back(save_point_5); //area 2, room 1
+    mSafePoints.emplace_back(save_point_6); //area 2, room 3
+    mSafePoints.emplace_back(save_point_7); //area 3, room 1
+    mSafePoints.emplace_back(save_point_8); //area 3, room 4
+    mSafePoints.emplace_back(save_point_9); //area 3, room 4
 
 
 

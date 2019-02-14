@@ -252,7 +252,8 @@ void PenguinGame::loadMapPreservingUserStats(const std::string &mMapFile, int pl
 }
 
 void PenguinGame::loadMapPreservingUserStats(const std::string &mMapFile) {
-    loadMapPreservingUserStats(mMapFile, 0);
+    if (!mMapFile.empty())
+        loadMapPreservingUserStats(mMapFile, 0);
 }
 
 void PenguinGame::initGame() {
