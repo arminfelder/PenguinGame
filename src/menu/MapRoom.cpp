@@ -18,7 +18,7 @@ const SDL_Color MapRoom::matchColor(std::string color) {
     else if (color == "green")
         sdl_color = {23,232,23, 128};
     else if (color == "blue")
-        sdl_color = {23,23,232, 255};
+        sdl_color = {23,23,255, 255};
 
     return sdl_color;
 }

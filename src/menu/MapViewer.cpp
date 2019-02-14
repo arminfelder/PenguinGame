@@ -17,7 +17,9 @@
 ******************************************************************************/
 
 #include <SDL_timer.h>
+#include <SDL_events.h>
 #include "MapViewer.h"
+#include "../managers/ComponentsManager.h"
 
 MapViewer::MapViewer() {
     SDL_Rect area1_room1{0,0,100,60};
@@ -30,6 +32,7 @@ MapViewer::MapViewer() {
     SDL_Rect area2_room2{560,72,100,60};
     SDL_Rect area2_room3{560,144,220,60};
     SDL_Rect area2_room4{560,216,100,60};
+    SDL_Rect area2_room5{680,72,100,60};
 
     SDL_Rect area3_room1{900,0,100,132};
     SDL_Rect area3_room2{800,144,200,60};
@@ -47,6 +50,7 @@ MapViewer::MapViewer() {
     mapComponents.emplace(22,std::make_shared<MapRoom>(area2_room2, "green"));
     mapComponents.emplace(23,std::make_shared<MapRoom>(area2_room3, "green"));
     mapComponents.emplace(24,std::make_shared<MapRoom>(area2_room4, "green"));
+    mapComponents.emplace(25,std::make_shared<MapRoom>(area2_room5, "green"));
 
     mapComponents.emplace(31,std::make_shared<MapRoom>(area3_room1, "red"));
     mapComponents.emplace(32,std::make_shared<MapRoom>(area3_room2, "red"));
@@ -56,23 +60,81 @@ MapViewer::MapViewer() {
 
 
 
-    //mMapMapping.emplace();
+    mMapMapping.emplace("./res/maps/area1/getDisk.txt",11);
+    mMapMapping.emplace("./res/maps/area1/map.txt",12);
+    mMapMapping.emplace("./res/maps/area1/map2.txt",13);
+    mMapMapping.emplace("./res/maps/area1/boss.txt",14);
+    mMapMapping.emplace("./res/maps/area1/downwards.txt",15);
+
+    mMapMapping.emplace("./res/maps/area2/start.txt",21);
+    mMapMapping.emplace("./res/maps/area2/boss.txt",22);
+    mMapMapping.emplace("./res/maps/area2/map2.txt",23);
+    mMapMapping.emplace("./res/maps/area2/getAK.txt",24);
+    mMapMapping.emplace("./res/maps/area2/getShield.txt",25);
+
+    mMapMapping.emplace("./res/maps/area3/returner.txt",31);
+    mMapMapping.emplace("./res/maps/area3/start.txt",32);
+    mMapMapping.emplace("./res/maps/area3/hellEntrance.txt",33);
+    mMapMapping.emplace("./res/maps/area3/hell.txt",34);
+    mMapMapping.emplace("./res/maps/area3/finalBoss.txt",35);
+
+    mCurrentRoom.a = 255;
+    mCurrentRoom.r = 255;
+    mCurrentRoom.g = 83;
+    mCurrentRoom.b = 255;
+
 
 }
 
 void MapViewer::render(SDL_Renderer *pRenderer) {
     mRunning = true;
     while (mRunning) {
-        for (const auto &component : mapComponents) {
-            auto colorStruct = component.second->matchColor(component.second->color);
-            auto surface = component.second->getSurface();
+        auto visited =  Managers::ComponentsManager::getVisitedMaps();
+        auto currRoom = Managers::ComponentsManager::getMapName();
+        auto currRoomStr = currRoom->getMapName();
+        for (const auto &component : visited->getVisitedMaps()) {
+            auto room = mapComponents[mMapMapping[component]];
 
-            SDL_FillRect(surface.get(),nullptr,SDL_MapRGB(surface.get()->format,colorStruct.r,colorStruct.g,colorStruct.b));
-            auto texture = std::shared_ptr<SDL_Texture>(SDL_CreateTextureFromSurface(pRenderer, surface.get()), SDL_DestroyTexture);
+            if(room) {
+                auto colorStruct = room->matchColor(room->color);
+                if(component == currRoomStr){
+                    colorStruct = mCurrentRoom;
+                }
+                auto surface = room->getSurface();
 
-            SDL_RenderCopy(pRenderer, texture.get(), nullptr, &component.second->mRect);
+                SDL_FillRect(surface.get(), nullptr,
+                             SDL_MapRGB(surface.get()->format, colorStruct.r, colorStruct.g, colorStruct.b));
+                auto texture = std::shared_ptr<SDL_Texture>(SDL_CreateTextureFromSurface(pRenderer, surface.get()),
+                                                            SDL_DestroyTexture);
+
+                SDL_RenderCopy(pRenderer, texture.get(), nullptr, &room->mRect);
+            }
         }
         SDL_RenderPresent(pRenderer);
+        handleKeyEvent();
         SDL_Delay(static_cast<Uint32> (1000 / 60));
     }
+}
+
+void MapViewer::close() {
+    mRunning = false;
+}
+
+void MapViewer::handleKeyEvent() {
+    SDL_Event event;
+    SDL_PumpEvents();
+    while (SDL_PeepEvents(&event, 1, SDL_GETEVENT, SDL_KEYDOWN, SDL_KEYDOWN)) {
+        if (event.type == SDL_KEYDOWN) {
+            switch(event.key.keysym.sym) {
+                case SDLK_m:
+                case SDLK_p:
+                case SDLK_n:
+                case SDLK_ESCAPE:
+                    this->close();
+                    break;
+                default: break;
+            }
+        }
+    }
+
 }
