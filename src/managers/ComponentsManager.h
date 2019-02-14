@@ -47,6 +47,7 @@
 #include "../components/EvadeCapability.h"
 #include "../components/EndsGame.h"
 #include "../components/CanOpen.h"
+#include "../components/VisitedMaps.h"
 
 namespace Managers {
 
@@ -95,6 +96,7 @@ namespace Managers {
         static std::shared_ptr<Components::EvadeCapability> &getEvadeCapability(int pEntityId);
         static std::shared_ptr<Components::EndsGame> &getEndGame(int pEntityId);
         static std::shared_ptr<Components::CanOpen> &getCanOpen(int pEntityId);
+        static std::shared_ptr<Components::VisitedMaps> &getVisitedMaps();
 
         static void createHealthComponent(int pEntityId, int pHp = 100);
         static void createVisualComponent(int pEntityId, const std::shared_ptr<SDL_Texture> &pTexture, int pSizeW, int pSizeH);
@@ -119,6 +121,7 @@ namespace Managers {
         static void createEvadeCapability(int pEntityId, int pEvadeChance);
         static void createEndGame(int pEntityId);
         static void createCanOpen(int pEntityId,const Components::CanOpen::Areas &pArea);
+        static void visitMap(const std::string mapName);
 
         static void removeComponentsOfEntity(int pEntityId);
         static void prepareNextMap(std::ostream &out);
@@ -151,8 +154,7 @@ namespace Managers {
         static std::map<int, std::shared_ptr<Components::EvadeCapability>> mEvadeCapabilities;
         static std::map<int, std::shared_ptr<Components::EndsGame>> mEndGames;
         static std::map<int, std::shared_ptr<Components::CanOpen>> mCanOpens;
-
-
+        static std::map<int, std::shared_ptr<Components::VisitedMaps>> mVisitedMaps;
 
     };
 }
