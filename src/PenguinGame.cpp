@@ -43,10 +43,8 @@ int PenguinGame::run() {
 
     SDL_RegisterEvents(32769); //register Menu event
     SDL_RegisterEvents(32770); //register PauseMenu event
+    SDL_RegisterEvents(32771); //register MapView event
     SDL_RegisterEvents(32780); //register MenuSwitch event
-    SDL_RegisterEvents(32791); //register LoadMap1 event
-    SDL_RegisterEvents(32792); //register LoadMap2 event
-    SDL_RegisterEvents(32793); //register LoadMap3 event
     SDL_RegisterEvents(33332); //register Gameover event
     SDL_RegisterEvents(33333); //register New Game event
     SDL_RegisterEvents(33334); //register Load Game event
@@ -116,7 +114,7 @@ void PenguinGame::SDLEventLoop() {
             break;
         }
     }
-    while (SDL_PeepEvents(&event, 1, SDL_GETEVENT, 32769, 32793)) {
+    while (SDL_PeepEvents(&event, 1, SDL_GETEVENT, 32769, 32780)) {
         switch (event.type) {
             case 32769:
                 mOpenMenu = true;
@@ -125,17 +123,11 @@ void PenguinGame::SDLEventLoop() {
                 pauseMenu->updateInventory();
                 mOpenPause = true;
                 break;
+            case 32771:
+                mOpenPause = true;
+                break;
             case 32780:
                 mRenderOnce = true;
-                break;
-            case 32791:
-                newGame("./res/map.txt");
-                break;
-            case 32792:
-                newGame("./res/map2.txt");
-                break;
-            case 32793:
-                newGame("./res/map3.txt");
                 break;
             default:
                 break;
