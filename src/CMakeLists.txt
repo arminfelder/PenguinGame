@@ -97,6 +97,11 @@ add_executable(game main.cpp
         events/TriggerActivated.cpp
 		events/EntityDied.cpp
         MapParser.cpp
-		entities/Shield.cpp entities/Shield.h components/EvadeCapability.cpp components/EvadeCapability.h components/EndsGame.cpp components/EndsGame.h entities/DoubleJumpEnabler.cpp entities/DoubleJumpEnabler.h components/CanOpen.cpp components/CanOpen.h components/Ownership.cpp components/Ownership.h)
+		entities/Shield.cpp components/EvadeCapability.cpp
+		components/EndsGame.cpp
+		entities/DoubleJumpEnabler.cpp
+		components/CanOpen.cpp
+		components/Ownership.cpp
+		menu/MapViewer.cpp menu/MapRoom.cpp menu/MapRoom.h)
 
 target_link_libraries(game ${SDL2_LIBRARIES} ${SDL2TTF_LIBRARY} ${SDL2_MIXER_LIBRARY})
