@@ -113,11 +113,11 @@ Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager)
             moveable->canMoveUp = false;
             moveable->canMoveDown = false;
             moveable->climbing = false;
-        }else if(event->mType == Events::collisionTypes::ladderEnd){
+        }else if(event->mType == Events::collisionTypes::ladderEnd && !static_cast<int>(Managers::ComponentsManager::getMomentumComponent(1).get()->speedY)){
             moveable->canMoveUp = false;
             moveable->canMoveDown = true;
             moveable->climbing = true;
-        }else if(event->mType == Events::collisionTypes::ladderBegin){
+        }else if(event->mType == Events::collisionTypes::ladderBegin && !static_cast<int>(Managers::ComponentsManager::getMomentumComponent(1).get()->speedY)){
             moveable->canMoveUp = true;
             moveable->canMoveDown = true;
             moveable->climbing = true;

@@ -54,8 +54,6 @@ Systems::PhysicsSystem::PhysicsSystem(Managers::EventsManager *pEventsManager):m
                     std::cout << "old y " << std::to_string(momentum->speedY) <<  std::endl;
                 }
                 momentum->speedY = -23;
-//                system->mEventsManager->addEvent(std::make_shared<Events::FallingEvent>(1));
-//                std::cout << "added event for falling after jumping" << std::endl;
             }
 
             if(event->mKeys[SDL_SCANCODE_LEFT]){
