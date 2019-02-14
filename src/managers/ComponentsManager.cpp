@@ -46,6 +46,8 @@ std::map<int, std::shared_ptr<Components::MapName>> ComponentsManager::mMapNameC
 std::map<int, std::shared_ptr<Components::Xp>> ComponentsManager::mXp;
 std::map<int, std::shared_ptr<Components::EvadeCapability>> ComponentsManager::mEvadeCapabilities;
 std::map<int, std::shared_ptr<Components::EndsGame>> ComponentsManager::mEndGames;
+std::map<int, std::shared_ptr<Components::CanOpen>> ComponentsManager::mCanOpens;
+
 
 
 std::map<int, std::shared_ptr<Components::Health>> &ComponentsManager::getHealthComponents() {
@@ -427,4 +429,16 @@ std::shared_ptr<Components::EndsGame> &ComponentsManager::getEndGame(int pEntity
 
 void ComponentsManager::createEndGame(int pEntityId) {
     mEndGames.emplace(std::make_pair(pEntityId, std::make_shared<Components::EndsGame>()));
+}
+
+std::map<int, std::shared_ptr<Components::CanOpen>> &ComponentsManager::getCanOpens() {
+    return mCanOpens;
+}
+
+std::shared_ptr<Components::CanOpen> &ComponentsManager::getCanOpen(int pEntityId) {
+    return mCanOpens[pEntityId];
+}
+
+void ComponentsManager::createCanOpen(int pEntityId, const Components::CanOpen::Areas &pArea) {
+    mCanOpens.emplace(std::make_pair(pEntityId,std::make_shared<Components::CanOpen>(pArea)));
 }
