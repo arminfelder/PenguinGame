@@ -28,12 +28,14 @@
 namespace Systems {
     class AudioSystem {
     public:
-        AudioSystem(Managers::EventsManager *pEventsManager);
+        AudioSystem(Managers::EventsManager *pEventsManager,const std::string &pArea);
 
     private:
         Managers::EventsManager *mEventsManager = nullptr;
         SDL_AudioDeviceID mDeviceId;
         std::shared_ptr<Mix_Music> mArea1Music;
+        std::shared_ptr<Mix_Music> mArea2Music;
+        std::shared_ptr<Mix_Music> mArea3Music;
         std::shared_ptr<Mix_Chunk> mCollectItem;
 
     };

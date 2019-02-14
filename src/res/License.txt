@@ -20,3 +20,4 @@ frame-1.bmp,bevouliin.com(OpenGameArt.org),CC0
 tank_kv.bmp,dimonija(OpenGameArt.org),GPLv2
 unicorn.png,CornerLord(OpenGameArt.org),CC-BY
 sprite2.png,bevouliin.com(OpenGameArt.org),CC0
+Desert Theme.mp3;Intro Theme.mp3,CodeManu(OpenGameArt.org),CC-BY
