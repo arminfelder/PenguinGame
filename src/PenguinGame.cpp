@@ -275,7 +275,9 @@ void PenguinGame::newGame(const std::string &mMapFile, int playerPosition) {
     SDL_DestroyRenderer(mRenderer);
     collisionMask.clear();
 
-    initAudio();
+    std::vector<std::string> splittedStrings = Managers::ComponentsManager::splitString(mMapFile, '/');
+    std::string area = splittedStrings[3];
+    initAudio(area);
     initEngine();
     loadMap(mMapFile, playerPosition);
 }
