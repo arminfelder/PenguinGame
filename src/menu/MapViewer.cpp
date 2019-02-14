@@ -55,6 +55,9 @@ MapViewer::MapViewer() {
     SDL_Rect area3_room3_area3_room4{968,384,4,36};
     SDL_Rect area3_room4_area3_room5{728,384,4,36};
 
+    SDL_Rect save_point_1{728,384,4,36};
+
+
     mDoorways.emplace_back(area1_room1_area1_room2);
     mDoorways.emplace_back(area1_room2_area1_room3);
     mDoorways.emplace_back(area1_room3_area1_room4);
