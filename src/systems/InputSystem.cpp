@@ -26,6 +26,12 @@ using namespace Systems;
 void InputSystem::update(Uint64 pTimeDiff) {
     SDL_Event event;
 
+
+
+    static Uint64 lastTimeDiff = 0;
+    const Uint64 rate = 15;
+    lastTimeDiff += pTimeDiff;
+    if(lastTimeDiff >= rate) {
         while(SDL_PeepEvents(&event, 1, SDL_GETEVENT, SDL_KEYDOWN, SDL_MOUSEWHEEL)){
 
             switch (event.type){
@@ -45,11 +51,6 @@ void InputSystem::update(Uint64 pTimeDiff) {
             }
         }
 
-    static Uint64 lastTimeDiff = 0;
-    const Uint64 rate = 15;
-    lastTimeDiff += pTimeDiff;
-    if(lastTimeDiff >= rate) {
-
         auto length = 0;
         auto keys = SDL_GetKeyboardState(&length);
         std::vector<Uint8> keyVec(length);
@@ -57,12 +58,12 @@ void InputSystem::update(Uint64 pTimeDiff) {
 
         if(!mPressedKeys.empty()) {
             std::cout<<"testpoint"<<std::endl;
+                std::vector<int> keysToDelete(mPressedKeys.size());
                 for (const int elem: mPressedKeys) {
                     mEventsManager->addEvent(std::make_shared<Events::KeyPressedEvent>(elem, keyVec));
-                    if (elem != SDLK_LEFT && elem != SDLK_RIGHT) {
-                        mPressedKeys.erase(elem);
-                    }
-
+                }
+                for(const auto &elem:keysToDelete){
+                    mPressedKeys.erase(elem);
                 }
             }
 
