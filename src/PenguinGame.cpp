@@ -169,7 +169,8 @@ void PenguinGame::SDLEventLoop() {
                 }
 
                 delete idptr;
-                loadMapPreservingUserStats(map, playerPosition);
+                if (!map.empty())
+                    loadMapPreservingUserStats(map, playerPosition);
                 break;
             }
             case 33334: { //load game data including correct map
