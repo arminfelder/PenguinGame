@@ -24,7 +24,7 @@
 #include "../events/Event.h"
 #include "../managers/EventsManager.h"
 
-Systems::AudioSystem::AudioSystem(Managers::EventsManager *pEventsManager):mEventsManager(pEventsManager) {
+Systems::AudioSystem::AudioSystem(Managers::EventsManager *pEventsManager,const std::string &pArea):mEventsManager(pEventsManager) {
     auto callback = [system = this] (const std::shared_ptr<Events::Event> &pEvent){
         switch (pEvent->getType()){
             case Events::EventTypes::Health:{
@@ -38,9 +38,19 @@ Systems::AudioSystem::AudioSystem(Managers::EventsManager *pEventsManager):mEven
         }
     };
     mArea1Music = std::shared_ptr<Mix_Music>(Mix_LoadMUS( "./res/04 All of Us.wav" ),Mix_FreeMusic);
+    mArea2Music = std::shared_ptr<Mix_Music>(Mix_LoadMUS("./res/Intro Theme.mp3"),Mix_FreeMusic);
+    mArea3Music = std::shared_ptr<Mix_Music>(Mix_LoadMUS("./res/Desert Theme.mp3"),Mix_FreeMusic);
+
     mCollectItem = std::shared_ptr<Mix_Chunk>(Mix_LoadWAV("./res/387133__rdaly95__collecting-health.wav"),Mix_FreeChunk);
 
-    Mix_PlayMusic( mArea1Music.get(), -1 );
+    if(pArea == "area1" ){
+        Mix_PlayMusic( mArea1Music.get(), -1 );
+    }else if(pArea == "area2"){
+        Mix_PlayMusic( mArea2Music.get(), -1 );
+    }else if(pArea == "area3"){
+        Mix_PlayMusic( mArea3Music.get(), -1 );
+    }
+
     Mix_VolumeMusic(50);
     mEventsManager->regsiterEventHandler(Events::EventTypes::Health, callback);
 }
