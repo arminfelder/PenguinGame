@@ -56,6 +56,7 @@ MapViewer::MapViewer() {
 
 
 
+    //mMapMapping.emplace();
 
 }
 

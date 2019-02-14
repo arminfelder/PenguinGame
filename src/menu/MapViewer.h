@@ -32,6 +32,8 @@ private:
     std::map<int, std::shared_ptr<MapRoom>> mapComponents;
     bool mRunning;
 
+    std::map<std::string,int> mMapMapping;
+
 };
 
 
