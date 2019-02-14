@@ -84,7 +84,7 @@ Systems::CombatSystem::CombatSystem(SDL_Renderer *pRenderer,Managers::EventsMana
                     moveX *= -1;
                 }
                 int x = playerSpatial->mPositionX +
-                        (((playerVisual->mImageRect.w) + 1) * (playerVisual->mFlip ? -1 : 1));
+                        (((playerVisual->mImageRect.w) + 3) * (playerVisual->mFlip ? -1 : 1));
                 int y = playerSpatial->mPositionY + (playerVisual->mImageRect.h / 5);
 
                 auto texture = playerVisual->mFlip ? system->mTextureHandRight : system->mTextureHandLeft;
@@ -179,15 +179,17 @@ Systems::CombatSystem::CombatSystem(SDL_Renderer *pRenderer,Managers::EventsMana
                             }
                             case Components::Inventory::ItemTypes::finger: {
                                 int moveX = 20;
-                                if (entityVisual->mFlip) {
+                                bool flip = false;
+                                if (enemySpatial->mPositionX < entitySpatial->mPositionX) {
                                     moveX *= -1;
+                                    flip = true;
                                 }
                                 int x = entitySpatial->mPositionX +
-                                        (((entityVisual->mImageRect.w) + 1) * (entityVisual->mFlip ? -1 : 1));
+                                        (((entityVisual->mImageRect.w) + 1) * (flip ? -1 : 1));
                                 int y = entitySpatial->mPositionY + (entityVisual->mImageRect.h / 5);
 
-                                auto texture = entityVisual->mFlip ? system->mTextureHandRight
-                                                                   : system->mTextureHandLeft;
+
+                                auto texture = entityVisual->mFlip ? system->mTextureHandLeft : system->mTextureHandRight;
                                 int bulletId = Managers::EntityManager::createEntity<Entities::Projectile>();
                                 Managers::ComponentsManager::createVisualComponent(bulletId, texture, 40, 40);
                                 Managers::ComponentsManager::createSpatialComponent(bulletId, x, y);

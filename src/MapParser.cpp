@@ -314,7 +314,8 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused
                     Managers::ComponentsManager::createPathComponent(id, std::vector<SDL_Point>({SDL_Point{100, 0},SDL_Point{0,-20}, SDL_Point{-100, 0},SDL_Point{0,20}}), 2, true, true);
                     Managers::ComponentsManager::createViewRange(id, 400, 0);
                     Managers::ComponentsManager::createInventory(id);
-
+                    auto inventory = Managers::ComponentsManager::getInventory(id);
+                    inventory->addItem(Components::Inventory::ItemTypes::finger);
 
                     break;
                 }
