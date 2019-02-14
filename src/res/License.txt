@@ -18,3 +18,5 @@ Lava #4.png,LuminousDragonGames(OpenGameArt.org),CC0
 crow-man.bmp,Spring(OpenGameArt.org),CC-BY
 frame-1.bmp,bevouliin.com(OpenGameArt.org),CC0
 tank_kv.bmp,dimonija(OpenGameArt.org),GPLv2
+unicorn.png,CornerLord(OpenGameArt.org),CC-BY
+sprite2.png,bevouliin.com(OpenGameArt.org),CC0
