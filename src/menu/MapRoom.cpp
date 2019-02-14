@@ -24,5 +24,5 @@ const SDL_Color MapRoom::matchColor(std::string color) {
 }
 
 std::shared_ptr<SDL_Surface> MapRoom::getSurface() {
-    return  std::shared_ptr<SDL_Surface>(SDL_CreateRGBSurface(0, mRect.h, mRect.h ,32,0,0,0,0), SDL_FreeSurface);;
+    return  std::shared_ptr<SDL_Surface>(SDL_CreateRGBSurface(0, mRect.w, mRect.h ,32,0,0,0,0), SDL_FreeSurface);
 }

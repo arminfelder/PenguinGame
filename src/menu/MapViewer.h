@@ -21,6 +21,7 @@
 
 #include <memory>
 #include <map>
+#include <vector>
 #include "MapRoom.h"
 
 class MapViewer {
@@ -36,6 +37,7 @@ private:
 
     SDL_Color mCurrentRoom;
     std::map<std::string,int> mMapMapping;
+    std::vector<SDL_Rect> mDoorways;
 
 };
 

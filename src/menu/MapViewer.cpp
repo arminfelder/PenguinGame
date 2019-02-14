@@ -40,6 +40,40 @@ MapViewer::MapViewer() {
     SDL_Rect area3_room4{700,408,300, 60};
     SDL_Rect area3_room5{700, 336, 150, 60};
 
+    SDL_Rect area1_room1_area1_room2{90,28,40,4};
+    SDL_Rect area1_room2_area1_room3{320,28,40,4};
+    SDL_Rect area1_room3_area1_room4{540,28,40,4};
+    SDL_Rect area1_room1_area1_room5{148,62,4,40};
+    SDL_Rect area1_room5_area2_room1{210,244,40,4};
+    SDL_Rect area2_room1_area2_room2{530,100,40,4};
+    SDL_Rect area2_room1_area2_room3{530,172,40,4};
+    SDL_Rect area2_room1_area2_room4{530,244,40,4};
+    SDL_Rect area2_room3_area2_room5{728,162,4,40};
+    SDL_Rect area2_room3_area3_room2{770,244,40,4};
+    SDL_Rect area3_room2_area3_room1{968,162,4,40};
+    SDL_Rect area3_room2_area3_room3{968,234,4,40};
+    SDL_Rect area3_room3_area3_room4{968,414,4,40};
+    SDL_Rect area3_room4_area3_room5{668,414,4,40};
+
+    mDoorways.emplace_back(area1_room1_area1_room2);
+    mDoorways.emplace_back(area1_room2_area1_room3);
+    mDoorways.emplace_back(area1_room3_area1_room4);
+    mDoorways.emplace_back(area1_room1_area1_room5);
+    mDoorways.emplace_back(area1_room5_area2_room1);
+    mDoorways.emplace_back(area2_room1_area2_room2);
+    mDoorways.emplace_back(area2_room1_area2_room3);
+    mDoorways.emplace_back(area2_room1_area2_room4);
+    mDoorways.emplace_back(area2_room3_area2_room5);
+    mDoorways.emplace_back(area2_room3_area3_room2);
+    mDoorways.emplace_back(area3_room2_area3_room1);
+    mDoorways.emplace_back(area3_room2_area3_room3);
+    mDoorways.emplace_back(area3_room2_area3_room3);
+    mDoorways.emplace_back(area3_room2_area3_room3);
+    mDoorways.emplace_back(area3_room2_area3_room3);
+    mDoorways.emplace_back(area3_room3_area3_room4);
+    mDoorways.emplace_back(area3_room4_area3_room5);
+
+
     mapComponents.emplace(11,std::make_shared<MapRoom>(area1_room1, "blue"));
     mapComponents.emplace(12,std::make_shared<MapRoom>(area1_room2, "blue"));
     mapComponents.emplace(13,std::make_shared<MapRoom>(area1_room3, "blue"));
@@ -109,6 +143,16 @@ void MapViewer::render(SDL_Renderer *pRenderer) {
 
                 SDL_RenderCopy(pRenderer, texture.get(), nullptr, &room->mRect);
             }
+        }
+        for(const auto &way:mDoorways){
+            std::shared_ptr<SDL_Surface> surface(SDL_CreateRGBSurface(0, way.w, way.h ,32,0,0,0,0), SDL_FreeSurface);
+
+            SDL_FillRect(surface.get(), nullptr,
+                         SDL_MapRGB(surface.get()->format, 0,0,0));
+            auto texture = std::shared_ptr<SDL_Texture>(SDL_CreateTextureFromSurface(pRenderer, surface.get()),
+                                                        SDL_DestroyTexture);
+
+            SDL_RenderCopy(pRenderer, texture.get(), nullptr, &way);
         }
         SDL_RenderPresent(pRenderer);
         handleKeyEvent();
