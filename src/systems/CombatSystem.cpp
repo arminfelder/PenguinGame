@@ -120,10 +120,7 @@ Systems::CombatSystem::CombatSystem(SDL_Renderer *pRenderer,Managers::EventsMana
                     if (damageValue < 5)
                         damageValue = 5;
 
-                        if (damageValue > 0) {
-                            system->mEventsManager->addEvent(
-                                    std::make_shared<Events::HealthEvent>(event->mCollidingEntity, -damage->mDamage));
-                        }
+                    system->mEventsManager->addEvent(std::make_shared<Events::HealthEvent>(event->mCollidingEntity, -damage->mDamage));
                     }
                     //Managers::ComponentsManager::removeComponentsOfEntity(event->mMovingEntity);
                     std::cout << "bullet coll" << std::endl;
