@@ -41,19 +41,19 @@ MapViewer::MapViewer() {
     SDL_Rect area3_room5{700, 336, 150, 60};
 
     SDL_Rect area1_room1_area1_room2{90,28,40,4};
-    SDL_Rect area1_room2_area1_room3{320,28,40,4};
-    SDL_Rect area1_room3_area1_room4{540,28,40,4};
-    SDL_Rect area1_room1_area1_room5{148,62,4,40};
+    SDL_Rect area1_room2_area1_room3{310,28,40,4};
+    SDL_Rect area1_room3_area1_room4{530,28,40,4};
+    SDL_Rect area1_room1_area1_room5{148,48,4,36};
     SDL_Rect area1_room5_area2_room1{210,244,40,4};
     SDL_Rect area2_room1_area2_room2{530,100,40,4};
     SDL_Rect area2_room1_area2_room3{530,172,40,4};
     SDL_Rect area2_room1_area2_room4{530,244,40,4};
-    SDL_Rect area2_room3_area2_room5{728,162,4,40};
-    SDL_Rect area2_room3_area3_room2{770,244,40,4};
-    SDL_Rect area3_room2_area3_room1{968,162,4,40};
-    SDL_Rect area3_room2_area3_room3{968,234,4,40};
-    SDL_Rect area3_room3_area3_room4{968,414,4,40};
-    SDL_Rect area3_room4_area3_room5{668,414,4,40};
+    SDL_Rect area2_room3_area2_room5{728,114,4,36};
+    SDL_Rect area2_room3_area3_room2{770,172,40,4};
+    SDL_Rect area3_room2_area3_room1{968,114,4,36};
+    SDL_Rect area3_room2_area3_room3{968,192,4,36};
+    SDL_Rect area3_room3_area3_room4{968,384,4,36};
+    SDL_Rect area3_room4_area3_room5{728,384,4,36};
 
     mDoorways.emplace_back(area1_room1_area1_room2);
     mDoorways.emplace_back(area1_room2_area1_room3);
