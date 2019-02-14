@@ -112,6 +112,9 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused
     std::shared_ptr<SDL_Surface> imageTank(SDL_LoadBMP("./res/tank_kv.bmp"), SDL_FreeSurface);
     std::shared_ptr<SDL_Texture> textureTank(SDL_CreateTextureFromSurface(pRenderer, imageTank.get()), SDL_DestroyTexture);
 
+    std::shared_ptr<SDL_Surface> imageRatKing(SDL_LoadBMP("./res/ratking2.bmp"), SDL_FreeSurface);
+    std::shared_ptr<SDL_Texture> textureRatKing(SDL_CreateTextureFromSurface(pRenderer, imageRatKing.get()), SDL_DestroyTexture);
+
 
     std::shared_ptr<SDL_Surface> imageLadder(SDL_LoadBMP("./res/ladder.bmp"), SDL_FreeSurface);
     std::shared_ptr<SDL_Texture> textureLadder(SDL_CreateTextureFromSurface(pRenderer, imageLadder.get()), SDL_DestroyTexture);
@@ -361,6 +364,26 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused
                     inventory->addItem(Components::Inventory::ItemTypes::ak47);
                     inventory->addItem(Components::Inventory::ItemTypes::doubleJump);
                     inventory->addItem(Components::Inventory::ItemTypes::keyArea1);
+                    break;
+                }
+                case 'R':{
+                    int id = Managers::EntityManager::createEntity<Npc>();
+                    Managers::ComponentsManager::createVisualComponent(id, textureRatKing, 48, 60);
+                    Managers::ComponentsManager::createSpatialComponent(id, x + 1, y - 10);
+                    Managers::ComponentsManager::createCollideAbleComponent(id);
+                    Managers::ComponentsManager::createHealthComponent(id, 180);
+                    Managers::ComponentsManager::createPathComponent(id, std::vector<SDL_Point>({SDL_Point{-150, 0}, SDL_Point{150, 0}}), 1, true, true);
+                    Managers::ComponentsManager::createViewRange(id, 800, 0);
+                    Managers::ComponentsManager::createInventory(id);
+                    Managers::ComponentsManager::createEndGame(id);
+                    Managers::ComponentsManager::createXp(id);
+                    auto xp = Managers::ComponentsManager::getXp(id);
+                    xp->mXp = 150;
+                    auto inventory = Managers::ComponentsManager::getInventory(id);
+                    inventory->addItem(Components::Inventory::ItemTypes::ak47);
+                    inventory->addItem(Components::Inventory::ItemTypes::doubleJump);
+                    inventory->addItem(Components::Inventory::ItemTypes::finger);
+
                     break;
                 }
                 case '|': {
