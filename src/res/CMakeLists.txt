@@ -59,6 +59,10 @@ configure_file(hand_cursor0000Fliped.bmp hand_cursor0000Fliped.bmp COPYONLY)
 
 configure_file(iceblock.bmp iceblock.bmp COPYONLY)
 configure_file("Lava #4.bmp" "Lava #4.bmp" COPYONLY)
+configure_file(crow-man.bmp crow-man.bmp COPYONLY)
+configure_file(frame-1.bmp frame-1.bmp COPYONLY)
+configure_file(tank_kv.bmp tank_kv.bmp COPYONLY)
+configure_file(doubleJump.bmp doubleJump.bmp COPYONLY)
 
 
 configure_file(map.txt map.txt COPYONLY)

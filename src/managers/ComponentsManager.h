@@ -46,6 +46,7 @@
 #include "../components/Xp.h"
 #include "../components/EvadeCapability.h"
 #include "../components/EndsGame.h"
+#include "../components/CanOpen.h"
 
 namespace Managers {
 
@@ -71,6 +72,7 @@ namespace Managers {
         static std::map<int, std::shared_ptr<Components::Xp>> &getXps();
         static std::map<int, std::shared_ptr<Components::EvadeCapability>> &getEvadeCapabilities();
         static std::map<int, std::shared_ptr<Components::EndsGame>> &getEndGames();
+        static std::map<int, std::shared_ptr<Components::CanOpen>> &getCanOpens();
 
         static std::shared_ptr<Components::Health> &getHealthComponent(int pEntityId);
         static std::shared_ptr<Components::VisualComponent> &getVisualComponent(int pEntityId);
@@ -92,6 +94,7 @@ namespace Managers {
         static std::shared_ptr<Components::Xp> &getXp(int pEntityId);
         static std::shared_ptr<Components::EvadeCapability> &getEvadeCapability(int pEntityId);
         static std::shared_ptr<Components::EndsGame> &getEndGame(int pEntityId);
+        static std::shared_ptr<Components::CanOpen> &getCanOpen(int pEntityId);
 
         static void createHealthComponent(int pEntityId, int pHp = 100);
         static void createVisualComponent(int pEntityId, const std::shared_ptr<SDL_Texture> &pTexture, int pSizeW, int pSizeH);
@@ -115,6 +118,7 @@ namespace Managers {
         static void createXp(int pEntityId);
         static void createEvadeCapability(int pEntityId, int pEvadeChance);
         static void createEndGame(int pEntityId);
+        static void createCanOpen(int pEntityId,const Components::CanOpen::Areas &pArea);
 
         static void removeComponentsOfEntity(int pEntityId);
         static void prepareNextMap(std::ostream &out);
@@ -146,6 +150,7 @@ namespace Managers {
         static std::map<int, std::shared_ptr<Components::Xp>> mXp;
         static std::map<int, std::shared_ptr<Components::EvadeCapability>> mEvadeCapabilities;
         static std::map<int, std::shared_ptr<Components::EndsGame>> mEndGames;
+        static std::map<int, std::shared_ptr<Components::CanOpen>> mCanOpens;
 
 
 

@@ -178,7 +178,7 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
                         break;
                     }
                     case Entities::entityTypes::key: {
-                        collisionType = Events::collisionTypes::keyArea2;
+                        collisionType = Events::collisionTypes::key;
                         break;
                     }
                     case Entities::entityTypes::teleporterEntrance: {
@@ -204,6 +204,9 @@ Systems::CollisionSystem::CollisionSystem(Managers::EventsManager *pEventsmanage
                     case Entities::entityTypes::mapChanger: {
                         collisionType = Events::collisionTypes::mapChanger;
                         break;
+                    }
+                    case Entities::entityTypes::doubleJumpEnabler: {
+                        collisionType = Events::collisionTypes::doubleJump;
                     }
                     default:
                     case Entities::entityTypes::none: {

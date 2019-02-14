@@ -26,8 +26,8 @@
 namespace Events {
     class KeyDownEvent:public Event {
     public:
-        KeyDownEvent(SDL_Keysym pCode, const Uint8* pKeys);
-        SDL_Keysym mKeyCode;
+        KeyDownEvent(int pCode, const Uint8* pKeys);
+        int mKeyCode;
         const Uint8* mKeys;
 
     };

@@ -27,8 +27,8 @@
 namespace Events {
     class KeyUpEvent:public Event {
     public:
-        KeyUpEvent(SDL_Keysym pCode, std::vector<Uint8> &&pKeys);
-        SDL_Keysym mKeyCode;
+        KeyUpEvent(int pCode, std::vector<Uint8> &&pKeys);
+        int mKeyCode;
         const std::vector<Uint8> mKeys;
     };
 }
