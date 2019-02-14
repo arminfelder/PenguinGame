@@ -32,6 +32,7 @@ private:
     std::map<int, std::shared_ptr<MapRoom>> mapComponents;
     bool mRunning;
 
+    SDL_Color mCurrentRoom;
     std::map<std::string,int> mMapMapping;
 
 };
