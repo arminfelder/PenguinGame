@@ -82,29 +82,15 @@ void Menu::handleKeyEvent() {
                     break;
                 case SDLK_m:
                 case SDLK_p:
-                    this->close();
-                    break;
+                case SDLK_n:
                 case SDLK_ESCAPE:
+                        this->close();
+                    break;
+                case SDLK_q:
                     quitGame();
                     break;
                 case SDLK_RETURN:
                     triggerMenuEvent();
-                    break;
-                case SDLK_1:
-                    this->close();
-                    sendSDLEvent(32791);
-                    break;
-                case SDLK_2:
-                    this->close();
-                    sendSDLEvent(32792);
-                    break;
-                case SDLK_3:
-                    this->close();
-                    sendSDLEvent(32793);
-                    break;
-                case SDLK_5:
-                    this->close();
-                    sendSDLEvent(33335);
                     break;
                 default: break;
             }

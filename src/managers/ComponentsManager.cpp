@@ -47,6 +47,8 @@ std::map<int, std::shared_ptr<Components::Xp>> ComponentsManager::mXp;
 std::map<int, std::shared_ptr<Components::EvadeCapability>> ComponentsManager::mEvadeCapabilities;
 std::map<int, std::shared_ptr<Components::EndsGame>> ComponentsManager::mEndGames;
 std::map<int, std::shared_ptr<Components::CanOpen>> ComponentsManager::mCanOpens;
+std::map<int, std::shared_ptr<Components::VisitedMaps>> ComponentsManager::mVisitedMaps;
+std::map<int, std::shared_ptr<Components::Ownership>> ComponentsManager::mOwnerships;
 
 
 
@@ -313,6 +315,8 @@ std::shared_ptr<Components::MapName> &ComponentsManager::getMapName() {
 
 void ComponentsManager::createMapName(const std::string &mapName) {
     mMapNameComponents.emplace(std::make_pair(1, std::make_shared<Components::MapName>(Components::MapName(mapName))));
+    mVisitedMaps.emplace(std::make_pair(1, std::make_shared<Components::VisitedMaps>(Components::VisitedMaps())));
+    mVisitedMaps[1].get()->addMap(mapName);
 }
 
 void ComponentsManager::prepareNextMap(std::ostream &out) {
@@ -333,11 +337,13 @@ void ComponentsManager::saveUserComponents(std::ostream &out) {
     auto playerCamera = getCameraOffsetComponent(2);
     auto playerMomentum = getMomentumComponent(1);
     auto map = getMapName();
+    auto visitedMaps = getVisitedMaps();
 
     out << map.get()->serialize() << std::endl;
     out << playerPosition.get()->serialize() << std::endl;
     out << playerCamera.get()->serialize() << std::endl;
     out << playerMomentum.get()->serialize() << std::endl;
+    out << visitedMaps.get()->serialize() << std::endl;
 }
 
 bool ComponentsManager::loadUserComponents(std::ifstream &inputFile) {
@@ -351,6 +357,7 @@ bool ComponentsManager::loadUserComponents(std::ifstream &inputFile) {
     auto playerInventory = getInventory(1);
     auto playerXP = getXp(1);
     auto map = getMapName();
+    auto visitedMaps = getVisitedMaps();
     playerInventory.get()->reset();
 
     std::string line;
@@ -375,6 +382,8 @@ bool ComponentsManager::loadUserComponents(std::ifstream &inputFile) {
             success = map.get()->load(splittedStrings);
         else if (splittedStrings[0] == "XP")
             success = playerXP.get()->load(splittedStrings);
+        else if (splittedStrings[0] == "VisitedMaps")
+            success = visitedMaps.get()->load(splittedStrings);
         else
             success = false;
         if (!success) {
@@ -441,4 +450,24 @@ std::shared_ptr<Components::CanOpen> &ComponentsManager::getCanOpen(int pEntityI
 
 void ComponentsManager::createCanOpen(int pEntityId, const Components::CanOpen::Areas &pArea) {
     mCanOpens.emplace(std::make_pair(pEntityId,std::make_shared<Components::CanOpen>(pArea)));
+}
+
+void ComponentsManager::visitMap(const std::string mapName) {
+    mVisitedMaps[1].get()->addMap(mapName);
+}
+
+std::shared_ptr<Components::VisitedMaps> &ComponentsManager::getVisitedMaps() {
+    return mVisitedMaps[1];
+}
+
+std::map<int, std::shared_ptr<Components::Ownership>> &ComponentsManager::getOwnerships() {
+    return mOwnerships;
+}
+
+std::shared_ptr<Components::Ownership> &ComponentsManager::getOwnership(int pEntityId) {
+    return mOwnerships[pEntityId];
+}
+
+void ComponentsManager::createOwnership(int pEntityId, int pOwnership) {
+    mOwnerships.emplace(std::make_pair(pEntityId, std::make_shared<Components::Ownership>(pOwnership)));
 }

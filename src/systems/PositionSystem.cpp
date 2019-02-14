@@ -87,8 +87,13 @@ Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager)
                         SDL_PushEvent(&sdl_event);
                         break;
 
+                    case SDLK_n:
+                        sdl_event.type = 32771;
+                        SDL_PushEvent(&sdl_event);
+                        break;
+
                         //quit game
-                    case SDLK_ESCAPE:
+                    case SDLK_q:
                         sdl_event.type = SDL_QUIT;
                         SDL_PushEvent(&sdl_event);
                         break;
