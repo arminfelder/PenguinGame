@@ -320,7 +320,7 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused
                     break;
                 }
                 //
-                case 'M': {
+                case 'x': {
                     int id = Managers::EntityManager::createEntity<Npc>();
                     Managers::ComponentsManager::createVisualComponent(id, textureMonster2, 48, 48);
                     Managers::ComponentsManager::createSpatialComponent(id, x + 1, y + 1);
@@ -328,6 +328,7 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused
                     Managers::ComponentsManager::createHealthComponent(id, 80);
                     Managers::ComponentsManager::createPathComponent(id, std::vector<SDL_Point>({SDL_Point{-150, 0}, SDL_Point{150, 0}}), 1, true, true);
                     Managers::ComponentsManager::createViewRange(id, 600, 0);
+                    Managers::ComponentsManager::createInventory(id);
                     break;
                 }
                 case 's': {
@@ -365,6 +366,22 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused
                     inventory->addItem(Components::Inventory::ItemTypes::ak47);
                     inventory->addItem(Components::Inventory::ItemTypes::doubleJump);
                     inventory->addItem(Components::Inventory::ItemTypes::keyArea1);
+                    break;
+                }
+                case 'P': {
+                    int id = Managers::EntityManager::createEntity<Npc>();
+                    Managers::ComponentsManager::createVisualComponent(id, textureTank, 48, 48);
+                    Managers::ComponentsManager::createSpatialComponent(id, x + 1, y + 1);
+                    Managers::ComponentsManager::createCollideAbleComponent(id);
+                    Managers::ComponentsManager::createHealthComponent(id, 80);
+                   // Managers::ComponentsManager::createPathComponent(id, std::vector<SDL_Point>({SDL_Point{-150, 0}, SDL_Point{150, 0}}), 1, true, true);
+                    Managers::ComponentsManager::createViewRange(id, 600, 0);
+                    Managers::ComponentsManager::createInventory(id);
+                    auto inventory = Managers::ComponentsManager::getInventory(id);
+                    Managers::ComponentsManager::createXp(id);
+                    auto xp = Managers::ComponentsManager::getXp(id);
+                    xp->mXp = 50;
+                    inventory->addItem(Components::Inventory::ItemTypes::ak47);
                     break;
                 }
                 case 'R':{

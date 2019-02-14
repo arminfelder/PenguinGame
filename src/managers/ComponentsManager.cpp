@@ -47,6 +47,7 @@ std::map<int, std::shared_ptr<Components::Xp>> ComponentsManager::mXp;
 std::map<int, std::shared_ptr<Components::EvadeCapability>> ComponentsManager::mEvadeCapabilities;
 std::map<int, std::shared_ptr<Components::EndsGame>> ComponentsManager::mEndGames;
 std::map<int, std::shared_ptr<Components::CanOpen>> ComponentsManager::mCanOpens;
+std::map<int, std::shared_ptr<Components::Ownership>> ComponentsManager::mOwnerships;
 
 
 
@@ -441,4 +442,16 @@ std::shared_ptr<Components::CanOpen> &ComponentsManager::getCanOpen(int pEntityI
 
 void ComponentsManager::createCanOpen(int pEntityId, const Components::CanOpen::Areas &pArea) {
     mCanOpens.emplace(std::make_pair(pEntityId,std::make_shared<Components::CanOpen>(pArea)));
+}
+
+std::map<int, std::shared_ptr<Components::Ownership>> &ComponentsManager::getOwnerships() {
+    return mOwnerships;
+}
+
+std::shared_ptr<Components::Ownership> &ComponentsManager::getOwnership(int pEntityId) {
+    return mOwnerships[pEntityId];
+}
+
+void ComponentsManager::createOwnership(int pEntityId, int pOwnership) {
+    mOwnerships.emplace(std::make_pair(pEntityId, std::make_shared<Components::Ownership>(pOwnership)));
 }
