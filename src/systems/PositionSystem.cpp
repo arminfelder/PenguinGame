@@ -49,7 +49,7 @@ Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager)
                         }
                         break;
                     case SDLK_RIGHT:
-                        if (moveable->canMoveRight) {
+                        if (moveable->canMoveRight&&!event->mKeys[SDL_SCANCODE_SPACE]) {
                             playerSpatial->mPrevPositionX = playerSpatial->mPositionX;
                             playerSpatial->mPrevPositionY = playerSpatial->mPositionY;
                             playerSpatial->mPositionX += 5 * timeFactor;
@@ -68,7 +68,7 @@ Systems::PositionSystem::PositionSystem(Managers::EventsManager *pEventsManager)
                         }
                         break;
                     case SDLK_LEFT:
-                        if (moveable->canMoveLeft) {
+                        if (moveable->canMoveLeft &&!event->mKeys[SDL_SCANCODE_SPACE]) {
                             playerSpatial->mPrevPositionX = playerSpatial->mPositionX;
                             playerSpatial->mPrevPositionY = playerSpatial->mPositionY;
                             playerSpatial->mPositionX -= 5 * timeFactor;
