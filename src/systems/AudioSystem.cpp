@@ -44,6 +44,7 @@ Systems::AudioSystem::AudioSystem(Managers::EventsManager *pEventsManager):mEven
     mCollectItem = std::shared_ptr<Mix_Chunk>(Mix_LoadWAV("./res/387133__rdaly95__collecting-health.wav"),Mix_FreeChunk);
 
     mEventsManager->regsiterEventHandler(Events::EventTypes::Health, callback);
+    setMusic("area1");
 }
 
 bool Systems::AudioSystem::setMusic(const std::string &pArea) {
