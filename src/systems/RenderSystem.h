@@ -40,7 +40,9 @@ namespace Systems {
         SDL_Window *mWindow = nullptr;
         SDL_Renderer *mRenderer = nullptr;
         SDL_Texture *mTestTexture = nullptr;
-        std::shared_ptr<SDL_Texture> mGameBackground;
+        std::shared_ptr<SDL_Texture> mGameBackground1;
+        std::shared_ptr<SDL_Texture> mGameBackground2;
+        std::shared_ptr<SDL_Texture> mGameBackground3;
         Managers::EventsManager *mEventsManager = nullptr;
         std::vector<int> calculateCameraTargetPosition();
         void tryAndMoveCamera();
