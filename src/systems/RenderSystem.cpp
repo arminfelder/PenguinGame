@@ -56,6 +56,7 @@ void Systems::RenderSystem::update( [[maybe_unused]] Uint64 pTimeDiff) {
     auto visualComponents = Managers::ComponentsManager::getVisualComponents();
     auto cameraPositions = Managers::ComponentsManager::getCameraOffsets();
     auto playerSpatial = Managers::ComponentsManager::getSpatialComponent(1);
+    auto currentMap = Managers::ComponentsManager::getMapName();
     auto firstCam = cameraPositions.begin()->second;
 
     if(playerSpatial&&firstCam) {
