@@ -121,7 +121,7 @@ Systems::CombatSystem::CombatSystem(SDL_Renderer *pRenderer,Managers::EventsMana
                         damageValue = 5;
 
                     system->mEventsManager->addEvent(std::make_shared<Events::HealthEvent>(event->mCollidingEntity, -damageValue));
-                        //Managers::ComponentsManager::removeComponentsOfEntity(event->mMovingEntity);
+                        Managers::ComponentsManager::removeComponentsOfEntity(event->mMovingEntity);
                         std::cout << "bullet coll" << std::endl;
                     }
                 }
