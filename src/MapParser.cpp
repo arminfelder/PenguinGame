@@ -432,18 +432,18 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused
                     Managers::ComponentsManager::createVisualComponent(id, textureRatKing, 48, 60);
                     Managers::ComponentsManager::createSpatialComponent(id, x + 1, y - 10);
                     Managers::ComponentsManager::createCollideAbleComponent(id);
-                    Managers::ComponentsManager::createHealthComponent(id, 800);
+                    Managers::ComponentsManager::createHealthComponent(id, 1000);
                     Managers::ComponentsManager::createPathComponent(id, std::vector<SDL_Point>({SDL_Point{-150, 0}, SDL_Point{150, 0}}), 1, true, true);
-                    Managers::ComponentsManager::createViewRange(id, 800, 0);
+                    Managers::ComponentsManager::createViewRange(id, 1600, 0);
                     Managers::ComponentsManager::createInventory(id);
                     Managers::ComponentsManager::createEndGame(id);
                     Managers::ComponentsManager::createXp(id);
                     auto xp = Managers::ComponentsManager::getXp(id);
-                    xp->mXp = 800;
+                    xp->mXp = pow(2, 16)*25;
                     auto inventory = Managers::ComponentsManager::getInventory(id);
                     inventory->addItem(Components::Inventory::ItemTypes::ak47);
                     inventory->addItem(Components::Inventory::ItemTypes::shield);
-                    inventory->addItem(Components::Inventory::ItemTypes::finger);
+                    //inventory->addItem(Components::Inventory::ItemTypes::finger);
 
                     break;
                 }
