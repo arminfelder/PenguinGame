@@ -42,13 +42,13 @@ mWindow(pWindow),mRenderer(pPrenderer),mEventsManager(pEventsManager){
 
     mEventsManager->regsiterEventHandler(Events::EventTypes::EntityMoved, callback);
 
-    std::shared_ptr<SDL_Surface> imageBG(SDL_LoadBMP("./res/the-background-2819000.bmp"), SDL_FreeSurface);
-    mGameBackground1 = std::shared_ptr<SDL_Texture>(SDL_CreateTextureFromSurface(mRenderer, imageBG.get()), SDL_DestroyTexture);
+    std::shared_ptr<SDL_Surface> imageBG(SDL_LoadBMP("./res/summer-2120023_1920.bmp"), SDL_FreeSurface);
+    mGameBackground2 = std::shared_ptr<SDL_Texture>(SDL_CreateTextureFromSurface(mRenderer, imageBG.get()), SDL_DestroyTexture);
 
-    std::shared_ptr<SDL_Surface> imageBG2(SDL_LoadBMP("./res/the-background-2819000.bmp"), SDL_FreeSurface);
-    mGameBackground2 = std::shared_ptr<SDL_Texture>(SDL_CreateTextureFromSurface(mRenderer, imageBG2.get()), SDL_DestroyTexture);
+    std::shared_ptr<SDL_Surface> imageBG2(SDL_LoadBMP("./res/Water.bmp"), SDL_FreeSurface);
+    mGameBackground1 = std::shared_ptr<SDL_Texture>(SDL_CreateTextureFromSurface(mRenderer, imageBG2.get()), SDL_DestroyTexture);
 
-    std::shared_ptr<SDL_Surface> imageBG3(SDL_LoadBMP("./res/the-background-2819000.bmp"), SDL_FreeSurface);
+    std::shared_ptr<SDL_Surface> imageBG3(SDL_LoadBMP("./res/Fire.bmp"), SDL_FreeSurface);
     mGameBackground3 = std::shared_ptr<SDL_Texture>(SDL_CreateTextureFromSurface(mRenderer, imageBG3.get()), SDL_DestroyTexture);
 
 
