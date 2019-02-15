@@ -297,7 +297,7 @@ void Systems::CombatSystem::attackWithItem([[maybe_unused]] const Components::In
 //calculate level based on the xp the player got.
 //basically, each next level needs the twice as much as the one before
 Uint64 Systems::CombatSystem::calculateLevel(int xp) {
-    int level = 0;
+    Uint64 level = 0;
     int base = 25;
     int next;
 
