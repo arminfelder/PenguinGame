@@ -27,6 +27,10 @@ configure_file(163442__under7dude__man-dying.wav 163442__under7dude__man-dying.w
 configure_file(stone-wall-2477715_640.bmp stone-wall-2477715_640.bmp COPYONLY)
 configure_file(tux/big/idle-0.bmp tux/big/idle-0.bmp COPYONLY)
 
+configure_file(Fire.bmp Fire.bmp COPYONLY)
+configure_file(summer-2120023_1920.bmp summer-2120023_1920.bmp COPYONLY)
+configure_file(Water.bmp Water.bmp COPYONLY)
+
 configure_file(tux/big/walk-0.bmp tux/big/walk-0.bmp COPYONLY)
 configure_file(tux/big/walk-1.bmp tux/big/walk-1.bmp COPYONLY)
 configure_file(tux/big/walk-2.bmp tux/big/walk-2.bmp COPYONLY)

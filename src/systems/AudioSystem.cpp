@@ -24,6 +24,7 @@
 #include "../events/Event.h"
 #include "../managers/EventsManager.h"
 
+
 Systems::AudioSystem::AudioSystem(Managers::EventsManager *pEventsManager):mEventsManager(pEventsManager) {
     auto callback = [system = this] (const std::shared_ptr<Events::Event> &pEvent){
         switch (pEvent->getType()){
@@ -50,13 +51,14 @@ Systems::AudioSystem::AudioSystem(Managers::EventsManager *pEventsManager):mEven
 bool Systems::AudioSystem::setMusic(const std::string &pArea) {
 
 
-    if(pArea == "area1" ){
+    if(pArea == "area1" && pArea != mCurrentArea){
         Mix_PlayMusic( mArea1Music.get(), -1 );
-    }else if(pArea == "area2"){
+    }else if(pArea == "area2" && pArea != mCurrentArea){
         Mix_PlayMusic( mArea2Music.get(), -1 );
-    }else if(pArea == "area3"){
+    }else if(pArea == "area3" && pArea != mCurrentArea){
         Mix_PlayMusic( mArea3Music.get(), -1 );
     }
+    mCurrentArea = pArea;
 
     Mix_VolumeMusic(50);
     return true;

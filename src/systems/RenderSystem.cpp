@@ -42,8 +42,14 @@ mWindow(pWindow),mRenderer(pPrenderer),mEventsManager(pEventsManager){
 
     mEventsManager->regsiterEventHandler(Events::EventTypes::EntityMoved, callback);
 
-    std::shared_ptr<SDL_Surface> imageBG(SDL_LoadBMP("./res/the-background-2819000.bmp"), SDL_FreeSurface);
-    mGameBackground = std::shared_ptr<SDL_Texture>(SDL_CreateTextureFromSurface(mRenderer, imageBG.get()), SDL_DestroyTexture);
+    std::shared_ptr<SDL_Surface> imageBG(SDL_LoadBMP("./res/summer-2120023_1920.bmp"), SDL_FreeSurface);
+    mGameBackground2 = std::shared_ptr<SDL_Texture>(SDL_CreateTextureFromSurface(mRenderer, imageBG.get()), SDL_DestroyTexture);
+
+    std::shared_ptr<SDL_Surface> imageBG2(SDL_LoadBMP("./res/Water.bmp"), SDL_FreeSurface);
+    mGameBackground1 = std::shared_ptr<SDL_Texture>(SDL_CreateTextureFromSurface(mRenderer, imageBG2.get()), SDL_DestroyTexture);
+
+    std::shared_ptr<SDL_Surface> imageBG3(SDL_LoadBMP("./res/Fire.bmp"), SDL_FreeSurface);
+    mGameBackground3 = std::shared_ptr<SDL_Texture>(SDL_CreateTextureFromSurface(mRenderer, imageBG3.get()), SDL_DestroyTexture);
 
 
 }
@@ -56,9 +62,10 @@ void Systems::RenderSystem::update( [[maybe_unused]] Uint64 pTimeDiff) {
     auto visualComponents = Managers::ComponentsManager::getVisualComponents();
     auto cameraPositions = Managers::ComponentsManager::getCameraOffsets();
     auto playerSpatial = Managers::ComponentsManager::getSpatialComponent(1);
+    auto currentMap = Managers::ComponentsManager::getMapName();
     auto firstCam = cameraPositions.begin()->second;
 
-    if(playerSpatial&&firstCam) {
+    if(playerSpatial&&firstCam&&currentMap) {
         Components::CameraOffset offset(0, 0);
 
         SDL_RenderClear(mRenderer);
@@ -68,8 +75,14 @@ void Systems::RenderSystem::update( [[maybe_unused]] Uint64 pTimeDiff) {
         SDL_Rect fill{0, 0, 0, 0};
         SDL_GetWindowSize(mWindow, &fill.w, &fill.h);
 
-
-        SDL_RenderCopyEx(mRenderer, mGameBackground.get(), &rect, &fill, 0, nullptr, SDL_FLIP_NONE);
+        auto mapStr = currentMap->getMapName();
+        if(mapStr.find("area1") != std::string::npos){
+            SDL_RenderCopyEx(mRenderer, mGameBackground1.get(), &rect, &fill, 0, nullptr, SDL_FLIP_NONE);
+        }else if(mapStr.find("area2")!= std::string::npos){
+            SDL_RenderCopyEx(mRenderer, mGameBackground2.get(), &rect, &fill, 0, nullptr, SDL_FLIP_NONE);
+        }else if(mapStr.find("area3")!= std::string::npos){
+            SDL_RenderCopyEx(mRenderer, mGameBackground3.get(), &rect, &fill, 0, nullptr, SDL_FLIP_NONE);
+        }
 
 
         std::map<int, std::shared_ptr<Components::VisualComponent>>::reverse_iterator revIter;

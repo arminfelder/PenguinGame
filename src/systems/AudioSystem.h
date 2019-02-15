@@ -38,6 +38,7 @@ namespace Systems {
         std::shared_ptr<Mix_Music> mArea2Music;
         std::shared_ptr<Mix_Music> mArea3Music;
         std::shared_ptr<Mix_Chunk> mCollectItem;
+        std::string mCurrentArea;
 
     };
 }
