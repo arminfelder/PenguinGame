@@ -69,6 +69,8 @@ configure_file(sprite2.bmp sprite2.bmp COPYONLY)
 configure_file("Desert Theme.mp3" "Desert Theme.mp3" COPYONLY)
 configure_file("Intro Theme.mp3" "Intro Theme.mp3" COPYONLY)
 
+configure_file(summer-2120023_1920.bmp summer-2120023_1920.bmp COPYONLY)
+
 configure_file(map.txt map.txt COPYONLY)
 configure_file(map2.txt map2.txt COPYONLY)
 configure_file(map3.txt map3.txt COPYONLY)
