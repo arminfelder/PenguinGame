@@ -68,15 +68,15 @@ MapViewer::MapViewer() {
     SDL_Rect save_point_9{750,454,4,4};
 
 
-    mSafePoints.emplace_back(save_point_1); //area 1, room 3
-    mSafePoints.emplace_back(save_point_2); //area 1, room 5
-    mSafePoints.emplace_back(save_point_3); //area 1, room 5
-    mSafePoints.emplace_back(save_point_4); //area 2, room 1
-    mSafePoints.emplace_back(save_point_5); //area 2, room 1
-    mSafePoints.emplace_back(save_point_6); //area 2, room 3
-    mSafePoints.emplace_back(save_point_7); //area 3, room 1
-    mSafePoints.emplace_back(save_point_8); //area 3, room 4
-    mSafePoints.emplace_back(save_point_9); //area 3, room 4
+    mSafePoints.emplace(13,save_point_1); //area 1, room 3
+    mSafePoints.emplace(15,save_point_2); //area 1, room 5
+    mSafePoints.emplace(15,save_point_3); //area 1, room 5
+    mSafePoints.emplace(21,save_point_4); //area 2, room 1
+    mSafePoints.emplace(21,save_point_5); //area 2, room 1
+    mSafePoints.emplace(23,save_point_6); //area 2, room 3
+    mSafePoints.emplace(31,save_point_7); //area 3, room 1
+    mSafePoints.emplace(34,save_point_8); //area 3, room 4
+    mSafePoints.emplace(34,save_point_9); //area 3, room 4
 
 
 
@@ -152,7 +152,8 @@ void MapViewer::render(SDL_Renderer *pRenderer) {
         auto currRoom = Managers::ComponentsManager::getMapName();
         auto currRoomStr = currRoom->getMapName();
         for (const auto &component : visited->getVisitedMaps()) {
-            auto room = mapComponents[mMapMapping[component]];
+            auto roomId = mMapMapping[component];
+            auto room = mapComponents[roomId];
 
             if(room) {
                 auto colorStruct = room->matchColor(room->color);
@@ -167,6 +168,18 @@ void MapViewer::render(SDL_Renderer *pRenderer) {
                                                             SDL_DestroyTexture);
 
                 SDL_RenderCopy(pRenderer, texture.get(), nullptr, &room->mRect);
+
+                auto it = mSafePoints.find(roomId);
+                for(;it!=mSafePoints.end()&&it->first == roomId;it++){
+                    std::shared_ptr<SDL_Surface> surface(SDL_CreateRGBSurface(0, it->second.w, it->second.h ,32,0,0,0,0), SDL_FreeSurface);
+
+                    SDL_FillRect(surface.get(), nullptr,
+                                 SDL_MapRGB(surface.get()->format, 62,62,62));
+                    auto texture = std::shared_ptr<SDL_Texture>(SDL_CreateTextureFromSurface(pRenderer, surface.get()),
+                                                                SDL_DestroyTexture);
+
+                    SDL_RenderCopy(pRenderer, texture.get(), nullptr, &it->second);
+                }
             }
         }
         for(const auto &way:mDoorways){
@@ -178,17 +191,6 @@ void MapViewer::render(SDL_Renderer *pRenderer) {
                                                         SDL_DestroyTexture);
 
             SDL_RenderCopy(pRenderer, texture.get(), nullptr, &way);
-        }
-
-        for(const auto &point:mSafePoints){
-            std::shared_ptr<SDL_Surface> surface(SDL_CreateRGBSurface(0, point.w, point.h ,32,0,0,0,0), SDL_FreeSurface);
-
-            SDL_FillRect(surface.get(), nullptr,
-                         SDL_MapRGB(surface.get()->format, 62,62,62));
-            auto texture = std::shared_ptr<SDL_Texture>(SDL_CreateTextureFromSurface(pRenderer, surface.get()),
-                                                        SDL_DestroyTexture);
-
-            SDL_RenderCopy(pRenderer, texture.get(), nullptr, &point);
         }
 
         SDL_RenderPresent(pRenderer);
