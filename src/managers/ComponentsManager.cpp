@@ -327,12 +327,14 @@ void ComponentsManager::prepareNextMap(std::ostream &out) {
     auto playerMoveAble = getMoveableComponent(1);
     auto playerXP = getXp(1);
     auto evadeCapability = getEvadeCapability(1);
+    auto visitedMaps = getVisitedMaps();
 
     out << playerHealth.get()->serialize() << std::endl;
     out << playerInventory.get()->serialize(); //implicitly returns \n after last element as well
     out << playerMoveAble.get()->serialize() << std::endl;
     out << playerXP.get()->serialize() << std::endl;
     out << evadeCapability.get()->serialize() << std::endl;
+    out << visitedMaps.get()->serialize() << std::endl;
 }
 
 void ComponentsManager::saveUserComponents(std::ostream &out) {
@@ -341,13 +343,11 @@ void ComponentsManager::saveUserComponents(std::ostream &out) {
     auto playerCamera = getCameraOffsetComponent(2);
     auto playerMomentum = getMomentumComponent(1);
     auto map = getMapName();
-    auto visitedMaps = getVisitedMaps();
 
     out << map.get()->serialize() << std::endl;
     out << playerPosition.get()->serialize() << std::endl;
     out << playerCamera.get()->serialize() << std::endl;
     out << playerMomentum.get()->serialize() << std::endl;
-    out << visitedMaps.get()->serialize() << std::endl;
 }
 
 bool ComponentsManager::loadUserComponents(std::ifstream &inputFile) {

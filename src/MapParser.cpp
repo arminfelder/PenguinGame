@@ -81,6 +81,9 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused
     doorBmps.insert({"closed", {"./res/door_closed.bmp"}});
     auto doorMap = generateTexturesMap(doorBmps, "./res/door_closed.bmp", pRenderer);
 
+    std::shared_ptr<SDL_Surface> imageJumper(SDL_LoadBMP("./res/portalRing.bmp"), SDL_FreeSurface);
+    std::shared_ptr<SDL_Texture> textureJumper(SDL_CreateTextureFromSurface(pRenderer, imageJumper.get()), SDL_DestroyTexture);
+
     std::shared_ptr<SDL_Surface> imageKey(SDL_LoadBMP("./res/secret_key.bmp"), SDL_FreeSurface);
     std::shared_ptr<SDL_Texture> textureKey(SDL_CreateTextureFromSurface(pRenderer, imageKey.get()), SDL_DestroyTexture);
 
@@ -297,7 +300,7 @@ int MapParser::createWorldFromMapTXT(const std::string &pMapfile, [[maybe_unused
 
                 case 'J': { //map jumper
                     int id = Managers::EntityManager::createEntity<MapChanger>();
-                    Managers::ComponentsManager::createVisualComponent(id, textureSafePoint, 48, 48);
+                    Managers::ComponentsManager::createVisualComponent(id, textureJumper, 48, 48);
                     Managers::ComponentsManager::createSpatialComponent(id, x+1, y+1);
                     Managers::ComponentsManager::createCollideAbleComponent(id);
                     break;
