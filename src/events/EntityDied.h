@@ -15,8 +15,8 @@ namespace Events {
         EntityDied(int pEntity, int pOrigHealth, SDL_Point pPosition, const std::shared_ptr<Components::Inventory> &pInventory);
         int mEntity;
         int mOrigHealth;
-        SDL_Point mPosition;
         std::shared_ptr<Components::Inventory> mInventory;
+        SDL_Point mPosition;
     };
 }
 
