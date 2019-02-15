@@ -17,7 +17,6 @@
 ##############################################################################
 
 project(game)
-configure_file(hello_world.bmp hello.bmp COPYONLY)
 configure_file(disc.bmp disc.bmp COPYONLY)
 configure_file(safePoint.bmp safePoint.bmp COPYONLY)
 configure_file(brick-wall.bmp   brick-wall.bmp COPYONLY)
@@ -58,6 +57,7 @@ configure_file(hand_cursor0000.bmp hand_cursor0000.bmp COPYONLY)
 configure_file(hand_cursor0000Fliped.bmp hand_cursor0000Fliped.bmp COPYONLY)
 
 configure_file(iceblock.bmp iceblock.bmp COPYONLY)
+configure_file(portalRing.bmp portalRing.bmp COPYONLY)
 configure_file("Lava #4.bmp" "Lava #4.bmp" COPYONLY)
 configure_file(crow-man.bmp crow-man.bmp COPYONLY)
 configure_file(frame-1.bmp frame-1.bmp COPYONLY)
@@ -69,9 +69,6 @@ configure_file(sprite2.bmp sprite2.bmp COPYONLY)
 configure_file("Desert Theme.mp3" "Desert Theme.mp3" COPYONLY)
 configure_file("Intro Theme.mp3" "Intro Theme.mp3" COPYONLY)
 
-configure_file(map.txt map.txt COPYONLY)
-configure_file(map2.txt map2.txt COPYONLY)
-configure_file(map3.txt map3.txt COPYONLY)
 configure_file(maps/connection.txt maps/connection.txt COPYONLY)
 
 configure_file(maps/area1/map.txt maps/area1/map.txt COPYONLY)

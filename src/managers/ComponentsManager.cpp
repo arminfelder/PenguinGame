@@ -295,6 +295,8 @@ ComponentsManager::~ComponentsManager() {
     mTeleportTargets.clear();
     mMapNameComponents.clear();
     mXp.clear();
+    mEvadeCapabilities.clear();
+    mVisitedMaps.clear();
 }
 
 std::map<int, std::shared_ptr<Components::TeleportTarget>> &ComponentsManager::getTeleportTargets() {
@@ -324,11 +326,15 @@ void ComponentsManager::prepareNextMap(std::ostream &out) {
     auto playerInventory = getInventory(1);
     auto playerMoveAble = getMoveableComponent(1);
     auto playerXP = getXp(1);
+    auto evadeCapability = getEvadeCapability(1);
+    auto visitedMaps = getVisitedMaps();
 
     out << playerHealth.get()->serialize() << std::endl;
     out << playerInventory.get()->serialize(); //implicitly returns \n after last element as well
     out << playerMoveAble.get()->serialize() << std::endl;
     out << playerXP.get()->serialize() << std::endl;
+    out << evadeCapability.get()->serialize() << std::endl;
+    out << visitedMaps.get()->serialize() << std::endl;
 }
 
 void ComponentsManager::saveUserComponents(std::ostream &out) {
@@ -337,13 +343,11 @@ void ComponentsManager::saveUserComponents(std::ostream &out) {
     auto playerCamera = getCameraOffsetComponent(2);
     auto playerMomentum = getMomentumComponent(1);
     auto map = getMapName();
-    auto visitedMaps = getVisitedMaps();
 
     out << map.get()->serialize() << std::endl;
     out << playerPosition.get()->serialize() << std::endl;
     out << playerCamera.get()->serialize() << std::endl;
     out << playerMomentum.get()->serialize() << std::endl;
-    out << visitedMaps.get()->serialize() << std::endl;
 }
 
 bool ComponentsManager::loadUserComponents(std::ifstream &inputFile) {
@@ -358,6 +362,7 @@ bool ComponentsManager::loadUserComponents(std::ifstream &inputFile) {
     auto playerXP = getXp(1);
     auto map = getMapName();
     auto visitedMaps = getVisitedMaps();
+    auto evadeCapability = getEvadeCapability(1);
     playerInventory.get()->reset();
 
     std::string line;
@@ -384,6 +389,8 @@ bool ComponentsManager::loadUserComponents(std::ifstream &inputFile) {
             success = playerXP.get()->load(splittedStrings);
         else if (splittedStrings[0] == "VisitedMaps")
             success = visitedMaps.get()->load(splittedStrings);
+        else if (splittedStrings[0] == "EvadeCapability")
+            success = evadeCapability->load(splittedStrings);
         else
             success = false;
         if (!success) {
