@@ -6,10 +6,12 @@ Control:
  - Arrow Down:  Move down a ladder
  - Space:       Jump
  - Ctrl left:   Shoot
- - Alt  left:   Shoot secondary weapon
- - Enter        activate item e.g. open door with key
+ - Alt  left:   Shoot secondary weapon (if you have collected the AK in area2)
+ - Shift left:  Use poke attack
+ - Enter        activate item e.g. open door with key, save the game at Save-Point
 
  - M:           Open/Close Main Menu
+ - N:           Open/Close Map
  - P:           Open/Close Pause Menu
  - Q:           Quit Game (no questions asked)
  - ESC:         Closes Main/Pause Menu
@@ -17,3 +19,7 @@ Control:
  Remarks:
  - secondary weapon needs at least xp 11 to be picked up
  - Found Equipment gets automatically equipped
+ - Save-Points can only be used if the player found the disk
+
+ Hints:
+ - After defeating the first boss enemy, the player finds the double jump ability together with the key to exit the boss room.
