@@ -53,7 +53,6 @@ Systems::PhysicsSystem::PhysicsSystem(Managers::EventsManager *pEventsManager):m
             if (momentum&&moveAbleComponent&&( momentum->speedY == 0 || (!moveAbleComponent->doubleJumpUsed && moveAbleComponent->canDoubleJump))) { //allow jumping only if user is on ground or has not used double jump (plus is allowed to do so)
                 if (momentum->speedY != 0) {//if double jump used, set so
                     moveAbleComponent->doubleJumpUsed = true;
-                    std::cout << "old y " << std::to_string(momentum->speedY) <<  std::endl;
                 }
                 momentum->speedY = -23;
             }
@@ -63,22 +62,21 @@ Systems::PhysicsSystem::PhysicsSystem(Managers::EventsManager *pEventsManager):m
             }else if(event->mKeys[SDL_SCANCODE_RIGHT]){
                 momentum->speedX = 5;
             }
-        }else if((event->mKeyCode == SDLK_RIGHT||event->mKeyCode == SDLK_LEFT) &&event->mKeys[SDL_SCANCODE_SPACE]){
-            auto momentum = Managers::ComponentsManager::getMomentumComponent(1);
-            auto moveAbleComponent = Managers::ComponentsManager::getMoveableComponent(1);
-            if (momentum&&moveAbleComponent&&( momentum->speedY == 0 || (!moveAbleComponent->doubleJumpUsed && moveAbleComponent->canDoubleJump))) { //allow jumping only if user is on ground or has not used double jump (plus is allowed to do so)
-                if (momentum->speedY != 0) {//if double jump used, set so
-                    moveAbleComponent->doubleJumpUsed = true;
-                    std::cout << "old y " << std::to_string(momentum->speedY) <<  std::endl;
-                }
-                momentum->speedY = -23;
-            }
-
-            if(event->mKeyCode == SDLK_LEFT){
-                momentum->speedX = -5;
-            }else if(event->mKeyCode == SDLK_RIGHT){
-                momentum->speedX = 5;
-            }
+//        }else if((event->mKeyCode == SDLK_RIGHT||event->mKeyCode == SDLK_LEFT) &&event->mKeys[SDL_SCANCODE_SPACE]){
+//            auto momentum = Managers::ComponentsManager::getMomentumComponent(1);
+//            auto moveAbleComponent = Managers::ComponentsManager::getMoveableComponent(1);
+//            if (momentum&&moveAbleComponent&&( momentum->speedY == 0 || (!moveAbleComponent->doubleJumpUsed && moveAbleComponent->canDoubleJump))) { //allow jumping only if user is on ground or has not used double jump (plus is allowed to do so)
+//                if (momentum->speedY != 0) {//if double jump used, set so
+//                    moveAbleComponent->doubleJumpUsed = true;
+//                }
+//                momentum->speedY = -23;
+//            }
+//
+//            if(event->mKeyCode == SDLK_LEFT){
+//                momentum->speedX = -5;
+//            }else if(event->mKeyCode == SDLK_RIGHT){
+//                momentum->speedX = 5;
+//            }
         }
     };
 
