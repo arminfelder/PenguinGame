@@ -48,7 +48,7 @@ Systems::CombatSystem::CombatSystem(SDL_Renderer *pRenderer,Managers::EventsMana
                 Managers::ComponentsManager::createVisualComponent(bulletId, system->mBlueBullet, 10, 5);
                 Managers::ComponentsManager::createSpatialComponent(bulletId, x, y);
                 Managers::ComponentsManager::createPathComponent(bulletId, {SDL_Point{moveX, 0}}, 15);
-                Managers::ComponentsManager::createDamageComponent(bulletId, 10 + system->calculateLevel(playerXp->mXp));
+                Managers::ComponentsManager::createDamageComponent(bulletId, 10 + static_cast<int>(system->calculateLevel(playerXp->mXp)));
                 Managers::ComponentsManager::createTimeToLive(bulletId, 500 + system->calculateLevel(playerXp->mXp)*10);
                 Managers::ComponentsManager::createOwnership(bulletId, 1);
 
@@ -72,7 +72,7 @@ Systems::CombatSystem::CombatSystem(SDL_Renderer *pRenderer,Managers::EventsMana
                 Managers::ComponentsManager::createVisualComponent(bulletId, texture, 10, 5);
                 Managers::ComponentsManager::createSpatialComponent(bulletId, x, y);
                 Managers::ComponentsManager::createPathComponent(bulletId, {SDL_Point{moveX, 0}}, 20);
-                Managers::ComponentsManager::createDamageComponent(bulletId, 15 + system->calculateLevel(playerXp->mXp));
+                Managers::ComponentsManager::createDamageComponent(bulletId, 15 + static_cast<int>(system->calculateLevel(playerXp->mXp)));
                 Managers::ComponentsManager::createTimeToLive(bulletId, 800 + system->calculateLevel(playerXp->mXp)*20);
                 Managers::ComponentsManager::createOwnership(bulletId, 1);
             }
@@ -96,7 +96,7 @@ Systems::CombatSystem::CombatSystem(SDL_Renderer *pRenderer,Managers::EventsMana
                 Managers::ComponentsManager::createSpatialComponent(bulletId, x, y);
                 Managers::ComponentsManager::createPathComponent(bulletId, {SDL_Point{moveX, 0}, SDL_Point{-moveX, 0}},
                                                                  5);
-                Managers::ComponentsManager::createDamageComponent(bulletId, 15 + system->calculateLevel(playerXp->mXp));
+                Managers::ComponentsManager::createDamageComponent(bulletId, 15 + static_cast<int>(system->calculateLevel(playerXp->mXp)));
                 Managers::ComponentsManager::createTimeToLive(bulletId, 180);
                 Managers::ComponentsManager::createOwnership(bulletId, 1);
             }
@@ -115,7 +115,7 @@ Systems::CombatSystem::CombatSystem(SDL_Renderer *pRenderer,Managers::EventsMana
                     if (!evadeCap || ((std::rand() % 100) < (100 - evadeCap->mChance))) {
                         int damageValue = damage->mDamage;
                         if (xp) {
-                            damageValue -= (system->calculateLevel(xp->mXp) / 5);
+                            damageValue -= (system->calculateLevel(xp->mXp));
                         }
                     if (damageValue < 5)
                         damageValue = 5;
@@ -181,7 +181,7 @@ Systems::CombatSystem::CombatSystem(SDL_Renderer *pRenderer,Managers::EventsMana
                                     Managers::ComponentsManager::createSpatialComponent(bulletId, x, y);
                                     Managers::ComponentsManager::createPathComponent(bulletId, {SDL_Point{moveX, 0}},
                                                                                      20);
-                                    Managers::ComponentsManager::createDamageComponent(bulletId, 15 + system->calculateLevel(xpValue));
+                                    Managers::ComponentsManager::createDamageComponent(bulletId, 15 + static_cast<int>(system->calculateLevel(xpValue)));
                                     Managers::ComponentsManager::createTimeToLive(bulletId, 800 + system->calculateLevel(xpValue)*20);
                                     Managers::ComponentsManager::createOwnership(bulletId, event->mSeeingEntity);
 
@@ -207,7 +207,7 @@ Systems::CombatSystem::CombatSystem(SDL_Renderer *pRenderer,Managers::EventsMana
                                     Managers::ComponentsManager::createPathComponent(bulletId, {SDL_Point{moveX, 0},
                                                                                                 SDL_Point{-moveX, 0}},
                                                                                      5);
-                                    Managers::ComponentsManager::createDamageComponent(bulletId, 15 + system->calculateLevel(xpValue));
+                                    Managers::ComponentsManager::createDamageComponent(bulletId, 15 + static_cast<int>(system->calculateLevel(xpValue)));
                                     Managers::ComponentsManager::createTimeToLive(bulletId, 180);
                                     Managers::ComponentsManager::createOwnership(bulletId, event->mSeeingEntity);
 
@@ -232,7 +232,7 @@ Systems::CombatSystem::CombatSystem(SDL_Renderer *pRenderer,Managers::EventsMana
                                     Managers::ComponentsManager::createSpatialComponent(bulletId, x, y);
                                     Managers::ComponentsManager::createPathComponent(bulletId, {SDL_Point{moveX, 0}},
                                                                                      15);
-                                    Managers::ComponentsManager::createDamageComponent(bulletId, 10 + system->calculateLevel(xpValue));
+                                    Managers::ComponentsManager::createDamageComponent(bulletId, 10 + static_cast<int>(system->calculateLevel(xpValue)));
                                     Managers::ComponentsManager::createTimeToLive(bulletId, 500 + system->calculateLevel(xpValue)*10);
                                     Managers::ComponentsManager::createOwnership(bulletId, event->mSeeingEntity);
 
@@ -296,7 +296,7 @@ void Systems::CombatSystem::attackWithItem([[maybe_unused]] const Components::In
 
 //calculate level based on the xp the player got.
 //basically, each next level needs the twice as much as the one before
-int Systems::CombatSystem::calculateLevel(int xp) {
+Uint64 Systems::CombatSystem::calculateLevel(int xp) {
     int level = 0;
     int base = 25;
     int next;
