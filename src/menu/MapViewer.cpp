@@ -55,17 +55,17 @@ MapViewer::MapViewer() {
     SDL_Rect area3_room3_area3_room4{968,384,4,36};
     SDL_Rect area3_room4_area3_room5{728,384,4,36};
 
-    SDL_Rect save_point_1{508,20,4,4};
-    SDL_Rect save_point_2{168,122,4,4};
-    SDL_Rect save_point_3{198,222,4,4};
+    SDL_Rect save_point_1{508,20,10,10};
+    SDL_Rect save_point_2{168,122,10,10};
+    SDL_Rect save_point_3{198,222,10,10};
 
-    SDL_Rect save_point_4{418,182,4,4};
-    SDL_Rect save_point_5{518,92,4,4};
-    SDL_Rect save_point_6{758,164,4,4};
+    SDL_Rect save_point_4{418,182,10,10};
+    SDL_Rect save_point_5{518,92,10,10};
+    SDL_Rect save_point_6{758,164,10,10};
 
-    SDL_Rect save_point_7{922,62,4,4};
-    SDL_Rect save_point_8{982,432,4,4};
-    SDL_Rect save_point_9{750,454,4,4};
+    SDL_Rect save_point_7{922,62,10,10};
+    SDL_Rect save_point_8{982,432,10,10};
+    SDL_Rect save_point_9{750,454,10,10};
 
 
     mSafePoints.emplace(13,save_point_1); //area 1, room 3
@@ -174,7 +174,7 @@ void MapViewer::render(SDL_Renderer *pRenderer) {
                     std::shared_ptr<SDL_Surface> surface(SDL_CreateRGBSurface(0, it->second.w, it->second.h ,32,0,0,0,0), SDL_FreeSurface);
 
                     SDL_FillRect(surface.get(), nullptr,
-                                 SDL_MapRGB(surface.get()->format, 62,62,62));
+                                 SDL_MapRGB(surface.get()->format, 232,232,62));
                     auto texture = std::shared_ptr<SDL_Texture>(SDL_CreateTextureFromSurface(pRenderer, surface.get()),
                                                                 SDL_DestroyTexture);
 
