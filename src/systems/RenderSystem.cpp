@@ -76,11 +76,11 @@ void Systems::RenderSystem::update( [[maybe_unused]] Uint64 pTimeDiff) {
         SDL_GetWindowSize(mWindow, &fill.w, &fill.h);
 
         auto mapStr = currentMap->getMapName();
-        if(mapStr.find("area1")){
+        if(mapStr.find("area1") != std::string::npos){
             SDL_RenderCopyEx(mRenderer, mGameBackground1.get(), &rect, &fill, 0, nullptr, SDL_FLIP_NONE);
-        }else if(mapStr.find("area2")){
+        }else if(mapStr.find("area2")!= std::string::npos){
             SDL_RenderCopyEx(mRenderer, mGameBackground2.get(), &rect, &fill, 0, nullptr, SDL_FLIP_NONE);
-        }else if(mapStr.find("area3")){
+        }else if(mapStr.find("area3")!= std::string::npos){
             SDL_RenderCopyEx(mRenderer, mGameBackground3.get(), &rect, &fill, 0, nullptr, SDL_FLIP_NONE);
         }
 
